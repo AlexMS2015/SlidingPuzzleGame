@@ -7,11 +7,11 @@
 //
 
 #import "ASGame.h"
-@class ASGameBoard;
 
 @interface ASSlidingPuzzleGame : ASGame
 
 -(instancetype)initWithNumberOfTiles:(int)tiles; // must be a square number
 -(NSNumber *)tileAtRow:(int)row andColumn:(int) column;
 -(void)selectTileAtRow:(int)row andColumn:(int)column;
+
 @end

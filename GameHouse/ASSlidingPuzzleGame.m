@@ -10,9 +10,7 @@
 #import "ASGameBoard.h"
 
 @interface ASSlidingPuzzleGame ()
-
 @property (nonatomic, strong) ASGameBoard *board;
-
 @end
 
 @implementation ASSlidingPuzzleGame
@@ -41,27 +39,10 @@
                           andColumn:columnOfBlankTile];
         NSLog(@"%@", [self.board description]);
     }
-
-    
-    /*[self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
-        NSNumber *currentTile = [self.board objectAtRow:currentRow andColumn:currentCol];
-        if (abs(rowOfBlankTile - currentRow) <=1 && abs(columnOfBlankTile - currentCol) <=1 && (rowOfBlankTile == currentRow || columnOfBlankTile == currentCol)) {
-            //NSLog(@"%d at row = %d, col = %d, is adjacent to the blank tile... SWAP IT", [currentTile intValue], currentRow, currentCol);
-            NSLog(@"%@", currentTile);
-        } else {
-            //NSLog(@"%d at row = %d, col = %d, is NOT adjacent to the blank tile", [currentTile intValue], currentRow, currentCol);
-        }
-    }];*/
-
 }
 
 -(NSString *)description
 {
-    /*[self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
-        NSNumber *currentTile = [self.board objectAtRow:currentRow andColumn:currentCol];
-        NSLog(@"Tile: row: %d, column: %d, value:%d", currentRow, currentCol, [currentTile intValue]);
-    }];*/
-    
     NSLog(@"%@", [self.board description]);
 
     [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
@@ -108,12 +89,10 @@
     
     if (self) {
         int rows = sqrt(tiles);
-        int columns = rows;
-        
+        int columns = sqrt(tiles);
         self.board = [[ASGameBoard alloc] initWithRows:rows andColumns:columns];
         
         __block NSMutableArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:tiles];
-        
         [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol)
         {
             // take a random tile from the ordered list (0, 1, 2, 3 etc...) and add it to the board (we want the numbers to be in random order).
@@ -122,7 +101,6 @@
             [self.board setObject:randomTile inRow:currentRow andColumn:currentCol];
             [orderedTiles removeObjectAtIndex:randomTileNum];
         }];
-
     }
     
     return self;

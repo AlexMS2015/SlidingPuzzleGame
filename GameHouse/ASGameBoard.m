@@ -10,9 +10,10 @@
 
 @interface ASGameBoard ()
 
-@property (nonatomic, strong) NSMutableArray *rows;
+@property (nonatomic, strong) NSMutableArray *rows; // each object in this array will be another array to represent the tiles of a specific row.
 @property (nonatomic) int numberOfRowsPrivate;
 @property (nonatomic) int numberOfColumnsPrivate;
+
 @end
 
 @implementation ASGameBoard
@@ -45,13 +46,8 @@
 
 -(void)setObject:(id)object inRow:(int)row andColumn:(int)column
 {
-    [[self.rows objectAtIndex:row] replaceObjectAtIndex:column withObject:object];
-}
-
--(void)removeObjectInRow:(int)row andColumn:(int)column
-{
     // NEED TO INSERT CODE TO CHECK IF ROW AND COLUMN ARE VALID. PERHAPS MAKE THE NUMBER OF ROWS AND COLUMNS A PROPERTY ON THIS CLASS?
-    [[self.rows objectAtIndex:row] replaceObjectAtIndex:column withObject:[NSNull null]];
+    [[self.rows objectAtIndex:row] replaceObjectAtIndex:column withObject:object];
 }
 
 -(id)objectAtRow:(int)row andColumn:(int)column

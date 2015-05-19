@@ -17,7 +17,6 @@
 
 // row and columns go from 0 to number specified in initialiser - 1
 -(void)setObject:(id)object inRow:(int)row andColumn:(int)column;
-//-(void)removeObjectInRow:(int)row andColumn:(int)column;
 -(id)objectAtRow:(int)row andColumn:(int)column;
 -(void)swapObjectAtRow:(int)row
            andColumn:(int)column
