@@ -10,6 +10,8 @@
 #import "ASGameCell.h"
 #import "ASGameDatabase.h"
 #import "ASGame.h"
+#import "ASSlidingPuzzleGameCVC.h"
+#import "ASSlidingPuzzleGame.h"
 
 @interface ASGameSelectionTableViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -23,19 +25,18 @@
 
 -(instancetype)init
 {
-    self = [super initWithStyle:UITableViewStyleGrouped];
+    return [self initWithStyle:UITableViewStyleGrouped];
+}
+
+- (instancetype)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
     
     if (self) {
         self.navigationItem.title = @"Select Game";
     }
     
-    return self;
-}
-
-- (instancetype)initWithStyle:(UITableViewStyle)style
-{
-    return [self init];
-}
+    return self;}
 
 -(void)viewDidLoad
 {
@@ -78,10 +79,31 @@
 
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView
-heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [ASGameCell rowHeight];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ASGameCell *selectedCell = (ASGameCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    if ([selectedCell.gameName.text isEqualToString:@"Sliding Puzzle"]) {
+        NSLog(@"selected sliding puzzle");
+        
+        // test the model
+        ASSlidingPuzzleGame *puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:16];
+        /*for (int row = 0; row < sqrt(16); row++) {
+            for (int col = 0; col < sqrt(16); col++) {
+                NSNumber *currentTile = [puzzleGame tileAtRow:row andColumn:col];
+                NSLog(@"%@", currentTile);
+            }
+        }*/
+        NSLog(@"%@", [puzzleGame description]);
+        
+        
+        /*ASSlidingPuzzleGameCVC *slidingPuzzleGame = [[ASSlidingPuzzleGameCVC alloc] init];
+        [self.navigationController pushViewController:slidingPuzzleGame animated:YES];*/
+    }
 }
 
 @end

@@ -11,26 +11,50 @@
 @interface ASGameBoard ()
 
 @property (nonatomic, strong) NSMutableArray *rows;
-@property (nonatomic) NSUInteger numberOfRowsPrivate;
-@property (nonatomic) NSUInteger numberOfColumnsPrivate;
+@property (nonatomic) int numberOfRowsPrivate;
+@property (nonatomic) int numberOfColumnsPrivate;
 @end
 
 @implementation ASGameBoard
 
--(void)insertObject:(id)object inRow:(NSUInteger)row andColumn:(NSUInteger)column
+-(NSString *)description
 {
-    id objectInBoard = [self objectAtRow:row andColumn:column];
-    objectInBoard = [NSNull null];
+    
+    for (int rowNum = 0; rowNum < self.numberOfRowsPrivate; rowNum++) {
+        for (int colNum = 0; colNum < self.numberOfColumnsPrivate; colNum++) {
+            NSNumber *currTile = [self objectAtRow:rowNum andColumn:colNum];
+            printf("%d  ", [currTile intValue]);
+        }
+        printf("\n");
+    }
+    
+    return nil;
 }
 
--(void)removeObjectInRow:(NSUInteger)row andColumn:(NSUInteger)column
+-(void)swapObjectAtRow:(int)row
+           andColumn:(int)column
+     withObjectAtRow:(int)swapRow
+           andColumn:(int)swapColumn
+{
+    id firstObject = [self objectAtRow:row andColumn:column];
+    id secondObject = [self objectAtRow:swapRow andColumn:swapColumn];
+    
+    [self setObject:firstObject inRow:swapRow andColumn:swapColumn];
+    [self setObject:secondObject inRow:row andColumn:column];
+}
+
+-(void)setObject:(id)object inRow:(int)row andColumn:(int)column
+{
+    [[self.rows objectAtIndex:row] replaceObjectAtIndex:column withObject:object];
+}
+
+-(void)removeObjectInRow:(int)row andColumn:(int)column
 {
     // NEED TO INSERT CODE TO CHECK IF ROW AND COLUMN ARE VALID. PERHAPS MAKE THE NUMBER OF ROWS AND COLUMNS A PROPERTY ON THIS CLASS?
-    id objectInBoard = [self objectAtRow:row andColumn:column];
-    objectInBoard = [NSNull null];
+    [[self.rows objectAtIndex:row] replaceObjectAtIndex:column withObject:[NSNull null]];
 }
 
--(id)objectAtRow:(NSUInteger)row andColumn:(NSUInteger)column
+-(id)objectAtRow:(int)row andColumn:(int)column
 {
     // NEED TO INSERT CODE TO CHECK IF ROW AND COLUMN ARE VALID. PERHAPS MAKE THE NUMBER OF ROWS AND COLUMNS A PROPERTY ON THIS CLASS?
     NSMutableArray *selectedRow = self.rows[row];
@@ -39,7 +63,7 @@
 
 #pragma mark - Initialiser
 
--(instancetype)initWithRows:(NSUInteger)rows andColumns:(NSUInteger)columns
+-(instancetype)initWithRows:(int)rows andColumns:(int)columns
 {
     self = [super init];
     
@@ -66,12 +90,12 @@
 
 #pragma mark - Properties
 
--(NSUInteger)numberOfColumns
+-(int)numberOfColumns
 {
     return self.numberOfColumnsPrivate;
 }
 
--(NSUInteger)numberOfRows
+-(int)numberOfRows
 {
     return self.numberOfRowsPrivate;
 }

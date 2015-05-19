@@ -11,80 +11,118 @@
 
 @interface ASSlidingPuzzleGame ()
 
-@property (nonatomic, strong) ASGameBoard *privateTiles;
+@property (nonatomic, strong) ASGameBoard *board;
 
 @end
 
 @implementation ASSlidingPuzzleGame
 
-/*-(void)selectTileAtRow:(NSUInteger)row andColumn:(NSUInteger)column
+-(void)selectTileAtRow:(int)row andColumn:(int)column
 {
-    id tileLeftOfSelectedTile = [self.privateTiles objectAtRow:row andColumn:column-1];
-    id tileRightOfSelectedTile = [self.privateTiles objectAtRow:row andColumn:column+1];
-    id tileAboveSelectedTile = [self.privateTiles objectAtRow:row-1 andColumn:column];
-    id tileBelowSelectedTile = [self.privateTiles objectAtRow:row+1 andColumn:column];
-    
-    NSArray *surroundingTiles = @[tileLeftOfSelectedTile, tileRightOfSelectedTile, tileAboveSelectedTile, tileBelowSelectedTile];
-
-    __block id blankTile;
-    [surroundingTiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if ([obj isMemberOfClass:[NSNull class]]) {
-            blankTile = obj;
-            *stop = YES;
+    // find the blank tile in the board
+    __block int rowOfBlankTile;
+    __block int columnOfBlankTile;
+    [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
+        NSNumber *currentTile = [self.board objectAtRow:currentRow andColumn:currentCol];
+        if ([currentTile intValue] == 0) {
+            rowOfBlankTile = currentRow;
+            columnOfBlankTile = currentCol;
         }
     }];
     
-    [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
-        if ([self.privateTiles objectAtRow:currentRow andColumn:currentCol] isMemberOfClass:[NSNull class]) { // how do we know to check for this???
-            <#statements#>
+    // is the selected cell adjacent to the blank tile? swap them if so
+    if (abs(rowOfBlankTile - row) <= 1 && abs(columnOfBlankTile - column) <= 1 &&
+            (rowOfBlankTile == row || columnOfBlankTile == column)) {
+        NSNumber *currentTile = [self.board objectAtRow:row andColumn:column];
+        NSLog(@"swapping %d", [currentTile intValue]);
+        [self.board swapObjectAtRow:row
+                          andColumn:column
+                    withObjectAtRow:rowOfBlankTile
+                          andColumn:columnOfBlankTile];
+        NSLog(@"%@", [self.board description]);
+    }
+
+    
+    /*[self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
+        NSNumber *currentTile = [self.board objectAtRow:currentRow andColumn:currentCol];
+        if (abs(rowOfBlankTile - currentRow) <=1 && abs(columnOfBlankTile - currentCol) <=1 && (rowOfBlankTile == currentRow || columnOfBlankTile == currentCol)) {
+            //NSLog(@"%d at row = %d, col = %d, is adjacent to the blank tile... SWAP IT", [currentTile intValue], currentRow, currentCol);
+            NSLog(@"%@", currentTile);
+        } else {
+            //NSLog(@"%d at row = %d, col = %d, is NOT adjacent to the blank tile", [currentTile intValue], currentRow, currentCol);
         }
-    }]
-}*/
+    }];*/
+
+}
+
+-(NSString *)description
+{
+    /*[self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
+        NSNumber *currentTile = [self.board objectAtRow:currentRow andColumn:currentCol];
+        NSLog(@"Tile: row: %d, column: %d, value:%d", currentRow, currentCol, [currentTile intValue]);
+    }];*/
+    
+    NSLog(@"%@", [self.board description]);
+
+    [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
+    
+        [self selectTileAtRow:currentRow andColumn:currentCol];
+
+    }];
+     
+    return nil;
+}
+
+-(NSNumber *)tileAtRow:(int)row andColumn:(int)column
+{
+    return [self.board objectAtRow:row andColumn:column];
+}
 
 -(void)performBlockOnTiles:(void(^)(int currentTileCount, int currentRow, int currentCol))blockToPerform
 {
     int currentTileCount = 0;
-    for (int currentRow = 0; currentRow < self.privateTiles.numberOfRows; currentRow++) {
-        for (int currentCol = 0; currentCol < self.privateTiles.numberOfColumns; currentCol++) {
-            currentTileCount++;
+    for (int currentRow = 0; currentRow < self.board.numberOfRows; currentRow++) {
+        for (int currentCol = 0; currentCol < self.board.numberOfColumns; currentCol++) {
             blockToPerform(currentTileCount, currentRow, currentCol);
+            currentTileCount++;
         }
     }
 }
 
-#pragma mark - Properties
-
--(ASGameBoard *)tiles
+-(NSMutableArray *)orderedArrayOfTilesWithNumTiles:(int)numTiles
 {
-    return [self.privateTiles copy];
+    NSMutableArray *tiles = [NSMutableArray arrayWithCapacity:numTiles];
+    for (int tileNum = 0; tileNum < numTiles; tileNum++) {
+        NSNumber *currentTile = [NSNumber numberWithInt:tileNum];
+        [tiles addObject:currentTile];
+    }
+    
+    return tiles;
 }
 
 #pragma mark - Initialiser
 
--(instancetype)initWithNumberOfTiles:(NSUInteger)tiles
+-(instancetype)initWithNumberOfTiles:(int)tiles
 {
     self = [super init];
     
     if (self) {
-        NSUInteger rows = sqrt(tiles);
-        NSUInteger columns = rows;
+        int rows = sqrt(tiles);
+        int columns = rows;
         
-        self.privateTiles = [[ASGameBoard alloc] initWithRows:rows andColumns:columns];
+        self.board = [[ASGameBoard alloc] initWithRows:rows andColumns:columns];
+        
+        __block NSMutableArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:tiles];
         
         [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol)
         {
-            NSNumber *currentTile = [NSNumber numberWithInt:currentTileCount];
-            [self.privateTiles insertObject:currentTile inRow:currentRow andColumn:currentCol];
-        }]; // THIS WON'T WORK BECAUSE WE NEED A BLANK TILE?? need an if statement to not insert a number in 1 tile. also.. the tiles need to be randomly ordered!!!
-        
-        /*int currentTileCount = 0;
-        for (int rowNum = 0; rowNum < rows; rowNum++) {
-            for (int colNum = 0; colNum < columns; colNum++) {
-                currentTileCount++;
-                NSNumber *currentTile = [NSNumber numberWithInt:currentTileCount];
-                [self.privateTiles insertObject:currentTile inRow:rowNum andColumn:colNum];
-            }
-        }*/
+            // take a random tile from the ordered list (0, 1, 2, 3 etc...) and add it to the board (we want the numbers to be in random order).
+            int randomTileNum = arc4random() % [orderedTiles count];
+            NSNumber *randomTile = [orderedTiles objectAtIndex:randomTileNum];
+            [self.board setObject:randomTile inRow:currentRow andColumn:currentCol];
+            [orderedTiles removeObjectAtIndex:randomTileNum];
+        }];
+
     }
     
     return self;

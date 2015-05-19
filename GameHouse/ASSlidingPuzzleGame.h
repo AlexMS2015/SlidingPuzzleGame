@@ -11,8 +11,7 @@
 
 @interface ASSlidingPuzzleGame : ASGame
 
-@property (nonatomic, readonly, strong) ASGameBoard *tiles;
-
--(instancetype)initWithNumberOfTiles:(NSUInteger)tiles; // must be a square number
--(void)selectTileAtRow:(NSUInteger)row andColumn:(NSUInteger)column;
+-(instancetype)initWithNumberOfTiles:(int)tiles; // must be a square number
+-(NSNumber *)tileAtRow:(int)row andColumn:(int) column;
+-(void)selectTileAtRow:(int)row andColumn:(int)column;
 @end

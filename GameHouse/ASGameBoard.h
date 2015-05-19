@@ -10,14 +10,18 @@
 
 @interface ASGameBoard : NSObject
 
-@property (nonatomic, readonly) NSUInteger numberOfRows;
-@property (nonatomic, readonly) NSUInteger numberOfColumns;
+@property (nonatomic, readonly) int numberOfRows;
+@property (nonatomic, readonly) int numberOfColumns;
 
--(instancetype)initWithRows:(NSUInteger)rows andColumns:(NSUInteger)columns;
+-(instancetype)initWithRows:(int)rows andColumns:(int)columns;
 
 // row and columns go from 0 to number specified in initialiser - 1
--(void)insertObject:(id)object inRow:(NSUInteger)row andColumn:(NSUInteger)column;
--(void)removeObjectInRow:(NSUInteger)row andColumn:(NSUInteger)column;
--(id)objectAtRow:(NSUInteger)row andColumn:(NSUInteger)column;
+-(void)setObject:(id)object inRow:(int)row andColumn:(int)column;
+//-(void)removeObjectInRow:(int)row andColumn:(int)column;
+-(id)objectAtRow:(int)row andColumn:(int)column;
+-(void)swapObjectAtRow:(int)row
+           andColumn:(int)column
+     withObjectAtRow:(int)swapRow
+           andColumn:(int)swapColumn;
 
 @end

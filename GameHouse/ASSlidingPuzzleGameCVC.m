@@ -14,6 +14,17 @@
 
 @implementation ASSlidingPuzzleGameCVC
 
+-(instancetype)init
+{
+    self = [super init];
+    
+    if (self) {
+
+    }
+    
+    return self;
+}
+
 static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
