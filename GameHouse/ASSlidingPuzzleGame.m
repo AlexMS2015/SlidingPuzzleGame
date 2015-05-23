@@ -54,9 +54,9 @@
     return nil;
 }
 
--(NSNumber *)tileAtRow:(int)row andColumn:(int)column
+-(int)valueOfTileAtRow:(int)row andColumn:(int)column
 {
-    return [self.board objectAtRow:row andColumn:column];
+    return [[self.board objectAtRow:row andColumn:column] intValue];
 }
 
 -(void)performBlockOnTiles:(void(^)(int currentTileCount, int currentRow, int currentCol))blockToPerform

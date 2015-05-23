@@ -92,14 +92,7 @@
         
         // test the model
         ASSlidingPuzzleGame *puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:16];
-        /*for (int row = 0; row < sqrt(16); row++) {
-            for (int col = 0; col < sqrt(16); col++) {
-                NSNumber *currentTile = [puzzleGame tileAtRow:row andColumn:col];
-                NSLog(@"%@", currentTile);
-            }
-        }*/
         NSLog(@"%@", [puzzleGame description]);
-        
         
         /*ASSlidingPuzzleGameCVC *slidingPuzzleGame = [[ASSlidingPuzzleGameCVC alloc] init];
         [self.navigationController pushViewController:slidingPuzzleGame animated:YES];*/
