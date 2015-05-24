@@ -17,27 +17,31 @@
 
 -(void)selectTileAtRow:(int)row andColumn:(int)column
 {
-    // find the blank tile in the board
-    __block int rowOfBlankTile;
-    __block int columnOfBlankTile;
-    [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
-        NSNumber *currentTile = [self.board objectAtRow:currentRow andColumn:currentCol];
-        if ([currentTile intValue] == 0) {
-            rowOfBlankTile = currentRow;
-            columnOfBlankTile = currentCol;
-        }
-    }];
-    
-    // is the selected cell adjacent to the blank tile? swap them if so
-    if (abs(rowOfBlankTile - row) <= 1 && abs(columnOfBlankTile - column) <= 1 &&
+    // only select a non blank tile
+    if ([self valueOfTileAtRow:row andColumn:column] != 0) {
+        
+        // find the blank tile in the board
+        __block int rowOfBlankTile;
+        __block int columnOfBlankTile;
+        [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
+            NSNumber *currentTile = [self.board objectAtRow:currentRow andColumn:currentCol];
+            if ([currentTile intValue] == 0) {
+                rowOfBlankTile = currentRow;
+                columnOfBlankTile = currentCol;
+            }
+        }];
+        
+        // is the selected cell adjacent to the blank tile? swap them if so
+        if (abs(rowOfBlankTile - row) <= 1 && abs(columnOfBlankTile - column) <= 1 &&
             (rowOfBlankTile == row || columnOfBlankTile == column)) {
-        NSNumber *currentTile = [self.board objectAtRow:row andColumn:column];
-        NSLog(@"swapping %d", [currentTile intValue]);
-        [self.board swapObjectAtRow:row
-                          andColumn:column
-                    withObjectAtRow:rowOfBlankTile
-                          andColumn:columnOfBlankTile];
-        NSLog(@"%@", [self.board description]);
+            NSNumber *currentTile = [self.board objectAtRow:row andColumn:column];
+            NSLog(@"swapping %d", [currentTile intValue]);
+            [self.board swapObjectAtRow:row
+                              andColumn:column
+                        withObjectAtRow:rowOfBlankTile
+                              andColumn:columnOfBlankTile];
+            NSLog(@"%@", [self.board description]);
+        }
     }
 }
 
@@ -52,6 +56,34 @@
     }];
      
     return nil;
+}
+
+-(int)rowOfTileWithValue:(int)value
+{
+    __block int rowOfTile;
+    
+    [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
+        int valueOfCurrentTile = [self valueOfTileAtRow:currentRow andColumn:currentCol];
+        if (valueOfCurrentTile == value) {
+            rowOfTile = currentRow;
+        }
+    }];
+    
+    return rowOfTile;
+}
+
+-(int)columnOfTileWithValue:(int)value
+{
+    __block int columnOfTitle;
+    
+    [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
+        int valueOfCurrentTile = [self valueOfTileAtRow:currentRow andColumn:currentCol];
+        if (valueOfCurrentTile == value) {
+            columnOfTitle = currentCol;
+        }
+    }];
+    
+    return columnOfTitle;
 }
 
 -(int)valueOfTileAtRow:(int)row andColumn:(int)column

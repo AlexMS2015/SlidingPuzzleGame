@@ -29,7 +29,10 @@
 		FA10144E1AD0E429006A7100 /* ASHomeScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA10144C1AD0E429006A7100 /* ASHomeScreenViewController.xib */; };
 		FA966C2D1B115323004C28C0 /* ASSPGCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C2B1B115323004C28C0 /* ASSPGCVC.m */; };
 		FA966C2E1B115323004C28C0 /* ASSPGCVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA966C2C1B115323004C28C0 /* ASSPGCVC.xib */; };
-		FAA79DDE1B08CE1800AA95C9 /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA79DDD1B08CE1800AA95C9 /* Grid.m */; };
+		FA966C351B1158C5004C28C0 /* ASGameBoardViewSupporter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C341B1158C5004C28C0 /* ASGameBoardViewSupporter.m */; };
+		FA966C391B115A70004C28C0 /* ASSlidingPuzzleGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C371B115A70004C28C0 /* ASSlidingPuzzleGameViewController.m */; };
+		FA966C3A1B115A70004C28C0 /* ASSlidingPuzzleGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA966C381B115A70004C28C0 /* ASSlidingPuzzleGameViewController.xib */; };
+		FA966C481B11B0AB004C28C0 /* ASSlidingTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C461B11B0AB004C28C0 /* ASSlidingTileView.m */; };
 		FAA79E191B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA79E171B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.m */; };
 		FAA79E1A1B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAA79E181B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib */; };
 		FAA79E1D1B0A060E00AA95C9 /* ASGameBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA79E1C1B0A060E00AA95C9 /* ASGameBoard.m */; };
@@ -80,8 +83,13 @@
 		FA966C2A1B115323004C28C0 /* ASSPGCVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASSPGCVC.h; sourceTree = "<group>"; };
 		FA966C2B1B115323004C28C0 /* ASSPGCVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASSPGCVC.m; sourceTree = "<group>"; };
 		FA966C2C1B115323004C28C0 /* ASSPGCVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ASSPGCVC.xib; sourceTree = "<group>"; };
-		FAA79DDC1B08CE1800AA95C9 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
-		FAA79DDD1B08CE1800AA95C9 /* Grid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grid.m; sourceTree = "<group>"; };
+		FA966C331B1158C5004C28C0 /* ASGameBoardViewSupporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASGameBoardViewSupporter.h; sourceTree = "<group>"; };
+		FA966C341B1158C5004C28C0 /* ASGameBoardViewSupporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASGameBoardViewSupporter.m; sourceTree = "<group>"; };
+		FA966C361B115A70004C28C0 /* ASSlidingPuzzleGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASSlidingPuzzleGameViewController.h; sourceTree = "<group>"; };
+		FA966C371B115A70004C28C0 /* ASSlidingPuzzleGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASSlidingPuzzleGameViewController.m; sourceTree = "<group>"; };
+		FA966C381B115A70004C28C0 /* ASSlidingPuzzleGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ASSlidingPuzzleGameViewController.xib; sourceTree = "<group>"; };
+		FA966C451B11B0AB004C28C0 /* ASSlidingTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASSlidingTileView.h; sourceTree = "<group>"; };
+		FA966C461B11B0AB004C28C0 /* ASSlidingTileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASSlidingTileView.m; sourceTree = "<group>"; };
 		FAA79E161B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASSlidingPuzzleGameCVC.h; sourceTree = "<group>"; };
 		FAA79E171B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASSlidingPuzzleGameCVC.m; sourceTree = "<group>"; };
 		FAA79E181B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ASSlidingPuzzleGameCVC.xib; sourceTree = "<group>"; };
@@ -168,16 +176,13 @@
 				FA10144A1AD0E429006A7100 /* ASHomeScreenViewController.h */,
 				FA10144B1AD0E429006A7100 /* ASHomeScreenViewController.m */,
 				FA10144C1AD0E429006A7100 /* ASHomeScreenViewController.xib */,
-				FA00BF8B1AD0FA110051DA66 /* ASGameSelectionTableViewController.h */,
-				FA00BF8C1AD0FA110051DA66 /* ASGameSelectionTableViewController.m */,
-				FA00BFAB1AD13DF30051DA66 /* ASGameCell.h */,
-				FA00BFAC1AD13DF30051DA66 /* ASGameCell.m */,
-				FA00BFAD1AD13DF30051DA66 /* ASGameCell.xib */,
-				FA966C2F1B115852004C28C0 /* CVC Test */,
+				FA966C3C1B115A86004C28C0 /* Game Selection Screen */,
+				FA966C3B1B115A74004C28C0 /* Sliding Puzzle Game */,
 				FA00BF8E1AD0FE5D0051DA66 /* ASHighScoresTableViewController.h */,
 				FA00BF8F1AD0FE5D0051DA66 /* ASHighScoresTableViewController.m */,
-				FAA79DDC1B08CE1800AA95C9 /* Grid.h */,
-				FAA79DDD1B08CE1800AA95C9 /* Grid.m */,
+				FA966C331B1158C5004C28C0 /* ASGameBoardViewSupporter.h */,
+				FA966C341B1158C5004C28C0 /* ASGameBoardViewSupporter.m */,
+				FA966C2F1B115852004C28C0 /* CVC Test */,
 				FA00BF951AD104510051DA66 /* Model */,
 				FA10142D1AD0D2AD006A7100 /* Images.xcassets */,
 				FA1014221AD0D2AD006A7100 /* Supporting Files */,
@@ -225,6 +230,30 @@
 				FA966C2C1B115323004C28C0 /* ASSPGCVC.xib */,
 			);
 			name = "CVC Test";
+			sourceTree = "<group>";
+		};
+		FA966C3B1B115A74004C28C0 /* Sliding Puzzle Game */ = {
+			isa = PBXGroup;
+			children = (
+				FA966C361B115A70004C28C0 /* ASSlidingPuzzleGameViewController.h */,
+				FA966C371B115A70004C28C0 /* ASSlidingPuzzleGameViewController.m */,
+				FA966C381B115A70004C28C0 /* ASSlidingPuzzleGameViewController.xib */,
+				FA966C451B11B0AB004C28C0 /* ASSlidingTileView.h */,
+				FA966C461B11B0AB004C28C0 /* ASSlidingTileView.m */,
+			);
+			name = "Sliding Puzzle Game";
+			sourceTree = "<group>";
+		};
+		FA966C3C1B115A86004C28C0 /* Game Selection Screen */ = {
+			isa = PBXGroup;
+			children = (
+				FA00BF8B1AD0FA110051DA66 /* ASGameSelectionTableViewController.h */,
+				FA00BF8C1AD0FA110051DA66 /* ASGameSelectionTableViewController.m */,
+				FA00BFAB1AD13DF30051DA66 /* ASGameCell.h */,
+				FA00BFAC1AD13DF30051DA66 /* ASGameCell.m */,
+				FA00BFAD1AD13DF30051DA66 /* ASGameCell.xib */,
+			);
+			name = "Game Selection Screen";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +335,7 @@
 				FA10144E1AD0E429006A7100 /* ASHomeScreenViewController.xib in Resources */,
 				FA966C2E1B115323004C28C0 /* ASSPGCVC.xib in Resources */,
 				FA00BFAF1AD13DF30051DA66 /* ASGameCell.xib in Resources */,
+				FA966C3A1B115A70004C28C0 /* ASSlidingPuzzleGameViewController.xib in Resources */,
 				FAA79E1A1B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib in Resources */,
 				FA1014261AD0D2AD006A7100 /* InfoPlist.strings in Resources */,
 				FA10142E1AD0D2AD006A7100 /* Images.xcassets in Resources */,
@@ -329,16 +359,18 @@
 			files = (
 				FA10142C1AD0D2AD006A7100 /* ASAppDelegate.m in Sources */,
 				FA00BF941AD1044C0051DA66 /* ASGame.m in Sources */,
+				FA966C391B115A70004C28C0 /* ASSlidingPuzzleGameViewController.m in Sources */,
+				FA966C351B1158C5004C28C0 /* ASGameBoardViewSupporter.m in Sources */,
 				FA1014281AD0D2AD006A7100 /* main.m in Sources */,
 				FA966C2D1B115323004C28C0 /* ASSPGCVC.m in Sources */,
 				FA00BF8D1AD0FA110051DA66 /* ASGameSelectionTableViewController.m in Sources */,
-				FAA79DDE1B08CE1800AA95C9 /* Grid.m in Sources */,
 				FA10144D1AD0E429006A7100 /* ASHomeScreenViewController.m in Sources */,
 				FAA79E201B0A0E8000AA95C9 /* ASSlidingPuzzleGame.m in Sources */,
 				FA00BFAE1AD13DF30051DA66 /* ASGameCell.m in Sources */,
 				FA00BF901AD0FE5D0051DA66 /* ASHighScoresTableViewController.m in Sources */,
 				FAA79E1D1B0A060E00AA95C9 /* ASGameBoard.m in Sources */,
 				FA00BF9B1AD107210051DA66 /* ASGameDatabase.m in Sources */,
+				FA966C481B11B0AB004C28C0 /* ASSlidingTileView.m in Sources */,
 				FAA79E191B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,8 +10,7 @@
 #import "ASGameCell.h"
 #import "ASGameDatabase.h"
 #import "ASGame.h"
-#import "ASSlidingPuzzleGameCVC.h"
-#import "ASSlidingPuzzleGame.h"
+#import "ASSlidingPuzzleGameViewController.h"
 
 @interface ASGameSelectionTableViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -90,12 +89,8 @@
     if ([selectedCell.gameName.text isEqualToString:@"Sliding Puzzle"]) {
         NSLog(@"selected sliding puzzle");
         
-        // test the model
-        ASSlidingPuzzleGame *puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:16];
-        NSLog(@"%@", [puzzleGame description]);
-        
-        ASSlidingPuzzleGameCVC *slidingPuzzleGame = [[ASSlidingPuzzleGameCVC alloc] init];
-        [self.navigationController pushViewController:slidingPuzzleGame animated:YES];
+        ASSlidingPuzzleGameViewController *game = [[ASSlidingPuzzleGameViewController alloc] init];
+        [self.navigationController pushViewController:game animated:YES];
     }
 }
 
