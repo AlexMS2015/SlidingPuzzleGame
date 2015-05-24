@@ -61,10 +61,9 @@
 -(int)rowOfTileWithValue:(int)value
 {
     __block int rowOfTile;
-    
     [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
         int valueOfCurrentTile = [self valueOfTileAtRow:currentRow andColumn:currentCol];
-        if (valueOfCurrentTile == value) {
+        if (value == valueOfCurrentTile) {
             rowOfTile = currentRow;
         }
     }];

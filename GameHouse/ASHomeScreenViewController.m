@@ -48,7 +48,7 @@
     NSArray *corners = [self cornersForView:self.view];
     button.center = [corners[buttonIndex] CGPointValue];
     button.alpha = 0.0;
-
+    
     // Buttons will fly in from corners to view center and then spring into their original locations
     [UIView animateWithDuration:1.0
                           delay:0.0
@@ -59,13 +59,13 @@
                      }
                      completion: ^(BOOL finished) {
                          NSLog(@"springing");
-                         [UIView animateWithDuration:2.0
+                         [UIView animateWithDuration:1.5
                                                delay:0.0
                               usingSpringWithDamping:0.25
                                initialSpringVelocity:0
                                              options:0
                                           animations:^{ button.center = originalCenter; }
-                                          completion:NULL]; }
+                                          completion:NULL];}
      ];
 
 }

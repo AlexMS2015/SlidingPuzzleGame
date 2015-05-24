@@ -16,4 +16,6 @@
 @property (nonatomic) int rowInABoard;
 @property (nonatomic) int columnInABoard;
 
+-(void)animateToFrame:(CGRect)frame;
+
 @end

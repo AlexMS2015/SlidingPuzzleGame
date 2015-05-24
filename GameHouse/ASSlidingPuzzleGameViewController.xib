@@ -20,19 +20,52 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Starfish" translatesAutoresizingMaskIntoConstraints="NO" id="uxy-sq-fPe">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                 </imageView>
-                <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kny-tI-cNC">
+                <view opaque="NO" alpha="0.45000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kny-tI-cNC">
                     <rect key="frame" x="8" y="-84" width="584" height="584"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="Kny-tI-cNC" secondAttribute="height" multiplier="1:1" id="Mw4-j3-f3A"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0sE-Zn-tYo">
+                    <rect key="frame" x="8" y="562" width="30" height="30"/>
+                    <state key="normal" title="9">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="newGameButtonClicked:" destination="-1" eventType="touchUpInside" id="3Qg-nC-c9n"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lnZ-BP-tYr">
+                    <rect key="frame" x="84" y="562" width="30" height="30"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                    <state key="normal" title="25"/>
+                    <connections>
+                        <action selector="newGameButtonClicked:" destination="-1" eventType="touchUpInside" id="4qR-Pz-0zH"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q7C-eD-ShV">
+                    <rect key="frame" x="46" y="562" width="30" height="30"/>
+                    <state key="normal" title="16">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="newGameButtonClicked:" destination="-1" eventType="touchUpInside" id="oup-v9-q95"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
+                <constraint firstItem="q7C-eD-ShV" firstAttribute="leading" secondItem="0sE-Zn-tYo" secondAttribute="trailing" constant="8" id="5eI-Rb-GYk"/>
+                <constraint firstAttribute="bottom" secondItem="lnZ-BP-tYr" secondAttribute="bottom" constant="8" id="CT0-Mh-S3Q"/>
                 <constraint firstItem="uxy-sq-fPe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Hun-nE-XYw"/>
+                <constraint firstAttribute="bottom" secondItem="q7C-eD-ShV" secondAttribute="bottom" constant="8" id="L7N-cc-ZUz"/>
                 <constraint firstAttribute="bottom" secondItem="uxy-sq-fPe" secondAttribute="bottom" id="PPH-bb-lS1"/>
                 <constraint firstAttribute="trailing" secondItem="uxy-sq-fPe" secondAttribute="trailing" id="U1Q-3r-hDw"/>
+                <constraint firstItem="0sE-Zn-tYo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="e0u-Hi-6eB"/>
                 <constraint firstAttribute="bottom" secondItem="Kny-tI-cNC" secondAttribute="bottom" constant="100" id="jQf-Sz-Qqh"/>
                 <constraint firstAttribute="trailing" secondItem="Kny-tI-cNC" secondAttribute="trailing" constant="8" id="jwe-QG-jWn"/>
+                <constraint firstAttribute="bottom" secondItem="0sE-Zn-tYo" secondAttribute="bottom" constant="8" id="kDg-SY-I7B"/>
+                <constraint firstItem="lnZ-BP-tYr" firstAttribute="leading" secondItem="q7C-eD-ShV" secondAttribute="trailing" constant="8" id="lQh-EY-ZPY"/>
                 <constraint firstItem="uxy-sq-fPe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="uXl-TA-7em"/>
                 <constraint firstItem="Kny-tI-cNC" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="xwm-8O-XMS"/>
             </constraints>
