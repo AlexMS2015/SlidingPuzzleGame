@@ -94,8 +94,8 @@
         ASSlidingPuzzleGame *puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:16];
         NSLog(@"%@", [puzzleGame description]);
         
-        /*ASSlidingPuzzleGameCVC *slidingPuzzleGame = [[ASSlidingPuzzleGameCVC alloc] init];
-        [self.navigationController pushViewController:slidingPuzzleGame animated:YES];*/
+        ASSlidingPuzzleGameCVC *slidingPuzzleGame = [[ASSlidingPuzzleGameCVC alloc] init];
+        [self.navigationController pushViewController:slidingPuzzleGame animated:YES];
     }
 }
 

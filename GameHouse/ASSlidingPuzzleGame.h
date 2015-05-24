@@ -11,7 +11,7 @@
 @interface ASSlidingPuzzleGame : ASGame
 
 -(instancetype)initWithNumberOfTiles:(int)tiles; // must be a square number
--(int)valueOfTileAtRow:(int)row andColumn:(int) column;
+-(int)valueOfTileAtRow:(int)row andColumn:(int)column;
 -(void)selectTileAtRow:(int)row andColumn:(int)column;
 
 @end

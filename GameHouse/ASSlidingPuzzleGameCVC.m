@@ -7,70 +7,79 @@
 //
 
 #import "ASSlidingPuzzleGameCVC.h"
+#import "ASSlidingPuzzleGame.h"
+#import "ASSPGCVC.h"
 
-@interface ASSlidingPuzzleGameCVC ()
+@interface ASSlidingPuzzleGameCVC () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+
+@property (nonatomic, strong) ASSlidingPuzzleGame *game;
+@property (nonatomic) int numberOfTiles;
 
 @end
 
 @implementation ASSlidingPuzzleGameCVC
 
+#pragma mark - Properties
+
+#define NUM_TILES_DEFAULT 16
+-(int)numberOfTiles
+{
+    return NUM_TILES_DEFAULT;
+}
+
+#define TILE_CELL_IDENTIFIER @"TileCell"
+
 -(instancetype)init
 {
-    self = [super init];
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    //[flowLayout setItemSize:CGSizeMake(50, 50)];
+    [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+    
+    self = [super initWithCollectionViewLayout:flowLayout];
     
     if (self) {
+        
+        // set collection view layout
 
+        [self.collectionView setCollectionViewLayout:flowLayout];
+        
+        // set cell re-use identifier
+        UINib *tileCellNib = [UINib nibWithNibName:@"ASSPGCVC" bundle:nil];
+        [self.collectionView registerNib:tileCellNib forCellWithReuseIdentifier:TILE_CELL_IDENTIFIER];
+
+        self.game = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:self.numberOfTiles];
     }
     
     return self;
 }
 
-static NSString * const reuseIdentifier = @"Cell";
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 #pragma mark <UICollectionViewDataSource>
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete method implementation -- Return the number of sections
-    return 0;
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    // number of items in each row (i.e. number of columns)
+    return sqrt(self.numberOfTiles);
 }
 
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete method implementation -- Return the number of items in the section
-    return 0;
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return sqrt(self.numberOfTiles);
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     
-    // Configure the cell
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TILE_CELL_IDENTIFIER forIndexPath:indexPath];
+
+    ASSPGCVC *spgTile;
+    if ([cell isMemberOfClass:[ASSPGCVC class]]) {
+        spgTile = (ASSPGCVC *)cell;
+    }
+    
+    int valueInCell = [self.game valueOfTileAtRow:(int)indexPath.section andColumn:(int)indexPath.item];
+    
+    spgTile.titleLabel.text = [NSString stringWithFormat:@"%d", valueInCell];
     
     return cell;
 }

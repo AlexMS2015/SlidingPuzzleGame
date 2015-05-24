@@ -27,6 +27,8 @@
 		FA1014411AD0D2AD006A7100 /* GameHouseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1014401AD0D2AD006A7100 /* GameHouseTests.m */; };
 		FA10144D1AD0E429006A7100 /* ASHomeScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA10144B1AD0E429006A7100 /* ASHomeScreenViewController.m */; };
 		FA10144E1AD0E429006A7100 /* ASHomeScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA10144C1AD0E429006A7100 /* ASHomeScreenViewController.xib */; };
+		FA966C2D1B115323004C28C0 /* ASSPGCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C2B1B115323004C28C0 /* ASSPGCVC.m */; };
+		FA966C2E1B115323004C28C0 /* ASSPGCVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA966C2C1B115323004C28C0 /* ASSPGCVC.xib */; };
 		FAA79DDE1B08CE1800AA95C9 /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA79DDD1B08CE1800AA95C9 /* Grid.m */; };
 		FAA79E191B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA79E171B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.m */; };
 		FAA79E1A1B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAA79E181B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib */; };
@@ -75,6 +77,9 @@
 		FA10144A1AD0E429006A7100 /* ASHomeScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASHomeScreenViewController.h; sourceTree = "<group>"; };
 		FA10144B1AD0E429006A7100 /* ASHomeScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASHomeScreenViewController.m; sourceTree = "<group>"; };
 		FA10144C1AD0E429006A7100 /* ASHomeScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ASHomeScreenViewController.xib; sourceTree = "<group>"; };
+		FA966C2A1B115323004C28C0 /* ASSPGCVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASSPGCVC.h; sourceTree = "<group>"; };
+		FA966C2B1B115323004C28C0 /* ASSPGCVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASSPGCVC.m; sourceTree = "<group>"; };
+		FA966C2C1B115323004C28C0 /* ASSPGCVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ASSPGCVC.xib; sourceTree = "<group>"; };
 		FAA79DDC1B08CE1800AA95C9 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		FAA79DDD1B08CE1800AA95C9 /* Grid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grid.m; sourceTree = "<group>"; };
 		FAA79E161B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASSlidingPuzzleGameCVC.h; sourceTree = "<group>"; };
@@ -168,11 +173,9 @@
 				FA00BFAB1AD13DF30051DA66 /* ASGameCell.h */,
 				FA00BFAC1AD13DF30051DA66 /* ASGameCell.m */,
 				FA00BFAD1AD13DF30051DA66 /* ASGameCell.xib */,
+				FA966C2F1B115852004C28C0 /* CVC Test */,
 				FA00BF8E1AD0FE5D0051DA66 /* ASHighScoresTableViewController.h */,
 				FA00BF8F1AD0FE5D0051DA66 /* ASHighScoresTableViewController.m */,
-				FAA79E161B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.h */,
-				FAA79E171B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.m */,
-				FAA79E181B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib */,
 				FAA79DDC1B08CE1800AA95C9 /* Grid.h */,
 				FAA79DDD1B08CE1800AA95C9 /* Grid.m */,
 				FA00BF951AD104510051DA66 /* Model */,
@@ -209,6 +212,19 @@
 				FA10143D1AD0D2AD006A7100 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA966C2F1B115852004C28C0 /* CVC Test */ = {
+			isa = PBXGroup;
+			children = (
+				FAA79E161B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.h */,
+				FAA79E171B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.m */,
+				FAA79E181B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib */,
+				FA966C2A1B115323004C28C0 /* ASSPGCVC.h */,
+				FA966C2B1B115323004C28C0 /* ASSPGCVC.m */,
+				FA966C2C1B115323004C28C0 /* ASSPGCVC.xib */,
+			);
+			name = "CVC Test";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,6 +304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA10144E1AD0E429006A7100 /* ASHomeScreenViewController.xib in Resources */,
+				FA966C2E1B115323004C28C0 /* ASSPGCVC.xib in Resources */,
 				FA00BFAF1AD13DF30051DA66 /* ASGameCell.xib in Resources */,
 				FAA79E1A1B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib in Resources */,
 				FA1014261AD0D2AD006A7100 /* InfoPlist.strings in Resources */,
@@ -313,6 +330,7 @@
 				FA10142C1AD0D2AD006A7100 /* ASAppDelegate.m in Sources */,
 				FA00BF941AD1044C0051DA66 /* ASGame.m in Sources */,
 				FA1014281AD0D2AD006A7100 /* main.m in Sources */,
+				FA966C2D1B115323004C28C0 /* ASSPGCVC.m in Sources */,
 				FA00BF8D1AD0FA110051DA66 /* ASGameSelectionTableViewController.m in Sources */,
 				FAA79DDE1B08CE1800AA95C9 /* Grid.m in Sources */,
 				FA10144D1AD0E429006A7100 /* ASHomeScreenViewController.m in Sources */,
