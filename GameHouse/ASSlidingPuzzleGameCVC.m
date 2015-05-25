@@ -21,7 +21,7 @@
 
 #pragma mark - Properties
 
-#define NUM_TILES_DEFAULT 16
+#define NUM_TILES_DEFAULT 9
 -(int)numberOfTiles
 {
     return NUM_TILES_DEFAULT;

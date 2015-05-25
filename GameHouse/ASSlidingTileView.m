@@ -38,7 +38,7 @@
         CGRect tileAndLabelFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
         
         self.tileBackground = [[UIImageView alloc] initWithFrame:tileAndLabelFrame];
-        self.tileBackground.image = [UIImage imageNamed:@"GameTile"];
+        self.tileBackground.image = [UIImage imageNamed:@"Wooden Tile"];
         [self addSubview:self.tileBackground];
         
         self.tileValueLabel = [[UILabel alloc] initWithFrame:tileAndLabelFrame];

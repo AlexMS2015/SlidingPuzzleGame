@@ -11,10 +11,11 @@
 #import "ASSlidingPuzzleGame.h"
 #import "ASSlidingTileView.h"
 
-@interface ASSlidingPuzzleGameViewController ()
+@interface ASSlidingPuzzleGameViewController () <UIAlertViewDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UIView *boardContainerView;
+@property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
 
 // other
 @property (nonatomic) int numberOfTiles;
@@ -29,12 +30,8 @@
 -(void)setNumberOfTiles:(int)numberOfTiles
 {
     _numberOfTiles = numberOfTiles;
-    self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size
-                                                             withRows:sqrt(self.numberOfTiles)
-                                                           andColumns:sqrt(self.numberOfTiles)];
-    self.puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:self.numberOfTiles];
 }
-/*
+
 -(ASGameBoardViewSupporter *)puzzleBoard
 {
     if (!_puzzleBoard) {
@@ -54,7 +51,6 @@
     
     return _puzzleGame;
 }
-*/
 
 #pragma mark - Debugging Methods
 
@@ -69,29 +65,31 @@
 
 #pragma mark - View Life Cycle
 
-#define NUM_TILES_DEFAULT 25
+#define NUM_TILES_DEFAULT 9
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-
+    NSLog(@"Layout subviews: %@", NSStringFromCGRect(self.boardContainerView.frame));
+    
     if (![self.boardContainerView.subviews count]) {
         self.numberOfTiles = NUM_TILES_DEFAULT;
         [self setupNewGame];
     }
 }
 
-- (IBAction)newGameButtonClicked:(UIButton *)sender
-{
-    self.numberOfTiles = [sender.titleLabel.text intValue];
-    [self setupNewGame];
-}
-
-
 -(void)setupNewGame
 {
+    // clear the screen
     [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [obj removeFromSuperview];
     }];
+    
+    // setup the model
+    self.puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:self.numberOfTiles];
+
+    self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size
+                                                             withRows:sqrt(self.numberOfTiles)
+                                                           andColumns:sqrt(self.numberOfTiles)];
     
     for (int row = 0; row < sqrt(self.numberOfTiles); row++) {
         for (int col = 0; col < sqrt(self.numberOfTiles); col++) {
@@ -136,6 +134,42 @@
     }
 }
 
+-(void)checkForSolvedPuzzle
+{
+    if (self.puzzleGame.puzzleIsSolved) {
+        UIAlertView *puzzleSolvedAlert = [[UIAlertView alloc] initWithTitle:@"Puzzle Solved"
+                                                                    message:@"Congratulations, you solved the puzzle!"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Ok"
+                                                          otherButtonTitles:nil];
+        [puzzleSolvedAlert show];
+    }
+}
+
+#pragma mark - User Actions
+
+- (IBAction)newGameTouchUpInside:(UIButton *)sender
+{
+    self.resetGameButton.alpha = 1.0;
+    
+    UIAlertView *resetGameAlert = [[UIAlertView alloc] initWithTitle:@"New Game"
+                                                             message:@"Are you sure you want to begin a new game?"
+                                                            delegate:self
+                                                   cancelButtonTitle:@"No"
+                                                   otherButtonTitles:@"Yes", nil];
+    [resetGameAlert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    self.resetGameButton.alpha = 0.5;
+    if ([alertView.title isEqualToString:@"New Game"]) {
+        if (buttonIndex == 1) {
+            [self setupNewGame];
+        }
+    }
+}
+
 -(void)tileTapped:(UITapGestureRecognizer *)tap
 {
     // MAKE IT SO THE USER CAN MOVE MULTIPLE CELLS AT ONCE ... IE IF CLICK 2 AWAY FROM A BLANK THEN BOTH WILL MOVE
@@ -149,6 +183,9 @@
                                    andColumn:selectedTile.columnInABoard];
             // update the UI
             [self updateTile:selectedTile];
+            
+            // is the puzzle solved?
+            [self checkForSolvedPuzzle];
         }
     }
 }
