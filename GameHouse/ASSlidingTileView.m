@@ -19,14 +19,6 @@
 {
     _tileValue = tileValue;
     self.tileValueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
-/*
-    if (tileValue != 0) {
-        self.tileValueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
-        self.tileBackground.alpha = NUMBERED_TILE_ALPHA;
-    } else {
-        self.tileValueLabel.text = @"";
-        self.tileBackground = nil;
-    }*/
 }
 
 #define FONT_SIZE frame.size.width/2.5

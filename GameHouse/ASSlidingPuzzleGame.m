@@ -13,6 +13,7 @@
 @property (nonatomic, strong) ASGameBoard *board;
 @property (nonatomic) int rowOfBlankTile;
 @property (nonatomic) int columnOfBlankTile;
+@property (nonatomic, readwrite) BOOL puzzleIsSolved;
 @end
 
 @implementation ASSlidingPuzzleGame
@@ -39,7 +40,8 @@
     
         // is the selected cell adjacent to the blank tile? swap them if so
         if (abs(self.rowOfBlankTile - row) <= 1 && abs(self.columnOfBlankTile - column) <= 1 &&
-            (self.rowOfBlankTile == row || self.columnOfBlankTile == column)) {
+            (self.rowOfBlankTile == row || self.columnOfBlankTile == column))
+        {
             [self.board swapObjectAtRow:row
                               andColumn:column
                         withObjectAtRow:self.rowOfBlankTile
@@ -74,7 +76,7 @@
 {
     for (int rowNum = 0; rowNum < self.board.numberOfRows; rowNum++) {
         for (int colNum = 0; colNum < self.board.numberOfColumns; colNum++) {
-            printf("%d  ", [self valueOfTileAtRow:rowNum andColumn:colNum]);
+            printf("%2d      ", [self valueOfTileAtRow:rowNum andColumn:colNum]);
         }
         printf("\n");
     }
@@ -142,6 +144,8 @@
 
 #pragma mark - Initialiser
 
+//#define SOLVED_PUZZLE_TEST
+
 -(instancetype)initWithNumberOfTiles:(int)tiles
 {
     self = [super init];
@@ -152,17 +156,27 @@
         self.board = [[ASGameBoard alloc] initWithRows:rows andColumns:columns];
         
         __block NSMutableArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:self.board.numberOfRows * self.board.numberOfColumns];
+        #ifndef SOLVED_PUZZLE_TEST
         [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol)
-        {
+         {
             // take a random tile from the ordered list (0, 1, 2, 3 etc...) and add it to the board (we want the numbers to be in random order).
             int randomTileNum = arc4random() % [orderedTiles count];
             NSNumber *randomTile = [orderedTiles objectAtIndex:randomTileNum];
             [self.board setObject:randomTile inRow:currentRow andColumn:currentCol];
             [orderedTiles removeObjectAtIndex:randomTileNum];
+        #endif
             
-            /*NSArray *testTiles = @[@1, @2, @3, @4, @5, @6, @7, @0, @8];
-            NSNumber *testTile = testTiles[currentTileCount];
-            [self.board setObject:testTile inRow:currentRow andColumn:currentCol];*/
+        #ifdef SOLVED_PUZZLE_TEST
+            NSNumber *number = orderedTiles[[orderedTiles count] - 2];
+            [orderedTiles replaceObjectAtIndex:[orderedTiles count] - 1
+                                    withObject:number];
+            [orderedTiles replaceObjectAtIndex:[orderedTiles count] - 2
+                                    withObject:@0];
+        [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol)
+        {
+            NSNumber *testTile = orderedTiles[currentTileCount];
+            [self.board setObject:testTile inRow:currentRow andColumn:currentCol];
+        #endif
         }];
         
         self.rowOfBlankTile = [self rowOfTileWithValue:0];

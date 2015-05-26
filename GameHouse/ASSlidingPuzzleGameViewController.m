@@ -25,47 +25,9 @@
 
 @implementation ASSlidingPuzzleGameViewController
 
-#pragma mark - Properties
-
--(void)setNumberOfTiles:(int)numberOfTiles
-{
-    _numberOfTiles = numberOfTiles;
-}
-
--(ASGameBoardViewSupporter *)puzzleBoard
-{
-    if (!_puzzleBoard) {
-        _puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size
-                                                           withRows:sqrt(self.numberOfTiles)
-                                                         andColumns:sqrt(self.numberOfTiles)];
-    }
-                        
-    return _puzzleBoard;
-}
-
--(ASSlidingPuzzleGame *)puzzleGame
-{
-    if (!_puzzleGame) {
-        _puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:self.numberOfTiles];
-    }
-    
-    return _puzzleGame;
-}
-
-#pragma mark - Debugging Methods
-
--(void)logRectangle:(CGRect)rect withName:(NSString *)rectName
-{
-    NSLog(@"-----");
-    NSLog(@"%@, originX = %f", rectName, rect.origin.x);
-    NSLog(@"%@, originY = %f", rectName, rect.origin.y);
-    NSLog(@"%@, width = %f", rectName, rect.size.width);
-    NSLog(@"%@, height = %f", rectName, rect.size.height);
-}
-
 #pragma mark - View Life Cycle
 
-#define NUM_TILES_DEFAULT 25
+#define NUM_TILES_DEFAULT 16
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
@@ -138,7 +100,7 @@
 
 -(void)checkForSolvedPuzzle
 {
-    if ([self.puzzleGame puzzleIsSolved]) {
+    if (self.puzzleGame.puzzleIsSolved) {
         UIAlertView *puzzleSolvedAlert = [[UIAlertView alloc] initWithTitle:@"Puzzle Solved"
                                                                     message:@"Congratulations, you solved the puzzle!"
                                                                    delegate:self
@@ -179,16 +141,11 @@
     if ([tap.view isMemberOfClass:[ASSlidingTileView class]]) {
         ASSlidingTileView *selectedTile = (ASSlidingTileView *)tap.view;
         
-        if (selectedTile.tileValue !=0) {
-            // update the model
-            [self.puzzleGame selectTileAtRow:selectedTile.rowInABoard
-                                   andColumn:selectedTile.columnInABoard];
-            // update the UI
-            [self updateUI];
-            
-            // is the puzzle solved?
-            [self checkForSolvedPuzzle];
-        }
+        // update the model and UI
+        [self.puzzleGame selectTileAtRow:selectedTile.rowInABoard
+                               andColumn:selectedTile.columnInABoard];
+        [self updateUI];
+        [self checkForSolvedPuzzle];
     }
 }
 
