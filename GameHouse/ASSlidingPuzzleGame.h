@@ -10,11 +10,10 @@
 
 @interface ASSlidingPuzzleGame : ASGame
 
-@property (nonatomic, readonly) BOOL puzzleIsSolved; // set to 1 if the puzzle has been solved
-
 -(instancetype)initWithNumberOfTiles:(int)tiles; // must be a square number
 -(int)valueOfTileAtRow:(int)row andColumn:(int)column;
 -(void)selectTileAtRow:(int)row andColumn:(int)column;
 -(int)rowOfTileWithValue:(int)value;
 -(int)columnOfTileWithValue:(int)value;
+-(BOOL)puzzleIsSolved;
 @end

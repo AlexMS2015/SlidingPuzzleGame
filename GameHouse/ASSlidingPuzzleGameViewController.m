@@ -65,7 +65,7 @@
 
 #pragma mark - View Life Cycle
 
-#define NUM_TILES_DEFAULT 9
+#define NUM_TILES_DEFAULT 25
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
@@ -112,37 +112,51 @@
     }
 }
 
--(void)updateTile:(ASSlidingTileView *)tileToUpdate
+-(void)updateUI
 {
-    // the game model has been updated but the UI has not... hence need to find whether the tile has moved and where to move it to on the board
-    int currentTileValue = tileToUpdate.tileValue;
-    int newTileValue = [self.puzzleGame valueOfTileAtRow:tileToUpdate.rowInABoard
-                                               andColumn:tileToUpdate.columnInABoard];
-
-    if (currentTileValue != newTileValue) {
-        // find the location of the tile's value in the model's board
-        int rowToMoveTileTo = [self.puzzleGame rowOfTileWithValue:currentTileValue];
-        int columnToMoveTileTo = [self.puzzleGame columnOfTileWithValue:currentTileValue];
+    // the game model has been updated but the UI has not... hence need to find which tiles have moved and to where
+    for (ASSlidingTileView *tileToUpdate in self.boardContainerView.subviews) {
+        int currentTileValue = tileToUpdate.tileValue;
+        int newTileValue = [self.puzzleGame valueOfTileAtRow:tileToUpdate.rowInABoard
+                                                   andColumn:tileToUpdate.columnInABoard];
         
-        // get the frame in the view at new row / column location
-        CGRect frameToMoveRectTo = [self.puzzleBoard frameOfCellAtRow:rowToMoveTileTo
-                                                             inColumn:columnToMoveTileTo];
-        // update and move the tile
-        tileToUpdate.rowInABoard = rowToMoveTileTo;
-        tileToUpdate.columnInABoard = columnToMoveTileTo;
-        [tileToUpdate animateToFrame:frameToMoveRectTo];
+        if (currentTileValue != newTileValue) {
+            // find the location of the tile's value in the model's board
+            int rowToMoveTileTo = [self.puzzleGame rowOfTileWithValue:currentTileValue];
+            int columnToMoveTileTo = [self.puzzleGame columnOfTileWithValue:currentTileValue];
+            
+            // get the frame in the view at new row / column location
+            CGRect frameToMoveRectTo = [self.puzzleBoard frameOfCellAtRow:rowToMoveTileTo
+                                                                 inColumn:columnToMoveTileTo];
+            // update and move the tile
+            tileToUpdate.rowInABoard = rowToMoveTileTo;
+            tileToUpdate.columnInABoard = columnToMoveTileTo;
+            [tileToUpdate animateToFrame:frameToMoveRectTo];
+        }
     }
 }
 
 -(void)checkForSolvedPuzzle
 {
-    if (self.puzzleGame.puzzleIsSolved) {
+    if ([self.puzzleGame puzzleIsSolved]) {
         UIAlertView *puzzleSolvedAlert = [[UIAlertView alloc] initWithTitle:@"Puzzle Solved"
                                                                     message:@"Congratulations, you solved the puzzle!"
                                                                    delegate:self
                                                           cancelButtonTitle:@"Ok"
                                                           otherButtonTitles:nil];
         [puzzleSolvedAlert show];
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+
+-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    self.resetGameButton.alpha = 0.6;
+    if ([alertView.title isEqualToString:@"New Game"]) {
+        if (buttonIndex != alertView.cancelButtonIndex) {
+            [self setupNewGame];
+        }
     }
 }
 
@@ -160,29 +174,17 @@
     [resetGameAlert show];
 }
 
--(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    self.resetGameButton.alpha = 0.5;
-    if ([alertView.title isEqualToString:@"New Game"]) {
-        if (buttonIndex == 1) {
-            [self setupNewGame];
-        }
-    }
-}
-
 -(void)tileTapped:(UITapGestureRecognizer *)tap
 {
-    // MAKE IT SO THE USER CAN MOVE MULTIPLE CELLS AT ONCE ... IE IF CLICK 2 AWAY FROM A BLANK THEN BOTH WILL MOVE
-    
     if ([tap.view isMemberOfClass:[ASSlidingTileView class]]) {
         ASSlidingTileView *selectedTile = (ASSlidingTileView *)tap.view;
         
         if (selectedTile.tileValue !=0) {
-            // updat the model
+            // update the model
             [self.puzzleGame selectTileAtRow:selectedTile.rowInABoard
                                    andColumn:selectedTile.columnInABoard];
             // update the UI
-            [self updateTile:selectedTile];
+            [self updateUI];
             
             // is the puzzle solved?
             [self checkForSolvedPuzzle];

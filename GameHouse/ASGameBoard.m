@@ -11,32 +11,20 @@
 @interface ASGameBoard ()
 
 @property (nonatomic, strong) NSMutableArray *rows; // each object in this array will be another array to represent the tiles of a specific row.
-@property (nonatomic) int numberOfRowsPrivate;
-@property (nonatomic) int numberOfColumnsPrivate;
+@property (nonatomic, readwrite) int numberOfRows;
+@property (nonatomic, readwrite) int numberOfColumns;
 
 @end
 
 @implementation ASGameBoard
-
--(NSString *)description
-{
-    
-    for (int rowNum = 0; rowNum < self.numberOfRowsPrivate; rowNum++) {
-        for (int colNum = 0; colNum < self.numberOfColumnsPrivate; colNum++) {
-            NSNumber *currTile = [self objectAtRow:rowNum andColumn:colNum];
-            printf("%d  ", [currTile intValue]);
-        }
-        printf("\n");
-    }
-    
-    return nil;
-}
 
 -(void)swapObjectAtRow:(int)row
            andColumn:(int)column
      withObjectAtRow:(int)swapRow
            andColumn:(int)swapColumn
 {
+    // CHECK FOR VALID ROWS AND COLUMNS BEFORE MAKING THE SWAP
+    
     id firstObject = [self objectAtRow:row andColumn:column];
     id secondObject = [self objectAtRow:swapRow andColumn:swapColumn];
     
@@ -46,15 +34,19 @@
 
 -(void)setObject:(id)object inRow:(int)row andColumn:(int)column
 {
-    // NEED TO INSERT CODE TO CHECK IF ROW AND COLUMN ARE VALID. PERHAPS MAKE THE NUMBER OF ROWS AND COLUMNS A PROPERTY ON THIS CLASS?
-    [[self.rows objectAtIndex:row] replaceObjectAtIndex:column withObject:object];
+    if (row <= self.numberOfRows && column <= self.numberOfColumns) {
+        [[self.rows objectAtIndex:row] replaceObjectAtIndex:column withObject:object];
+    }
 }
 
 -(id)objectAtRow:(int)row andColumn:(int)column
 {
-    // NEED TO INSERT CODE TO CHECK IF ROW AND COLUMN ARE VALID. PERHAPS MAKE THE NUMBER OF ROWS AND COLUMNS A PROPERTY ON THIS CLASS?
-    NSMutableArray *selectedRow = self.rows[row];
-    return selectedRow[column];
+    if (row <= self.numberOfRows && column <= self.numberOfColumns) {
+        NSMutableArray *selectedRow = self.rows[row];
+        return selectedRow[column];
+    }
+    
+    return nil;
 }
 
 #pragma mark - Initialiser
@@ -64,8 +56,8 @@
     self = [super init];
     
     if (self) {
-        self.numberOfRowsPrivate = rows;
-        self.numberOfColumnsPrivate = columns;
+        self.numberOfRows = rows;
+        self.numberOfColumns = columns;
         
         self.rows = [[NSMutableArray alloc] initWithCapacity:rows];
         
@@ -82,18 +74,6 @@
     }
     
     return self;
-}
-
-#pragma mark - Properties
-
--(int)numberOfColumns
-{
-    return self.numberOfColumnsPrivate;
-}
-
--(int)numberOfRows
-{
-    return self.numberOfRowsPrivate;
 }
 
 @end
