@@ -10,28 +10,49 @@
 
 @interface ASSlidingPuzzleSettingsVC ()
 
+@property (weak, nonatomic) IBOutlet UISlider *numTilesSlider;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *difficultySegmentedControl;
+
 @end
 
 @implementation ASSlidingPuzzleSettingsVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+    self.numTilesSlider.value = self.gameForSettings.numberOfTiles;
+    self.difficultySegmentedControl.selectedSegmentIndex = self.gameForSettings.difficulty;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewWillDisappear:(BOOL)animated
+{
+    self.gameForSettings.numberOfTiles = self.numTilesSlider.value;
+    
+    if (self.difficultySegmentedControl.selectedSegmentIndex == 0) {
+        self.gameForSettings.difficulty = EASY;
+    } else if (self.difficultySegmentedControl.selectedSegmentIndex == 1) {
+        self.gameForSettings.difficulty = MEDIUM;
+    } else if (self.difficultySegmentedControl.selectedSegmentIndex == 2) {
+        self.gameForSettings.difficulty = HARD;
+    } else if (self.difficultySegmentedControl.selectedSegmentIndex == 3) {
+        self.gameForSettings.difficulty = IMPOSSIBLE;
+    }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)saveSettings:(UIButton *)sender
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
-*/
+
+- (IBAction)numTilesChanges:(UISlider *)sender
+{
+    int numTilesAdjusted = (int)(sqrt(sender.value)) * (int)(sqrt(sender.value));
+    
+    if (numTilesAdjusted <= 9) {
+        numTilesAdjusted = 9;
+    }
+    
+    self.numTilesSlider.value = numTilesAdjusted;
+}
 
 @end

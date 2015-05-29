@@ -7,6 +7,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ASSlidingPuzzleSettingsVC">
             <connections>
+                <outlet property="difficultySegmentedControl" destination="GU7-la-6aZ" id="Dxq-Yw-Uow"/>
+                <outlet property="numTilesSlider" destination="QXI-Pk-IeW" id="TBK-Et-KgY"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -15,39 +17,82 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Starfish" translatesAutoresizingMaskIntoConstraints="NO" id="EYj-jx-v5N">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Squirrels" translatesAutoresizingMaskIntoConstraints="NO" id="EYj-jx-v5N">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                 </imageView>
-                <view alpha="0.40000000000000002" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d9Y-M1-eEO">
-                    <rect key="frame" x="8" y="60" width="584" height="243"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                </view>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qRQ-dL-Msh">
-                    <rect key="frame" x="105" y="196" width="390" height="29"/>
+                <button opaque="NO" alpha="0.60000002384185791" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bLN-4l-1Dz">
+                    <rect key="frame" x="224.5" y="492" width="150" height="100"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="Lwr-Nw-hk3"/>
+                        <constraint firstAttribute="height" constant="100" id="SDU-O5-naG"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" title="Ok" backgroundImage="Black Button">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="saveSettings:" destination="-1" eventType="touchUpInside" id="P23-Lb-Sj0"/>
+                    </connections>
+                </button>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GU7-la-6aZ">
+                    <rect key="frame" x="8" y="401" width="584" height="29"/>
+                    <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     <segments>
-                        <segment title="9"/>
-                        <segment title="16"/>
-                        <segment title="25"/>
-                        <segment title="36"/>
+                        <segment title="Easy"/>
+                        <segment title="Medium"/>
+                        <segment title="Hard"/>
+                        <segment title="Impossible"/>
                     </segments>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </segmentedControl>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Number of Tiles" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iCd-aP-2PR">
-                    <rect key="frame" x="199" y="138" width="202" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of Tiles" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iCd-aP-2PR">
+                    <rect key="frame" x="217" y="175" width="167" height="28"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
-                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Difficulty" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wqi-bI-EKT">
+                    <rect key="frame" x="254" y="339" width="93" height="28"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="9" minValue="0.0" maxValue="64" translatesAutoresizingMaskIntoConstraints="NO" id="QXI-Pk-IeW">
+                    <rect key="frame" x="6" y="237" width="588" height="31"/>
+                    <connections>
+                        <action selector="numTilesChanges:" destination="-1" eventType="valueChanged" id="u0b-4k-TZy"/>
+                    </connections>
+                </slider>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GAME OPTIONS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xDZ-o3-se1">
+                    <rect key="frame" x="167" y="75" width="267" height="42"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="bLN-4l-1Dz" secondAttribute="bottom" constant="8" id="6kP-79-X0H"/>
+                <constraint firstItem="GU7-la-6aZ" firstAttribute="top" secondItem="Wqi-bI-EKT" secondAttribute="bottom" constant="34" id="Bgp-FL-Gkd"/>
+                <constraint firstAttribute="centerX" secondItem="xDZ-o3-se1" secondAttribute="centerX" id="ClZ-t5-tf3"/>
                 <constraint firstItem="EYj-jx-v5N" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="DFL-gr-tHI"/>
                 <constraint firstAttribute="trailing" secondItem="EYj-jx-v5N" secondAttribute="trailing" id="HgR-pn-ghh"/>
+                <constraint firstAttribute="trailing" secondItem="QXI-Pk-IeW" secondAttribute="trailing" constant="8" id="Hhk-Ii-pzJ"/>
+                <constraint firstAttribute="trailing" secondItem="GU7-la-6aZ" secondAttribute="trailing" constant="8" id="bQM-96-5hP"/>
                 <constraint firstAttribute="bottom" secondItem="EYj-jx-v5N" secondAttribute="bottom" id="cdv-Jw-FI5"/>
+                <constraint firstItem="iCd-aP-2PR" firstAttribute="top" secondItem="xDZ-o3-se1" secondAttribute="bottom" constant="58" id="eef-Zg-gSq"/>
+                <constraint firstItem="QXI-Pk-IeW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="muE-nb-lFU"/>
                 <constraint firstItem="EYj-jx-v5N" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="oKv-TL-cvn"/>
+                <constraint firstAttribute="centerX" secondItem="Wqi-bI-EKT" secondAttribute="centerX" id="qdG-aI-z4z"/>
+                <constraint firstAttribute="centerX" secondItem="bLN-4l-1Dz" secondAttribute="centerX" id="s3f-WN-YhC"/>
+                <constraint firstItem="QXI-Pk-IeW" firstAttribute="top" secondItem="iCd-aP-2PR" secondAttribute="bottom" constant="34" id="s7x-Vk-PZe"/>
+                <constraint firstItem="GU7-la-6aZ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="sAB-En-qdM"/>
+                <constraint firstAttribute="centerX" secondItem="iCd-aP-2PR" secondAttribute="centerX" id="tW3-vg-xKv"/>
+                <constraint firstItem="Wqi-bI-EKT" firstAttribute="top" secondItem="QXI-Pk-IeW" secondAttribute="bottom" constant="72" id="v7u-eg-bZS"/>
+                <constraint firstAttribute="centerX" secondItem="GU7-la-6aZ" secondAttribute="centerX" id="xU1-uL-Oa7"/>
+                <constraint firstItem="xDZ-o3-se1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="75" id="xWg-VQ-X14"/>
             </constraints>
         </view>
     </objects>
     <resources>
-        <image name="Starfish" width="800" height="1200"/>
+        <image name="Black Button" width="400" height="400"/>
+        <image name="Squirrels" width="800" height="1200"/>
     </resources>
 </document>

@@ -102,6 +102,7 @@
 		FAA79E1C1B0A060E00AA95C9 /* ASGameBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASGameBoard.m; sourceTree = "<group>"; };
 		FAA79E1E1B0A0E8000AA95C9 /* ASSlidingPuzzleGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASSlidingPuzzleGame.h; sourceTree = "<group>"; };
 		FAA79E1F1B0A0E8000AA95C9 /* ASSlidingPuzzleGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASSlidingPuzzleGame.m; sourceTree = "<group>"; };
+		FAEA382B1B1885B60086C619 /* Enums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +241,7 @@
 		FA966C3B1B115A74004C28C0 /* Sliding Puzzle Game */ = {
 			isa = PBXGroup;
 			children = (
+				FAEA382B1B1885B60086C619 /* Enums.h */,
 				FA966C361B115A70004C28C0 /* ASSlidingPuzzleGameViewController.h */,
 				FA966C371B115A70004C28C0 /* ASSlidingPuzzleGameViewController.m */,
 				FA966C381B115A70004C28C0 /* ASSlidingPuzzleGameViewController.xib */,

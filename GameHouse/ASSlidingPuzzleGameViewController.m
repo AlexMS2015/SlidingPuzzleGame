@@ -10,6 +10,7 @@
 #import "ASGameBoardViewSupporter.h"
 #import "ASSlidingPuzzleGame.h"
 #import "ASSlidingTileView.h"
+#import "ASSlidingPuzzleSettingsVC.h"
 
 @interface ASSlidingPuzzleGameViewController () <UIAlertViewDelegate>
 
@@ -18,16 +19,30 @@
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
 
 // other
-@property (nonatomic) int numberOfTiles;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
 @property (strong, nonatomic) ASSlidingPuzzleGame *puzzleGame;
 @end
 
 @implementation ASSlidingPuzzleGameViewController
 
+#pragma mark - Properties
+
+-(void)setNumberOfTiles:(int)numberOfTiles
+{
+    _numberOfTiles = numberOfTiles;
+    [self setupNewGame];
+}
+
+-(void)setDifficulty:(Difficulty)difficulty
+{
+    _difficulty = difficulty;
+    [self setupNewGame];
+}
+
 #pragma mark - View Life Cycle
 
-#define NUM_TILES_DEFAULT 16
+#define NUM_TILES_DEFAULT 36
+#define DIFFICULTY_DEFAULT EASY
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
@@ -35,7 +50,7 @@
     
     if (![self.boardContainerView.subviews count]) {
         self.numberOfTiles = NUM_TILES_DEFAULT;
-        [self setupNewGame];
+        self.difficulty = DIFFICULTY_DEFAULT;
     }
 }
 
@@ -123,6 +138,20 @@
 }
 
 #pragma mark - User Actions
+
+- (IBAction)settingsTouchUpInside:(UIButton *)sender
+{
+    ASSlidingPuzzleSettingsVC *settingVC =[[ASSlidingPuzzleSettingsVC alloc] init];
+    settingVC.gameForSettings = self;
+    
+    [self presentViewController:settingVC
+                       animated:YES
+                     completion:^{
+                         NSLog(@"%d", self.numberOfTiles);
+                     }];
+    
+    //[self.navigationController pushViewController:settingVC animated:YES];
+}
 
 - (IBAction)newGameTouchUpInside:(UIButton *)sender
 {

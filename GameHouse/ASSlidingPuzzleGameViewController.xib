@@ -51,6 +51,10 @@
                     <state key="normal" title="Settings" backgroundImage="Black Button">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="settingsTouchUpInside:" destination="-1" eventType="touchDragInside" id="qhM-nF-H0E"/>
+                        <action selector="settingsTouchUpInside:" destination="-1" eventType="touchUpInside" id="vhN-FO-H41"/>
+                    </connections>
                 </button>
             </subviews>
             <constraints>

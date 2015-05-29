@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Enums.h"
+#import "ASSlidingPuzzleGameViewController.h"
 
 @interface ASSlidingPuzzleSettingsVC : UIViewController
+
+@property (nonatomic, weak) ASSlidingPuzzleGameViewController *gameForSettings;
 
 @end
