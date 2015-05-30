@@ -13,7 +13,8 @@
 @interface ASSlidingPuzzleGameViewController : UIViewController
 
 @property (strong, nonatomic, readonly) ASSlidingPuzzleGame *puzzleGame;
+@property (nonatomic) GameMode mode;
 
--(void)setupNewGameWithNumTiles:(int)numTiles andDifficulty:(Difficulty)difficulty;
+-(void)setupNewGameWithNumTiles:(int)numTiles andDifficulty:(Difficulty)difficulty andMode:(GameMode)mode;
 
 @end

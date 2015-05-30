@@ -148,7 +148,7 @@
 
 #pragma mark - Initialiser
 
-//#define SOLVED_PUZZLE_TEST
+#define SOLVED_PUZZLE_TEST
 
 -(instancetype)initWithNumberOfTiles:(int)tiles andDifficulty:(Difficulty)difficulty
 {

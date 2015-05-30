@@ -44,7 +44,8 @@
 
     if (self.newNumTiles != initialNumTiles || self.newDifficulty != initialDifficulty) {
         [self.gameVCForSettings setupNewGameWithNumTiles:self.newNumTiles
-                                           andDifficulty:self.newDifficulty];
+                                           andDifficulty:self.newDifficulty
+                                                 andMode:self.gameVCForSettings.mode];
     }
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];

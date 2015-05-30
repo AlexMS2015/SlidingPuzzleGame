@@ -16,4 +16,9 @@ typedef enum {
     IMPOSSIBLE
 }Difficulty;
 
+typedef enum {
+    NUMBERMODE,
+    PICTUREMODE
+}GameMode;
+
 #endif

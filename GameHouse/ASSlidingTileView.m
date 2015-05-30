@@ -15,10 +15,18 @@
 
 @implementation ASSlidingTileView
 
+#pragma mark - Properties
+
 -(void)setTileValue:(int)tileValue
 {
     _tileValue = tileValue;
+    self.tileBackground.image = [UIImage imageNamed:@"Wooden Tile"];
     self.tileValueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
+}
+
+-(void)setTileImage:(UIImage *)tileImage
+{
+    self.tileBackground.image = tileImage;
 }
 
 #define FONT_SIZE frame.size.width/2.5
@@ -30,7 +38,6 @@
         CGRect tileAndLabelFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
         
         self.tileBackground = [[UIImageView alloc] initWithFrame:tileAndLabelFrame];
-        self.tileBackground.image = [UIImage imageNamed:@"Wooden Tile"];
         [self addSubview:self.tileBackground];
         
         self.tileValueLabel = [[UILabel alloc] initWithFrame:tileAndLabelFrame];
@@ -38,6 +45,7 @@
         self.tileValueLabel.textColor = [UIColor whiteColor];
         self.tileValueLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
         [self addSubview:self.tileValueLabel];
+
     }
     
     return self;

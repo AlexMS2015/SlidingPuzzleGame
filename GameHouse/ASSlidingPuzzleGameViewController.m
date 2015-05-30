@@ -12,6 +12,8 @@
 #import "ASSlidingTileView.h"
 #import "ASSlidingPuzzleSettingsVC.h"
 
+
+
 @interface ASSlidingPuzzleGameViewController () <UIAlertViewDelegate>
 
 // outlets
@@ -24,11 +26,45 @@
 @property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
 @property (nonatomic) int numMoves;
+@property (strong, nonatomic) UIImage *boardImage;
+
+@property (nonatomic) CGFloat imageWidthScale;
+@property (nonatomic) CGFloat imageHeightScale;
 @end
 
 @implementation ASSlidingPuzzleGameViewController
 
 #pragma mark - Properties
+
+#define DEFAULT_IMAGE @"DefaultBoardImage"
+-(UIImage *)boardImage
+{
+    if (!_boardImage) {
+        
+        CGSize imageSize = self.boardContainerView.bounds.size;
+        UIImage *image = [UIImage imageNamed:DEFAULT_IMAGE];
+        
+        self.imageWidthScale = image.size.width / imageSize.width;
+        self.imageHeightScale = image.size.height / imageSize.height;
+        
+        //create drawing context
+        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0);
+        
+        //draw
+        [image drawInRect:CGRectMake(0.0, 0.0, imageSize.width, imageSize.height)];
+        
+        //capture resultant image
+        _boardImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    
+        /*
+        UIImageView *iv = [[UIImageView alloc] initWithFrame:self.boardContainerView.frame];
+        iv.image = _boardImage;
+        [self.view addSubview:iv];*/
+    }
+    
+    return _boardImage;
+}
 
 -(void)setNumMoves:(int)numMoves
 {
@@ -39,7 +75,8 @@
 #pragma mark - View Life Cycle
 
 #define NUM_TILES_DEFAULT 16
-#define DIFFICULTY_DEFAULT EASY
+#define DIFFICULTY_DEFAULT HARD
+#define GAME_MODE_DEFAULT NUMBERMODE
 -(void)viewDidLayoutSubviews
 {
     NSLog(@"Layout subviews: %@", NSStringFromCGRect(self.boardContainerView.frame));
@@ -50,7 +87,8 @@
     
     if (![self.boardContainerView.subviews count]) {
         [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
-                         andDifficulty:DIFFICULTY_DEFAULT];
+                         andDifficulty:DIFFICULTY_DEFAULT
+                               andMode:GAME_MODE_DEFAULT];
     }
 }
 
@@ -67,7 +105,7 @@
     return @"";
 }
 
--(void)setupNewGameWithNumTiles:(int)numTiles andDifficulty:(Difficulty)difficulty;
+-(void)setupNewGameWithNumTiles:(int)numTiles andDifficulty:(Difficulty)difficulty andMode:(GameMode)mode;
 {
     self.numMoves = 0;
     self.difficultyLabel.text = [self difficultyStringFromDifficulty:difficulty];
@@ -93,9 +131,25 @@
                 CGRect tileFrame = [self.puzzleBoard frameOfCellAtRow:row inColumn:col];
                 ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:tileFrame];
                 
-                tile.tileValue = tileValue;
                 tile.rowInABoard = row;
                 tile.columnInABoard = col;
+                
+                self.mode = mode;
+                if (self.mode == NUMBERMODE) {
+                    tile.tileValue = tileValue;
+                } else {
+                    tile.tileValue = tileValue;
+                    
+                    
+                    CGImageRef testTileImage = CGImageCreateWithImageInRect(self.boardImage.CGImage, tileFrame);
+
+                    CGRect newTileFrame = CGRectMake(tileFrame.origin.x  * self.imageWidthScale, tileFrame.origin.y  * self.imageHeightScale, tileFrame.size.width * self.imageWidthScale, tileFrame.size.height * self.imageHeightScale);
+                    
+                    NSLog(@"FRAME OF TILE: %@", NSStringFromCGRect(newTileFrame));
+                    
+                    CGImageRef tileImage = CGImageCreateWithImageInRect(self.boardImage.CGImage, newTileFrame);
+                    tile.tileImage = [UIImage imageWithCGImage:tileImage];
+                }
                 
                 UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
                 [tile addGestureRecognizer:tileTap];
@@ -152,7 +206,8 @@
     if ([alertView.title isEqualToString:@"New Game"]) {
         if (buttonIndex != alertView.cancelButtonIndex) {
             [self setupNewGameWithNumTiles:self.puzzleGame.numberOfTiles
-                             andDifficulty:self.puzzleGame.difficulty];
+                             andDifficulty:self.puzzleGame.difficulty
+                                   andMode:self.mode];
         }
     }
 }

@@ -13,6 +13,8 @@
 @interface ASSlidingTileView : UIView
 
 @property (nonatomic) int tileValue;
+@property (nonatomic, strong) UIImage *tileImage;
+
 @property (nonatomic) int rowInABoard;
 @property (nonatomic) int columnInABoard;
 
