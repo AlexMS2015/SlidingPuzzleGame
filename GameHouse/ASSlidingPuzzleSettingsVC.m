@@ -32,6 +32,10 @@
 }
 
 #pragma mark - Actions
+- (IBAction)cancelWithNoChanges:(UIButton *)sender
+{
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
 
 - (IBAction)saveSettings:(UIButton *)sender
 {
@@ -72,8 +76,6 @@
         return MEDIUM;
     } else if (self.difficultySegmentedControl.selectedSegmentIndex == 2) {
         return HARD;
-    } else if (self.difficultySegmentedControl.selectedSegmentIndex == 3) {
-        return IMPOSSIBLE;
     } else {
         return self.gameVCForSettings.puzzleGame.difficulty;
     }

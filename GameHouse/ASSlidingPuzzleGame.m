@@ -22,7 +22,7 @@
 {
     // only select a non blank tile
     if ([self valueOfTileAtRow:row andColumn:column] != 0) {
-        
+
         // use recursion to make moving multiple tiles possible
         if (row == self.rowOfBlankTile) {
             if (column < self.columnOfBlankTile) {
@@ -51,25 +51,6 @@
             NSLog(@"%@", [self description]);
         }
     }
-}
-
--(BOOL)puzzleIsSolved
-{
-    NSMutableArray *tiles = [NSMutableArray array];
-    [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
-        [tiles addObject:[self.board objectAtRow:currentRow andColumn:currentCol]];
-    }];
-    
-    NSArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:self.numberOfTiles];
-    
-    //NSLog(@"tiles: %@", tiles);
-    //NSLog(@"ordered tiles: %@", orderedTiles);
-    
-    if ([tiles isEqualToArray:orderedTiles]) {
-        return YES;
-    }
-    
-    return NO;
 }
 
 -(NSString *)description
@@ -147,6 +128,22 @@
 -(int)numberOfTiles
 {
     return self.board.numberOfRows * self.board.numberOfRows;
+}
+
+-(BOOL)puzzleIsSolved
+{
+    NSArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:self.numberOfTiles];
+    
+    NSMutableArray *gameTilesArray = [NSMutableArray array];
+    [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol) {
+        [gameTilesArray addObject:[self.board objectAtRow:currentRow andColumn:currentCol]];
+    }];
+    
+    if ([gameTilesArray isEqualToArray:orderedTiles]) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 #pragma mark - Initialiser

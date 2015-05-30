@@ -44,8 +44,13 @@
     // Load custom table cell and register it
     UINib *gameCellNib = [UINib nibWithNibName:@"ASGameCell" bundle:nil];
     [self.tableView registerNib:gameCellNib forCellReuseIdentifier:GAME_CELL_IDENTIFIER];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
-    // The navigation bar is not shown on the home screen so we need to unhide it here when the view appears and rehide it when this view disappears
+    // The navigation bar is not shown on the home screen or the game screens so we need to unhide it here when the view appears
     self.navigationController.navigationBar.hidden = NO;
 }
 

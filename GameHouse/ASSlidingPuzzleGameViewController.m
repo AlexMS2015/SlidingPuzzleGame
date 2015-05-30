@@ -17,22 +17,36 @@
 // outlets
 @property (weak, nonatomic) IBOutlet UIView *boardContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
+@property (weak, nonatomic) IBOutlet UILabel *difficultyLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numMovesLabel;
 
 // other
 @property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
+@property (nonatomic) int numMoves;
 @end
 
 @implementation ASSlidingPuzzleGameViewController
 
+#pragma mark - Properties
+
+-(void)setNumMoves:(int)numMoves
+{
+    _numMoves = numMoves;
+    self.numMovesLabel.text = [NSString stringWithFormat:@"%d", _numMoves];
+}
+
 #pragma mark - View Life Cycle
 
-#define NUM_TILES_DEFAULT 36
+#define NUM_TILES_DEFAULT 16
 #define DIFFICULTY_DEFAULT EASY
 -(void)viewDidLayoutSubviews
 {
-    [super viewDidLayoutSubviews];
     NSLog(@"Layout subviews: %@", NSStringFromCGRect(self.boardContainerView.frame));
+    
+    [super viewDidLayoutSubviews];
+    
+    self.navigationController.navigationBar.hidden = YES;
     
     if (![self.boardContainerView.subviews count]) {
         [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
@@ -40,8 +54,24 @@
     }
 }
 
+-(NSString *)difficultyStringFromDifficulty:(Difficulty)difficulty
+{
+    if (difficulty == EASY) {
+        return @"EASY";
+    } else if (difficulty == MEDIUM) {
+        return @"MEDIUM";
+    } else if (difficulty == HARD) {
+        return @"HARD";
+    }
+    
+    return @"";
+}
+
 -(void)setupNewGameWithNumTiles:(int)numTiles andDifficulty:(Difficulty)difficulty;
 {
+    self.numMoves = 0;
+    self.difficultyLabel.text = [self difficultyStringFromDifficulty:difficulty];
+    
     // clear the screen
     [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [obj removeFromSuperview];
@@ -85,6 +115,8 @@
                                                    andColumn:tileToUpdate.columnInABoard];
         
         if (currentTileValue != newTileValue) {
+            self.numMoves++;
+            
             // find the location of the tile's value in the model's board
             int rowToMoveTileTo = [self.puzzleGame rowOfTileWithValue:currentTileValue];
             int columnToMoveTileTo = [self.puzzleGame columnOfTileWithValue:currentTileValue];
@@ -125,7 +157,13 @@
     }
 }
 
-#pragma mark - User Actions
+#pragma mark - Actions
+
+ - (IBAction)exitTouchUpInside:(UIButton *)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
 
 - (IBAction)settingsTouchUpInside:(UIButton *)sender
 {
