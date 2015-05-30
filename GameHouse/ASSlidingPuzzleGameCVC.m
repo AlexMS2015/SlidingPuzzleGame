@@ -47,7 +47,7 @@
         UINib *tileCellNib = [UINib nibWithNibName:@"ASSPGCVC" bundle:nil];
         [self.collectionView registerNib:tileCellNib forCellWithReuseIdentifier:TILE_CELL_IDENTIFIER];
 
-        self.game = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:self.numberOfTiles];
+        //self.game = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:self.numberOfTiles];
     }
     
     return self;

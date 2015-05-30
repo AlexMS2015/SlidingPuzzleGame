@@ -60,7 +60,7 @@
         [tiles addObject:[self.board objectAtRow:currentRow andColumn:currentCol]];
     }];
     
-    NSArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:self.board.numberOfRows * self.board.numberOfColumns];
+    NSArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:self.numberOfTiles];
     
     //NSLog(@"tiles: %@", tiles);
     //NSLog(@"ordered tiles: %@", orderedTiles);
@@ -142,12 +142,21 @@
     return tiles;
 }
 
+#pragma mark - Properties
+
+-(int)numberOfTiles
+{
+    return self.board.numberOfRows * self.board.numberOfRows;
+}
+
 #pragma mark - Initialiser
 
 //#define SOLVED_PUZZLE_TEST
 
--(instancetype)initWithNumberOfTiles:(int)tiles
+-(instancetype)initWithNumberOfTiles:(int)tiles andDifficulty:(Difficulty)difficulty
 {
+    // WHAT IF TILES IS NOT A SQUARE NUMBER??
+    
     self = [super init];
     
     if (self) {
@@ -155,7 +164,7 @@
         int columns = sqrt(tiles);
         self.board = [[ASGameBoard alloc] initWithRows:rows andColumns:columns];
         
-        __block NSMutableArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:self.board.numberOfRows * self.board.numberOfColumns];
+        __block NSMutableArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:self.numberOfTiles];
         #ifndef SOLVED_PUZZLE_TEST
         [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol)
          {

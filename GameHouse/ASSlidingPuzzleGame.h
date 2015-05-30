@@ -7,12 +7,15 @@
 //
 
 #import "ASGame.h"
+#import "Enums.h"
 
 @interface ASSlidingPuzzleGame : ASGame
 
 @property (nonatomic, readonly) BOOL puzzleIsSolved;
+@property (nonatomic, readonly) int numberOfTiles;
+@property (nonatomic, readonly) Difficulty difficulty;
 
--(instancetype)initWithNumberOfTiles:(int)tiles; // must be a square number
+-(instancetype)initWithNumberOfTiles:(int)tiles andDifficulty:(Difficulty)difficulty; // num tiles must be a square number
 -(int)valueOfTileAtRow:(int)row andColumn:(int)column;
 -(void)selectTileAtRow:(int)row andColumn:(int)column;
 -(int)rowOfTileWithValue:(int)value;

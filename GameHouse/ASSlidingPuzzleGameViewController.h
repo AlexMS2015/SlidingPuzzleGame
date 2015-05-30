@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASSlidingPuzzleGame.h"
 #import "Enums.h"
 
 @interface ASSlidingPuzzleGameViewController : UIViewController
-@property (nonatomic) int numberOfTiles;
-@property (nonatomic) Difficulty difficulty;
+
+@property (strong, nonatomic, readonly) ASSlidingPuzzleGame *puzzleGame;
+
+-(void)setupNewGameWithNumTiles:(int)numTiles andDifficulty:(Difficulty)difficulty;
+
 @end

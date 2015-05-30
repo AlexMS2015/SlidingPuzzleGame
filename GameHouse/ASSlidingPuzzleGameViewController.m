@@ -19,25 +19,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
 
 // other
+@property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
-@property (strong, nonatomic) ASSlidingPuzzleGame *puzzleGame;
 @end
 
 @implementation ASSlidingPuzzleGameViewController
-
-#pragma mark - Properties
-
--(void)setNumberOfTiles:(int)numberOfTiles
-{
-    _numberOfTiles = numberOfTiles;
-    [self setupNewGame];
-}
-
--(void)setDifficulty:(Difficulty)difficulty
-{
-    _difficulty = difficulty;
-    [self setupNewGame];
-}
 
 #pragma mark - View Life Cycle
 
@@ -49,12 +35,12 @@
     NSLog(@"Layout subviews: %@", NSStringFromCGRect(self.boardContainerView.frame));
     
     if (![self.boardContainerView.subviews count]) {
-        self.numberOfTiles = NUM_TILES_DEFAULT;
-        self.difficulty = DIFFICULTY_DEFAULT;
+        [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
+                         andDifficulty:DIFFICULTY_DEFAULT];
     }
 }
 
--(void)setupNewGame
+-(void)setupNewGameWithNumTiles:(int)numTiles andDifficulty:(Difficulty)difficulty;
 {
     // clear the screen
     [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -62,14 +48,15 @@
     }];
     
     // setup the model
-    self.puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:self.numberOfTiles];
+    self.puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:numTiles
+                                                           andDifficulty:difficulty];
 
     self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size
-                                                             withRows:sqrt(self.numberOfTiles)
-                                                           andColumns:sqrt(self.numberOfTiles)];
+                                                             withRows:sqrt(numTiles)
+                                                           andColumns:sqrt(numTiles)];
     
-    for (int row = 0; row < sqrt(self.numberOfTiles); row++) {
-        for (int col = 0; col < sqrt(self.numberOfTiles); col++) {
+    for (int row = 0; row < sqrt(numTiles); row++) {
+        for (int col = 0; col < sqrt(numTiles); col++) {
             int tileValue = [self.puzzleGame valueOfTileAtRow:row andColumn:col];
             
             if (tileValue != 0) {
@@ -132,7 +119,8 @@
     self.resetGameButton.alpha = 0.6;
     if ([alertView.title isEqualToString:@"New Game"]) {
         if (buttonIndex != alertView.cancelButtonIndex) {
-            [self setupNewGame];
+            [self setupNewGameWithNumTiles:self.puzzleGame.numberOfTiles
+                             andDifficulty:self.puzzleGame.difficulty];
         }
     }
 }
@@ -142,15 +130,11 @@
 - (IBAction)settingsTouchUpInside:(UIButton *)sender
 {
     ASSlidingPuzzleSettingsVC *settingVC =[[ASSlidingPuzzleSettingsVC alloc] init];
-    settingVC.gameForSettings = self;
+    settingVC.gameVCForSettings = self;
     
     [self presentViewController:settingVC
                        animated:YES
-                     completion:^{
-                         NSLog(@"%d", self.numberOfTiles);
-                     }];
-    
-    //[self.navigationController pushViewController:settingVC animated:YES];
+                     completion:NULL];
 }
 
 - (IBAction)newGameTouchUpInside:(UIButton *)sender
