@@ -14,7 +14,11 @@
 
 @property (strong, nonatomic, readonly) ASSlidingPuzzleGame *puzzleGame;
 @property (nonatomic) GameMode mode;
+@property (strong, nonatomic) NSString *imageName;
+@property (strong, nonatomic, readonly) NSArray *availableImageNames;
 
--(void)setupNewGameWithNumTiles:(int)numTiles andDifficulty:(Difficulty)difficulty andMode:(GameMode)mode;
-
+-(void)setupNewGameWithNumTiles:(int)numTiles
+                  andDifficulty:(Difficulty)difficulty
+                        andMode:(GameMode)mode
+                 withImageNamed:(NSString *)imageName;
 @end

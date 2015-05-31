@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ASPictureSelectionScreenVC">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Kx-La-s6D">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x2d-mc-ZAL">
+                    <rect key="frame" x="8" y="8" width="584" height="584"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GingerbreadMan" translatesAutoresizingMaskIntoConstraints="NO" id="up5-bV-ZIJ">
+                            <rect key="frame" x="305" y="305" width="271" height="271"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fish" translatesAutoresizingMaskIntoConstraints="NO" id="7tN-Me-iSj">
+                            <rect key="frame" x="8" y="8" width="272" height="272"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cupcake" translatesAutoresizingMaskIntoConstraints="NO" id="FV9-XU-XCa">
+                            <rect key="frame" x="8" y="305" width="272" height="271"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Donut" translatesAutoresizingMaskIntoConstraints="NO" id="OdO-H4-NVM">
+                            <rect key="frame" x="305" y="8" width="271" height="272"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="FV9-XU-XCa" firstAttribute="leading" secondItem="x2d-mc-ZAL" secondAttribute="leading" constant="8" id="6XS-Fr-i2M"/>
+                        <constraint firstItem="OdO-H4-NVM" firstAttribute="leading" secondItem="7tN-Me-iSj" secondAttribute="trailing" constant="25" id="BWK-MR-WcK"/>
+                        <constraint firstAttribute="bottom" secondItem="up5-bV-ZIJ" secondAttribute="bottom" constant="8" id="DwK-bh-B0q"/>
+                        <constraint firstItem="up5-bV-ZIJ" firstAttribute="width" secondItem="FV9-XU-XCa" secondAttribute="width" id="E7j-Cd-Yun"/>
+                        <constraint firstItem="FV9-XU-XCa" firstAttribute="top" secondItem="7tN-Me-iSj" secondAttribute="bottom" constant="25" id="HP4-D8-4d3"/>
+                        <constraint firstAttribute="trailing" secondItem="up5-bV-ZIJ" secondAttribute="trailing" constant="8" id="HZ6-hb-a7S"/>
+                        <constraint firstItem="up5-bV-ZIJ" firstAttribute="width" secondItem="7tN-Me-iSj" secondAttribute="width" id="JIb-DC-sMx"/>
+                        <constraint firstItem="up5-bV-ZIJ" firstAttribute="height" secondItem="FV9-XU-XCa" secondAttribute="height" id="PN9-DL-6Yx"/>
+                        <constraint firstAttribute="trailing" secondItem="OdO-H4-NVM" secondAttribute="trailing" constant="8" id="QwG-DZ-aoB"/>
+                        <constraint firstItem="7tN-Me-iSj" firstAttribute="top" secondItem="x2d-mc-ZAL" secondAttribute="top" constant="8" id="VSm-Pc-Nza"/>
+                        <constraint firstItem="up5-bV-ZIJ" firstAttribute="height" secondItem="OdO-H4-NVM" secondAttribute="height" id="Zdh-bh-MfV"/>
+                        <constraint firstAttribute="bottom" secondItem="FV9-XU-XCa" secondAttribute="bottom" constant="8" id="cgl-Pe-Shj"/>
+                        <constraint firstAttribute="width" secondItem="x2d-mc-ZAL" secondAttribute="height" id="gzl-Zf-0jd"/>
+                        <constraint firstItem="7tN-Me-iSj" firstAttribute="leading" secondItem="x2d-mc-ZAL" secondAttribute="leading" constant="8" id="h1H-3v-uEv"/>
+                        <constraint firstItem="up5-bV-ZIJ" firstAttribute="height" secondItem="7tN-Me-iSj" secondAttribute="height" id="ivl-QU-EL8"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="OdO-H4-NVM" secondAttribute="trailing" constant="8" id="pR6-Xq-Ldy"/>
+                        <constraint firstItem="OdO-H4-NVM" firstAttribute="top" secondItem="x2d-mc-ZAL" secondAttribute="top" constant="8" id="sXc-2b-Ze5"/>
+                        <constraint firstItem="OdO-H4-NVM" firstAttribute="top" relation="greaterThanOrEqual" secondItem="x2d-mc-ZAL" secondAttribute="top" constant="8" id="xJP-Pq-MJB"/>
+                        <constraint firstItem="up5-bV-ZIJ" firstAttribute="width" secondItem="OdO-H4-NVM" secondAttribute="width" id="ymH-dg-KIt"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="x2d-mc-ZAL" secondAttribute="centerY" id="G7N-9n-cIw"/>
+                <constraint firstItem="x2d-mc-ZAL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="RSB-uo-s6k"/>
+                <constraint firstAttribute="trailing" secondItem="x2d-mc-ZAL" secondAttribute="trailing" constant="8" id="eoN-zz-9LC"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="Cupcake" width="320" height="360"/>
+        <image name="Donut" width="320" height="360"/>
+        <image name="Fish" width="400" height="400"/>
+        <image name="GingerbreadMan" width="500" height="500"/>
+    </resources>
+</document>

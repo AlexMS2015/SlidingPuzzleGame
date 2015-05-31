@@ -39,6 +39,8 @@
 		FAA79E1A1B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAA79E181B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.xib */; };
 		FAA79E1D1B0A060E00AA95C9 /* ASGameBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA79E1C1B0A060E00AA95C9 /* ASGameBoard.m */; };
 		FAA79E201B0A0E8000AA95C9 /* ASSlidingPuzzleGame.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA79E1F1B0A0E8000AA95C9 /* ASSlidingPuzzleGame.m */; };
+		FAE785491B1B3391008384A5 /* ASPictureSelectionScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE785471B1B3391008384A5 /* ASPictureSelectionScreenVC.m */; };
+		FAE7854A1B1B3391008384A5 /* ASPictureSelectionScreenVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAE785481B1B3391008384A5 /* ASPictureSelectionScreenVC.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,9 @@
 		FAA79E1C1B0A060E00AA95C9 /* ASGameBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASGameBoard.m; sourceTree = "<group>"; };
 		FAA79E1E1B0A0E8000AA95C9 /* ASSlidingPuzzleGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASSlidingPuzzleGame.h; sourceTree = "<group>"; };
 		FAA79E1F1B0A0E8000AA95C9 /* ASSlidingPuzzleGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASSlidingPuzzleGame.m; sourceTree = "<group>"; };
+		FAE785461B1B3391008384A5 /* ASPictureSelectionScreenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPictureSelectionScreenVC.h; sourceTree = "<group>"; };
+		FAE785471B1B3391008384A5 /* ASPictureSelectionScreenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASPictureSelectionScreenVC.m; sourceTree = "<group>"; };
+		FAE785481B1B3391008384A5 /* ASPictureSelectionScreenVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ASPictureSelectionScreenVC.xib; sourceTree = "<group>"; };
 		FAEA382B1B1885B60086C619 /* Enums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -248,6 +253,9 @@
 				FA966C4A1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.h */,
 				FA966C4B1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.m */,
 				FA966C4C1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.xib */,
+				FAE785461B1B3391008384A5 /* ASPictureSelectionScreenVC.h */,
+				FAE785471B1B3391008384A5 /* ASPictureSelectionScreenVC.m */,
+				FAE785481B1B3391008384A5 /* ASPictureSelectionScreenVC.xib */,
 				FA966C451B11B0AB004C28C0 /* ASSlidingTileView.h */,
 				FA966C461B11B0AB004C28C0 /* ASSlidingTileView.m */,
 			);
@@ -344,6 +352,7 @@
 			files = (
 				FA966C4E1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.xib in Resources */,
 				FA10144E1AD0E429006A7100 /* ASHomeScreenViewController.xib in Resources */,
+				FAE7854A1B1B3391008384A5 /* ASPictureSelectionScreenVC.xib in Resources */,
 				FA966C2E1B115323004C28C0 /* ASSPGCVC.xib in Resources */,
 				FA00BFAF1AD13DF30051DA66 /* ASGameCell.xib in Resources */,
 				FA966C3A1B115A70004C28C0 /* ASSlidingPuzzleGameViewController.xib in Resources */,
@@ -383,6 +392,7 @@
 				FAA79E1D1B0A060E00AA95C9 /* ASGameBoard.m in Sources */,
 				FA00BF9B1AD107210051DA66 /* ASGameDatabase.m in Sources */,
 				FA966C481B11B0AB004C28C0 /* ASSlidingTileView.m in Sources */,
+				FAE785491B1B3391008384A5 /* ASPictureSelectionScreenVC.m in Sources */,
 				FAA79E191B0A058900AA95C9 /* ASSlidingPuzzleGameCVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

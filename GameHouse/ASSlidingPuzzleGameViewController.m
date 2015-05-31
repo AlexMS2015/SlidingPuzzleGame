@@ -26,45 +26,76 @@
 @property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
 @property (nonatomic) int numMoves;
-@property (strong, nonatomic) UIImage *boardImage;
-
-@property (nonatomic) CGFloat imageWidthScale;
-@property (nonatomic) CGFloat imageHeightScale;
 @end
 
 @implementation ASSlidingPuzzleGameViewController
 
 #pragma mark - Properties
 
-#define DEFAULT_IMAGE @"DefaultBoardImage"
--(UIImage *)boardImage
+-(NSArray *)tileImagesWithImageNamed:(NSString *)imageName;
+{
+    self.imageName = imageName;
+    UIImage *boardImage = [UIImage imageNamed:imageName];
+    CGSize boardSize = self.boardContainerView.bounds.size;
+    
+    float imageWidthScale = boardImage.size.width / boardSize.width;
+    float imageHeightScale = boardImage.size.height / boardSize.height;
+    
+    NSMutableArray *splitUpImages = [NSMutableArray array];
+    for (int row = 0; row < sqrt(self.puzzleGame.numberOfTiles); row++) {
+        for (int col = 0; col < sqrt(self.puzzleGame.numberOfTiles); col++) {
+            CGRect tileFrame = [self.puzzleBoard frameOfCellAtRow:row inColumn:col];
+
+            CGRect pictureFrame = CGRectMake(tileFrame.origin.x  * imageWidthScale, tileFrame.origin.y  * imageHeightScale, tileFrame.size.width * imageWidthScale, tileFrame.size.height * imageHeightScale);
+            
+            CGImageRef tileCGImage = CGImageCreateWithImageInRect(boardImage.CGImage, pictureFrame);
+            UIImage *tileImage = [UIImage imageWithCGImage:tileCGImage];
+            [splitUpImages addObject:tileImage];
+        }
+    }
+    
+    return splitUpImages;
+}
+
+/*-(UIImage *)boardImage
 {
     if (!_boardImage) {
         
-        CGSize imageSize = self.boardContainerView.bounds.size;
+        CGSize boardSize = self.boardContainerView.bounds.size;
         UIImage *image = [UIImage imageNamed:DEFAULT_IMAGE];
         
-        self.imageWidthScale = image.size.width / imageSize.width;
-        self.imageHeightScale = image.size.height / imageSize.height;
+        self.imageWidthScale = image.size.width / boardSize.width;
+        self.imageHeightScale = image.size.height / boardSize.height;
+        
+        NSLog(@"image width scale: %f", self.imageWidthScale);
+        NSLog(@"image height scale: %f", self.imageHeightScale);
+        
+        NSLog(@"actual image width: %f", image.size.width);
+        NSLog(@"actual image height: %f", image.size.height);
         
         //create drawing context
-        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0);
+        UIGraphicsBeginImageContextWithOptions(boardSize, NO, 0.0);
         
         //draw
-        [image drawInRect:CGRectMake(0.0, 0.0, imageSize.width, imageSize.height)];
+        [image drawInRect:CGRectMake(0.0, 0.0, boardSize.width, boardSize.height)];
         
         //capture resultant image
         _boardImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
     
-        /*
         UIImageView *iv = [[UIImageView alloc] initWithFrame:self.boardContainerView.frame];
         iv.image = _boardImage;
-        [self.view addSubview:iv];*/
+        [self.view addSubview:iv];
+        
+        CGSize boardSize = self.boardContainerView.bounds.size;
+        _boardImage = [UIImage imageNamed:DEFAULT_IMAGE];
+         
+        self.imageWidthScale = _boardImage.size.width / boardSize.width;
+        self.imageHeightScale = _boardImage.size.height / boardSize.height;
     }
-    
+
     return _boardImage;
-}
+}*/
 
 -(void)setNumMoves:(int)numMoves
 {
@@ -76,7 +107,8 @@
 
 #define NUM_TILES_DEFAULT 16
 #define DIFFICULTY_DEFAULT HARD
-#define GAME_MODE_DEFAULT NUMBERMODE
+#define GAME_MODE_DEFAULT PICTUREMODE
+#define DEFAULT_IMAGE @"Donut"
 -(void)viewDidLayoutSubviews
 {
     NSLog(@"Layout subviews: %@", NSStringFromCGRect(self.boardContainerView.frame));
@@ -88,7 +120,8 @@
     if (![self.boardContainerView.subviews count]) {
         [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
                          andDifficulty:DIFFICULTY_DEFAULT
-                               andMode:GAME_MODE_DEFAULT];
+                               andMode:GAME_MODE_DEFAULT
+                        withImageNamed:DEFAULT_IMAGE];
     }
 }
 
@@ -105,7 +138,10 @@
     return @"";
 }
 
--(void)setupNewGameWithNumTiles:(int)numTiles andDifficulty:(Difficulty)difficulty andMode:(GameMode)mode;
+-(void)setupNewGameWithNumTiles:(int)numTiles
+                  andDifficulty:(Difficulty)difficulty
+                        andMode:(GameMode)mode
+                 withImageNamed:(NSString *)imageName;
 {
     self.numMoves = 0;
     self.difficultyLabel.text = [self difficultyStringFromDifficulty:difficulty];
@@ -123,6 +159,7 @@
                                                              withRows:sqrt(numTiles)
                                                            andColumns:sqrt(numTiles)];
     
+    int tileCount = 0;
     for (int row = 0; row < sqrt(numTiles); row++) {
         for (int col = 0; col < sqrt(numTiles); col++) {
             int tileValue = [self.puzzleGame valueOfTileAtRow:row andColumn:col];
@@ -139,16 +176,7 @@
                     tile.tileValue = tileValue;
                 } else {
                     tile.tileValue = tileValue;
-                    
-                    
-                    CGImageRef testTileImage = CGImageCreateWithImageInRect(self.boardImage.CGImage, tileFrame);
-
-                    CGRect newTileFrame = CGRectMake(tileFrame.origin.x  * self.imageWidthScale, tileFrame.origin.y  * self.imageHeightScale, tileFrame.size.width * self.imageWidthScale, tileFrame.size.height * self.imageHeightScale);
-                    
-                    NSLog(@"FRAME OF TILE: %@", NSStringFromCGRect(newTileFrame));
-                    
-                    CGImageRef tileImage = CGImageCreateWithImageInRect(self.boardImage.CGImage, newTileFrame);
-                    tile.tileImage = [UIImage imageWithCGImage:tileImage];
+                    tile.tileImage = [[self tileImagesWithImageNamed:imageName] objectAtIndex:tileValue];
                 }
                 
                 UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
@@ -156,6 +184,7 @@
                 
                 [self.boardContainerView addSubview:tile];
             }
+            tileCount++;
         }
     }
 }
@@ -207,7 +236,8 @@
         if (buttonIndex != alertView.cancelButtonIndex) {
             [self setupNewGameWithNumTiles:self.puzzleGame.numberOfTiles
                              andDifficulty:self.puzzleGame.difficulty
-                                   andMode:self.mode];
+                                   andMode:self.mode
+                            withImageNamed:self.imageName];
         }
     }
 }
@@ -224,7 +254,7 @@
 {
     ASSlidingPuzzleSettingsVC *settingVC =[[ASSlidingPuzzleSettingsVC alloc] init];
     settingVC.gameVCForSettings = self;
-    
+        
     [self presentViewController:settingVC
                        animated:YES
                      completion:NULL];

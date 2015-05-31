@@ -9,7 +9,6 @@
 #import "ASSlidingTileView.h"
 
 @interface ASSlidingTileView ()
-@property (strong, nonatomic) UILabel *tileValueLabel;
 @property (strong, nonatomic) UIImageView *tileBackground;
 @end
 
@@ -17,35 +16,40 @@
 
 #pragma mark - Properties
 
+#define FONT_SIZE self.bounds.size.width/2.5
 -(void)setTileValue:(int)tileValue
 {
     _tileValue = tileValue;
     self.tileBackground.image = [UIImage imageNamed:@"Wooden Tile"];
-    self.tileValueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
+    
+    // add a label showing the tile's value in number mode
+    UILabel *tileValueLabel = [[UILabel alloc] initWithFrame:self.bounds];
+    tileValueLabel.textAlignment = NSTextAlignmentCenter;
+    tileValueLabel.textColor = [UIColor whiteColor];
+    tileValueLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+    tileValueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
+    [self addSubview:tileValueLabel];
 }
 
 -(void)setTileImage:(UIImage *)tileImage
 {
     self.tileBackground.image = tileImage;
+    
+    // add an image to the tile to show the grid when in picture mode
+    UIImageView *tileForeground = [[UIImageView alloc] initWithFrame:self.bounds];
+    tileForeground.image = [UIImage imageNamed:@"Grey Tile"];
+    tileForeground.alpha = 0.5;
+    [self addSubview:tileForeground];
 }
 
-#define FONT_SIZE frame.size.width/2.5
 -(instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     
     if (self) {
-        CGRect tileAndLabelFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-        
-        self.tileBackground = [[UIImageView alloc] initWithFrame:tileAndLabelFrame];
+        // this tile image will be customised depeding on whether
+        self.tileBackground = [[UIImageView alloc] initWithFrame:self.bounds];
         [self addSubview:self.tileBackground];
-        
-        self.tileValueLabel = [[UILabel alloc] initWithFrame:tileAndLabelFrame];
-        self.tileValueLabel.textAlignment = NSTextAlignmentCenter;
-        self.tileValueLabel.textColor = [UIColor whiteColor];
-        self.tileValueLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
-        [self addSubview:self.tileValueLabel];
-
     }
     
     return self;

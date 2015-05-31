@@ -74,10 +74,10 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9SD-K2-DrD">
                     <rect key="frame" x="20" y="40" width="560" height="65"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DisplayGrey" translatesAutoresizingMaskIntoConstraints="NO" id="6RD-AP-RVS">
+                        <imageView userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Grey Tile" translatesAutoresizingMaskIntoConstraints="NO" id="6RD-AP-RVS">
                             <rect key="frame" x="280" y="0.0" width="280" height="65"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" alpha="0.79999999999999982" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DisplayGrey" translatesAutoresizingMaskIntoConstraints="NO" id="h5g-kY-SFv">
+                        <imageView userInteractionEnabled="NO" alpha="0.79999999999999982" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Grey Tile" translatesAutoresizingMaskIntoConstraints="NO" id="h5g-kY-SFv">
                             <rect key="frame" x="0.0" y="0.0" width="280" height="65"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Moves" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FCY-9f-IGe">
@@ -156,7 +156,7 @@
     </objects>
     <resources>
         <image name="Black Button" width="400" height="400"/>
-        <image name="DisplayGrey" width="64" height="72"/>
+        <image name="Grey Tile" width="64" height="72"/>
         <image name="Starfish" width="800" height="1200"/>
     </resources>
 </document>

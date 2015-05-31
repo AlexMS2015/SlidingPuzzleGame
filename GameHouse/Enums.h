@@ -10,15 +10,14 @@
 #define GameHouse_Enums_h
 
 typedef enum {
-    EASY,
-    MEDIUM,
-    HARD,
-    IMPOSSIBLE
+    EASY = 0,
+    MEDIUM = 1,
+    HARD = 2,
 }Difficulty;
 
 typedef enum {
-    NUMBERMODE,
-    PICTUREMODE
+    NUMBERMODE = 0,
+    PICTUREMODE = 1
 }GameMode;
 
 #endif

@@ -8,16 +8,19 @@
 
 #import "ASSlidingPuzzleSettingsVC.h"
 #import "Enums.h"
+#import "ASPictureSelectionScreenVC.h"
 
 @interface ASSlidingPuzzleSettingsVC ()
 
 // outlets
 @property (weak, nonatomic) IBOutlet UISlider *numTilesSlider;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *difficultySegmentedControl;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
 
 // other
 @property (nonatomic) int newNumTiles;
 @property (nonatomic) Difficulty newDifficulty;
+@property (nonatomic) GameMode newMode;
 @end
 
 @implementation ASSlidingPuzzleSettingsVC
@@ -29,9 +32,12 @@
 
     self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.numberOfTiles;
     self.difficultySegmentedControl.selectedSegmentIndex = self.gameVCForSettings.puzzleGame.difficulty;
+    self.gameModeSegmentedControl.selectedSegmentIndex = self.gameVCForSettings.mode;
+    
 }
 
 #pragma mark - Actions
+
 - (IBAction)cancelWithNoChanges:(UIButton *)sender
 {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
@@ -41,11 +47,13 @@
 {
     int initialNumTiles = self.gameVCForSettings.puzzleGame.numberOfTiles;
     Difficulty initialDifficulty = self.gameVCForSettings.puzzleGame.difficulty;
+    GameMode initialMode = self.gameVCForSettings.mode;
 
-    if (self.newNumTiles != initialNumTiles || self.newDifficulty != initialDifficulty) {
+    if (self.newNumTiles != initialNumTiles || self.newDifficulty != initialDifficulty || self.newMode != initialMode) {
         [self.gameVCForSettings setupNewGameWithNumTiles:self.newNumTiles
                                            andDifficulty:self.newDifficulty
-                                                 andMode:self.gameVCForSettings.mode];
+                                                 andMode:self.newMode
+                                          withImageNamed:self.gameVCForSettings.imageName];
     }
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
@@ -60,6 +68,14 @@
     }
     
     self.numTilesSlider.value = numTilesAdjusted;
+}
+
+- (IBAction)gameModeChanged:(UISegmentedControl *)sender
+{
+    if (self.newMode == PICTUREMODE) {
+        ASPictureSelectionScreenVC *pictureSelection = [[ASPictureSelectionScreenVC alloc] init];
+        [self presentViewController:pictureSelection animated:YES completion:NULL];
+    }
 }
 
 #pragma mark - Properties
@@ -79,6 +95,17 @@
         return HARD;
     } else {
         return self.gameVCForSettings.puzzleGame.difficulty;
+    }
+}
+
+-(GameMode)newMode
+{
+    if (self.gameModeSegmentedControl.selectedSegmentIndex == 0) {
+        return NUMBERMODE;
+    } else if (self.gameModeSegmentedControl.selectedSegmentIndex == 1) {
+        return PICTUREMODE;
+    } else {
+        return self.gameVCForSettings.mode;
     }
 }
 

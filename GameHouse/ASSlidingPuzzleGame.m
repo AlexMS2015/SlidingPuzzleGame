@@ -103,8 +103,8 @@
     int currentTileCount = 0;
     for (int currentRow = 0; currentRow < self.board.numberOfRows; currentRow++) {
         for (int currentCol = 0; currentCol < self.board.numberOfColumns; currentCol++) {
-            blockToPerform(currentTileCount, currentRow, currentCol);
             currentTileCount++;
+            blockToPerform(currentTileCount, currentRow, currentCol);
         }
     }
 }
@@ -148,7 +148,7 @@
 
 #pragma mark - Initialiser
 
-#define SOLVED_PUZZLE_TEST
+//#define SOLVED_PUZZLE_TEST
 
 -(instancetype)initWithNumberOfTiles:(int)tiles andDifficulty:(Difficulty)difficulty
 {
@@ -163,13 +163,20 @@
         
         __block NSMutableArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:self.numberOfTiles];
         #ifndef SOLVED_PUZZLE_TEST
+        // put the 0 tile at the end
+        NSNumber *zeroTile = [orderedTiles lastObject];
+        [self.board setObject:zeroTile inRow:sqrt(self.numberOfTiles)-1 andColumn:sqrt(self.numberOfTiles)-1];
+        [orderedTiles removeLastObject];
+        
         [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol)
          {
-            // take a random tile from the ordered list (0, 1, 2, 3 etc...) and add it to the board (we want the numbers to be in random order).
-            int randomTileNum = arc4random() % [orderedTiles count];
-            NSNumber *randomTile = [orderedTiles objectAtIndex:randomTileNum];
-            [self.board setObject:randomTile inRow:currentRow andColumn:currentCol];
-            [orderedTiles removeObjectAtIndex:randomTileNum];
+             // take a random tile from the ordered list (0, 1, 2, 3 etc...) and add it to the board (we want the numbers to be in random order).
+             if (currentTileCount < self.numberOfTiles) {
+                int randomTileNum = arc4random() % [orderedTiles count];
+                NSNumber *randomTile = [orderedTiles objectAtIndex:randomTileNum];
+                [self.board setObject:randomTile inRow:currentRow andColumn:currentCol];
+                [orderedTiles removeObjectAtIndex:randomTileNum];
+             }
         #endif
             
         #ifdef SOLVED_PUZZLE_TEST
