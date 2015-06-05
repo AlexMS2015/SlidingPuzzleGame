@@ -46,8 +46,6 @@
                               andColumn:column
                         withObjectAtRow:self.rowOfBlankTile
                               andColumn:self.columnOfBlankTile];
-            self.rowOfBlankTile = row;
-            self.columnOfBlankTile = column;
             NSLog(@"%@", [self description]);
         }
     }
@@ -125,6 +123,16 @@
 
 #pragma mark - Properties
 
+-(int)rowOfBlankTile
+{
+    return [self rowOfTileWithValue:0];
+}
+
+-(int)columnOfBlankTile
+{
+    return [self columnOfTileWithValue:0];
+}
+
 -(int)numberOfTiles
 {
     return self.board.numberOfRows * self.board.numberOfRows;
@@ -162,24 +170,19 @@
         self.board = [[ASGameBoard alloc] initWithRows:rows andColumns:columns];
         
         __block NSMutableArray *orderedTiles = [self orderedArrayOfTilesWithNumTiles:self.numberOfTiles];
-        #ifndef SOLVED_PUZZLE_TEST
-        // put the 0 tile at the end
-        NSNumber *zeroTile = [orderedTiles lastObject];
-        [self.board setObject:zeroTile inRow:sqrt(self.numberOfTiles)-1 andColumn:sqrt(self.numberOfTiles)-1];
-        [orderedTiles removeLastObject];
-        
+#ifndef SOLVED_PUZZLE_TEST
         [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol)
          {
              // take a random tile from the ordered list (0, 1, 2, 3 etc...) and add it to the board (we want the numbers to be in random order).
-             if (currentTileCount < self.numberOfTiles) {
+             if (currentTileCount <= self.numberOfTiles) {
                 int randomTileNum = arc4random() % [orderedTiles count];
                 NSNumber *randomTile = [orderedTiles objectAtIndex:randomTileNum];
                 [self.board setObject:randomTile inRow:currentRow andColumn:currentCol];
                 [orderedTiles removeObjectAtIndex:randomTileNum];
              }
-        #endif
+#endif
             
-        #ifdef SOLVED_PUZZLE_TEST
+#ifdef SOLVED_PUZZLE_TEST
             NSNumber *number = orderedTiles[[orderedTiles count] - 2];
             [orderedTiles replaceObjectAtIndex:[orderedTiles count] - 1
                                     withObject:number];
@@ -189,11 +192,11 @@
         {
             NSNumber *testTile = orderedTiles[currentTileCount];
             [self.board setObject:testTile inRow:currentRow andColumn:currentCol];
-        #endif
+#endif
         }];
-        
-        self.rowOfBlankTile = [self rowOfTileWithValue:0];
-        self.columnOfBlankTile = [self columnOfTileWithValue:0];
+             
+        // put the zero tile at the end
+        [self.board swapObjectAtRow:self.rowOfBlankTile andColumn:self.columnOfBlankTile withObjectAtRow:self.board.numberOfRows-1 andColumn:self.board.numberOfColumns-1];
     }
     
     return self;

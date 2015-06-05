@@ -24,6 +24,8 @@
 
 // other
 @property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
+@property (strong, nonatomic, readwrite) NSString *imageName;
+@property (nonatomic, readwrite) GameMode mode;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
 @property (nonatomic) int numMoves;
 @end
@@ -32,6 +34,12 @@
 
 #pragma mark - Properties
 
+-(NSArray *)availableImageNames
+{
+    return @[@"Cupcake", @"Donut", @"Fish", @"GingerbreadMan", @"Poptart", @"Snowman", @"Cookie"];
+}
+
+// split up the board image into an array containing smaller images for each board tile
 -(NSArray *)tileImagesWithImageNamed:(NSString *)imageName;
 {
     self.imageName = imageName;
@@ -57,46 +65,6 @@
     return splitUpImages;
 }
 
-/*-(UIImage *)boardImage
-{
-    if (!_boardImage) {
-        
-        CGSize boardSize = self.boardContainerView.bounds.size;
-        UIImage *image = [UIImage imageNamed:DEFAULT_IMAGE];
-        
-        self.imageWidthScale = image.size.width / boardSize.width;
-        self.imageHeightScale = image.size.height / boardSize.height;
-        
-        NSLog(@"image width scale: %f", self.imageWidthScale);
-        NSLog(@"image height scale: %f", self.imageHeightScale);
-        
-        NSLog(@"actual image width: %f", image.size.width);
-        NSLog(@"actual image height: %f", image.size.height);
-        
-        //create drawing context
-        UIGraphicsBeginImageContextWithOptions(boardSize, NO, 0.0);
-        
-        //draw
-        [image drawInRect:CGRectMake(0.0, 0.0, boardSize.width, boardSize.height)];
-        
-        //capture resultant image
-        _boardImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-    
-        UIImageView *iv = [[UIImageView alloc] initWithFrame:self.boardContainerView.frame];
-        iv.image = _boardImage;
-        [self.view addSubview:iv];
-        
-        CGSize boardSize = self.boardContainerView.bounds.size;
-        _boardImage = [UIImage imageNamed:DEFAULT_IMAGE];
-         
-        self.imageWidthScale = _boardImage.size.width / boardSize.width;
-        self.imageHeightScale = _boardImage.size.height / boardSize.height;
-    }
-
-    return _boardImage;
-}*/
-
 -(void)setNumMoves:(int)numMoves
 {
     _numMoves = numMoves;
@@ -108,23 +76,24 @@
 #define NUM_TILES_DEFAULT 16
 #define DIFFICULTY_DEFAULT HARD
 #define GAME_MODE_DEFAULT PICTUREMODE
-#define DEFAULT_IMAGE @"Donut"
 -(void)viewDidLayoutSubviews
 {
+    // Why is this called multiple times?
     NSLog(@"Layout subviews: %@", NSStringFromCGRect(self.boardContainerView.frame));
     
     [super viewDidLayoutSubviews];
     
     self.navigationController.navigationBar.hidden = YES;
     
-    if (![self.boardContainerView.subviews count]) {
+    if (!self.puzzleGame) {
         [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
                          andDifficulty:DIFFICULTY_DEFAULT
                                andMode:GAME_MODE_DEFAULT
-                        withImageNamed:DEFAULT_IMAGE];
+                        withImageNamed:[self.availableImageNames firstObject]];
     }
 }
 
+// helper method for difficulty display label
 -(NSString *)difficultyStringFromDifficulty:(Difficulty)difficulty
 {
     if (difficulty == EASY) {
@@ -146,37 +115,38 @@
     self.numMoves = 0;
     self.difficultyLabel.text = [self difficultyStringFromDifficulty:difficulty];
     
-    // clear the screen
-    [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [obj removeFromSuperview];
-    }];
+    // clear the screen if replacing an existing game
+    if ([self.boardContainerView.subviews count]) {
+        [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [obj removeFromSuperview];
+        }];
+    }
     
     // setup the model
     self.puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:numTiles
                                                            andDifficulty:difficulty];
-
-    self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size
-                                                             withRows:sqrt(numTiles)
-                                                           andColumns:sqrt(numTiles)];
+    
+    // the puzzle board will object will determine where on screen the tiles are located
+    self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size withRows:sqrt(numTiles) andColumns:sqrt(numTiles)];
+    
+    self.mode = mode;
+    NSArray *tileImages = [self tileImagesWithImageNamed:imageName]; // only want to do this once rather than run the method for every single tile!
     
     int tileCount = 0;
     for (int row = 0; row < sqrt(numTiles); row++) {
         for (int col = 0; col < sqrt(numTiles); col++) {
             int tileValue = [self.puzzleGame valueOfTileAtRow:row andColumn:col];
             
-            if (tileValue != 0) {
+            if (tileValue != 0) { // check to see if the blank tile
                 CGRect tileFrame = [self.puzzleBoard frameOfCellAtRow:row inColumn:col];
                 ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:tileFrame];
                 
                 tile.rowInABoard = row;
                 tile.columnInABoard = col;
-                
-                self.mode = mode;
-                if (self.mode == NUMBERMODE) {
-                    tile.tileValue = tileValue;
-                } else {
-                    tile.tileValue = tileValue;
-                    tile.tileImage = [[self tileImagesWithImageNamed:imageName] objectAtIndex:tileValue];
+                tile.tileValue = tileValue;
+
+                if (self.mode == PICTUREMODE) {
+                    tile.tileImage = [tileImages objectAtIndex:tileValue];
                 }
                 
                 UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
@@ -200,13 +170,14 @@
         if (currentTileValue != newTileValue) {
             self.numMoves++;
             
-            // find the location of the tile's value in the model's board
+            // find the location of the tile's current displayed value in the model's updated tile board
             int rowToMoveTileTo = [self.puzzleGame rowOfTileWithValue:currentTileValue];
             int columnToMoveTileTo = [self.puzzleGame columnOfTileWithValue:currentTileValue];
             
             // get the frame in the view at new row / column location
             CGRect frameToMoveRectTo = [self.puzzleBoard frameOfCellAtRow:rowToMoveTileTo
                                                                  inColumn:columnToMoveTileTo];
+            
             // update and move the tile
             tileToUpdate.rowInABoard = rowToMoveTileTo;
             tileToUpdate.columnInABoard = columnToMoveTileTo;
@@ -248,6 +219,8 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
     
+    // SAVE SETTINGS AND GAME HERE
+    
 }
 
 - (IBAction)settingsTouchUpInside:(UIButton *)sender
@@ -255,9 +228,7 @@
     ASSlidingPuzzleSettingsVC *settingVC =[[ASSlidingPuzzleSettingsVC alloc] init];
     settingVC.gameVCForSettings = self;
         
-    [self presentViewController:settingVC
-                       animated:YES
-                     completion:NULL];
+    [self presentViewController:settingVC animated:YES completion:NULL];
 }
 
 - (IBAction)newGameTouchUpInside:(UIButton *)sender

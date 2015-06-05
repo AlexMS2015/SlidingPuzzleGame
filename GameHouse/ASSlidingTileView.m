@@ -10,6 +10,7 @@
 
 @interface ASSlidingTileView ()
 @property (strong, nonatomic) UIImageView *tileBackground;
+@property (strong, nonatomic) UILabel *tileValueLabel;
 @end
 
 @implementation ASSlidingTileView
@@ -20,26 +21,26 @@
 -(void)setTileValue:(int)tileValue
 {
     _tileValue = tileValue;
-    self.tileBackground.image = [UIImage imageNamed:@"Wooden Tile"];
     
     // add a label showing the tile's value in number mode
-    UILabel *tileValueLabel = [[UILabel alloc] initWithFrame:self.bounds];
-    tileValueLabel.textAlignment = NSTextAlignmentCenter;
-    tileValueLabel.textColor = [UIColor whiteColor];
-    tileValueLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
-    tileValueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
-    [self addSubview:tileValueLabel];
+    self.tileValueLabel.textAlignment = NSTextAlignmentCenter;
+    self.tileValueLabel.textColor = [UIColor whiteColor];
+    self.tileValueLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+    self.tileValueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
 }
 
 -(void)setTileImage:(UIImage *)tileImage
 {
-    self.tileBackground.image = tileImage;
+    [self.tileValueLabel removeFromSuperview];
+    self.tileValueLabel = nil;
     
     // add an image to the tile to show the grid when in picture mode
     UIImageView *tileForeground = [[UIImageView alloc] initWithFrame:self.bounds];
-    tileForeground.image = [UIImage imageNamed:@"Grey Tile"];
-    tileForeground.alpha = 0.5;
+    tileForeground.image = tileImage;
+    tileForeground.layer.cornerRadius = 8.0;
+    tileForeground.layer.masksToBounds = YES;
     [self addSubview:tileForeground];
+
 }
 
 -(instancetype)initWithFrame:(CGRect)frame
@@ -47,9 +48,16 @@
     self = [super initWithFrame:frame];
     
     if (self) {
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.layer.borderWidth = 0.5;
+        
         // this tile image will be customised depeding on whether
         self.tileBackground = [[UIImageView alloc] initWithFrame:self.bounds];
+        self.tileBackground.image = [UIImage imageNamed:@"Wooden Tile"];
         [self addSubview:self.tileBackground];
+        
+        self.tileValueLabel = [[UILabel alloc] initWithFrame:self.bounds];
+        [self addSubview:self.tileValueLabel];
     }
     
     return self;

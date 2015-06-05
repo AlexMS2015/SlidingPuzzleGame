@@ -193,6 +193,7 @@
 				FA00BF8F1AD0FE5D0051DA66 /* ASHighScoresTableViewController.m */,
 				FA966C331B1158C5004C28C0 /* ASGameBoardViewSupporter.h */,
 				FA966C341B1158C5004C28C0 /* ASGameBoardViewSupporter.m */,
+				FAE7854B1B21B3E8008384A5 /* Picture Selection Test */,
 				FA966C2F1B115852004C28C0 /* CVC Test */,
 				FA00BF951AD104510051DA66 /* Model */,
 				FA10142D1AD0D2AD006A7100 /* Images.xcassets */,
@@ -253,9 +254,6 @@
 				FA966C4A1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.h */,
 				FA966C4B1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.m */,
 				FA966C4C1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.xib */,
-				FAE785461B1B3391008384A5 /* ASPictureSelectionScreenVC.h */,
-				FAE785471B1B3391008384A5 /* ASPictureSelectionScreenVC.m */,
-				FAE785481B1B3391008384A5 /* ASPictureSelectionScreenVC.xib */,
 				FA966C451B11B0AB004C28C0 /* ASSlidingTileView.h */,
 				FA966C461B11B0AB004C28C0 /* ASSlidingTileView.m */,
 			);
@@ -272,6 +270,16 @@
 				FA00BFAD1AD13DF30051DA66 /* ASGameCell.xib */,
 			);
 			name = "Game Selection Screen";
+			sourceTree = "<group>";
+		};
+		FAE7854B1B21B3E8008384A5 /* Picture Selection Test */ = {
+			isa = PBXGroup;
+			children = (
+				FAE785461B1B3391008384A5 /* ASPictureSelectionScreenVC.h */,
+				FAE785471B1B3391008384A5 /* ASPictureSelectionScreenVC.m */,
+				FAE785481B1B3391008384A5 /* ASPictureSelectionScreenVC.xib */,
+			);
+			name = "Picture Selection Test";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
