@@ -9,6 +9,7 @@
 #import "ASSlidingPuzzleSettingsVC.h"
 #import "Enums.h"
 #import "ASPictureSelectionScreenVC.h"
+#import "ASGameBoardViewSupporter.h"
 
 @interface ASSlidingPuzzleSettingsVC () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -17,12 +18,15 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *difficultySegmentedControl;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UICollectionView *pictureSelectionCollectionView;
+@property (weak, nonatomic) IBOutlet UIImageView *miniGameBoardImageView;
 
 // other
 @property (nonatomic) int newNumTiles;
 @property (nonatomic) Difficulty newDifficulty;
 @property (nonatomic) GameMode newMode;
-@property (nonatomic) NSString *gameImageName;
+@property (strong, nonatomic) NSString *gameImageName;
+
+@property (strong, nonatomic) ASGameBoardViewSupporter *miniGameBoard;
 @end
 
 @implementation ASSlidingPuzzleSettingsVC
@@ -32,7 +36,6 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     self.gameImageName = self.gameVCForSettings.availableImageNames[indexPath.item];
-    [self.pictureSelectionCollectionView reloadData];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -64,7 +67,7 @@
     picture.image = [UIImage imageNamed:imageName];
     [cell addSubview:picture];
     
-    if (imageName == self.gameImageName) {
+    if ([imageName isEqualToString:self.gameImageName]) {
         cell.alpha = 1.0;
     } else {
         cell.alpha = 0.5;
@@ -92,6 +95,46 @@
         self.pictureSelectionCollectionView.hidden = YES;
     }
     
+    [self setupMiniBoardWithNumTiles:self.gameVCForSettings.puzzleGame.numberOfTiles];
+}
+
+-(void)setupMiniBoardWithNumTiles:(int)numTiles
+{
+    if ([self.miniGameBoardImageView.subviews count]) {
+        [self.miniGameBoardImageView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [obj removeFromSuperview];
+            obj = nil;
+        }];
+    }
+    
+    self.miniGameBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.miniGameBoardImageView.bounds.size withRows:sqrt(numTiles) andColumns:sqrt(numTiles)];
+    
+    self.miniGameBoardImageView.image = [UIImage imageNamed:self.gameImageName];
+    
+    int tileCount = 0;
+    for (int row = 0; row < sqrt(numTiles); row++) {
+        for (int col = 0; col < sqrt(numTiles); col++) {
+            CGRect frameOfTile = [self.miniGameBoard frameOfCellAtRow:row inColumn:col];
+            UILabel *tileLabel = [[UILabel alloc] initWithFrame:frameOfTile];
+            //tileLabel.alpha = 0.5;
+            
+            if (tileCount + 1 == 1 || tileCount + 1 == numTiles) {
+                tileLabel.text = [NSString stringWithFormat:@"%d", tileCount + 1];
+            }
+            
+            tileLabel.font = [UIFont systemFontOfSize:tileLabel.bounds.size.width / 1.5];
+            tileLabel.textColor = [UIColor whiteColor];
+            tileLabel.textAlignment = NSTextAlignmentCenter;
+            tileLabel.layer.borderColor = [UIColor whiteColor].CGColor;
+            tileLabel.layer.borderWidth = 0.5;
+            
+            [self.miniGameBoardImageView addSubview:tileLabel];
+            
+            
+            
+            tileCount++;
+        }
+    }
 }
 
 #pragma mark - Actions
@@ -127,6 +170,7 @@
     }
     
     self.numTilesSlider.value = numTilesAdjusted;
+    [self setupMiniBoardWithNumTiles:numTilesAdjusted];
 }
 
 - (IBAction)gameModeChanged:(UISegmentedControl *)sender
@@ -139,6 +183,13 @@
 }
 
 #pragma mark - Properties
+
+-(void)setGameImageName:(NSString *)gameImageName
+{
+    _gameImageName = gameImageName;
+    [self.pictureSelectionCollectionView reloadData];
+    [self setupMiniBoardWithNumTiles:self.numTilesSlider.value];
+}
 
 -(int)newNumTiles
 {

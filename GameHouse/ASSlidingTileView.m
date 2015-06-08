@@ -67,11 +67,35 @@
 {
     [UIView animateWithDuration:0.3
                           delay:0
-                        options:UIViewAnimationOptionCurveEaseOut
+                        options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          self.frame = frame;
                      }
                      completion:NULL];
 }
+
+/*
+-(void)animateChangePositionOnBoardToRect:(CGRect)newPosition
+{
+    [self animateToFrame:newPosition
+               withDelay:0
+             andDuration:0.3
+              andOptions:UIViewAnimationOptionCurveEaseOut];
+}
+
+-(void)animateToFrame:(CGRect)frame
+            withDelay:(double)delay
+          andDuration:(double)duration
+           andOptions:(UIViewAnimationOptions)options
+{
+    [UIView animateWithDuration:duration
+                          delay:delay
+                        options:options
+                     animations:^{
+                         self.frame = frame;
+                     }
+                     completion:NULL];
+}
+*/
 
 @end

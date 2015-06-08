@@ -21,18 +21,45 @@
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
 @property (weak, nonatomic) IBOutlet UILabel *difficultyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numMovesLabel;
+@property (weak, nonatomic) IBOutlet UIButton *picShowHideToggle;
+@property (weak, nonatomic) IBOutlet UILabel *countdownLabel;
 
 // other
+@property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic, readwrite) NSString *imageName;
 @property (nonatomic, readwrite) GameMode mode;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
 @property (nonatomic) int numMoves;
+//@property (strong, nonatomic) NSTimer *countdownTimer;
+@property (nonatomic) int countdown;
 @end
 
 @implementation ASSlidingPuzzleGameViewController
 
 #pragma mark - Properties
+
+-(void)setCountdown:(int)countdown
+{
+    _countdown = countdown;
+    self.countdownLabel.text = [NSString stringWithFormat:@"%d", self.countdown];
+}
+
+-(UIImageView *)picShowImageView
+{
+    if (!_picShowImageView) {
+        _picShowImageView = [[UIImageView alloc] initWithFrame:self.boardContainerView.frame];
+        _picShowImageView.image = [UIImage imageNamed:@"Wooden Tile"];
+        
+        UIImageView *currentPic = [[UIImageView alloc] initWithFrame:self.boardContainerView.bounds];
+        currentPic.image = [UIImage imageNamed:self.imageName];
+        [_picShowImageView addSubview:currentPic];
+        
+        [self.view addSubview:_picShowImageView];
+    }
+    
+    return _picShowImageView;
+}
 
 -(NSArray *)availableImageNames
 {
@@ -107,13 +134,31 @@
     return @"";
 }
 
+-(void)countdownFired:(NSTimer *)timer
+{
+    if (self.countdown > 1) {
+        self.countdown--;
+    } else {
+        self.countdownLabel.hidden = YES;
+        [self updateUI];
+        [timer invalidate];
+    }
+    NSLog(@"timer fired");
+}
+
 -(void)setupNewGameWithNumTiles:(int)numTiles
                   andDifficulty:(Difficulty)difficulty
                         andMode:(GameMode)mode
                  withImageNamed:(NSString *)imageName;
 {
+    self.countdown = 3;
+    self.countdownLabel.hidden = NO;
     self.numMoves = 0;
     self.difficultyLabel.text = [self difficultyStringFromDifficulty:difficulty];
+    
+    [self toggleFinalPicView:YES];
+    [self.picShowImageView removeFromSuperview];
+    self.picShowImageView = nil;
     
     // clear the screen if replacing an existing game
     if ([self.boardContainerView.subviews count]) {
@@ -135,18 +180,19 @@
     int tileCount = 0;
     for (int row = 0; row < sqrt(numTiles); row++) {
         for (int col = 0; col < sqrt(numTiles); col++) {
-            int tileValue = [self.puzzleGame valueOfTileAtRow:row andColumn:col];
             
-            if (tileValue != 0) { // check to see if the blank tile
-                CGRect tileFrame = [self.puzzleBoard frameOfCellAtRow:row inColumn:col];
-                ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:tileFrame];
+            int tileValue = tileCount + 1; // there is no 0 tile
+            
+            if (tileValue < self.puzzleGame.numberOfTiles) {
+                CGRect solvedTileFrame = [self.puzzleBoard frameOfCellAtRow:row inColumn:col];
+                ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:solvedTileFrame];
                 
                 tile.rowInABoard = row;
                 tile.columnInABoard = col;
                 tile.tileValue = tileValue;
-
+                
                 if (self.mode == PICTUREMODE) {
-                    tile.tileImage = [tileImages objectAtIndex:tileValue];
+                    tile.tileImage = [tileImages objectAtIndex:tileCount];
                 }
                 
                 UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
@@ -157,6 +203,12 @@
             tileCount++;
         }
     }
+    
+    NSTimer *countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                           target:self
+                                                         selector:@selector(countdownFired:)
+                                                         userInfo:nil
+                                                          repeats:YES];
 }
 
 -(void)updateUI
@@ -214,6 +266,31 @@
 }
 
 #pragma mark - Actions
+
+// helper
+-(void)toggleFinalPicView:(BOOL)hidden
+{
+    if (hidden) {
+        self.boardContainerView.hidden = NO;
+        self.picShowImageView.hidden = YES;
+        [self.picShowHideToggle setTitle:@"Show Pic" forState:UIControlStateNormal];
+    } else {
+        self.boardContainerView.hidden = YES;
+        self.picShowImageView.hidden = NO;
+        [self.picShowHideToggle setTitle:@"Hide Pic" forState:UIControlStateNormal];
+    }
+}
+
+- (IBAction)picShowHideToggleTouchUpInside:(UIButton *)sender
+{
+    if (self.mode == PICTUREMODE) {
+        if ([self.picShowHideToggle.currentTitle isEqualToString:@"Show Pic"]) {
+            [self toggleFinalPicView:NO];
+        } else {
+            [self toggleFinalPicView:YES];
+        }
+    }
+}
 
  - (IBAction)exitTouchUpInside:(UIButton *)sender
 {
