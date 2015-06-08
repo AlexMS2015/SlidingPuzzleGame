@@ -9,7 +9,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ASSlidingPuzzleSettingsVC">
             <connections>
                 <outlet property="difficultySegmentedControl" destination="GU7-la-6aZ" id="Dxq-Yw-Uow"/>
-                <outlet property="gameModeSegmentedControl" destination="nmL-bL-30D" id="Ucj-ZL-nWp"/>
                 <outlet property="miniGameBoardImageView" destination="fdN-ut-uvm" id="cyv-hh-MsU"/>
                 <outlet property="numTilesSlider" destination="QXI-Pk-IeW" id="TBK-Et-KgY"/>
                 <outlet property="pictureSelectionCollectionView" destination="3bF-Ug-L7d" id="cGq-hS-lLc"/>
@@ -63,23 +62,6 @@
                             <fontDescription key="fontDescription" type="system" pointSize="23"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="nmL-bL-30D">
-                            <rect key="frame" x="125" y="294" width="451" height="29"/>
-                            <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            <segments>
-                                <segment title="Numbers"/>
-                                <segment title="Picture"/>
-                            </segments>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="gameModeChanged:" destination="-1" eventType="valueChanged" id="ppX-HN-Noq"/>
-                            </connections>
-                        </segmentedControl>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tile Mode:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MbW-LA-1qD">
-                            <rect key="frame" x="8" y="295" width="97" height="26"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Difficulty:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wqi-bI-EKT">
                             <rect key="frame" x="8" y="147" width="93" height="28"/>
                             <fontDescription key="fontDescription" type="system" pointSize="23"/>
@@ -117,7 +99,6 @@
                         <constraint firstItem="iCd-aP-2PR" firstAttribute="leading" secondItem="zKd-k4-rGq" secondAttribute="leading" constant="8" id="Lte-d5-BHe"/>
                         <constraint firstAttribute="centerX" secondItem="fdN-ut-uvm" secondAttribute="centerX" id="Rqm-q1-wtb"/>
                         <constraint firstAttribute="centerY" secondItem="Wqi-bI-EKT" secondAttribute="centerY" id="X6q-ty-VVe"/>
-                        <constraint firstItem="nmL-bL-30D" firstAttribute="centerY" secondItem="MbW-LA-1qD" secondAttribute="centerY" id="YdG-hh-EVE"/>
                         <constraint firstItem="QXI-Pk-IeW" firstAttribute="trailing" secondItem="GU7-la-6aZ" secondAttribute="trailing" id="e0d-MC-ktc"/>
                         <constraint firstAttribute="centerY" secondItem="fdN-ut-uvm" secondAttribute="centerY" id="fWb-Ae-hie"/>
                         <constraint firstItem="Wqi-bI-EKT" firstAttribute="centerY" secondItem="GU7-la-6aZ" secondAttribute="centerY" id="fgr-A8-0sW"/>
@@ -125,12 +106,8 @@
                         <constraint firstAttribute="centerY" secondItem="Wqi-bI-EKT" secondAttribute="centerY" id="hZw-cA-6iH"/>
                         <constraint firstItem="QXI-Pk-IeW" firstAttribute="centerY" secondItem="iCd-aP-2PR" secondAttribute="centerY" id="ha3-pW-GtK"/>
                         <constraint firstItem="QXI-Pk-IeW" firstAttribute="leading" secondItem="iCd-aP-2PR" secondAttribute="trailing" constant="20" id="jfJ-o0-8Ka"/>
-                        <constraint firstItem="QXI-Pk-IeW" firstAttribute="leading" secondItem="nmL-bL-30D" secondAttribute="leading" id="jox-rK-S0g"/>
                         <constraint firstItem="Wqi-bI-EKT" firstAttribute="leading" secondItem="zKd-k4-rGq" secondAttribute="leading" constant="8" id="ln2-Wn-ynQ"/>
                         <constraint firstAttribute="height" secondItem="zKd-k4-rGq" secondAttribute="width" multiplier="0.55" id="pGI-JA-6HW"/>
-                        <constraint firstItem="QXI-Pk-IeW" firstAttribute="trailing" secondItem="nmL-bL-30D" secondAttribute="trailing" id="pnN-bh-57u"/>
-                        <constraint firstItem="MbW-LA-1qD" firstAttribute="leading" secondItem="zKd-k4-rGq" secondAttribute="leading" constant="8" id="rZe-mb-1SE"/>
-                        <constraint firstAttribute="bottom" secondItem="MbW-LA-1qD" secondAttribute="bottom" id="xJh-7z-A0q"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
@@ -138,7 +115,7 @@
                         </mask>
                     </variation>
                 </view>
-                <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="3bF-Ug-L7d">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="3bF-Ug-L7d">
                     <rect key="frame" x="8" y="486" width="584" height="64"/>
                     <color key="backgroundColor" red="0.75675843253968256" green="0.75675843253968256" blue="0.75675843253968256" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>

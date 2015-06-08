@@ -13,12 +13,10 @@
 @interface ASSlidingPuzzleGameViewController : UIViewController
 
 @property (strong, nonatomic, readonly) ASSlidingPuzzleGame *puzzleGame;
-@property (nonatomic, readonly) GameMode mode;
 @property (strong, nonatomic, readonly) NSString *imageName;
 @property (strong, nonatomic, readonly) NSArray *availableImageNames;
 
 -(void)setupNewGameWithNumTiles:(int)numTiles
                   andDifficulty:(Difficulty)difficulty
-                        andMode:(GameMode)mode
                  withImageNamed:(NSString *)imageName;
 @end

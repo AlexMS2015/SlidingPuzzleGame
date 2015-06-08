@@ -23,7 +23,6 @@
 // other
 @property (nonatomic) int newNumTiles;
 @property (nonatomic) Difficulty newDifficulty;
-@property (nonatomic) GameMode newMode;
 @property (strong, nonatomic) NSString *gameImageName;
 
 @property (strong, nonatomic) ASGameBoardViewSupporter *miniGameBoard;
@@ -86,14 +85,7 @@
     
     self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.numberOfTiles;
     self.difficultySegmentedControl.selectedSegmentIndex = self.gameVCForSettings.puzzleGame.difficulty;
-    self.gameModeSegmentedControl.selectedSegmentIndex = self.gameVCForSettings.mode;
     self.gameImageName = self.gameVCForSettings.imageName;
-    
-    if (self.gameVCForSettings.mode == PICTUREMODE) {
-        self.pictureSelectionCollectionView.hidden = NO;
-    } else {
-        self.pictureSelectionCollectionView.hidden = YES;
-    }
     
     [self setupMiniBoardWithNumTiles:self.gameVCForSettings.puzzleGame.numberOfTiles];
 }
@@ -148,13 +140,11 @@
 {
     int initialNumTiles = self.gameVCForSettings.puzzleGame.numberOfTiles;
     Difficulty initialDifficulty = self.gameVCForSettings.puzzleGame.difficulty;
-    GameMode initialMode = self.gameVCForSettings.mode;
     NSString *initialImageName = self.gameVCForSettings.imageName;
 
-    if (self.newNumTiles != initialNumTiles || self.newDifficulty != initialDifficulty || self.newMode != initialMode || self.gameImageName != initialImageName) {
+    if (self.newNumTiles != initialNumTiles || self.newDifficulty != initialDifficulty || self.gameImageName != initialImageName) {
         [self.gameVCForSettings setupNewGameWithNumTiles:self.newNumTiles
                                            andDifficulty:self.newDifficulty
-                                                 andMode:self.newMode
                                           withImageNamed:self.gameImageName];
     }
     
@@ -171,15 +161,6 @@
     
     self.numTilesSlider.value = numTilesAdjusted;
     [self setupMiniBoardWithNumTiles:numTilesAdjusted];
-}
-
-- (IBAction)gameModeChanged:(UISegmentedControl *)sender
-{
-    if (self.newMode == PICTUREMODE) {
-        self.pictureSelectionCollectionView.hidden = NO;
-    } else if (self.newMode == NUMBERMODE) {
-        self.pictureSelectionCollectionView.hidden = YES;
-    }
 }
 
 #pragma mark - Properties
@@ -206,17 +187,6 @@
         return HARD;
     } else {
         return self.gameVCForSettings.puzzleGame.difficulty;
-    }
-}
-
--(GameMode)newMode
-{
-    if (self.gameModeSegmentedControl.selectedSegmentIndex == 0) {
-        return NUMBERMODE;
-    } else if (self.gameModeSegmentedControl.selectedSegmentIndex == 1) {
-        return PICTUREMODE;
-    } else {
-        return self.gameVCForSettings.mode;
     }
 }
 

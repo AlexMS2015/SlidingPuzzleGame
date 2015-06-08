@@ -28,7 +28,6 @@
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic, readwrite) NSString *imageName;
-@property (nonatomic, readwrite) GameMode mode;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
 @property (nonatomic) int numMoves;
 //@property (strong, nonatomic) NSTimer *countdownTimer;
@@ -102,7 +101,6 @@
 
 #define NUM_TILES_DEFAULT 16
 #define DIFFICULTY_DEFAULT HARD
-#define GAME_MODE_DEFAULT PICTUREMODE
 -(void)viewDidLayoutSubviews
 {
     // Why is this called multiple times?
@@ -115,7 +113,6 @@
     if (!self.puzzleGame) {
         [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
                          andDifficulty:DIFFICULTY_DEFAULT
-                               andMode:GAME_MODE_DEFAULT
                         withImageNamed:[self.availableImageNames firstObject]];
     }
 }
@@ -148,7 +145,6 @@
 
 -(void)setupNewGameWithNumTiles:(int)numTiles
                   andDifficulty:(Difficulty)difficulty
-                        andMode:(GameMode)mode
                  withImageNamed:(NSString *)imageName;
 {
     self.countdown = 3;
@@ -174,7 +170,6 @@
     // the puzzle board will object will determine where on screen the tiles are located
     self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size withRows:sqrt(numTiles) andColumns:sqrt(numTiles)];
     
-    self.mode = mode;
     NSArray *tileImages = [self tileImagesWithImageNamed:imageName]; // only want to do this once rather than run the method for every single tile!
     
     int tileCount = 0;
@@ -190,10 +185,7 @@
                 tile.rowInABoard = row;
                 tile.columnInABoard = col;
                 tile.tileValue = tileValue;
-                
-                if (self.mode == PICTUREMODE) {
-                    tile.tileImage = [tileImages objectAtIndex:tileCount];
-                }
+                tile.tileImage = [tileImages objectAtIndex:tileCount];
                 
                 UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
                 [tile addGestureRecognizer:tileTap];
@@ -259,7 +251,6 @@
         if (buttonIndex != alertView.cancelButtonIndex) {
             [self setupNewGameWithNumTiles:self.puzzleGame.numberOfTiles
                              andDifficulty:self.puzzleGame.difficulty
-                                   andMode:self.mode
                             withImageNamed:self.imageName];
         }
     }
@@ -283,12 +274,10 @@
 
 - (IBAction)picShowHideToggleTouchUpInside:(UIButton *)sender
 {
-    if (self.mode == PICTUREMODE) {
-        if ([self.picShowHideToggle.currentTitle isEqualToString:@"Show Pic"]) {
-            [self toggleFinalPicView:NO];
-        } else {
-            [self toggleFinalPicView:YES];
-        }
+    if ([self.picShowHideToggle.currentTitle isEqualToString:@"Show Pic"]) {
+        [self toggleFinalPicView:NO];
+    } else {
+        [self toggleFinalPicView:YES];
     }
 }
 

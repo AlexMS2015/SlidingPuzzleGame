@@ -15,9 +15,4 @@ typedef enum {
     HARD = 2,
 }Difficulty;
 
-typedef enum {
-    NUMBERMODE = 0,
-    PICTUREMODE = 1
-}GameMode;
-
 #endif
