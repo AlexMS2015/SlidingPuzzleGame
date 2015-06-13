@@ -8,6 +8,7 @@
 
 #import "ASAppDelegate.h"
 #import "ASHomeScreenViewController.h"
+#import "ASSlidingPuzzleGameViewController.h"
 
 @implementation ASAppDelegate
 

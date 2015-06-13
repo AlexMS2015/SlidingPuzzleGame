@@ -7,10 +7,9 @@
 //
 
 #import "ASHomeScreenViewController.h"
-#import "ASGameSelectionTableViewController.h"
-#import "ASHighScoresTableViewController.h"
-#import "ASGameDatabase.h"
-#import "ASGame.h"
+#import "ASHighScoresByDifficultyVC.h"
+#import "ASSlidingPuzzleGameViewController.h"
+#import "ASPreviousGameDatabase.h"
 
 @interface ASHomeScreenViewController ()
 
@@ -58,7 +57,7 @@
                          button.alpha = 0.75;
                      }
                      completion: ^(BOOL finished) {
-                         NSLog(@"springing");
+                         //NSLog(@"springing");
                          [UIView animateWithDuration:1.5
                                                delay:0.0
                               usingSpringWithDamping:0.25
@@ -76,7 +75,7 @@
 {
     [super viewDidAppear:animated];
     
-    self.navigationController.navigationBar.hidden = YES; // Other view controller's that have been presented (e.g. high scores) will have changed this to NO. Need to set it back to YES.
+    self.navigationController.navigationBarHidden = YES; // Other view controller's that have been presented (e.g. high scores) will have changed this to NO. Need to set it back to YES.
     
     for (UIButton *button in self.theHSButtons) {
         [self animateEntranceForButton:button];
@@ -87,25 +86,15 @@
 
 - (IBAction)beginNewGame:(UIButton *)sender
 {
-    ASGameSelectionTableViewController *gameSelectionScreen = [[ASGameSelectionTableViewController alloc] init];
-    [self.navigationController pushViewController:gameSelectionScreen animated:YES];
+    ASSlidingPuzzleGameViewController *spg = [[ASSlidingPuzzleGameViewController alloc] init];
+    [self.navigationController pushViewController:spg animated:YES];
 }
 
 - (IBAction)showHighScores:(UIButton *)sender
 {
-    UITabBarController *highScoresTBC = [[UITabBarController alloc] init];
-    
-    NSMutableArray *highScoreTables = [NSMutableArray array];
-    for (ASGame *game in [[ASGameDatabase sharedGameDatabase] allGames]) {
-        ASHighScoresTableViewController *HSTable = [[ASHighScoresTableViewController alloc] initWithGame:game];
-        [highScoreTables addObject:HSTable];
-    }
-    
-    highScoresTBC.viewControllers = [NSArray arrayWithArray:highScoreTables];
-    
-    [self.navigationController pushViewController:highScoresTBC animated:YES];
-    highScoresTBC.navigationController.navigationBar.hidden = NO;
-    highScoresTBC.navigationItem.title = @"High Scores";
+    ASHighScoresByDifficultyVC *HSTable = [[ASHighScoresByDifficultyVC alloc] init];
+    HSTable.games = [ASPreviousGameDatabase sharedDatabase].games;
+    [self.navigationController pushViewController:HSTable animated:YES];
 }
 
 @end

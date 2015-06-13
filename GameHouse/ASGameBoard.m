@@ -18,6 +18,30 @@
 
 @implementation ASGameBoard
 
+#pragma mark - NSCoding
+
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeInt:self.numberOfRows forKey:@"numberOfRows"];
+    [aCoder encodeInt:self.numberOfColumns forKey:@"numberOfColumns"];
+    [aCoder encodeObject:self.rows forKey:@"rows"];
+}
+
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    
+    if (self) {
+        _numberOfRows = [aDecoder decodeIntForKey:@"numberOfRows"];
+        _numberOfColumns = [aDecoder decodeIntForKey:@"numberOfColumns"];
+        _rows = [aDecoder decodeObjectForKey:@"rows"];
+    }
+    
+    return self;
+}
+
+#pragma mark - Other
+
 -(void)swapObjectAtRow:(int)row
            andColumn:(int)column
      withObjectAtRow:(int)swapRow

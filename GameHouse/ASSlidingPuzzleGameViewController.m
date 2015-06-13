@@ -11,8 +11,7 @@
 #import "ASSlidingPuzzleGame.h"
 #import "ASSlidingTileView.h"
 #import "ASSlidingPuzzleSettingsVC.h"
-
-
+#import "ASPreviousGameDatabase.h"
 
 @interface ASSlidingPuzzleGameViewController () <UIAlertViewDelegate>
 
@@ -29,20 +28,11 @@
 @property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic, readwrite) NSString *imageName;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
-@property (nonatomic) int numMoves;
-//@property (strong, nonatomic) NSTimer *countdownTimer;
-@property (nonatomic) int countdown;
 @end
 
 @implementation ASSlidingPuzzleGameViewController
 
 #pragma mark - Properties
-
--(void)setCountdown:(int)countdown
-{
-    _countdown = countdown;
-    self.countdownLabel.text = [NSString stringWithFormat:@"%d", self.countdown];
-}
 
 -(UIImageView *)picShowImageView
 {
@@ -91,20 +81,14 @@
     return splitUpImages;
 }
 
--(void)setNumMoves:(int)numMoves
-{
-    _numMoves = numMoves;
-    self.numMovesLabel.text = [NSString stringWithFormat:@"%d", _numMoves];
-}
-
 #pragma mark - View Life Cycle
 
 #define NUM_TILES_DEFAULT 16
-#define DIFFICULTY_DEFAULT HARD
+#define DIFFICULTY_DEFAULT EASY
 -(void)viewDidLayoutSubviews
 {
     // Why is this called multiple times?
-    NSLog(@"Layout subviews: %@", NSStringFromCGRect(self.boardContainerView.frame));
+    //NSLog(@"Layout subviews: %@", NSStringFromCGRect(self.boardContainerView.frame));
     
     [super viewDidLayoutSubviews];
     
@@ -117,40 +101,28 @@
     }
 }
 
-// helper method for difficulty display label
--(NSString *)difficultyStringFromDifficulty:(Difficulty)difficulty
-{
-    if (difficulty == EASY) {
-        return @"EASY";
-    } else if (difficulty == MEDIUM) {
-        return @"MEDIUM";
-    } else if (difficulty == HARD) {
-        return @"HARD";
-    }
-    
-    return @"";
-}
-
 -(void)countdownFired:(NSTimer *)timer
 {
-    if (self.countdown > 1) {
-        self.countdown--;
+    int countdown = [self.countdownLabel.text intValue];
+    
+    if (countdown > 1) {
+        self.countdownLabel.text = [NSString stringWithFormat:@"%d", --countdown];
     } else {
         self.countdownLabel.hidden = YES;
+        self.boardContainerView.userInteractionEnabled = YES;
         [self updateUI];
         [timer invalidate];
     }
-    NSLog(@"timer fired");
 }
 
 -(void)setupNewGameWithNumTiles:(int)numTiles
                   andDifficulty:(Difficulty)difficulty
                  withImageNamed:(NSString *)imageName;
 {
-    self.countdown = 3;
+    self.boardContainerView.userInteractionEnabled = NO;
     self.countdownLabel.hidden = NO;
-    self.numMoves = 0;
-    self.difficultyLabel.text = [self difficultyStringFromDifficulty:difficulty];
+    self.countdownLabel.text = @"4";
+    self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
     
     [self toggleFinalPicView:YES];
     [self.picShowImageView removeFromSuperview];
@@ -201,6 +173,7 @@
                                                          selector:@selector(countdownFired:)
                                                          userInfo:nil
                                                           repeats:YES];
+    [countdownTimer fire];
 }
 
 -(void)updateUI
@@ -212,8 +185,6 @@
                                                    andColumn:tileToUpdate.columnInABoard];
         
         if (currentTileValue != newTileValue) {
-            self.numMoves++;
-            
             // find the location of the tile's current displayed value in the model's updated tile board
             int rowToMoveTileTo = [self.puzzleGame rowOfTileWithValue:currentTileValue];
             int columnToMoveTileTo = [self.puzzleGame columnOfTileWithValue:currentTileValue];
@@ -228,6 +199,8 @@
             [tileToUpdate animateToFrame:frameToMoveRectTo];
         }
     }
+    
+    self.numMovesLabel.text = [NSString stringWithFormat:@"%d", self.puzzleGame.numberOfMovesMade];
 }
 
 -(void)checkForSolvedPuzzle
@@ -283,10 +256,9 @@
 
  - (IBAction)exitTouchUpInside:(UIButton *)sender
 {
+    [[ASPreviousGameDatabase sharedDatabase] addGame:self.puzzleGame];
+    [[ASPreviousGameDatabase sharedDatabase] save];
     [self.navigationController popViewControllerAnimated:YES];
-    
-    // SAVE SETTINGS AND GAME HERE
-    
 }
 
 - (IBAction)settingsTouchUpInside:(UIButton *)sender

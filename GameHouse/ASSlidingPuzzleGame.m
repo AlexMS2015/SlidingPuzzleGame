@@ -11,13 +11,58 @@
 
 @interface ASSlidingPuzzleGame ()
 @property (nonatomic, strong) ASGameBoard *board;
-@property (nonatomic, strong) ASGameBoard *solvedPuzzle;
 @property (nonatomic) int rowOfBlankTile;
 @property (nonatomic) int columnOfBlankTile;
 @property (nonatomic, readwrite) BOOL puzzleIsSolved;
+@property (nonatomic, readwrite) Difficulty difficulty;
 @end
 
 @implementation ASSlidingPuzzleGame
+
+#pragma mark - NSCoding
+
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeBool:self.puzzleIsSolved forKey:@"puzzleIsSolved"];
+    [aCoder encodeInt:self.difficulty forKey:@"difficulty"];
+    [aCoder encodeInteger:self.numberOfMovesMade forKey:@"numberOfMovesMade"];
+    [aCoder encodeObject:self.board forKey:@"board"];
+}
+
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    
+    if (self) {
+        _puzzleIsSolved = [aDecoder decodeBoolForKey:@"puzzleIsSolved"];
+        _difficulty = [aDecoder decodeIntForKey:@"difficulty"];
+        _numberOfMovesMade = [aDecoder decodeIntForKey:@"numberOfMovesMade"];
+        _board = [aDecoder decodeObjectForKey:@"board"];
+    }
+    
+    return self;
+}
+
+#pragma mark - Other
+
+-(NSString *)difficultyStringFromDifficulty
+{
+    if (self.difficulty == EASY) {
+        return @"EASY";
+    } else if (self.difficulty == MEDIUM) {
+        return @"MEDIUM";
+    } else if (self.difficulty == HARD) {
+        return @"HARD";
+    }
+    
+    return @"";
+}
+
+-(NSString *)boardSizeStringFromNumTiles
+{
+    int numRowsAndCols = sqrt(self.numberOfTiles);
+    return [NSString stringWithFormat:@"%dx%d", numRowsAndCols, numRowsAndCols];
+}
 
 -(void)selectTileAtRow:(int)row andColumn:(int)column
 {
@@ -47,6 +92,7 @@
                               andColumn:column
                         withObjectAtRow:self.rowOfBlankTile
                               andColumn:self.columnOfBlankTile];
+            self.numberOfMovesMade++;
             NSLog(@"%@", [self description]);
         }
     }
@@ -60,7 +106,7 @@
         }
         printf("\n");
     }
-    
+
     return nil;
 }
 
@@ -136,7 +182,7 @@
 
 -(int)numberOfTiles
 {
-    return self.board.numberOfRows * self.board.numberOfRows;
+    return self.board.numberOfRows * self.board.numberOfColumns;
 }
 
 -(BOOL)puzzleIsSolved
@@ -169,13 +215,10 @@
         int rows = sqrt(tiles);
         int columns = sqrt(tiles);
         self.board = [[ASGameBoard alloc] initWithRows:rows andColumns:columns];
-        self.solvedPuzzle = [[ASGameBoard alloc] initWithRows:rows andColumns:columns];
+        self.difficulty = difficulty;
         
         __block NSMutableArray *orderedTilesForGame = [self orderedArrayOfTilesWithNumTiles:self.numberOfTiles];
-        //__block NSMutableArray *orderTilesForSolvedGame = [[NSArray arrayWithArray:orderedTilesForGame] mutableCopy];
-        
-        __block NSMutableArray *orderedTilesForSolvedGame = [self orderedArrayOfTilesWithNumTiles:self.numberOfTiles];
-
+    
 #ifndef SOLVED_PUZZLE_TEST
         [self performBlockOnTiles:^(int currentTileCount, int currentRow, int currentCol)
          {
@@ -185,10 +228,6 @@
                 NSNumber *randomTile = [orderedTilesForGame objectAtIndex:randomTileNum];
                 [self.board setObject:randomTile inRow:currentRow andColumn:currentCol];
                 [orderedTilesForGame removeObjectAtIndex:randomTileNum];
-                 
-                 NSNumber *nextTile = [orderedTilesForSolvedGame objectAtIndex:currentTileCount-1];
-                 [self.solvedPuzzle setObject:nextTile inRow:currentRow andColumn:currentCol];
-             //}
          }];
 #endif
             

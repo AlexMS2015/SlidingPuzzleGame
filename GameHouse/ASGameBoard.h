@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ASGameBoard : NSObject
+@interface ASGameBoard : NSObject <NSCoding>
 
 @property (nonatomic, readonly) int numberOfRows;
 @property (nonatomic, readonly) int numberOfColumns;

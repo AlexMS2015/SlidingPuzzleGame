@@ -8,7 +8,6 @@
 
 #import "ASSlidingPuzzleSettingsVC.h"
 #import "Enums.h"
-#import "ASPictureSelectionScreenVC.h"
 #import "ASGameBoardViewSupporter.h"
 
 @interface ASSlidingPuzzleSettingsVC () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
@@ -121,8 +120,6 @@
             tileLabel.layer.borderWidth = 0.5;
             
             [self.miniGameBoardImageView addSubview:tileLabel];
-            
-            
             
             tileCount++;
         }
