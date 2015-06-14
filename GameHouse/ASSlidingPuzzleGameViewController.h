@@ -19,4 +19,5 @@
 -(void)setupNewGameWithNumTiles:(int)numTiles
                   andDifficulty:(Difficulty)difficulty
                  withImageNamed:(NSString *)imageName;
+
 @end

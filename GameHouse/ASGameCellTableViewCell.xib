@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="88" id="KGk-i7-Jjw" customClass="ASGameCellTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="369" height="88"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kl4-gT-plY">
+                        <rect key="frame" x="8" y="8" width="353" height="71"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25 moves" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJZ-yT-RWX">
+                                <rect key="frame" x="123" y="8" width="107" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1min 30sec" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BS0-xq-WKo">
+                                <rect key="frame" x="132" y="42" width="89" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K0S-3H-Jwf">
+                                <rect key="frame" x="0.0" y="0.0" width="71" height="71"/>
+                                <color key="backgroundColor" red="0.0" green="0.20226735762799453" blue="0.42518187830687826" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="K0S-3H-Jwf" secondAttribute="height" id="IUl-ij-EP7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="47"/>
+                                <color key="textColor" red="0.93328373019999999" green="0.93328373019999999" blue="0.93328373019999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kTt-1B-htd">
+                                <rect key="frame" x="282" y="0.0" width="71" height="71"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="kTt-1B-htd" secondAttribute="height" id="nd9-8z-CNr"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.61396810950000003" green="0.95007391060000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="VJZ-yT-RWX" firstAttribute="top" secondItem="kl4-gT-plY" secondAttribute="top" constant="8" id="Guy-dE-GV6"/>
+                            <constraint firstAttribute="bottom" secondItem="K0S-3H-Jwf" secondAttribute="bottom" id="IZs-t3-eJS"/>
+                            <constraint firstItem="K0S-3H-Jwf" firstAttribute="leading" secondItem="kl4-gT-plY" secondAttribute="leading" id="LtB-Fc-4J3"/>
+                            <constraint firstAttribute="bottom" secondItem="BS0-xq-WKo" secondAttribute="bottom" constant="8" id="OIB-pm-zNd"/>
+                            <constraint firstAttribute="bottom" secondItem="kTt-1B-htd" secondAttribute="bottom" id="RfS-Sq-dLg"/>
+                            <constraint firstItem="K0S-3H-Jwf" firstAttribute="top" secondItem="kl4-gT-plY" secondAttribute="top" id="U5W-pv-hm6"/>
+                            <constraint firstAttribute="trailing" secondItem="kTt-1B-htd" secondAttribute="trailing" id="cG4-Yk-kJe"/>
+                            <constraint firstItem="kTt-1B-htd" firstAttribute="top" secondItem="kl4-gT-plY" secondAttribute="top" id="kUw-M5-QHr"/>
+                            <constraint firstAttribute="centerX" secondItem="BS0-xq-WKo" secondAttribute="centerX" id="rO7-ZL-8du"/>
+                            <constraint firstAttribute="centerX" secondItem="VJZ-yT-RWX" secondAttribute="centerX" id="yca-1D-eAy"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" red="0.40000000000000002" green="0.80000000000000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstItem="kl4-gT-plY" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="0xp-nH-BEQ"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="kl4-gT-plY" secondAttribute="trailing" id="1y2-f8-QSV"/>
+                    <constraint firstItem="kl4-gT-plY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="QDo-4W-UDf"/>
+                    <constraint firstItem="kl4-gT-plY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="QxZ-H0-sBx"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="image" destination="kTt-1B-htd" id="7OQ-b8-kP3"/>
+                <outlet property="mainLabel" destination="VJZ-yT-RWX" id="Jgx-2r-TLE"/>
+                <outlet property="rankLabel" destination="K0S-3H-Jwf" id="DOx-gP-thw"/>
+                <outlet property="subLabel" destination="BS0-xq-WKo" id="nhY-Jj-F1L"/>
+            </connections>
+            <point key="canvasLocation" x="334.5" y="180"/>
+        </tableViewCell>
+    </objects>
+</document>

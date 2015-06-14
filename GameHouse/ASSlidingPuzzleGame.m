@@ -8,6 +8,7 @@
 
 #import "ASSlidingPuzzleGame.h"
 #import "ASGameBoard.h"
+#import "ASPreviousGameDatabase.h"
 
 @interface ASSlidingPuzzleGame ()
 @property (nonatomic, strong) ASGameBoard *board;
@@ -17,9 +18,33 @@
 @property (nonatomic, readwrite) Difficulty difficulty;
 @end
 
+/*typedef enum {
+    UP = 0,
+    DOWN = 1,
+    LEFT = 2,
+    RIGHT = 3
+}RelativeTilePosition;*/
+
 @implementation ASSlidingPuzzleGame
 
 #pragma mark - NSCoding
+
+/*-(RelativeTilePosition)randomTileAdjacentToBlankTileNotEqualTo:(RelativeTilePosition)position
+{
+    int rowOfBlank = [self rowOfBlankTile];
+    int colOfBlank = [self columnOfBlankTile];
+    
+    RelativeTilePosition randomPosition = position;
+    
+    while (randomPosition == position || ) {
+        <#statements#>
+    }
+    randomPosition = arc4random() % 4;
+    
+    if (randomPosition == position) {
+        <#statements#>
+    }
+}*/
 
 -(void)encodeWithCoder:(NSCoder *)aCoder
 {
@@ -27,6 +52,7 @@
     [aCoder encodeInt:self.difficulty forKey:@"difficulty"];
     [aCoder encodeInteger:self.numberOfMovesMade forKey:@"numberOfMovesMade"];
     [aCoder encodeObject:self.board forKey:@"board"];
+    [aCoder encodeObject:self.imageName forKey:@"imageName"];
 }
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -38,12 +64,18 @@
         _difficulty = [aDecoder decodeIntForKey:@"difficulty"];
         _numberOfMovesMade = [aDecoder decodeIntForKey:@"numberOfMovesMade"];
         _board = [aDecoder decodeObjectForKey:@"board"];
+        _imageName = [aDecoder decodeObjectForKey:@"imageName"];
     }
     
     return self;
 }
 
 #pragma mark - Other
+
+-(void)save
+{
+    [[ASPreviousGameDatabase sharedDatabase] addGameAndSave:self];
+}
 
 -(NSString *)difficultyStringFromDifficulty
 {

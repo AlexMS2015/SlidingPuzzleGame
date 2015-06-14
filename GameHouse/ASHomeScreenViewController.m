@@ -92,6 +92,8 @@
 
 - (IBAction)showHighScores:(UIButton *)sender
 {
+    self.navigationController.navigationBarHidden = NO;
+    
     ASHighScoresByDifficultyVC *HSTable = [[ASHighScoresByDifficultyVC alloc] init];
     HSTable.games = [ASPreviousGameDatabase sharedDatabase].games;
     [self.navigationController pushViewController:HSTable animated:YES];

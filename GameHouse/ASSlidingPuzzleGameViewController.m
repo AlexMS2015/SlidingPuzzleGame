@@ -138,6 +138,7 @@
     // setup the model
     self.puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:numTiles
                                                            andDifficulty:difficulty];
+    self.puzzleGame.imageName = imageName;
     
     // the puzzle board will object will determine where on screen the tiles are located
     self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size withRows:sqrt(numTiles) andColumns:sqrt(numTiles)];
@@ -229,6 +230,9 @@
     }
 }
 
+#pragma mark - Helpers / Other
+
+
 #pragma mark - Actions
 
 // helper
@@ -256,8 +260,7 @@
 
  - (IBAction)exitTouchUpInside:(UIButton *)sender
 {
-    [[ASPreviousGameDatabase sharedDatabase] addGame:self.puzzleGame];
-    [[ASPreviousGameDatabase sharedDatabase] save];
+    [self.puzzleGame save];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

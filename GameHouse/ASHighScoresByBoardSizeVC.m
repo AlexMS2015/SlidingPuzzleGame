@@ -8,12 +8,22 @@
 
 #import "ASHighScoresByBoardSizeVC.h"
 #import "ASSlidingPuzzleGame.h"
+#import "ASGamesListTVC.h"
 
 @interface ASHighScoresByBoardSizeVC ()
 
 @end
 
 @implementation ASHighScoresByBoardSizeVC
+
+#pragma mark - UITableViewDelegate
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ASGamesListTVC *gamesList = [[ASGamesListTVC alloc] init];
+    gamesList.games = [self gamesForRow:(int)indexPath.row];
+    [self.navigationController pushViewController:gamesList animated:YES];
+}
 
 #pragma mark - Concrete Implementation of Abstract Methods
 

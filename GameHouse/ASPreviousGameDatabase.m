@@ -64,9 +64,10 @@
     return [NSKeyedArchiver archiveRootObject:self.gamesPrivate toFile:path];
 }
 
--(void)addGame:(ASGame *)game 
+-(void)addGameAndSave:(ASGame *)game
 {
     [self.gamesPrivate addObject:game];
+    [self save];
 }
 
 #pragma mark - Properties

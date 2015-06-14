@@ -14,7 +14,6 @@
 @property (strong, nonatomic) NSArray *games;
 
 +(instancetype)sharedDatabase; // singleton
--(void)addGame:(ASGame *)game;
--(BOOL)save;
+-(void)addGameAndSave:(ASGame *)game;
 
 @end

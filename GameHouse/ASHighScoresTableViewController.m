@@ -9,7 +9,7 @@
 #import "ASHighScoresTableViewController.h"
 #import "ASPreviousGameDatabase.h"
 #import "ASSlidingPuzzleGame.h"
-#import "ASTableViewCell.h"
+#import "ASGameCellTableViewCell.h"
 #import "Enums.h"
 
 @interface ASHighScoresTableViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -20,7 +20,7 @@
 
 @implementation ASHighScoresTableViewController
 
-#define CELL_IDENTIFIER @"UITableViewCell"
+#define CELL_IDENTIFIER @"ASGameCellTableViewCell"
 
 #pragma mark - Abstract Method
 
@@ -44,6 +44,12 @@
     return nil;
 }
 
+#pragma mark - UITableViewDelegate
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [ASGameCellTableViewCell cellHeight];
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -64,12 +70,14 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER
+    ASGameCellTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER
                                                                  forIndexPath:indexPath];
     
     NSString *pivotString = [self.highScores allKeys][indexPath.row];
-    cell.textLabel.text = [self cellTextWithPivotString:pivotString];
-    cell.detailTextLabel.text = [self cellSubtitleTextWithNumGames:(int)[self.highScores[pivotString] count]];
+    cell.mainLabel.text = [self cellTextWithPivotString:pivotString];
+    cell.subLabel.text = [self cellSubtitleTextWithNumGames:(int)[self.highScores[pivotString] count]];
+    cell.rankLabel.hidden = YES;
+    cell.image.hidden = YES;
     
     return cell;
 }
@@ -103,7 +111,12 @@
 {
     [super viewDidLoad];
     
-    [self.tableView registerClass:[ASTableViewCell class] forCellReuseIdentifier:CELL_IDENTIFIER];
+    //self.tableView.backgroundColor = [UIColor colorWithRed:102 green:204 blue:255 alpha:1.0];
+    self.title = @"High Scores";
+    
+    //[self.tableView registerClass:[ASTableViewCell class] forCellReuseIdentifier:CELL_IDENTIFIER];
+    UINib *nib = [UINib nibWithNibName:CELL_IDENTIFIER bundle:nil];
+    [self.tableView registerNib:nib forCellReuseIdentifier:CELL_IDENTIFIER];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;

@@ -9,6 +9,7 @@
 #import "ASAppDelegate.h"
 #import "ASHomeScreenViewController.h"
 #import "ASSlidingPuzzleGameViewController.h"
+#import "ASPuzzleGame.h"
 
 @implementation ASAppDelegate
 
@@ -21,6 +22,8 @@
     
     UINavigationController *appNC = [[UINavigationController alloc] initWithRootViewController:homeScreen];
     self.window.rootViewController = appNC;
+    
+    ASPuzzleGame *game = [[ASPuzzleGame alloc] initWithNumberOfTiles:16 andDifficulty:EASY];
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
