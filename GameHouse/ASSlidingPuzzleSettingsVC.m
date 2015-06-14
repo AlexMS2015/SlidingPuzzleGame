@@ -7,7 +7,6 @@
 //
 
 #import "ASSlidingPuzzleSettingsVC.h"
-#import "Enums.h"
 #import "ASGameBoardViewSupporter.h"
 
 @interface ASSlidingPuzzleSettingsVC () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
@@ -15,7 +14,6 @@
 // outlets
 @property (weak, nonatomic) IBOutlet UISlider *numTilesSlider;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *difficultySegmentedControl;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UICollectionView *pictureSelectionCollectionView;
 @property (weak, nonatomic) IBOutlet UIImageView *miniGameBoardImageView;
 

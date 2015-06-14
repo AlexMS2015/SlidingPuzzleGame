@@ -7,8 +7,7 @@
 //
 
 #import "ASPreviousGameDatabase.h"
-#import "ASGame.h"
-
+#import "ASPuzzleGame.h"
 @interface ASPreviousGameDatabase ()
 @property (strong, nonatomic) NSMutableArray *gamesPrivate;
 @end
@@ -64,7 +63,7 @@
     return [NSKeyedArchiver archiveRootObject:self.gamesPrivate toFile:path];
 }
 
--(void)addGameAndSave:(ASGame *)game
+-(void)addGameAndSave:(ASPuzzleGame *)game
 {
     [self.gamesPrivate addObject:game];
     [self save];

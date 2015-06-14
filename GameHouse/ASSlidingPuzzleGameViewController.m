@@ -8,7 +8,7 @@
 
 #import "ASSlidingPuzzleGameViewController.h"
 #import "ASGameBoardViewSupporter.h"
-#import "ASSlidingPuzzleGame.h"
+#import "ASPuzzleGame.h"
 #import "ASSlidingTileView.h"
 #import "ASSlidingPuzzleSettingsVC.h"
 #import "ASPreviousGameDatabase.h"
@@ -25,7 +25,8 @@
 
 // other
 @property (strong, nonatomic) UIImageView *picShowImageView;
-@property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
+//@property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
+@property (strong, nonatomic, readwrite) ASPuzzleGame *puzzleGame;
 @property (strong, nonatomic, readwrite) NSString *imageName;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
 @end
@@ -122,7 +123,6 @@
     self.boardContainerView.userInteractionEnabled = NO;
     self.countdownLabel.hidden = NO;
     self.countdownLabel.text = @"4";
-    self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
     
     [self toggleFinalPicView:YES];
     [self.picShowImageView removeFromSuperview];
@@ -136,36 +136,36 @@
     }
     
     // setup the model
-    self.puzzleGame = [[ASSlidingPuzzleGame alloc] initWithNumberOfTiles:numTiles
-                                                           andDifficulty:difficulty];
-    self.puzzleGame.imageName = imageName;
+    self.puzzleGame = [[ASPuzzleGame alloc] initWithNumberOfTiles:numTiles
+                                                           andDifficulty:difficulty
+                                                    andImageNamed:imageName];
+    self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
     
     // the puzzle board will object will determine where on screen the tiles are located
     self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size withRows:sqrt(numTiles) andColumns:sqrt(numTiles)];
     
     NSArray *tileImages = [self tileImagesWithImageNamed:imageName]; // only want to do this once rather than run the method for every single tile!
     
-    int tileCount = 0;
+    // display the tiles in their initial positions
+    int tileValue = 1;
     for (int row = 0; row < sqrt(numTiles); row++) {
         for (int col = 0; col < sqrt(numTiles); col++) {
             
-            int tileValue = tileCount + 1; // there is no 0 tile
-            
-            if (tileValue < self.puzzleGame.numberOfTiles) {
+            if (tileValue < self.puzzleGame.numberOfTiles && tileValue != 0) {
                 CGRect solvedTileFrame = [self.puzzleBoard frameOfCellAtRow:row inColumn:col];
                 ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:solvedTileFrame];
                 
                 tile.rowInABoard = row;
                 tile.columnInABoard = col;
                 tile.tileValue = tileValue;
-                tile.tileImage = [tileImages objectAtIndex:tileCount];
+                tile.tileImage = [tileImages objectAtIndex:tileValue-1];
                 
                 UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
                 [tile addGestureRecognizer:tileTap];
                 
                 [self.boardContainerView addSubview:tile];
             }
-            tileCount++;
+            tileValue++;
         }
     }
     
@@ -180,6 +180,7 @@
 -(void)updateUI
 {
     // the game model has been updated but the UI has not... hence need to find which tiles have moved and to where
+    
     for (ASSlidingTileView *tileToUpdate in self.boardContainerView.subviews) {
         int currentTileValue = tileToUpdate.tileValue;
         int newTileValue = [self.puzzleGame valueOfTileAtRow:tileToUpdate.rowInABoard
@@ -292,6 +293,7 @@
         // update the model and UI
         [self.puzzleGame selectTileAtRow:selectedTile.rowInABoard
                                andColumn:selectedTile.columnInABoard];
+        //[self.puzzleGame selectTileWithValue:selectedTile.tileValue];
         [self updateUI];
         [self checkForSolvedPuzzle];
     }

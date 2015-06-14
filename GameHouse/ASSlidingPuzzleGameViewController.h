@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ASSlidingPuzzleGame.h"
-#import "Enums.h"
+#import "ASPuzzleGame.h"
 
 @interface ASSlidingPuzzleGameViewController : UIViewController
 
-@property (strong, nonatomic, readonly) ASSlidingPuzzleGame *puzzleGame;
+//@property (strong, nonatomic, readonly) ASSlidingPuzzleGame *puzzleGame;
+@property (strong, nonatomic, readonly) ASPuzzleGame *puzzleGame;
+
 @property (strong, nonatomic, readonly) NSString *imageName;
 @property (strong, nonatomic, readonly) NSArray *availableImageNames;
 

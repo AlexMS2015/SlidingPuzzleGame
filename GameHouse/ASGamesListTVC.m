@@ -8,7 +8,7 @@
 
 #import "ASGamesListTVC.h"
 #import "ASGameCellTableViewCell.h"
-#import "ASSlidingPuzzleGame.h"
+#import "ASPuzzleGame.h"
 
 @interface ASGamesListTVC () <UITableViewDataSource, UITableViewDelegate>
 
@@ -42,8 +42,8 @@
     ASGameCellTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER
                                                                  forIndexPath:indexPath];
     
-    ASSlidingPuzzleGame *spg = self.games[indexPath.row];
-    cell.rankLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.games indexOfObject:spg]];
+    ASPuzzleGame *spg = self.games[indexPath.row];
+    cell.rankLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.games indexOfObject:spg] + 1];
     cell.image.image = [UIImage imageNamed:spg.imageName];
     cell.mainLabel.text = [NSString stringWithFormat:@"%lu moves", (unsigned long)spg.numberOfMovesMade];
     
@@ -69,8 +69,8 @@
 -(void)transformData
 {
     NSArray *sortedGames = [self.games sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        ASSlidingPuzzleGame *spg1 = (ASSlidingPuzzleGame *)obj1;
-        ASSlidingPuzzleGame *spg2 = (ASSlidingPuzzleGame *)obj2;
+        ASPuzzleGame *spg1 = (ASPuzzleGame *)obj1;
+        ASPuzzleGame *spg2 = (ASPuzzleGame *)obj2;
         if (spg1.numberOfMovesMade > spg2.numberOfMovesMade) {
             return NSOrderedDescending;
         } else if (spg1.numberOfMovesMade < spg2.numberOfMovesMade) {

@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Enums.h"
+
+typedef enum {
+    EASY = 0,
+    MEDIUM = 1,
+    HARD = 2,
+}Difficulty;
 
 @interface ASPuzzleGame : NSObject
 
@@ -17,13 +22,14 @@
 @property (nonatomic) int numberOfMovesMade;
 @property (nonatomic) NSString *imageName;
 
--(instancetype)initWithNumberOfTiles:(int)numTiles andDifficulty:(Difficulty)difficulty; // half done
--(int)valueOfTileAtRow:(int)row andColumn:(int)column; // done
--(void)selectTileAtRow:(int)row andColumn:(int)column;
--(int)rowOfTileWithValue:(int)value; // done
--(int)columnOfTileWithValue:(int)value; // done
+-(instancetype)initWithNumberOfTiles:(int)numTiles
+                       andDifficulty:(Difficulty)difficulty
+                       andImageNamed:(NSString *)imageName;
+-(int)valueOfTileAtRow:(int)row andColumn:(int)column;
+-(void)selectTileAtRow:(int)rowOfSelectedTile andColumn:(int)colOfSelectedTile;
+-(int)rowOfTileWithValue:(int)value;
+-(int)columnOfTileWithValue:(int)value;
 -(NSString *)difficultyStringFromDifficulty;
 -(NSString *)boardSizeStringFromNumTiles;
 -(void)save;
-
 @end

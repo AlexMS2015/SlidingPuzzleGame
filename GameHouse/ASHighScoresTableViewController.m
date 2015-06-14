@@ -8,9 +8,8 @@
 
 #import "ASHighScoresTableViewController.h"
 #import "ASPreviousGameDatabase.h"
-#import "ASSlidingPuzzleGame.h"
+#import "ASPuzzleGame.h"
 #import "ASGameCellTableViewCell.h"
-#import "Enums.h"
 
 @interface ASHighScoresTableViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -24,7 +23,7 @@
 
 #pragma mark - Abstract Method
 
--(NSString *)stringToPivotGame:(ASSlidingPuzzleGame *)game
+-(NSString *)stringToPivotGame:(ASPuzzleGame *)game
 {
     return nil;
 }
@@ -94,7 +93,7 @@
 {
     self.highScores = [NSMutableDictionary dictionary];
     
-    for (ASSlidingPuzzleGame *game in self.games) {
+    for (ASPuzzleGame *game in self.games) {
         NSString *pivotString = [self stringToPivotGame:game];
         
         if (!self.highScores[pivotString]) {

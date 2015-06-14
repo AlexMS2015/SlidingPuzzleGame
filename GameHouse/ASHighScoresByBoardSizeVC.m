@@ -7,7 +7,7 @@
 //
 
 #import "ASHighScoresByBoardSizeVC.h"
-#import "ASSlidingPuzzleGame.h"
+#import "ASPuzzleGame.h"
 #import "ASGamesListTVC.h"
 
 @interface ASHighScoresByBoardSizeVC ()
@@ -27,7 +27,7 @@
 
 #pragma mark - Concrete Implementation of Abstract Methods
 
--(NSString *)stringToPivotGame:(ASSlidingPuzzleGame *)game
+-(NSString *)stringToPivotGame:(ASPuzzleGame *)game
 {
     return [game boardSizeStringFromNumTiles];
 }

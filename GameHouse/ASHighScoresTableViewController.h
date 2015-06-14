@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class ASSlidingPuzzleGame;
+@class ASPuzzleGame;
 
 @interface ASHighScoresTableViewController : UITableViewController
 
@@ -16,7 +16,7 @@
 -(NSArray *)gamesForRow:(int)row;
 
 // abstract methods
--(NSString *)stringToPivotGame:(ASSlidingPuzzleGame *)game;
+-(NSString *)stringToPivotGame:(ASPuzzleGame *)game;
 -(NSString *)cellTextWithPivotString:(NSString *)pivotString;
 -(NSString *)cellSubtitleTextWithNumGames:(int)numGames;
 -(NSString *)headerForTable;

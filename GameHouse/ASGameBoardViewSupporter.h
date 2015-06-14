@@ -11,7 +11,6 @@
 @interface ASGameBoardViewSupporter : NSObject
 
 -(instancetype)initWithSize:(CGSize)size withRows:(int)rows andColumns:(int)columns;
-//- (CGPoint)centerOfCellAtRow:(NSUInteger)row inColumn:(NSUInteger)column;
 -(CGRect)frameOfCellAtRow:(NSUInteger)row inColumn:(NSUInteger)column;
 
 @end

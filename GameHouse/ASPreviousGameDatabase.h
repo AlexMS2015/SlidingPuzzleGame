@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-@class ASGame;
+@class ASPuzzleGame;
 
 @interface ASPreviousGameDatabase : NSObject
 
 @property (strong, nonatomic) NSArray *games;
 
 +(instancetype)sharedDatabase; // singleton
--(void)addGameAndSave:(ASGame *)game;
+-(void)addGameAndSave:(ASPuzzleGame *)game;
 
 @end
