@@ -11,9 +11,6 @@
 
 @interface ASPuzzleGame () <NSCoding>
 
-@property (strong, nonatomic) NSMutableArray *tiles;
-@property (nonatomic) int rowOfBlankTile;
-@property (nonatomic) int columnOfBlankTile;
 @property (nonatomic, readwrite) BOOL puzzleIsSolved;
 @property (nonatomic, readwrite) Difficulty difficulty;
 @end
@@ -28,7 +25,7 @@
     [aCoder encodeInt:self.difficulty forKey:@"difficulty"];
     [aCoder encodeInteger:self.numberOfMovesMade forKey:@"numberOfMovesMade"];
     [aCoder encodeObject:self.imageName forKey:@"imageName"];
-    [aCoder encodeObject:self.tiles forKey:@"tiles"];
+    [aCoder encodeObject:self.board forKey:@"board"];
 }
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -40,36 +37,10 @@
         _difficulty = [aDecoder decodeIntForKey:@"difficulty"];
         _numberOfMovesMade = [aDecoder decodeIntForKey:@"numberOfMovesMade"];
         _imageName = [aDecoder decodeObjectForKey:@"imageName"];
-        _tiles = [aDecoder decodeObjectForKey:@"tiles"];
+        _board = [aDecoder decodeObjectForKey:@"board"];
     }
     
     return self;
-}
-
-#pragma mark - Properties
-
--(int)numberOfTiles
-{
-    return (int)[self.tiles count];
-}
-
--(NSMutableArray *)tiles
-{
-    if (!_tiles) {
-        _tiles = [NSMutableArray array];
-    }
-    
-    return _tiles;
-}
-
--(int)rowOfBlankTile
-{
-    return [self rowOfTileWithValue:0];
-}
-
--(int)columnOfBlankTile
-{
-    return [self columnOfTileWithValue:0];
 }
 
 #pragma mark - Other
@@ -92,24 +63,33 @@
     return @"";
 }
 
--(NSString *)boardSizeStringFromNumTiles
-{
-    int numRowsAndCols = sqrt([self.tiles count]);
-    return [NSString stringWithFormat:@"%dx%d", numRowsAndCols, numRowsAndCols];
-}
-
 -(instancetype)initWithNumberOfTiles:(int)numTiles
                        andDifficulty:(Difficulty)difficulty
-                       andImageNamed:(NSString *)imageName;{
+                       andImageNamed:(NSString *)imageName;
+{
     self = [super init];
     
     if (self) {
-        for (int tileCount = 1; tileCount < numTiles; tileCount++) {
-            NSNumber *tile = [NSNumber numberWithInt:tileCount];
-            [self.tiles addObject:tile];
+        
+        self.board = [[ASPuzzleBoard alloc] initWithNumTiles:numTiles];
+        
+        Position currentPosition;
+        
+        int tileValue = 1;
+        for (int row = 0; row < sqrt(numTiles); row++) {
+            for (int col = 0; col < sqrt(numTiles); col++) {
+                if (tileValue < numTiles) {
+                    currentPosition.row = row;
+                    currentPosition.column = col;
+                    [self.board setTileAtPosition:currentPosition withValue:tileValue];
+                    tileValue++;
+                }
+            }
         }
-        NSNumber *tile = [NSNumber numberWithInt:0];
-        [self.tiles addObject:tile];
+        
+        currentPosition.row = sqrt(numTiles) - 1;
+        currentPosition.column = sqrt(numTiles) - 1;
+        [self.board setTileAtPosition:currentPosition withValue:0];
         
         self.difficulty = difficulty;
         self.imageName = imageName;
@@ -118,98 +98,67 @@
     return self;
 }
 
--(int)rowOfTileAtIndex:(int)index
+-(void)selectTileAtPosition:(Position)position
 {
-    int numRowsInGame = sqrt([self.tiles count]);
-    return index / numRowsInGame;
-}
-
--(int)columnOfTileAtIndex:(int)index
-{
-    int numColumnsInGame = sqrt([self.tiles count]);
-    return index % numColumnsInGame;
-}
-
--(int)rowOfTileWithValue:(int)value
-{
-    __block int rowOfTile;
-    [self.tiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSNumber *tile = (NSNumber *)obj;
-        if ([tile intValue] == value) {
-            rowOfTile = [self rowOfTileAtIndex:(int)idx];
-        }
-    }];
-    
-    return rowOfTile;
-}
-
--(int)columnOfTileWithValue:(int)value
-{
-    __block int colOfTile;
-    [self.tiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSNumber *tile = (NSNumber *)obj;
-        if ([tile intValue] == value) {
-            colOfTile = [self columnOfTileAtIndex:(int)idx];
-        }
-    }];
-    
-    return colOfTile;
-}
-
--(int)indexOfTileAtRow:(int)row andColumn:(int)column
-{
-    return sqrt([self.tiles count]) * row + column;
-}
-
--(int)valueOfTileAtRow:(int)row andColumn:(int)column;
-{
-    int index = [self indexOfTileAtRow:row andColumn:column];
-    NSNumber *tile = self.tiles[index];
-    return [tile intValue];
-}
-
-//-(void)selectTileWithValue:(int)value
--(void)selectTileAtRow:(int)rowOfSelectedTile andColumn:(int)colOfSelectedTile
-{
-    if ([self valueOfTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile] != 0) {
+    if ([self.board valueOfTileAtPosition:position] != 0) {
+        
         // use recursion to make moving multiple tiles possible
-        if (rowOfSelectedTile == self.rowOfBlankTile) {
-            if (colOfSelectedTile < self.columnOfBlankTile) {
-                [self selectTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile + 1];
-            } else if (colOfSelectedTile > self.columnOfBlankTile) {
-                [self selectTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile - 1];
+        Position newPosition = position;
+        if (position.row == self.board.positionOfBlankTile.row) {
+            if (position.column < self.board.positionOfBlankTile.column) {
+                newPosition.column++;
+            } else if (position.column > self.board.positionOfBlankTile.column) {
+                newPosition.column--;
             }
-        } else if (colOfSelectedTile == self.columnOfBlankTile) {
-            if (rowOfSelectedTile < self.rowOfBlankTile) {
-                [self selectTileAtRow:rowOfSelectedTile + 1 andColumn:colOfSelectedTile];
-            } else if (rowOfSelectedTile > self.rowOfBlankTile) {
-                [self selectTileAtRow:rowOfSelectedTile - 1 andColumn:colOfSelectedTile];
+        } else if (position.column == self.board.positionOfBlankTile.column) {
+            if (position.row < self.board.positionOfBlankTile.row) {
+                newPosition.row++;
+            } else if (position.row > self.board.positionOfBlankTile.row) {
+                newPosition.row--;
             }
         }
+        [self selectTileAtPosition:newPosition];
+
         
         // is the selected cell adjacent to the blank tile? swap them if so
-        if (abs(self.rowOfBlankTile - rowOfSelectedTile) <= 1 && abs(self.columnOfBlankTile - colOfSelectedTile) <= 1 &&
-            (self.rowOfBlankTile == rowOfSelectedTile || self.columnOfBlankTile == colOfSelectedTile))
+        if (abs(self.board.positionOfBlankTile.row - position.row) <= 1 && abs(self.board.positionOfBlankTile.column - position.column) <= 1 &&
+            (self.board.positionOfBlankTile.row == position.row || self.board.positionOfBlankTile.column == position.column))
         {
-            [self swapBlankTileWithTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile];
+            [self.board swapBlankTileWithTileAtPosition:position];
             self.numberOfMovesMade++;
             //NSLog(@"%@", [self description]);
         }
     }
 }
 
--(void)swapBlankTileWithTileAtRow:(int)row andColumn:(int)col
+/*
+-(void)selectTileAtRow:(int)rowOfSelectedTile andColumn:(int)colOfSelectedTile
 {
-    int indexOfSelectedTile = [self indexOfTileAtRow:row andColumn:col];
-    int indexOfBlankTile = [self indexOfTileAtRow:self.rowOfBlankTile andColumn:self.columnOfBlankTile];
-    NSNumber *selectedTile = self.tiles[indexOfSelectedTile];
-    NSNumber *blankTile = self.tiles[indexOfBlankTile];
-    
-    // swap the tiles
-    [self.tiles removeObjectAtIndex:indexOfSelectedTile];
-    [self.tiles insertObject:blankTile atIndex:indexOfSelectedTile];
-    [self.tiles removeObjectAtIndex:indexOfBlankTile];
-    [self.tiles insertObject:selectedTile atIndex:indexOfBlankTile];
+    if ([self.board valueOfTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile] != 0) {
+        // use recursion to make moving multiple tiles possible
+        if (rowOfSelectedTile == self.board.rowOfBlankTile) {
+            if (colOfSelectedTile < self.board.columnOfBlankTile) {
+                [self selectTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile + 1];
+            } else if (colOfSelectedTile > self.board.columnOfBlankTile) {
+                [self selectTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile - 1];
+            }
+        } else if (colOfSelectedTile == self.board.columnOfBlankTile) {
+            if (rowOfSelectedTile < self.board.rowOfBlankTile) {
+                [self selectTileAtRow:rowOfSelectedTile + 1 andColumn:colOfSelectedTile];
+            } else if (rowOfSelectedTile > self.board.rowOfBlankTile) {
+                [self selectTileAtRow:rowOfSelectedTile - 1 andColumn:colOfSelectedTile];
+            }
+        }
+        
+        // is the selected cell adjacent to the blank tile? swap them if so
+        if (abs(self.board.rowOfBlankTile - rowOfSelectedTile) <= 1 && abs(self.board.columnOfBlankTile - colOfSelectedTile) <= 1 &&
+            (self.board.rowOfBlankTile == rowOfSelectedTile || self.board.columnOfBlankTile == colOfSelectedTile))
+        {
+            [self.board swapBlankTileWithTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile];
+            self.numberOfMovesMade++;
+            //NSLog(@"%@", [self description]);
+        }
+    }
 }
-
+*/
 @end

@@ -29,7 +29,7 @@
 
 -(NSString *)stringToPivotGame:(ASPuzzleGame *)game
 {
-    return [game boardSizeStringFromNumTiles];
+    return [game.board boardSizeStringFromNumTiles];
 }
 
 -(NSString *)cellTextWithPivotString:(NSString *)pivotString

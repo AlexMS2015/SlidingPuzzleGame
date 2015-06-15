@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FA00BF901AD0FE5D0051DA66 /* ASHighScoresTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA00BF8F1AD0FE5D0051DA66 /* ASHighScoresTableViewController.m */; };
 		FA0A78C71B2D8A83002B3D1C /* ASPuzzleGame.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0A78C61B2D8A83002B3D1C /* ASPuzzleGame.m */; };
+		FA0A78CC1B2EF00C002B3D1C /* ASPuzzleBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0A78CB1B2EF00C002B3D1C /* ASPuzzleBoard.m */; };
 		FA10141C1AD0D2AC006A7100 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA10141B1AD0D2AC006A7100 /* Foundation.framework */; };
 		FA10141E1AD0D2AC006A7100 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA10141D1AD0D2AC006A7100 /* CoreGraphics.framework */; };
 		FA1014201AD0D2AD006A7100 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA10141F1AD0D2AC006A7100 /* UIKit.framework */; };
@@ -53,6 +54,9 @@
 		FA00BF8F1AD0FE5D0051DA66 /* ASHighScoresTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASHighScoresTableViewController.m; sourceTree = "<group>"; };
 		FA0A78C51B2D8A83002B3D1C /* ASPuzzleGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPuzzleGame.h; sourceTree = "<group>"; };
 		FA0A78C61B2D8A83002B3D1C /* ASPuzzleGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASPuzzleGame.m; sourceTree = "<group>"; };
+		FA0A78CA1B2EF00C002B3D1C /* ASPuzzleBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPuzzleBoard.h; sourceTree = "<group>"; };
+		FA0A78CB1B2EF00C002B3D1C /* ASPuzzleBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASPuzzleBoard.m; sourceTree = "<group>"; };
+		FA0A78CD1B2EF538002B3D1C /* Enums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
 		FA1014181AD0D2AC006A7100 /* GameHouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameHouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA10141B1AD0D2AC006A7100 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FA10141D1AD0D2AC006A7100 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -126,8 +130,11 @@
 			children = (
 				FAF8A3B91B25667500EEDB01 /* ASPreviousGameDatabase.h */,
 				FAF8A3BA1B25667500EEDB01 /* ASPreviousGameDatabase.m */,
+				FA0A78CD1B2EF538002B3D1C /* Enums.h */,
 				FA0A78C51B2D8A83002B3D1C /* ASPuzzleGame.h */,
 				FA0A78C61B2D8A83002B3D1C /* ASPuzzleGame.m */,
+				FA0A78CA1B2EF00C002B3D1C /* ASPuzzleBoard.h */,
+				FA0A78CB1B2EF00C002B3D1C /* ASPuzzleBoard.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -353,6 +360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA0A78CC1B2EF00C002B3D1C /* ASPuzzleBoard.m in Sources */,
 				FA10142C1AD0D2AD006A7100 /* ASAppDelegate.m in Sources */,
 				FA966C391B115A70004C28C0 /* ASSlidingPuzzleGameViewController.m in Sources */,
 				FA966C351B1158C5004C28C0 /* ASGameBoardViewSupporter.m in Sources */,

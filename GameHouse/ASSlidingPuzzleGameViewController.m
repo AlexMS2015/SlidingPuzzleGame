@@ -12,6 +12,7 @@
 #import "ASSlidingTileView.h"
 #import "ASSlidingPuzzleSettingsVC.h"
 #import "ASPreviousGameDatabase.h"
+#import "Enums.h"
 
 @interface ASSlidingPuzzleGameViewController () <UIAlertViewDelegate>
 
@@ -67,8 +68,8 @@
     float imageHeightScale = boardImage.size.height / boardSize.height;
     
     NSMutableArray *splitUpImages = [NSMutableArray array];
-    for (int row = 0; row < sqrt(self.puzzleGame.numberOfTiles); row++) {
-        for (int col = 0; col < sqrt(self.puzzleGame.numberOfTiles); col++) {
+    for (int row = 0; row < sqrt(self.puzzleGame.board.numberOfTiles); row++) {
+        for (int col = 0; col < sqrt(self.puzzleGame.board.numberOfTiles); col++) {
             CGRect tileFrame = [self.puzzleBoard frameOfCellAtRow:row inColumn:col];
 
             CGRect pictureFrame = CGRectMake(tileFrame.origin.x  * imageWidthScale, tileFrame.origin.y  * imageHeightScale, tileFrame.size.width * imageWidthScale, tileFrame.size.height * imageHeightScale);
@@ -139,6 +140,7 @@
     self.puzzleGame = [[ASPuzzleGame alloc] initWithNumberOfTiles:numTiles
                                                            andDifficulty:difficulty
                                                     andImageNamed:imageName];
+    
     self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
     
     // the puzzle board will object will determine where on screen the tiles are located
@@ -151,7 +153,7 @@
     for (int row = 0; row < sqrt(numTiles); row++) {
         for (int col = 0; col < sqrt(numTiles); col++) {
             
-            if (tileValue < self.puzzleGame.numberOfTiles && tileValue != 0) {
+            if (tileValue < self.puzzleGame.board.numberOfTiles && tileValue != 0) {
                 CGRect solvedTileFrame = [self.puzzleBoard frameOfCellAtRow:row inColumn:col];
                 ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:solvedTileFrame];
                 
@@ -183,13 +185,19 @@
     
     for (ASSlidingTileView *tileToUpdate in self.boardContainerView.subviews) {
         int currentTileValue = tileToUpdate.tileValue;
-        int newTileValue = [self.puzzleGame valueOfTileAtRow:tileToUpdate.rowInABoard
-                                                   andColumn:tileToUpdate.columnInABoard];
+        
+        Position tileToUpdatePosition;
+        tileToUpdatePosition.row = tileToUpdate.rowInABoard;
+        tileToUpdatePosition.column = tileToUpdate.columnInABoard;
+        
+        int newTileValue = [self.puzzleGame.board valueOfTileAtPosition:tileToUpdatePosition];
         
         if (currentTileValue != newTileValue) {
             // find the location of the tile's current displayed value in the model's updated tile board
-            int rowToMoveTileTo = [self.puzzleGame rowOfTileWithValue:currentTileValue];
-            int columnToMoveTileTo = [self.puzzleGame columnOfTileWithValue:currentTileValue];
+            Position positionToMoveTileTo = [self.puzzleGame.board positionOfTileWithValue:currentTileValue];
+            
+            int rowToMoveTileTo = positionToMoveTileTo.row;
+            int columnToMoveTileTo = positionToMoveTileTo.column;
             
             // get the frame in the view at new row / column location
             CGRect frameToMoveRectTo = [self.puzzleBoard frameOfCellAtRow:rowToMoveTileTo
@@ -224,7 +232,7 @@
     self.resetGameButton.alpha = 0.6;
     if ([alertView.title isEqualToString:@"New Game"]) {
         if (buttonIndex != alertView.cancelButtonIndex) {
-            [self setupNewGameWithNumTiles:self.puzzleGame.numberOfTiles
+            [self setupNewGameWithNumTiles:self.puzzleGame.board.numberOfTiles
                              andDifficulty:self.puzzleGame.difficulty
                             withImageNamed:self.imageName];
         }
@@ -291,9 +299,14 @@
         ASSlidingTileView *selectedTile = (ASSlidingTileView *)tap.view;
         
         // update the model and UI
-        [self.puzzleGame selectTileAtRow:selectedTile.rowInABoard
+        Position selectedTilePosition;
+        selectedTilePosition.row = selectedTile.rowInABoard;
+        selectedTilePosition.column = selectedTile.columnInABoard;
+        [self.puzzleGame selectTileAtPosition:selectedTilePosition];
+        
+        /*[self.puzzleGame selectTileAtRow:selectedTile.rowInABoard
                                andColumn:selectedTile.columnInABoard];
-        //[self.puzzleGame selectTileWithValue:selectedTile.tileValue];
+        [self.puzzleGame selectTileWithValue:selectedTile.tileValue];*/
         [self updateUI];
         [self checkForSolvedPuzzle];
     }

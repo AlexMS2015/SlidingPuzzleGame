@@ -80,11 +80,11 @@
     [self.pictureSelectionCollectionView registerClass:[UICollectionViewCell class]
                             forCellWithReuseIdentifier:@"CollectionCell"];
     
-    self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.numberOfTiles;
+    self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.board.numberOfTiles;
     self.difficultySegmentedControl.selectedSegmentIndex = self.gameVCForSettings.puzzleGame.difficulty;
     self.gameImageName = self.gameVCForSettings.imageName;
     
-    [self setupMiniBoardWithNumTiles:self.gameVCForSettings.puzzleGame.numberOfTiles];
+    [self setupMiniBoardWithNumTiles:self.gameVCForSettings.puzzleGame.board.numberOfTiles];
 }
 
 -(void)setupMiniBoardWithNumTiles:(int)numTiles
@@ -133,7 +133,7 @@
 
 - (IBAction)saveSettings:(UIButton *)sender
 {
-    int initialNumTiles = self.gameVCForSettings.puzzleGame.numberOfTiles;
+    int initialNumTiles = self.gameVCForSettings.puzzleGame.board.numberOfTiles;
     Difficulty initialDifficulty = self.gameVCForSettings.puzzleGame.difficulty;
     NSString *initialImageName = self.gameVCForSettings.imageName;
 

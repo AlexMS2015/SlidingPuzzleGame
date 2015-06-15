@@ -7,8 +7,8 @@
 //
 
 #import "ASHighScoresByDifficultyVC.h"
-#import "ASSlidingPuzzleGame.h"
 #import "ASHighScoresByBoardSizeVC.h"
+#import "ASPuzzleGame.h"
 
 @interface ASHighScoresByDifficultyVC ()
 
@@ -27,7 +27,7 @@
 
 #pragma mark - Concrete Implementation of Abstract Methods
 
--(NSString *)stringToPivotGame:(ASSlidingPuzzleGame *)game
+-(NSString *)stringToPivotGame:(ASPuzzleGame *)game
 {
     return [game difficultyStringFromDifficulty];
 }
