@@ -29,10 +29,10 @@
     return self;
 }
 
--(CGRect)frameOfCellAtRow:(NSUInteger)row inColumn:(NSUInteger)column
+-(CGRect)frameOfCellAtPosition:(Position)position
 {
-    CGFloat originX = column * self.cellWidth;
-    CGFloat originY = row * self.cellHeight;
+    CGFloat originX = position.column * self.cellWidth;
+    CGFloat originY = position.row * self.cellHeight;
     
     return CGRectMake(originX, originY, self.cellWidth, self.cellHeight);
 }

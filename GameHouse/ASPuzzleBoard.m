@@ -17,7 +17,16 @@
 
 @implementation ASPuzzleBoard
 
-#pragma mark - NSCoding
+#pragma mark - Properties
+
+-(NSMutableArray *)tiles
+{
+    if (!_tiles) {
+        _tiles = [NSMutableArray array];
+    }
+    
+    return _tiles;
+}
 
 #pragma mark - NSCoding
 
@@ -39,7 +48,7 @@
     return self;
 }
 
-#pragma mark - Other
+#pragma mark - Initialiser
 
 -(instancetype)initWithNumTiles:(int)numTiles
 {
@@ -51,6 +60,8 @@
     
     return self;
 }
+
+#pragma mark - Other
 
 -(void)setTileAtPosition:(Position)position withValue:(int)value
 {
@@ -119,15 +130,6 @@
 {
     int numRowsAndCols = sqrt(self.numberOfTiles);
     return [NSString stringWithFormat:@"%dx%d", numRowsAndCols, numRowsAndCols];
-}
-
--(NSMutableArray *)tiles
-{
-    if (!_tiles) {
-        _tiles = [NSMutableArray array];
-    }
-    
-    return _tiles;
 }
 
 @end

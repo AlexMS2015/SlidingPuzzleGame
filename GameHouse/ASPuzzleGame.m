@@ -74,13 +74,10 @@
         self.board = [[ASPuzzleBoard alloc] initWithNumTiles:numTiles];
         
         Position currentPosition;
-        
         int tileValue = 1;
-        for (int row = 0; row < sqrt(numTiles); row++) {
-            for (int col = 0; col < sqrt(numTiles); col++) {
+        for (currentPosition.row = 0; currentPosition.row < sqrt(numTiles); currentPosition.row++) {
+            for (currentPosition.column = 0; currentPosition.column < sqrt(numTiles); currentPosition.column++) {
                 if (tileValue < numTiles) {
-                    currentPosition.row = row;
-                    currentPosition.column = col;
                     [self.board setTileAtPosition:currentPosition withValue:tileValue];
                     tileValue++;
                 }
@@ -117,8 +114,11 @@
                 newPosition.row--;
             }
         }
-        [self selectTileAtPosition:newPosition];
-
+        
+        if (position.row != newPosition.row || position.column != newPosition.column) {
+            [self selectTileAtPosition:newPosition];
+        }
+        
         
         // is the selected cell adjacent to the blank tile? swap them if so
         if (abs(self.board.positionOfBlankTile.row - position.row) <= 1 && abs(self.board.positionOfBlankTile.column - position.column) <= 1 &&
@@ -131,34 +131,4 @@
     }
 }
 
-/*
--(void)selectTileAtRow:(int)rowOfSelectedTile andColumn:(int)colOfSelectedTile
-{
-    if ([self.board valueOfTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile] != 0) {
-        // use recursion to make moving multiple tiles possible
-        if (rowOfSelectedTile == self.board.rowOfBlankTile) {
-            if (colOfSelectedTile < self.board.columnOfBlankTile) {
-                [self selectTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile + 1];
-            } else if (colOfSelectedTile > self.board.columnOfBlankTile) {
-                [self selectTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile - 1];
-            }
-        } else if (colOfSelectedTile == self.board.columnOfBlankTile) {
-            if (rowOfSelectedTile < self.board.rowOfBlankTile) {
-                [self selectTileAtRow:rowOfSelectedTile + 1 andColumn:colOfSelectedTile];
-            } else if (rowOfSelectedTile > self.board.rowOfBlankTile) {
-                [self selectTileAtRow:rowOfSelectedTile - 1 andColumn:colOfSelectedTile];
-            }
-        }
-        
-        // is the selected cell adjacent to the blank tile? swap them if so
-        if (abs(self.board.rowOfBlankTile - rowOfSelectedTile) <= 1 && abs(self.board.columnOfBlankTile - colOfSelectedTile) <= 1 &&
-            (self.board.rowOfBlankTile == rowOfSelectedTile || self.board.columnOfBlankTile == colOfSelectedTile))
-        {
-            [self.board swapBlankTileWithTileAtRow:rowOfSelectedTile andColumn:colOfSelectedTile];
-            self.numberOfMovesMade++;
-            //NSLog(@"%@", [self description]);
-        }
-    }
-}
-*/
 @end

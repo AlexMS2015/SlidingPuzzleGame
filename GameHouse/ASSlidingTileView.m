@@ -12,6 +12,12 @@
 
 #pragma mark - Properties
 
+-(void)setPositionInABoard:(Position)positionInABoard
+{
+    _positionInABoard.row = positionInABoard.row;
+    _positionInABoard.column = positionInABoard.column;
+}
+
 -(void)setTileValue:(int)tileValue
 {
     _tileValue = tileValue;

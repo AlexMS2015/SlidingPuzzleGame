@@ -100,14 +100,16 @@
     
     self.miniGameBoardImageView.image = [UIImage imageNamed:self.gameImageName];
     
+    
+    Position currentPosition;
     int tileCount = 0;
-    for (int row = 0; row < sqrt(numTiles); row++) {
-        for (int col = 0; col < sqrt(numTiles); col++) {
-            CGRect frameOfTile = [self.miniGameBoard frameOfCellAtRow:row inColumn:col];
+    for (currentPosition.row = 0; currentPosition.row < sqrt(numTiles); currentPosition.row++) {
+        for (currentPosition.column = 0; currentPosition.column < sqrt(numTiles); currentPosition.column++) {
+            CGRect frameOfTile = [self.miniGameBoard frameOfCellAtPosition:currentPosition];
             UILabel *tileLabel = [[UILabel alloc] initWithFrame:frameOfTile];
             //tileLabel.alpha = 0.5;
             
-            if (tileCount + 1 == 1 || tileCount + 1 == numTiles) {
+            if (tileCount == 0 || tileCount == numTiles - 1) {
                 tileLabel.text = [NSString stringWithFormat:@"%d", tileCount + 1];
             }
             

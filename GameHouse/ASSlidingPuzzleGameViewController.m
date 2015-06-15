@@ -68,9 +68,14 @@
     float imageHeightScale = boardImage.size.height / boardSize.height;
     
     NSMutableArray *splitUpImages = [NSMutableArray array];
-    for (int row = 0; row < sqrt(self.puzzleGame.board.numberOfTiles); row++) {
-        for (int col = 0; col < sqrt(self.puzzleGame.board.numberOfTiles); col++) {
-            CGRect tileFrame = [self.puzzleBoard frameOfCellAtRow:row inColumn:col];
+    /*for (int row = 0; row < sqrt(self.puzzleGame.board.numberOfTiles); row++) {
+        for (int col = 0; col < sqrt(self.puzzleGame.board.numberOfTiles); col++) {*/
+    
+    Position currentPosition;
+    for (currentPosition.row = 0; currentPosition.row < sqrt(self.puzzleGame.board.numberOfTiles); currentPosition.row++) {
+        for (currentPosition.column = 0; currentPosition.column < sqrt(self.puzzleGame.board.numberOfTiles); currentPosition.column++) {
+            
+            CGRect tileFrame = [self.puzzleBoard frameOfCellAtPosition:currentPosition];
 
             CGRect pictureFrame = CGRectMake(tileFrame.origin.x  * imageWidthScale, tileFrame.origin.y  * imageHeightScale, tileFrame.size.width * imageWidthScale, tileFrame.size.height * imageHeightScale);
             
@@ -149,21 +154,23 @@
     NSArray *tileImages = [self tileImagesWithImageNamed:imageName]; // only want to do this once rather than run the method for every single tile!
     
     // display the tiles in their initial positions
+    Position currentPosition;
     int tileValue = 1;
-    for (int row = 0; row < sqrt(numTiles); row++) {
-        for (int col = 0; col < sqrt(numTiles); col++) {
+    for (currentPosition.row = 0; currentPosition.row < sqrt(numTiles); currentPosition.row++) {
+        for (currentPosition.column = 0; currentPosition.column < sqrt(numTiles); currentPosition.column++) {
             
             if (tileValue < self.puzzleGame.board.numberOfTiles && tileValue != 0) {
-                CGRect solvedTileFrame = [self.puzzleBoard frameOfCellAtRow:row inColumn:col];
-                ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:solvedTileFrame];
+                CGRect solvedTileFrame = [self.puzzleBoard frameOfCellAtPosition:currentPosition];
                 
-                tile.rowInABoard = row;
-                tile.columnInABoard = col;
+                // MAKE A CREATE NEW TILE METHOD
+                // COMBINE THIS WITH THE IMAGE ARRAY METHOD (VERY inefficient atm)
+                ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:solvedTileFrame];
+                tile.positionInABoard = currentPosition;
                 tile.tileValue = tileValue;
                 tile.tileImage = [tileImages objectAtIndex:tileValue-1];
-                
                 UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
                 [tile addGestureRecognizer:tileTap];
+                // END
                 
                 [self.boardContainerView addSubview:tile];
             }
@@ -186,26 +193,17 @@
     for (ASSlidingTileView *tileToUpdate in self.boardContainerView.subviews) {
         int currentTileValue = tileToUpdate.tileValue;
         
-        Position tileToUpdatePosition;
-        tileToUpdatePosition.row = tileToUpdate.rowInABoard;
-        tileToUpdatePosition.column = tileToUpdate.columnInABoard;
-        
-        int newTileValue = [self.puzzleGame.board valueOfTileAtPosition:tileToUpdatePosition];
+        int newTileValue = [self.puzzleGame.board valueOfTileAtPosition:tileToUpdate.positionInABoard];
         
         if (currentTileValue != newTileValue) {
             // find the location of the tile's current displayed value in the model's updated tile board
             Position positionToMoveTileTo = [self.puzzleGame.board positionOfTileWithValue:currentTileValue];
             
-            int rowToMoveTileTo = positionToMoveTileTo.row;
-            int columnToMoveTileTo = positionToMoveTileTo.column;
-            
             // get the frame in the view at new row / column location
-            CGRect frameToMoveRectTo = [self.puzzleBoard frameOfCellAtRow:rowToMoveTileTo
-                                                                 inColumn:columnToMoveTileTo];
+            CGRect frameToMoveRectTo = [self.puzzleBoard frameOfCellAtPosition:positionToMoveTileTo];
             
             // update and move the tile
-            tileToUpdate.rowInABoard = rowToMoveTileTo;
-            tileToUpdate.columnInABoard = columnToMoveTileTo;
+            tileToUpdate.positionInABoard = positionToMoveTileTo;
             [tileToUpdate animateToFrame:frameToMoveRectTo];
         }
     }
@@ -299,14 +297,7 @@
         ASSlidingTileView *selectedTile = (ASSlidingTileView *)tap.view;
         
         // update the model and UI
-        Position selectedTilePosition;
-        selectedTilePosition.row = selectedTile.rowInABoard;
-        selectedTilePosition.column = selectedTile.columnInABoard;
-        [self.puzzleGame selectTileAtPosition:selectedTilePosition];
-        
-        /*[self.puzzleGame selectTileAtRow:selectedTile.rowInABoard
-                               andColumn:selectedTile.columnInABoard];
-        [self.puzzleGame selectTileWithValue:selectedTile.tileValue];*/
+        [self.puzzleGame selectTileAtPosition:selectedTile.positionInABoard];
         [self updateUI];
         [self checkForSolvedPuzzle];
     }

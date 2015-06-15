@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ASSlidingPuzzleGameViewController.h"
+#import "Enums.h"
 
 @interface ASSlidingPuzzleSettingsVC : UIViewController
 

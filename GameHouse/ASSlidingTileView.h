@@ -7,16 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
-
+#import "Enums.h"
 
 @interface ASSlidingTileView : UIView
 
 @property (nonatomic) int tileValue;
 @property (nonatomic, strong) UIImage *tileImage;
-
-@property (nonatomic) int rowInABoard;
-@property (nonatomic) int columnInABoard;
+@property (nonatomic) Position positionInABoard;
 
 -(void)animateToFrame:(CGRect)frame;
 
