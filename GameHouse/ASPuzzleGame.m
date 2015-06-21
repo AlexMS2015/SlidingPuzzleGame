@@ -131,4 +131,42 @@
     }
 }
 
+-(Position)randomTileNotAtPosition:(Position)position
+{
+    Position blankTilePosition = [self.board positionOfBlankTile];
+    Position adjacentTilePos = blankTilePosition;
+    
+    int maxCol = sqrt(self.board.numberOfTiles) - 1;
+    int maxRow = sqrt(self.board.numberOfTiles) - 1;
+    NSLog(@"new random tile");
+    while ((adjacentTilePos.row == blankTilePosition.row &&
+            adjacentTilePos.column == blankTilePosition.column) ||
+           (adjacentTilePos.row == position.row && adjacentTilePos.column == position.column)
+        ) {
+        
+        adjacentTilePos = blankTilePosition;
+        
+        int randomTile = arc4random() % 4;
+
+        if (randomTile == 0 && blankTilePosition.column > 0) {
+            adjacentTilePos.column--;
+        } else if (randomTile == 1 && blankTilePosition.column < maxCol) {
+            adjacentTilePos.column++;
+        } else if (randomTile == 2 && blankTilePosition.row > 0) {
+            adjacentTilePos.row--;
+        } else if (randomTile == 3 && blankTilePosition.row < maxRow) {
+            adjacentTilePos.row++;
+        }
+        
+        NSLog(@"not allowed row: %d", position.row);
+        NSLog(@"selected row: %d", adjacentTilePos.row);
+        NSLog(@"not allowed column: %d", position.column);
+        NSLog(@"selected column: %d", adjacentTilePos.column);
+        NSLog(@"==========");
+        
+    }
+    
+    return adjacentTilePos;
+}
+
 @end

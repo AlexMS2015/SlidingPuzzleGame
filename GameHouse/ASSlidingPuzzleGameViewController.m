@@ -30,6 +30,8 @@
 @property (strong, nonatomic, readwrite) ASPuzzleGame *puzzleGame;
 @property (strong, nonatomic, readwrite) NSString *imageName;
 @property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
+
+@property (nonatomic) Position previouslySelected;
 @end
 
 @implementation ASSlidingPuzzleGameViewController
@@ -245,7 +247,7 @@
 // helper
 -(void)toggleFinalPicView:(BOOL)hidden
 {
-    if (hidden) {
+    /*if (hidden) {
         self.boardContainerView.hidden = NO;
         self.picShowImageView.hidden = YES;
         [self.picShowHideToggle setTitle:@"Show Pic" forState:UIControlStateNormal];
@@ -253,7 +255,15 @@
         self.boardContainerView.hidden = YES;
         self.picShowImageView.hidden = NO;
         [self.picShowHideToggle setTitle:@"Hide Pic" forState:UIControlStateNormal];
-    }
+    }*/
+    //NSLog(@"now %d", self.previouslySelected.row);
+    //NSLog(@"now %d", self.previouslySelected.column);
+    Position adjacentTile = [self.puzzleGame randomTileNotAtPosition:self.previouslySelected];
+    self.previouslySelected = [self.puzzleGame.board positionOfBlankTile];
+    //NSLog(@"after %d", self.previouslySelected.row);
+    //NSLog(@"after %d", self.previouslySelected.column);
+    [self.puzzleGame selectTileAtPosition:adjacentTile];
+    [self updateUI];
 }
 
 - (IBAction)picShowHideToggleTouchUpInside:(UIButton *)sender

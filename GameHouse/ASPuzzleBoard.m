@@ -68,7 +68,6 @@
     int index = [self indexOfTileAtPosition:position];
     NSNumber *tile = [NSNumber numberWithInt:value];
     [self.tiles insertObject:tile atIndex:index];
-    NSLog(@"Inserting tile at index: %d", index);
 }
 
 -(Position)positionOfTileAtIndex:(int)index

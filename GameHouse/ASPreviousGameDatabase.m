@@ -8,6 +8,7 @@
 
 #import "ASPreviousGameDatabase.h"
 #import "ASPuzzleGame.h"
+
 @interface ASPreviousGameDatabase ()
 @property (strong, nonatomic) NSMutableArray *gamesPrivate;
 @end

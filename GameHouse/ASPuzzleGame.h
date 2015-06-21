@@ -25,5 +25,5 @@
 -(NSString *)difficultyStringFromDifficulty;
 -(void)save;
 
-//-(void)selectTileAtRow:(int)rowOfSelectedTile andColumn:(int)colOfSelectedTile;
+-(Position)randomTileNotAtPosition:(Position)position;
 @end

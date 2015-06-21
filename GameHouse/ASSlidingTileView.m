@@ -51,7 +51,7 @@
 
 -(void)animateToFrame:(CGRect)frame
 {
-    [UIView animateWithDuration:0.3
+    [UIView animateWithDuration:0.5
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
