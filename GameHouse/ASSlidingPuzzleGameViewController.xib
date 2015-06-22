@@ -63,7 +63,7 @@
                         <constraint firstAttribute="height" constant="100" id="4Ob-1m-Kvx"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" title="Options" backgroundImage="Black Button">
+                    <state key="normal" title="Settings" backgroundImage="Black Button">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>

@@ -59,37 +59,6 @@
     return @[@"Cupcake", @"Donut", @"Fish", @"GingerbreadMan", @"Poptart", @"Snowman", @"Cookie"];
 }
 
-// split up the board image into an array containing smaller images for each board tile
--(NSArray *)tileImagesWithImageNamed:(NSString *)imageName;
-{
-    self.imageName = imageName;
-    UIImage *boardImage = [UIImage imageNamed:imageName];
-    CGSize boardSize = self.boardContainerView.bounds.size;
-    
-    float imageWidthScale = boardImage.size.width / boardSize.width;
-    float imageHeightScale = boardImage.size.height / boardSize.height;
-    
-    NSMutableArray *splitUpImages = [NSMutableArray array];
-    /*for (int row = 0; row < sqrt(self.puzzleGame.board.numberOfTiles); row++) {
-        for (int col = 0; col < sqrt(self.puzzleGame.board.numberOfTiles); col++) {*/
-    
-    Position currentPosition;
-    for (currentPosition.row = 0; currentPosition.row < sqrt(self.puzzleGame.board.numberOfTiles); currentPosition.row++) {
-        for (currentPosition.column = 0; currentPosition.column < sqrt(self.puzzleGame.board.numberOfTiles); currentPosition.column++) {
-            
-            CGRect tileFrame = [self.puzzleBoard frameOfCellAtPosition:currentPosition];
-
-            CGRect pictureFrame = CGRectMake(tileFrame.origin.x  * imageWidthScale, tileFrame.origin.y  * imageHeightScale, tileFrame.size.width * imageWidthScale, tileFrame.size.height * imageHeightScale);
-            
-            CGImageRef tileCGImage = CGImageCreateWithImageInRect(boardImage.CGImage, pictureFrame);
-            UIImage *tileImage = [UIImage imageWithCGImage:tileCGImage];
-            [splitUpImages addObject:tileImage];
-        }
-    }
-    
-    return splitUpImages;
-}
-
 #pragma mark - View Life Cycle
 
 #define NUM_TILES_DEFAULT 16
@@ -110,24 +79,12 @@
     }
 }
 
--(void)countdownFired:(NSTimer *)timer
-{
-    int countdown = [self.countdownLabel.text intValue];
-    
-    if (countdown > 1) {
-        self.countdownLabel.text = [NSString stringWithFormat:@"%d", --countdown];
-    } else {
-        self.countdownLabel.hidden = YES;
-        self.boardContainerView.userInteractionEnabled = YES;
-        [self updateUI];
-        [timer invalidate];
-    }
-}
+#pragma mark - Initialiser
 
--(void)setupNewGameWithNumTiles:(int)numTiles
-                  andDifficulty:(Difficulty)difficulty
-                 withImageNamed:(NSString *)imageName;
+-(void)resetUI
 {
+    self.numMovesLabel.text = @"0";
+    
     self.boardContainerView.userInteractionEnabled = NO;
     self.countdownLabel.hidden = NO;
     self.countdownLabel.text = @"4";
@@ -136,50 +93,79 @@
     [self.picShowImageView removeFromSuperview];
     self.picShowImageView = nil;
     
-    // clear the screen if replacing an existing game
     if ([self.boardContainerView.subviews count]) {
         [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             [obj removeFromSuperview];
         }];
     }
     
-    // setup the model
-    self.puzzleGame = [[ASPuzzleGame alloc] initWithNumberOfTiles:numTiles
-                                                           andDifficulty:difficulty
-                                                    andImageNamed:imageName];
-    
     self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
     
-    // the puzzle board will object will determine where on screen the tiles are located
-    self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size withRows:sqrt(numTiles) andColumns:sqrt(numTiles)];
+    // reset the helper object
+    int numRowsAndColumns = sqrt(self.puzzleGame.board.numberOfTiles);
+    self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size withRows:numRowsAndColumns andColumns:numRowsAndColumns];
+}
+
+-(void)setImageName:(NSString *)imageName
+{
+    _imageName = imageName;
     
-    NSArray *tileImages = [self tileImagesWithImageNamed:imageName]; // only want to do this once rather than run the method for every single tile!
+    UIImage *boardImage = [UIImage imageNamed:imageName];
+    CGSize boardSize = self.boardContainerView.bounds.size;
     
-    // display the tiles in their initial positions
+    float imageWidthScale = boardImage.size.width / boardSize.width;
+    float imageHeightScale = boardImage.size.height / boardSize.height;
+    
+    int numRowsAndColumns = sqrt(self.puzzleGame.board.numberOfTiles);
+    
     Position currentPosition;
     int tileValue = 1;
-    for (currentPosition.row = 0; currentPosition.row < sqrt(numTiles); currentPosition.row++) {
-        for (currentPosition.column = 0; currentPosition.column < sqrt(numTiles); currentPosition.column++) {
+    for (currentPosition.row = 0; currentPosition.row < numRowsAndColumns; currentPosition.row++) {
+        for (currentPosition.column = 0; currentPosition.column < numRowsAndColumns; currentPosition.column++) {
             
-            if (tileValue < self.puzzleGame.board.numberOfTiles && tileValue != 0) {
-                CGRect solvedTileFrame = [self.puzzleBoard frameOfCellAtPosition:currentPosition];
+            // the image is too large so resize an appropriate section for the next tile
+            CGRect tileFrame = [self.puzzleBoard frameOfCellAtPosition:currentPosition];
+            CGRect pictureFrame = CGRectMake(tileFrame.origin.x  * imageWidthScale,
+                                             tileFrame.origin.y  * imageHeightScale,
+                                             tileFrame.size.width * imageWidthScale,
+                                             tileFrame.size.height * imageHeightScale);
+            CGImageRef tileCGImage = CGImageCreateWithImageInRect(boardImage.CGImage, pictureFrame);
+            UIImage *tileImage = [UIImage imageWithCGImage:tileCGImage];
+            
+            // set up the actual board tile with the image and position
+            if (tileValue < self.puzzleGame.board.numberOfTiles) {
+                ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:tileFrame];
                 
-                // MAKE A CREATE NEW TILE METHOD
-                // COMBINE THIS WITH THE IMAGE ARRAY METHOD (VERY inefficient atm)
-                ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:solvedTileFrame];
                 tile.positionInABoard = currentPosition;
                 tile.tileValue = tileValue;
-                tile.tileImage = [tileImages objectAtIndex:tileValue-1];
+                tile.tileImage = tileImage;
+                
                 UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
                 [tile addGestureRecognizer:tileTap];
-                // END
                 
                 [self.boardContainerView addSubview:tile];
             }
             tileValue++;
         }
     }
+}
+
+-(void)setupNewGameWithNumTiles:(int)numTiles
+                  andDifficulty:(Difficulty)difficulty
+                 withImageNamed:(NSString *)imageName;
+{
+    // setup the model
+    self.puzzleGame = [[ASPuzzleGame alloc] initWithNumberOfTiles:numTiles
+                                                           andDifficulty:difficulty
+                                                    andImageNamed:imageName];
     
+    // reset the view
+    [self resetUI];
+    
+    // setting the imageName will also set up all the tiles with the image by that name
+    self.imageName = imageName;
+    
+    // create and begin the game countdown timer
     NSTimer *countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                            target:self
                                                          selector:@selector(countdownFired:)
@@ -188,10 +174,11 @@
     [countdownTimer fire];
 }
 
+#pragma mark - Helper / Other
+
 -(void)updateUI
 {
     // the game model has been updated but the UI has not... hence need to find which tiles have moved and to where
-    
     for (ASSlidingTileView *tileToUpdate in self.boardContainerView.subviews) {
         int currentTileValue = tileToUpdate.tileValue;
         
@@ -239,15 +226,26 @@
     }
 }
 
-#pragma mark - Helpers / Other
-
-
 #pragma mark - Actions
+
+-(void)countdownFired:(NSTimer *)timer
+{
+    int countdown = [self.countdownLabel.text intValue];
+    
+    if (countdown > 1) {
+        self.countdownLabel.text = [NSString stringWithFormat:@"%d", --countdown];
+    } else {
+        self.countdownLabel.hidden = YES;
+        self.boardContainerView.userInteractionEnabled = YES;
+        [self updateUI];
+        [timer invalidate];
+    }
+}
 
 // helper
 -(void)toggleFinalPicView:(BOOL)hidden
 {
-    /*if (hidden) {
+    if (hidden) {
         self.boardContainerView.hidden = NO;
         self.picShowImageView.hidden = YES;
         [self.picShowHideToggle setTitle:@"Show Pic" forState:UIControlStateNormal];
@@ -255,14 +253,8 @@
         self.boardContainerView.hidden = YES;
         self.picShowImageView.hidden = NO;
         [self.picShowHideToggle setTitle:@"Hide Pic" forState:UIControlStateNormal];
-    }*/
-    //NSLog(@"now %d", self.previouslySelected.row);
-    //NSLog(@"now %d", self.previouslySelected.column);
-    Position adjacentTile = [self.puzzleGame randomTileNotAtPosition:self.previouslySelected];
-    self.previouslySelected = [self.puzzleGame.board positionOfBlankTile];
-    //NSLog(@"after %d", self.previouslySelected.row);
-    //NSLog(@"after %d", self.previouslySelected.column);
-    [self.puzzleGame selectTileAtPosition:adjacentTile];
+    }
+    
     [self updateUI];
 }
 

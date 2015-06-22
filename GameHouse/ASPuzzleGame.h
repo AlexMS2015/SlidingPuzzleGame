@@ -24,6 +24,4 @@
 -(void)selectTileAtPosition:(Position)position;
 -(NSString *)difficultyStringFromDifficulty;
 -(void)save;
-
--(Position)randomTileNotAtPosition:(Position)position;
 @end

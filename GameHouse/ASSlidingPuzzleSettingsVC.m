@@ -12,6 +12,7 @@
 @interface ASSlidingPuzzleSettingsVC () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 // outlets
+
 @property (weak, nonatomic) IBOutlet UISlider *numTilesSlider;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *difficultySegmentedControl;
 @property (weak, nonatomic) IBOutlet UICollectionView *pictureSelectionCollectionView;
@@ -21,7 +22,6 @@
 @property (nonatomic) int newNumTiles;
 @property (nonatomic) Difficulty newDifficulty;
 @property (strong, nonatomic) NSString *gameImageName;
-
 @property (strong, nonatomic) ASGameBoardViewSupporter *miniGameBoard;
 @end
 

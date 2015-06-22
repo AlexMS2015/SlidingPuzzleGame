@@ -14,11 +14,10 @@
 @property (nonatomic, readonly) int numberOfTiles;
 
 -(instancetype)initWithNumTiles:(int)numTiles; // designated
-
 -(int)valueOfTileAtPosition:(Position)position;
 -(Position)positionOfTileWithValue:(int)value;
 -(Position)positionOfBlankTile;
--(void)swapBlankTileWithTileAtPosition:(Position)position;
 -(void)setTileAtPosition:(Position)position withValue:(int)value;
+-(void)swapBlankTileWithTileAtPosition:(Position)position;
 -(NSString *)boardSizeStringFromNumTiles;
 @end
