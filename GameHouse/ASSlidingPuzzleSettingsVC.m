@@ -12,7 +12,6 @@
 @interface ASSlidingPuzzleSettingsVC () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 // outlets
-
 @property (weak, nonatomic) IBOutlet UISlider *numTilesSlider;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *difficultySegmentedControl;
 @property (weak, nonatomic) IBOutlet UICollectionView *pictureSelectionCollectionView;
@@ -177,7 +176,7 @@
 
 -(Difficulty)newDifficulty
 {
-    if (self.difficultySegmentedControl.selectedSegmentIndex == 0) {
+    /*if (self.difficultySegmentedControl.selectedSegmentIndex == 0) {
         return EASY;
     } else if (self.difficultySegmentedControl.selectedSegmentIndex == 1) {
         return MEDIUM;
@@ -185,7 +184,9 @@
         return HARD;
     } else {
         return self.gameVCForSettings.puzzleGame.difficulty;
-    }
+    }*/
+    
+    return self.difficultySegmentedControl.selectedSegmentIndex;
 }
 
 @end
