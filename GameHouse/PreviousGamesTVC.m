@@ -1,5 +1,5 @@
 //
-//  ASHighScoresTableViewController.m
+//  PreviousGamesTVC.m
 //  GameHouse
 //
 //  Created by Alex Smith on 5/04/2015.
@@ -7,8 +7,8 @@
 //
 
 #import "PreviousGamesTVC.h"
-#import "ASPreviousGameDatabase.h"
-#import "ASPuzzleGame.h"
+#import "PreviousGameDatabase.h"
+#import "PuzzleGame.h"
 #import "PreviousGameCell.h"
 
 @interface PreviousGamesTVC () <UITableViewDataSource, UITableViewDelegate>
@@ -23,7 +23,7 @@
 
 #pragma mark - Abstract Method
 
--(NSString *)stringToPivotGame:(ASPuzzleGame *)game
+-(NSString *)stringToPivotGame:(PuzzleGame *)game
 {
     return nil;
 }
@@ -78,7 +78,7 @@
 {
     self.previousGames = [NSMutableDictionary dictionary];
     
-    for (ASPuzzleGame *game in self.games) {
+    for (PuzzleGame *game in self.games) {
         NSString *pivotString = [self stringToPivotGame:game];
         
         if (!self.previousGames[pivotString]) {

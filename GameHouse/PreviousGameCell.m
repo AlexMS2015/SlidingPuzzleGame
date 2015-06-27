@@ -1,5 +1,5 @@
 //
-//  ASGameCellTableViewCell.m
+//  PreviousGameCell.m
 //  GameHouse
 //
 //  Created by Alex Smith on 13/06/2015.

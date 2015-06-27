@@ -1,5 +1,5 @@
 //
-//  ASHomeScreenViewController.h
+//  HomeScreenVC.h
 //  GameHouse
 //
 //  Created by Alex Smith on 5/04/2015.

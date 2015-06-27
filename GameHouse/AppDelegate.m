@@ -1,5 +1,5 @@
 //
-//  ASAppDelegate.m
+//  AppDelegate.m
 //  GameHouse
 //
 //  Created by Alex Smith on 5/04/2015.
@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "HomeScreenVC.h"
-#import "ASSlidingPuzzleGameViewController.h"
+#import "PuzzleGameVC.h"
 #import "PuzzleGame.h"
 
 @implementation AppDelegate

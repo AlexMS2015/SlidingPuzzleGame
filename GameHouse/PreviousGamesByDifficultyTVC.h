@@ -1,5 +1,5 @@
 //
-//  ASHighScoresByDifficultyVC.h
+//  PreviousGamesByDifficultyTVC.h
 //  GameHouse
 //
 //  Created by Alex Smith on 13/06/2015.

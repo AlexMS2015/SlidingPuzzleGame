@@ -1,5 +1,5 @@
 //
-//  ASSlidingTileView.m
+//  TileView.h
 //  GameHouse
 //
 //  Created by Alex Smith on 24/05/2015.
@@ -7,6 +7,13 @@
 //
 
 #import "TileView.h"
+
+@interface TileView ()
+
+@property (nonatomic, readwrite) int tileValue;
+@property (nonatomic, strong) UIImage *tileImage;
+
+@end
 
 @implementation TileView
 
@@ -18,12 +25,23 @@
     _positionInABoard.column = positionInABoard.column;
 }
 
+#define FONT_SIZE self.bounds.size.width / 6.0
+#define LABEL_X_AND_Y self.bounds.size.width / 15.0
+#define LABEL_W_AND_H self.bounds.size.width / 5.0
 -(void)setTileValue:(int)tileValue
 {
     _tileValue = tileValue;
+    
+    CGRect labelFrame = CGRectMake(LABEL_X_AND_Y, LABEL_X_AND_Y, LABEL_W_AND_H, LABEL_W_AND_H);
+    
+    UILabel *valueLabel = [[UILabel alloc] initWithFrame:labelFrame];
+    valueLabel.textAlignment = NSTextAlignmentLeft;
+    valueLabel.textColor = [UIColor blackColor];
+    valueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
+    valueLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+    [self addSubview:valueLabel];
 }
 
-#define FONT_SIZE self.bounds.size.width/4.5
 -(void)setTileImage:(UIImage *)tileImage
 {    
     UIImageView *tileForeground = [[UIImageView alloc] initWithFrame:self.bounds];
@@ -33,7 +51,12 @@
     [self addSubview:tileForeground];
 }
 
+#pragma mark - Initialisers
+
 -(instancetype)initWithFrame:(CGRect)frame
+            andImage:(UIImage *)image
+            andValue:(int)value
+  andPositionInBoard:(Position)position
 {
     self = [super initWithFrame:frame];
     
@@ -44,6 +67,10 @@
         UIImageView *tileBackground = [[UIImageView alloc] initWithFrame:self.bounds];
         tileBackground.image = [UIImage imageNamed:@"Wooden Tile"];
         [self addSubview:tileBackground];
+        
+        self.tileImage = image;
+        self.tileValue = value;
+        self.positionInABoard = position;
     }
     
     return self;

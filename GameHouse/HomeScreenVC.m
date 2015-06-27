@@ -1,5 +1,5 @@
 //
-//  ASHomeScreenViewController.m
+//  HomeScreenVC.m
 //  GameHouse
 //
 //  Created by Alex Smith on 5/04/2015.
@@ -75,13 +75,17 @@
 -(void)viewDidLoad
 {
     self.viewsInPlace = NO;
+    
+    for (UIButton *button in self.theHSButtons) {
+        button.hidden = YES;
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    self.navigationController.navigationBarHidden = YES; // Other view controller's that have been presented (e.g. high scores) will have changed this to NO. Need to set it back to YES.
+    self.navigationController.navigationBarHidden = YES; // other view controller's that have been presented (e.g. high scores) will have changed this to NO. Need to set it back to YES.
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -91,6 +95,7 @@
     if (!self.viewsInPlace) {
         
         for (UIButton *button in self.theHSButtons) {
+            button.hidden = NO;
             [self animateEntranceForButton:button];
         }
     }
@@ -98,26 +103,21 @@
     self.viewsInPlace = YES;
 }
 
--(void)viewWillLayoutSubviews
-{
-
-}
-
 #pragma mark - Action Methods
 
 - (IBAction)beginNewGame:(UIButton *)sender
 {
-    PuzzleGameVC *spg = [[PuzzleGameVC alloc] init];
-    [self.navigationController pushViewController:spg animated:YES];
+    PuzzleGameVC *game = [[PuzzleGameVC alloc] init];
+    [self.navigationController pushViewController:game animated:YES];
 }
 
 - (IBAction)showHighScores:(UIButton *)sender
 {
     self.navigationController.navigationBarHidden = NO;
     
-    PreviousGamesByDifficultyTVC *HSTable = [[PreviousGamesByDifficultyTVC alloc] init];
-    HSTable.games = [PreviousGameDatabase sharedDatabase].games;
-    [self.navigationController pushViewController:HSTable animated:YES];
+    PreviousGamesByDifficultyTVC *prevGamesByDiff = [[PreviousGamesByDifficultyTVC alloc] init];
+    prevGamesByDiff.games = [PreviousGameDatabase sharedDatabase].games;
+    [self.navigationController pushViewController:prevGamesByDiff animated:YES];
 }
 
 @end

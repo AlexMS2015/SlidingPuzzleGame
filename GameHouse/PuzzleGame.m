@@ -1,5 +1,5 @@
 //
-//  ASPuzzleGame.m
+//  PuzzleGame.m
 //  GameHouse
 //
 //  Created by Alex Smith on 14/06/2015.

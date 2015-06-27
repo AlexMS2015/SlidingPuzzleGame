@@ -1,5 +1,5 @@
 //
-//  ASAppDelegate.h
+//  AppDelegate.h
 //  GameHouse
 //
 //  Created by Alex Smith on 5/04/2015.

@@ -1,5 +1,5 @@
 //
-//  ASPreviousGameDatabase.m
+//  PreviousGameDatabase.m
 //  GameHouse
 //
 //  Created by Alex Smith on 8/06/2015.

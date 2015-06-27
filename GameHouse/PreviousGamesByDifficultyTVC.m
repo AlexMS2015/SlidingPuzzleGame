@@ -1,5 +1,5 @@
 //
-//  ASHighScoresByDifficultyVC.m
+//  PreviousGamesByDifficultyTVC.m
 //  GameHouse
 //
 //  Created by Alex Smith on 13/06/2015.
@@ -8,7 +8,7 @@
 
 #import "PreviousGamesByDifficultyTVC.h"
 #import "PreviousGamesByBoardSizeTVC.h"
-#import "ASPuzzleGame.h"
+#import "PuzzleGame.h"
 
 @interface PreviousGamesByDifficultyTVC ()
 
@@ -27,7 +27,7 @@
 
 #pragma mark - Concrete Implementation of Abstract Methods
 
--(NSString *)stringToPivotGame:(ASPuzzleGame *)game
+-(NSString *)stringToPivotGame:(PuzzleGame *)game
 {
     return [game difficultyStringFromDifficulty];
 }

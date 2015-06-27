@@ -1,5 +1,5 @@
 //
-//  ASPuzzleBoard.m
+//  PuzzleBoard.m
 //  GameHouse
 //
 //  Created by Alex Smith on 15/06/2015.

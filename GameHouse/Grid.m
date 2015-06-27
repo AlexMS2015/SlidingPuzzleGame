@@ -1,5 +1,5 @@
 //
-//  ASGameBoardViewSupporter.m
+//  Grid.m
 //  GameHouse
 //
 //  Created by Alex Smith on 24/05/2015.

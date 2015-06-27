@@ -1,5 +1,5 @@
 //
-//  ASPuzzleGame.h
+//  PuzzleGame.h
 //  GameHouse
 //
 //  Created by Alex Smith on 14/06/2015.

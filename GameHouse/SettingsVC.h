@@ -1,5 +1,5 @@
 //
-//  ASSlidingPuzzleSettingsVC.h
+//  SettingsVC.h
 //  GameHouse
 //
 //  Created by Alex Smith on 25/05/2015.

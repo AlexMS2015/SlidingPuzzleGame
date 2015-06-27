@@ -1,5 +1,5 @@
 //
-//  ASSlidingPuzzleGameViewController.m
+//  PuzzleGameVC.m
 //  GameHouse
 //
 //  Created by Alex Smith on 24/05/2015.
@@ -26,9 +26,7 @@
 
 // other
 @property (strong, nonatomic) UIImageView *picShowImageView;
-//@property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic, readwrite) PuzzleGame *puzzleGame;
-@property (strong, nonatomic, readwrite) NSString *imageName;
 @property (strong, nonatomic) Grid *puzzleBoard;
 
 @property (nonatomic) Position previouslySelected;
@@ -42,11 +40,12 @@
 {
     if (!_picShowImageView) {
         _picShowImageView = [[UIImageView alloc] initWithFrame:self.boardContainerView.frame];
-        _picShowImageView.image = [UIImage imageNamed:@"Wooden Tile"];
+        //_picShowImageView.image = [UIImage imageNamed:@"Wooden Tile"];
         
         UIImageView *currentPic = [[UIImageView alloc] initWithFrame:self.boardContainerView.bounds];
-        currentPic.image = [UIImage imageNamed:self.imageName];
-        [_picShowImageView addSubview:currentPic];
+        currentPic.image = [UIImage imageNamed:self.puzzleGame.imageName];
+        //[_picShowImageView addSubview:currentPic];
+        _picShowImageView.image = [UIImage imageNamed:self.puzzleGame.imageName];
         
         [self.view addSubview:_picShowImageView];
     }
@@ -85,7 +84,7 @@
 {
     self.numMovesLabel.text = @"0";
     
-    self.boardContainerView.userInteractionEnabled = NO;
+    self.view.userInteractionEnabled = NO;
     self.countdownLabel.hidden = NO;
     self.countdownLabel.text = @"4";
     
@@ -100,23 +99,19 @@
     }
     
     self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
-    
+}
+
+-(void)setupInitialBoard
+{
     // reset the helper object
     int numRowsAndColumns = sqrt(self.puzzleGame.board.numberOfTiles);
     self.puzzleBoard = [[Grid alloc] initWithSize:self.boardContainerView.bounds.size withRows:numRowsAndColumns andColumns:numRowsAndColumns];
-}
-
--(void)setImageName:(NSString *)imageName
-{
-    _imageName = imageName;
     
-    UIImage *boardImage = [UIImage imageNamed:imageName];
+    UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
     CGSize boardSize = self.boardContainerView.bounds.size;
     
     float imageWidthScale = boardImage.size.width / boardSize.width;
     float imageHeightScale = boardImage.size.height / boardSize.height;
-    
-    int numRowsAndColumns = sqrt(self.puzzleGame.board.numberOfTiles);
     
     Position currentPosition;
     int tileValue = 1;
@@ -134,11 +129,10 @@
             
             // set up the actual board tile with the image and position
             if (tileValue < self.puzzleGame.board.numberOfTiles) {
-                TileView *tile = [[TileView alloc] initWithFrame:tileFrame];
-                
-                tile.positionInABoard = currentPosition;
-                tile.tileValue = tileValue;
-                tile.tileImage = tileImage;
+                TileView *tile = [[TileView alloc] initWithFrame:tileFrame
+                                                        andImage:tileImage
+                                                        andValue:tileValue
+                                              andPositionInBoard:currentPosition];
                 
                 UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
                 [tile addGestureRecognizer:tileTap];
@@ -163,7 +157,7 @@
     [self resetUI];
     
     // setting the imageName will also set up all the tiles with the image by that name
-    self.imageName = imageName;
+    [self setupInitialBoard];
     
     // create and begin the game countdown timer
     NSTimer *countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
@@ -209,6 +203,7 @@
                                                           cancelButtonTitle:@"Ok"
                                                           otherButtonTitles:nil];
         [puzzleSolvedAlert show];
+        [self.puzzleGame save];
     }
 }
 
@@ -221,7 +216,7 @@
         if (buttonIndex != alertView.cancelButtonIndex) {
             [self setupNewGameWithNumTiles:self.puzzleGame.board.numberOfTiles
                              andDifficulty:self.puzzleGame.difficulty
-                            withImageNamed:self.imageName];
+                            withImageNamed:self.puzzleGame.imageName];
         }
     }
 }
@@ -236,7 +231,7 @@
         self.countdownLabel.text = [NSString stringWithFormat:@"%d", --countdown];
     } else {
         self.countdownLabel.hidden = YES;
-        self.boardContainerView.userInteractionEnabled = YES;
+        self.view.userInteractionEnabled = YES;
         [self updateUI];
         [timer invalidate];
     }
@@ -246,11 +241,11 @@
 -(void)toggleFinalPicView:(BOOL)hidden
 {
     if (hidden) {
-        self.boardContainerView.hidden = NO;
+        self.boardContainerView.userInteractionEnabled = YES;
         self.picShowImageView.hidden = YES;
         [self.picShowHideToggle setTitle:@"Show Pic" forState:UIControlStateNormal];
     } else {
-        self.boardContainerView.hidden = YES;
+        self.boardContainerView.userInteractionEnabled = NO;
         self.picShowImageView.hidden = NO;
         [self.picShowHideToggle setTitle:@"Hide Pic" forState:UIControlStateNormal];
     }
@@ -297,13 +292,15 @@
 
 -(void)tileTapped:(UITapGestureRecognizer *)tap
 {
-    if ([tap.view isMemberOfClass:[TileView class]]) {
-        TileView *selectedTile = (TileView *)tap.view;
-        
-        // update the model and UI
-        [self.puzzleGame selectTileAtPosition:selectedTile.positionInABoard];
-        [self updateUI];
-        [self checkForSolvedPuzzle];
+    if (!self.puzzleGame.puzzleIsSolved) {
+        if ([tap.view isMemberOfClass:[TileView class]]) {
+            TileView *selectedTile = (TileView *)tap.view;
+            
+            // update the model and UI
+            [self.puzzleGame selectTileAtPosition:selectedTile.positionInABoard];
+            [self updateUI];
+            [self checkForSolvedPuzzle];
+        }
     }
 }
 

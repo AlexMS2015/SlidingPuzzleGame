@@ -1,5 +1,5 @@
 //
-//  ASGamesListTVC.m
+//  GamesListTVC.m
 //  GameHouse
 //
 //  Created by Alex Smith on 13/06/2015.
@@ -8,7 +8,7 @@
 
 #import "GamesListTVC.h"
 #import "PreviousGameCell.h"
-#import "ASPuzzleGame.h"
+#import "PuzzleGame.h"
 
 @interface GamesListTVC () <UITableViewDataSource, UITableViewDelegate>
 
@@ -45,14 +45,14 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    ASPuzzleGame *spg = self.gamesForTable[indexPath.row];
+    PuzzleGame *game = self.gamesForTable[indexPath.row];
     
     
     PreviousGameCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
 
-    cell.rankLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.gamesForTable indexOfObject:spg] + 1];
-    cell.image.image = [UIImage imageNamed:spg.imageName];
-    cell.mainLabel.text = [NSString stringWithFormat:@"%lu moves", (unsigned long)spg.numberOfMovesMade];
+    cell.rankLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.gamesForTable indexOfObject:game] + 1];
+    cell.image.image = [UIImage imageNamed:game.imageName];
+    cell.mainLabel.text = [NSString stringWithFormat:@"%lu moves", (unsigned long)game.numberOfMovesMade];
     
     return cell;
 }
@@ -133,11 +133,11 @@
 {
     // sort the game by number of moves made (ascending)
     NSArray *sortedGames = [self.games sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        ASPuzzleGame *spg1 = (ASPuzzleGame *)obj1;
-        ASPuzzleGame *spg2 = (ASPuzzleGame *)obj2;
-        if (spg1.numberOfMovesMade > spg2.numberOfMovesMade) {
+        PuzzleGame *game1 = (PuzzleGame *)obj1;
+        PuzzleGame *game2 = (PuzzleGame *)obj2;
+        if (game1.numberOfMovesMade > game2.numberOfMovesMade) {
             return NSOrderedDescending;
-        } else if (spg1.numberOfMovesMade < spg2.numberOfMovesMade) {
+        } else if (game1.numberOfMovesMade < game2.numberOfMovesMade) {
             return NSOrderedAscending;
         } else {
             return NSOrderedSame;
@@ -146,7 +146,7 @@
     self.games = [NSArray arrayWithArray:sortedGames];
     
     // split the games up by complete and incomplete
-    for (ASPuzzleGame *game in self.games) {
+    for (PuzzleGame *game in self.games) {
         if (game.puzzleIsSolved) {
             [self.completeGames addObject:game];
         } else {

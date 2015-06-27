@@ -1,5 +1,5 @@
 //
-//  ASSlidingTileView.h
+//  TileView.h
 //  GameHouse
 //
 //  Created by Alex Smith on 24/05/2015.
@@ -11,9 +11,14 @@
 
 @interface TileView : UIView
 
-@property (nonatomic) int tileValue;
-@property (nonatomic, strong) UIImage *tileImage;
 @property (nonatomic) Position positionInABoard;
+@property (nonatomic, readonly) int tileValue;
+
+// designated initialiser (other initialisers like initWithFrame: won't do anything)
+-(instancetype)initWithFrame:(CGRect)frame
+            andImage:(UIImage *)image
+            andValue:(int)value
+  andPositionInBoard:(Position)position;
 
 -(void)animateToFrame:(CGRect)frame;
 

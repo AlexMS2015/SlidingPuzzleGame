@@ -1,5 +1,5 @@
 //
-//  ASHighScoresTableViewController.h
+//  PreviousGamesTVC.h
 //  GameHouse
 //
 //  Created by Alex Smith on 5/04/2015.
@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class ASPuzzleGame;
+@class PuzzleGame;
 
 @interface PreviousGamesTVC : UITableViewController
 
@@ -16,7 +16,7 @@
 -(NSArray *)gamesForRow:(int)row;
 
 // abstract methods
--(NSString *)stringToPivotGame:(ASPuzzleGame *)game;
+-(NSString *)stringToPivotGame:(PuzzleGame *)game;
 -(NSString *)cellTextWithPivotString:(NSString *)pivotString;
 -(NSString *)headerForTable;
 //
