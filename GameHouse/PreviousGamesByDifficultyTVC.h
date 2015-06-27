@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASHighScoresTableViewController.h"
+#import "PreviousGamesTVC.h"
 
-@interface ASHighScoresByDifficultyVC : ASHighScoresTableViewController
+@interface PreviousGamesByDifficultyTVC : PreviousGamesTVC
 
 @end

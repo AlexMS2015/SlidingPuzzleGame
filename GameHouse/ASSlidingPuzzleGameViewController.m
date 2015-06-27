@@ -269,7 +269,9 @@
 
  - (IBAction)exitTouchUpInside:(UIButton *)sender
 {
-    [self.puzzleGame save];
+    if (self.puzzleGame.numberOfMovesMade > 0) {
+        [self.puzzleGame save];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

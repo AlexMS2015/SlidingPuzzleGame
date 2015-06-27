@@ -6,21 +6,21 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASHighScoresByBoardSizeVC.h"
+#import "PreviousGamesByBoardSizeTVC.h"
 #import "ASPuzzleGame.h"
-#import "ASGamesListTVC.h"
+#import "GamesListTVC.h"
 
-@interface ASHighScoresByBoardSizeVC ()
+@interface PreviousGamesByBoardSizeTVC ()
 
 @end
 
-@implementation ASHighScoresByBoardSizeVC
+@implementation PreviousGamesByBoardSizeTVC
 
 #pragma mark - UITableViewDelegate
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ASGamesListTVC *gamesList = [[ASGamesListTVC alloc] init];
+    GamesListTVC *gamesList = [[GamesListTVC alloc] init];
     gamesList.games = [self gamesForRow:(int)indexPath.row];
     [self.navigationController pushViewController:gamesList animated:YES];
 }
@@ -35,11 +35,6 @@
 -(NSString *)cellTextWithPivotString:(NSString *)pivotString
 {
     return pivotString;
-}
-
--(NSString *)cellSubtitleTextWithNumGames:(int)numGames
-{
-    return [NSString stringWithFormat:@"Games Completed: %d", numGames];
 }
 
 -(NSString *)headerForTable

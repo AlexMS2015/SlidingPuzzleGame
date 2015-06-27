@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class ASPuzzleGame;
 
-@interface ASHighScoresTableViewController : UITableViewController
+@interface PreviousGamesTVC : UITableViewController
 
 @property (strong, nonatomic) NSArray *games;
 
@@ -18,7 +18,6 @@
 // abstract methods
 -(NSString *)stringToPivotGame:(ASPuzzleGame *)game;
 -(NSString *)cellTextWithPivotString:(NSString *)pivotString;
--(NSString *)cellSubtitleTextWithNumGames:(int)numGames;
 -(NSString *)headerForTable;
 //
 

@@ -7,13 +7,14 @@
 //
 
 #import "ASHomeScreenViewController.h"
-#import "ASHighScoresByDifficultyVC.h"
+#import "PreviousGamesByDifficultyTVC.h"
 #import "ASSlidingPuzzleGameViewController.h"
 #import "ASPreviousGameDatabase.h"
 
 @interface ASHomeScreenViewController ()
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *theHSButtons;
+@property (nonatomic) BOOL viewsInPlace;
 
 @end
 
@@ -57,7 +58,7 @@
                          button.alpha = 0.75;
                      }
                      completion: ^(BOOL finished) {
-                         //NSLog(@"springing");
+                         NSLog(@"springing");
                          [UIView animateWithDuration:1.5
                                                delay:0.0
                               usingSpringWithDamping:0.25
@@ -71,15 +72,35 @@
 
 #pragma mark - View Life Cycle
 
+-(void)viewDidLoad
+{
+    self.viewsInPlace = NO;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBarHidden = YES; // Other view controller's that have been presented (e.g. high scores) will have changed this to NO. Need to set it back to YES.
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    self.navigationController.navigationBarHidden = YES; // Other view controller's that have been presented (e.g. high scores) will have changed this to NO. Need to set it back to YES.
-    
-    for (UIButton *button in self.theHSButtons) {
-        [self animateEntranceForButton:button];
+    if (!self.viewsInPlace) {
+        
+        for (UIButton *button in self.theHSButtons) {
+            [self animateEntranceForButton:button];
+        }
     }
+    
+    self.viewsInPlace = YES;
+}
+
+-(void)viewWillLayoutSubviews
+{
+
 }
 
 #pragma mark - Action Methods
@@ -94,7 +115,7 @@
 {
     self.navigationController.navigationBarHidden = NO;
     
-    ASHighScoresByDifficultyVC *HSTable = [[ASHighScoresByDifficultyVC alloc] init];
+    PreviousGamesByDifficultyTVC *HSTable = [[PreviousGamesByDifficultyTVC alloc] init];
     HSTable.games = [ASPreviousGameDatabase sharedDatabase].games;
     [self.navigationController pushViewController:HSTable animated:YES];
 }

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA00BF901AD0FE5D0051DA66 /* ASHighScoresTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA00BF8F1AD0FE5D0051DA66 /* ASHighScoresTableViewController.m */; };
+		FA00BF901AD0FE5D0051DA66 /* PreviousGamesTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA00BF8F1AD0FE5D0051DA66 /* PreviousGamesTVC.m */; };
 		FA0A78C71B2D8A83002B3D1C /* ASPuzzleGame.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0A78C61B2D8A83002B3D1C /* ASPuzzleGame.m */; };
 		FA0A78CC1B2EF00C002B3D1C /* ASPuzzleBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0A78CB1B2EF00C002B3D1C /* ASPuzzleBoard.m */; };
 		FA10141C1AD0D2AC006A7100 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA10141B1AD0D2AC006A7100 /* Foundation.framework */; };
@@ -31,12 +31,11 @@
 		FA966C4D1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C4B1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.m */; };
 		FA966C4E1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA966C4C1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.xib */; };
 		FAF8A3BB1B25667500EEDB01 /* ASPreviousGameDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3BA1B25667500EEDB01 /* ASPreviousGameDatabase.m */; };
-		FAF8A3C01B25CE4C00EEDB01 /* ASTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3BF1B25CE4C00EEDB01 /* ASTableViewCell.m */; };
-		FAF8A3C31B2C020F00EEDB01 /* ASHighScoresByDifficultyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C21B2C020F00EEDB01 /* ASHighScoresByDifficultyVC.m */; };
-		FAF8A3C61B2C045900EEDB01 /* ASHighScoresByBoardSizeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C51B2C045900EEDB01 /* ASHighScoresByBoardSizeVC.m */; };
-		FAF8A3C91B2C060900EEDB01 /* ASGamesListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C81B2C060900EEDB01 /* ASGamesListTVC.m */; };
-		FAF8A3CD1B2C164600EEDB01 /* ASGameCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3CB1B2C164600EEDB01 /* ASGameCellTableViewCell.m */; };
-		FAF8A3CE1B2C164600EEDB01 /* ASGameCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF8A3CC1B2C164600EEDB01 /* ASGameCellTableViewCell.xib */; };
+		FAF8A3C31B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C21B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m */; };
+		FAF8A3C61B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C51B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m */; };
+		FAF8A3C91B2C060900EEDB01 /* GamesListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C81B2C060900EEDB01 /* GamesListTVC.m */; };
+		FAF8A3CD1B2C164600EEDB01 /* PreviousGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3CB1B2C164600EEDB01 /* PreviousGameCell.m */; };
+		FAF8A3CE1B2C164600EEDB01 /* PreviousGameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF8A3CC1B2C164600EEDB01 /* PreviousGameCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,8 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FA00BF8E1AD0FE5D0051DA66 /* ASHighScoresTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASHighScoresTableViewController.h; sourceTree = "<group>"; };
-		FA00BF8F1AD0FE5D0051DA66 /* ASHighScoresTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASHighScoresTableViewController.m; sourceTree = "<group>"; };
+		FA00BF8E1AD0FE5D0051DA66 /* PreviousGamesTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGamesTVC.h; sourceTree = "<group>"; };
+		FA00BF8F1AD0FE5D0051DA66 /* PreviousGamesTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousGamesTVC.m; sourceTree = "<group>"; };
 		FA0A78C51B2D8A83002B3D1C /* ASPuzzleGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPuzzleGame.h; sourceTree = "<group>"; };
 		FA0A78C61B2D8A83002B3D1C /* ASPuzzleGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASPuzzleGame.m; sourceTree = "<group>"; };
 		FA0A78CA1B2EF00C002B3D1C /* ASPuzzleBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPuzzleBoard.h; sourceTree = "<group>"; };
@@ -88,17 +87,15 @@
 		FA966C4C1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ASSlidingPuzzleSettingsVC.xib; sourceTree = "<group>"; };
 		FAF8A3B91B25667500EEDB01 /* ASPreviousGameDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPreviousGameDatabase.h; sourceTree = "<group>"; };
 		FAF8A3BA1B25667500EEDB01 /* ASPreviousGameDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASPreviousGameDatabase.m; sourceTree = "<group>"; };
-		FAF8A3BE1B25CE4C00EEDB01 /* ASTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASTableViewCell.h; sourceTree = "<group>"; };
-		FAF8A3BF1B25CE4C00EEDB01 /* ASTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASTableViewCell.m; sourceTree = "<group>"; };
-		FAF8A3C11B2C020F00EEDB01 /* ASHighScoresByDifficultyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASHighScoresByDifficultyVC.h; sourceTree = "<group>"; };
-		FAF8A3C21B2C020F00EEDB01 /* ASHighScoresByDifficultyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASHighScoresByDifficultyVC.m; sourceTree = "<group>"; };
-		FAF8A3C41B2C045900EEDB01 /* ASHighScoresByBoardSizeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASHighScoresByBoardSizeVC.h; sourceTree = "<group>"; };
-		FAF8A3C51B2C045900EEDB01 /* ASHighScoresByBoardSizeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASHighScoresByBoardSizeVC.m; sourceTree = "<group>"; };
-		FAF8A3C71B2C060900EEDB01 /* ASGamesListTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASGamesListTVC.h; sourceTree = "<group>"; };
-		FAF8A3C81B2C060900EEDB01 /* ASGamesListTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASGamesListTVC.m; sourceTree = "<group>"; };
-		FAF8A3CA1B2C164600EEDB01 /* ASGameCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASGameCellTableViewCell.h; sourceTree = "<group>"; };
-		FAF8A3CB1B2C164600EEDB01 /* ASGameCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASGameCellTableViewCell.m; sourceTree = "<group>"; };
-		FAF8A3CC1B2C164600EEDB01 /* ASGameCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ASGameCellTableViewCell.xib; sourceTree = "<group>"; };
+		FAF8A3C11B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGamesByDifficultyTVC.h; sourceTree = "<group>"; };
+		FAF8A3C21B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousGamesByDifficultyTVC.m; sourceTree = "<group>"; };
+		FAF8A3C41B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGamesByBoardSizeTVC.h; sourceTree = "<group>"; };
+		FAF8A3C51B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousGamesByBoardSizeTVC.m; sourceTree = "<group>"; };
+		FAF8A3C71B2C060900EEDB01 /* GamesListTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesListTVC.h; sourceTree = "<group>"; };
+		FAF8A3C81B2C060900EEDB01 /* GamesListTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesListTVC.m; sourceTree = "<group>"; };
+		FAF8A3CA1B2C164600EEDB01 /* PreviousGameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGameCell.h; sourceTree = "<group>"; };
+		FAF8A3CB1B2C164600EEDB01 /* PreviousGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousGameCell.m; sourceTree = "<group>"; };
+		FAF8A3CC1B2C164600EEDB01 /* PreviousGameCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviousGameCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,9 +125,9 @@
 		FA00BF951AD104510051DA66 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FA0A78CD1B2EF538002B3D1C /* Enums.h */,
 				FAF8A3B91B25667500EEDB01 /* ASPreviousGameDatabase.h */,
 				FAF8A3BA1B25667500EEDB01 /* ASPreviousGameDatabase.m */,
-				FA0A78CD1B2EF538002B3D1C /* Enums.h */,
 				FA0A78C51B2D8A83002B3D1C /* ASPuzzleGame.h */,
 				FA0A78C61B2D8A83002B3D1C /* ASPuzzleGame.m */,
 				FA0A78CA1B2EF00C002B3D1C /* ASPuzzleBoard.h */,
@@ -243,19 +240,17 @@
 		FAF8A3BD1B256F8C00EEDB01 /* High Scores Screen */ = {
 			isa = PBXGroup;
 			children = (
-				FA00BF8E1AD0FE5D0051DA66 /* ASHighScoresTableViewController.h */,
-				FA00BF8F1AD0FE5D0051DA66 /* ASHighScoresTableViewController.m */,
-				FAF8A3C11B2C020F00EEDB01 /* ASHighScoresByDifficultyVC.h */,
-				FAF8A3C21B2C020F00EEDB01 /* ASHighScoresByDifficultyVC.m */,
-				FAF8A3C41B2C045900EEDB01 /* ASHighScoresByBoardSizeVC.h */,
-				FAF8A3C51B2C045900EEDB01 /* ASHighScoresByBoardSizeVC.m */,
-				FAF8A3C71B2C060900EEDB01 /* ASGamesListTVC.h */,
-				FAF8A3C81B2C060900EEDB01 /* ASGamesListTVC.m */,
-				FAF8A3BE1B25CE4C00EEDB01 /* ASTableViewCell.h */,
-				FAF8A3BF1B25CE4C00EEDB01 /* ASTableViewCell.m */,
-				FAF8A3CA1B2C164600EEDB01 /* ASGameCellTableViewCell.h */,
-				FAF8A3CB1B2C164600EEDB01 /* ASGameCellTableViewCell.m */,
-				FAF8A3CC1B2C164600EEDB01 /* ASGameCellTableViewCell.xib */,
+				FA00BF8E1AD0FE5D0051DA66 /* PreviousGamesTVC.h */,
+				FA00BF8F1AD0FE5D0051DA66 /* PreviousGamesTVC.m */,
+				FAF8A3C11B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.h */,
+				FAF8A3C21B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m */,
+				FAF8A3C41B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.h */,
+				FAF8A3C51B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m */,
+				FAF8A3C71B2C060900EEDB01 /* GamesListTVC.h */,
+				FAF8A3C81B2C060900EEDB01 /* GamesListTVC.m */,
+				FAF8A3CA1B2C164600EEDB01 /* PreviousGameCell.h */,
+				FAF8A3CB1B2C164600EEDB01 /* PreviousGameCell.m */,
+				FAF8A3CC1B2C164600EEDB01 /* PreviousGameCell.xib */,
 			);
 			name = "High Scores Screen";
 			sourceTree = "<group>";
@@ -337,7 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA966C4E1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.xib in Resources */,
-				FAF8A3CE1B2C164600EEDB01 /* ASGameCellTableViewCell.xib in Resources */,
+				FAF8A3CE1B2C164600EEDB01 /* PreviousGameCell.xib in Resources */,
 				FA10144E1AD0E429006A7100 /* ASHomeScreenViewController.xib in Resources */,
 				FA966C3A1B115A70004C28C0 /* ASSlidingPuzzleGameViewController.xib in Resources */,
 				FA1014261AD0D2AD006A7100 /* InfoPlist.strings in Resources */,
@@ -365,16 +360,15 @@
 				FA966C391B115A70004C28C0 /* ASSlidingPuzzleGameViewController.m in Sources */,
 				FA966C351B1158C5004C28C0 /* ASGameBoardViewSupporter.m in Sources */,
 				FA1014281AD0D2AD006A7100 /* main.m in Sources */,
-				FAF8A3C91B2C060900EEDB01 /* ASGamesListTVC.m in Sources */,
+				FAF8A3C91B2C060900EEDB01 /* GamesListTVC.m in Sources */,
 				FA10144D1AD0E429006A7100 /* ASHomeScreenViewController.m in Sources */,
 				FA966C4D1B133705004C28C0 /* ASSlidingPuzzleSettingsVC.m in Sources */,
-				FAF8A3C61B2C045900EEDB01 /* ASHighScoresByBoardSizeVC.m in Sources */,
-				FAF8A3CD1B2C164600EEDB01 /* ASGameCellTableViewCell.m in Sources */,
+				FAF8A3C61B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m in Sources */,
+				FAF8A3CD1B2C164600EEDB01 /* PreviousGameCell.m in Sources */,
 				FA0A78C71B2D8A83002B3D1C /* ASPuzzleGame.m in Sources */,
-				FA00BF901AD0FE5D0051DA66 /* ASHighScoresTableViewController.m in Sources */,
-				FAF8A3C31B2C020F00EEDB01 /* ASHighScoresByDifficultyVC.m in Sources */,
+				FA00BF901AD0FE5D0051DA66 /* PreviousGamesTVC.m in Sources */,
+				FAF8A3C31B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m in Sources */,
 				FA966C481B11B0AB004C28C0 /* ASSlidingTileView.m in Sources */,
-				FAF8A3C01B25CE4C00EEDB01 /* ASTableViewCell.m in Sources */,
 				FAF8A3BB1B25667500EEDB01 /* ASPreviousGameDatabase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

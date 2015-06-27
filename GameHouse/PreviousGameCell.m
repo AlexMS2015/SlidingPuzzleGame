@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASGameCellTableViewCell.h"
+#import "PreviousGameCell.h"
 
-@implementation ASGameCellTableViewCell
+@implementation PreviousGameCell
 
 +(int)cellHeight
 {

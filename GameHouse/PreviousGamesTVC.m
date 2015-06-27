@@ -6,18 +6,18 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASHighScoresTableViewController.h"
+#import "PreviousGamesTVC.h"
 #import "ASPreviousGameDatabase.h"
 #import "ASPuzzleGame.h"
-#import "ASGameCellTableViewCell.h"
+#import "PreviousGameCell.h"
 
-@interface ASHighScoresTableViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface PreviousGamesTVC () <UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) NSMutableDictionary *highScores;
+@property (strong, nonatomic) NSMutableDictionary *previousGames;
 
 @end
 
-@implementation ASHighScoresTableViewController
+@implementation PreviousGamesTVC
 
 #define CELL_IDENTIFIER @"ASGameCellTableViewCell"
 
@@ -33,11 +33,6 @@
     return nil;
 }
 
--(NSString *)cellSubtitleTextWithNumGames:(int)numGames
-{
-    return nil;
-}
-
 -(NSString *)headerForTable
 {
     return nil;
@@ -47,34 +42,24 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [ASGameCellTableViewCell cellHeight];
+    return [PreviousGameCell cellHeight];
 }
 
 #pragma mark - UITableViewDataSource
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.highScores allKeys] count];
-}
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return [self headerForTable];
+    return [[self.previousGames allKeys] count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ASGameCellTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER
+    PreviousGameCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER
                                                                  forIndexPath:indexPath];
     
-    NSString *pivotString = [self.highScores allKeys][indexPath.row];
+    NSString *pivotString = [self.previousGames allKeys][indexPath.row];
     cell.mainLabel.text = [self cellTextWithPivotString:pivotString];
-    cell.subLabel.text = [self cellSubtitleTextWithNumGames:(int)[self.highScores[pivotString] count]];
+    cell.subLabel.text = [NSString stringWithFormat:@"Games: %lu", (unsigned long)[self.previousGames[pivotString] count]];
     cell.rankLabel.hidden = YES;
     cell.image.hidden = YES;
     
@@ -85,33 +70,38 @@
 
 -(NSArray *)gamesForRow:(int)row
 {
-    NSString *pivotString = [self.highScores allKeys][row];
-    return self.highScores[pivotString];
+    NSString *pivotString = [self.previousGames allKeys][row];
+    return self.previousGames[pivotString];
 }
 
 -(void)transformData
 {
-    self.highScores = [NSMutableDictionary dictionary];
+    self.previousGames = [NSMutableDictionary dictionary];
     
     for (ASPuzzleGame *game in self.games) {
         NSString *pivotString = [self stringToPivotGame:game];
         
-        if (!self.highScores[pivotString]) {
-            self.highScores[pivotString] = [NSMutableArray array];
+        if (!self.previousGames[pivotString]) {
+            self.previousGames[pivotString] = [NSMutableArray array];
         }
         
-        [self.highScores[pivotString] addObject:game];
+        [self.previousGames[pivotString] addObject:game];
     }
 }
 
-#pragma mark - View Controller Life Cycle
+#pragma mark - View Life Cycle
+
+-(void)back:(UIBarButtonItem *)button
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
     
     //self.tableView.backgroundColor = [UIColor colorWithRed:102 green:204 blue:255 alpha:1.0];
-    self.title = @"High Scores";
+    self.title = [self headerForTable];
     
     //[self.tableView registerClass:[ASTableViewCell class] forCellReuseIdentifier:CELL_IDENTIFIER];
     UINib *nib = [UINib nibWithNibName:CELL_IDENTIFIER bundle:nil];
@@ -119,7 +109,9 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-        
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:@selector(back:)];
+    
     [self transformData];
 }
 

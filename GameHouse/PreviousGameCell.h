@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ASGameCellTableViewCell : UITableViewCell
+@interface PreviousGameCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *rankLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *image;

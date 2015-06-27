@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -19,20 +20,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeScreenWallpaper" translatesAutoresizingMaskIntoConstraints="NO" id="g27-Ug-gwo">
-                    <rect key="frame" x="0.0" y="-228" width="320" height="1024"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDk-DV-sai">
-                    <rect key="frame" x="38" y="336" width="244" height="167"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                    <state key="normal" title="High Scores" backgroundImage="Black Button">
-                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="showHighScores:" destination="-1" eventType="touchUpInside" id="tzA-Fs-q7M"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvv-Hc-tGN">
-                    <rect key="frame" x="43" y="58" width="235" height="76"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvv-Hc-tGN">
+                    <rect key="frame" x="32" y="95" width="256" height="64"/>
+                    <constraints>
+                        <constraint firstAttribute="height" secondItem="fvv-Hc-tGN" secondAttribute="width" multiplier="0.25" id="8Ul-kM-duW"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="33"/>
                     <state key="normal" title="Sliding Puzzle" backgroundImage="Wooden Tile">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -41,8 +35,11 @@
                         <action selector="showHighScores:" destination="-1" eventType="touchUpInside" id="cTy-Fs-6Eq"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qaB-1c-mKv">
-                    <rect key="frame" x="32" y="172" width="257" height="158"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qaB-1c-mKv">
+                    <rect key="frame" x="32" y="187" width="256" height="154"/>
+                    <constraints>
+                        <constraint firstAttribute="height" secondItem="qaB-1c-mKv" secondAttribute="width" multiplier="0.6" id="kXD-tW-yK1"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <state key="normal" title="New Game" backgroundImage="Black Button">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -51,13 +48,33 @@
                         <action selector="beginNewGame:" destination="-1" eventType="touchUpInside" id="so0-kv-1ig"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDk-DV-sai">
+                    <rect key="frame" x="32" y="349" width="256" height="154"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <state key="normal" title="Previous Games" backgroundImage="Black Button">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="showHighScores:" destination="-1" eventType="touchUpInside" id="tzA-Fs-q7M"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="qaB-1c-mKv" secondAttribute="bottom" constant="238" id="2nn-FU-Fqs"/>
-                <constraint firstItem="gDk-DV-sai" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" multiplier="0.75" id="Rsj-LZ-nuq"/>
-                <constraint firstItem="g27-Ug-gwo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="T4G-gX-Rl1"/>
-                <constraint firstAttribute="trailing" secondItem="g27-Ug-gwo" secondAttribute="trailing" id="pXU-5U-se9"/>
-                <constraint firstAttribute="centerY" secondItem="g27-Ug-gwo" secondAttribute="centerY" id="zdd-TC-mZA"/>
+                <constraint firstItem="g27-Ug-gwo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4vC-CV-7Fg"/>
+                <constraint firstAttribute="centerX" secondItem="qaB-1c-mKv" secondAttribute="centerX" id="6Ku-n6-62Q"/>
+                <constraint firstItem="qaB-1c-mKv" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" multiplier="0.6" id="7sT-7a-d77"/>
+                <constraint firstItem="fvv-Hc-tGN" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="0.9" id="9RR-Mc-Wq8"/>
+                <constraint firstAttribute="bottom" secondItem="g27-Ug-gwo" secondAttribute="bottom" id="AeR-zo-NHg"/>
+                <constraint firstItem="gDk-DV-sai" firstAttribute="top" secondItem="qaB-1c-mKv" secondAttribute="bottom" constant="8" id="ApO-qF-Gnc"/>
+                <constraint firstItem="gDk-DV-sai" firstAttribute="trailing" secondItem="qaB-1c-mKv" secondAttribute="trailing" id="Wzp-iJ-vck"/>
+                <constraint firstItem="fvv-Hc-tGN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="0.1" id="YWa-dg-a99"/>
+                <constraint firstAttribute="trailing" secondItem="g27-Ug-gwo" secondAttribute="trailing" id="bEl-Y9-E6t"/>
+                <constraint firstItem="fvv-Hc-tGN" firstAttribute="bottom" secondItem="qaB-1c-mKv" secondAttribute="top" multiplier="0.85" id="dvF-1N-gSn"/>
+                <constraint firstItem="gDk-DV-sai" firstAttribute="leading" secondItem="qaB-1c-mKv" secondAttribute="leading" id="e5z-dW-fPf"/>
+                <constraint firstItem="qaB-1c-mKv" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="0.9" id="hwD-lY-O2t"/>
+                <constraint firstItem="gDk-DV-sai" firstAttribute="height" secondItem="qaB-1c-mKv" secondAttribute="height" id="skq-4b-Yq9"/>
+                <constraint firstItem="g27-Ug-gwo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="vzi-gM-7Ys"/>
+                <constraint firstItem="qaB-1c-mKv" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="0.1" id="xMF-XK-GHq"/>
             </constraints>
         </view>
     </objects>
