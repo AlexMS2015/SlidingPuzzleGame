@@ -7,7 +7,7 @@
 //
 
 #import "GamesListTVC.h"
-#import "ASGameCellTableViewCell.h"
+#import "PreviousGameCell.h"
 #import "ASPuzzleGame.h"
 
 @interface GamesListTVC () <UITableViewDataSource, UITableViewDelegate>
@@ -21,13 +21,13 @@
 
 @implementation GamesListTVC
 
-#define CELL_IDENTIFIER @"ASGameCellTableViewCell"
+#define CELL_IDENTIFIER @"PreviousGameCell"
 
 #pragma mark - UITableViewDelegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [ASGameCellTableViewCell cellHeight];
+    return [PreviousGameCell cellHeight];
 }
 
 #pragma mark - UITableViewDataSource
@@ -48,7 +48,7 @@
     ASPuzzleGame *spg = self.gamesForTable[indexPath.row];
     
     
-    ASGameCellTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
+    PreviousGameCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
 
     cell.rankLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.gamesForTable indexOfObject:spg] + 1];
     cell.image.image = [UIImage imageNamed:spg.imageName];

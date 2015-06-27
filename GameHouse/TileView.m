@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASSlidingTileView.h"
+#import "TileView.h"
 
-@implementation ASSlidingTileView
+@implementation TileView
 
 #pragma mark - Properties
 

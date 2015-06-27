@@ -6,18 +6,18 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASAppDelegate.h"
-#import "ASHomeScreenViewController.h"
+#import "AppDelegate.h"
+#import "HomeScreenVC.h"
 #import "ASSlidingPuzzleGameViewController.h"
-#import "ASPuzzleGame.h"
+#import "PuzzleGame.h"
 
-@implementation ASAppDelegate
+@implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    ASHomeScreenViewController *homeScreen = [[ASHomeScreenViewController alloc] init];
+    HomeScreenVC *homeScreen = [[HomeScreenVC alloc] init];
     
     UINavigationController *appNC = [[UINavigationController alloc] initWithRootViewController:homeScreen];
     self.window.rootViewController = appNC;

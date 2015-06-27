@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ASPuzzleBoard.h"
+#import "PuzzleBoard.h"
 #import "Enums.h"
 
-@interface ASPuzzleGame : NSObject
+@interface PuzzleGame : NSObject
 
 @property (nonatomic, readonly) Difficulty difficulty;
 @property (nonatomic, readonly) BOOL puzzleIsSolved;
 @property (nonatomic) int numberOfMovesMade;
-@property (nonatomic, strong) ASPuzzleBoard *board;
+@property (nonatomic, strong) PuzzleBoard *board;
 @property (nonatomic) NSString *imageName;
 
 -(instancetype)initWithNumberOfTiles:(int)numTiles

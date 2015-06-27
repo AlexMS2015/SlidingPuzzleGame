@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ASPuzzleGame.h"
+#import "PuzzleGame.h"
 
-@interface ASSlidingPuzzleGameViewController : UIViewController
+@interface PuzzleGameVC : UIViewController
 
-//@property (strong, nonatomic, readonly) ASSlidingPuzzleGame *puzzleGame;
-@property (strong, nonatomic, readonly) ASPuzzleGame *puzzleGame;
+@property (strong, nonatomic, readonly) PuzzleGame *puzzleGame;
 
 @property (strong, nonatomic, readonly) NSString *imageName;
 @property (strong, nonatomic, readonly) NSArray *availableImageNames;

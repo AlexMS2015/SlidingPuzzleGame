@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASSlidingPuzzleSettingsVC.h"
-#import "ASGameBoardViewSupporter.h"
+#import "SettingsVC.h"
+#import "Grid.h"
 
-@interface ASSlidingPuzzleSettingsVC () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface SettingsVC () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UISlider *numTilesSlider;
@@ -21,10 +21,10 @@
 @property (nonatomic) int newNumTiles;
 @property (nonatomic) Difficulty newDifficulty;
 @property (strong, nonatomic) NSString *gameImageName;
-@property (strong, nonatomic) ASGameBoardViewSupporter *miniGameBoard;
+@property (strong, nonatomic) Grid *miniGameBoard;
 @end
 
-@implementation ASSlidingPuzzleSettingsVC
+@implementation SettingsVC
 
 #pragma mark - UICollectionViewDelegate
 
@@ -95,7 +95,7 @@
         }];
     }
     
-    self.miniGameBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.miniGameBoardImageView.bounds.size withRows:sqrt(numTiles) andColumns:sqrt(numTiles)];
+    self.miniGameBoard = [[Grid alloc] initWithSize:self.miniGameBoardImageView.bounds.size withRows:sqrt(numTiles) andColumns:sqrt(numTiles)];
     
     self.miniGameBoardImageView.image = [UIImage imageNamed:self.gameImageName];
     

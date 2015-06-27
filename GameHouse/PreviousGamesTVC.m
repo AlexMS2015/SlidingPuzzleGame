@@ -19,7 +19,7 @@
 
 @implementation PreviousGamesTVC
 
-#define CELL_IDENTIFIER @"ASGameCellTableViewCell"
+#define CELL_IDENTIFIER @"PreviousGameCell"
 
 #pragma mark - Abstract Method
 

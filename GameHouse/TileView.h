@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Enums.h"
 
-@interface ASSlidingTileView : UIView
+@interface TileView : UIView
 
 @property (nonatomic) int tileValue;
 @property (nonatomic, strong) UIImage *tileImage;

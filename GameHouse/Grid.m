@@ -6,16 +6,16 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASGameBoardViewSupporter.h"
+#import "Grid.h"
 
-@interface ASGameBoardViewSupporter ()
+@interface Grid ()
 
 @property (nonatomic) double cellWidth;
 @property (nonatomic) double cellHeight;
 
 @end
 
-@implementation ASGameBoardViewSupporter
+@implementation Grid
 
 -(instancetype)initWithSize:(CGSize)size withRows:(int)rows andColumns:(int)columns
 {

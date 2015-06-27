@@ -6,21 +6,23 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASPreviousGameDatabase.h"
-#import "ASPuzzleGame.h"
+#import "PreviousGameDatabase.h"
+#import "PuzzleGame.h"
 
-@interface ASPreviousGameDatabase ()
+@interface PreviousGameDatabase ()
+
 @property (strong, nonatomic) NSMutableArray *gamesPrivate;
+
 @end
 
-@implementation ASPreviousGameDatabase
+@implementation PreviousGameDatabase
 
 #pragma mark - Initialisers
 
 +(instancetype)sharedDatabase
 {
     
-    static ASPreviousGameDatabase *sharedDatabase; // WHAT DOES THE STATIC KEYWORD DO??
+    static PreviousGameDatabase *sharedDatabase; // WHAT DOES THE STATIC KEYWORD DO??
     
     if (!sharedDatabase) {
         sharedDatabase = [[self alloc] initPrivate];
@@ -64,7 +66,7 @@
     return [NSKeyedArchiver archiveRootObject:self.gamesPrivate toFile:path];
 }
 
--(void)addGameAndSave:(ASPuzzleGame *)game
+-(void)addGameAndSave:(PuzzleGame *)game
 {
     [self.gamesPrivate addObject:game];
     [self save];

@@ -6,19 +6,19 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASHomeScreenViewController.h"
+#import "HomeScreenVC.h"
 #import "PreviousGamesByDifficultyTVC.h"
-#import "ASSlidingPuzzleGameViewController.h"
-#import "ASPreviousGameDatabase.h"
+#import "PuzzleGameVC.h"
+#import "PreviousGameDatabase.h"
 
-@interface ASHomeScreenViewController ()
+@interface HomeScreenVC ()
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *theHSButtons;
 @property (nonatomic) BOOL viewsInPlace;
 
 @end
 
-@implementation ASHomeScreenViewController
+@implementation HomeScreenVC
 
 #pragma mark - Helper Methods
 
@@ -107,7 +107,7 @@
 
 - (IBAction)beginNewGame:(UIButton *)sender
 {
-    ASSlidingPuzzleGameViewController *spg = [[ASSlidingPuzzleGameViewController alloc] init];
+    PuzzleGameVC *spg = [[PuzzleGameVC alloc] init];
     [self.navigationController pushViewController:spg animated:YES];
 }
 
@@ -116,7 +116,7 @@
     self.navigationController.navigationBarHidden = NO;
     
     PreviousGamesByDifficultyTVC *HSTable = [[PreviousGamesByDifficultyTVC alloc] init];
-    HSTable.games = [ASPreviousGameDatabase sharedDatabase].games;
+    HSTable.games = [PreviousGameDatabase sharedDatabase].games;
     [self.navigationController pushViewController:HSTable animated:YES];
 }
 

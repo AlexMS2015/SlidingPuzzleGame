@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Enums.h"
 
-@interface ASPuzzleBoard : NSObject
+@interface PuzzleBoard : NSObject
 
 @property (nonatomic, readonly) int numberOfTiles;
 

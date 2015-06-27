@@ -6,16 +6,16 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASPuzzleGame.h"
-#import "ASPreviousGameDatabase.h"
+#import "PuzzleGame.h"
+#import "PreviousGameDatabase.h"
 
-@interface ASPuzzleGame () <NSCoding>
+@interface PuzzleGame () <NSCoding>
 
 @property (nonatomic, readwrite) BOOL puzzleIsSolved;
 @property (nonatomic, readwrite) Difficulty difficulty;
 @end
 
-@implementation ASPuzzleGame
+@implementation PuzzleGame
 
 #pragma mark - NSCoding
 
@@ -72,7 +72,7 @@
 
 -(void)save
 {
-    [[ASPreviousGameDatabase sharedDatabase] addGameAndSave:self];
+    [[PreviousGameDatabase sharedDatabase] addGameAndSave:self];
 }
 
 -(NSString *)difficultyStringFromDifficulty
@@ -149,7 +149,7 @@
     self = [super init];
     
     if (self) {
-        self.board = [[ASPuzzleBoard alloc] initWithNumTiles:numTiles];
+        self.board = [[PuzzleBoard alloc] initWithNumTiles:numTiles];
         [self setTilesInInitialPositions];
         self.difficulty = difficulty;
         self.imageName = imageName;

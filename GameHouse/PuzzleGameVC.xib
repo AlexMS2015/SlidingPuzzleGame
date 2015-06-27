@@ -6,7 +6,7 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ASSlidingPuzzleGameViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PuzzleGameVC">
             <connections>
                 <outlet property="boardContainerView" destination="Kny-tI-cNC" id="ORp-kh-mwa"/>
                 <outlet property="countdownLabel" destination="yeq-gY-XNp" id="Pv6-08-7Md"/>

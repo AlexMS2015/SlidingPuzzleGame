@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASSlidingPuzzleGameViewController.h"
-#import "ASGameBoardViewSupporter.h"
-#import "ASPuzzleGame.h"
-#import "ASSlidingTileView.h"
-#import "ASSlidingPuzzleSettingsVC.h"
-#import "ASPreviousGameDatabase.h"
+#import "PuzzleGameVC.h"
+#import "Grid.h"
+#import "PuzzleGame.h"
+#import "TileView.h"
+#import "SettingsVC.h"
+#import "PreviousGameDatabase.h"
 #import "Enums.h"
 
-@interface ASSlidingPuzzleGameViewController () <UIAlertViewDelegate>
+@interface PuzzleGameVC () <UIAlertViewDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UIView *boardContainerView;
@@ -27,14 +27,14 @@
 // other
 @property (strong, nonatomic) UIImageView *picShowImageView;
 //@property (strong, nonatomic, readwrite) ASSlidingPuzzleGame *puzzleGame;
-@property (strong, nonatomic, readwrite) ASPuzzleGame *puzzleGame;
+@property (strong, nonatomic, readwrite) PuzzleGame *puzzleGame;
 @property (strong, nonatomic, readwrite) NSString *imageName;
-@property (strong, nonatomic) ASGameBoardViewSupporter *puzzleBoard;
+@property (strong, nonatomic) Grid *puzzleBoard;
 
 @property (nonatomic) Position previouslySelected;
 @end
 
-@implementation ASSlidingPuzzleGameViewController
+@implementation PuzzleGameVC
 
 #pragma mark - Properties
 
@@ -103,7 +103,7 @@
     
     // reset the helper object
     int numRowsAndColumns = sqrt(self.puzzleGame.board.numberOfTiles);
-    self.puzzleBoard = [[ASGameBoardViewSupporter alloc] initWithSize:self.boardContainerView.bounds.size withRows:numRowsAndColumns andColumns:numRowsAndColumns];
+    self.puzzleBoard = [[Grid alloc] initWithSize:self.boardContainerView.bounds.size withRows:numRowsAndColumns andColumns:numRowsAndColumns];
 }
 
 -(void)setImageName:(NSString *)imageName
@@ -134,7 +134,7 @@
             
             // set up the actual board tile with the image and position
             if (tileValue < self.puzzleGame.board.numberOfTiles) {
-                ASSlidingTileView *tile = [[ASSlidingTileView alloc] initWithFrame:tileFrame];
+                TileView *tile = [[TileView alloc] initWithFrame:tileFrame];
                 
                 tile.positionInABoard = currentPosition;
                 tile.tileValue = tileValue;
@@ -155,7 +155,7 @@
                  withImageNamed:(NSString *)imageName;
 {
     // setup the model
-    self.puzzleGame = [[ASPuzzleGame alloc] initWithNumberOfTiles:numTiles
+    self.puzzleGame = [[PuzzleGame alloc] initWithNumberOfTiles:numTiles
                                                            andDifficulty:difficulty
                                                     andImageNamed:imageName];
     
@@ -179,7 +179,7 @@
 -(void)updateUI
 {
     // the game model has been updated but the UI has not... hence need to find which tiles have moved and to where
-    for (ASSlidingTileView *tileToUpdate in self.boardContainerView.subviews) {
+    for (TileView *tileToUpdate in self.boardContainerView.subviews) {
         int currentTileValue = tileToUpdate.tileValue;
         
         int newTileValue = [self.puzzleGame.board valueOfTileAtPosition:tileToUpdate.positionInABoard];
@@ -277,9 +277,9 @@
 
 - (IBAction)settingsTouchUpInside:(UIButton *)sender
 {
-    ASSlidingPuzzleSettingsVC *settingVC =[[ASSlidingPuzzleSettingsVC alloc] init];
+    SettingsVC *settingVC =[[SettingsVC alloc] init];
     settingVC.gameVCForSettings = self;
-        
+    
     [self presentViewController:settingVC animated:YES completion:NULL];
 }
 
@@ -297,8 +297,8 @@
 
 -(void)tileTapped:(UITapGestureRecognizer *)tap
 {
-    if ([tap.view isMemberOfClass:[ASSlidingTileView class]]) {
-        ASSlidingTileView *selectedTile = (ASSlidingTileView *)tap.view;
+    if ([tap.view isMemberOfClass:[TileView class]]) {
+        TileView *selectedTile = (TileView *)tap.view;
         
         // update the model and UI
         [self.puzzleGame selectTileAtPosition:selectedTile.positionInABoard];

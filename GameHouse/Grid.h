@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Enums.h"
 
-@interface ASGameBoardViewSupporter : NSObject
+@interface Grid : NSObject
 
 -(instancetype)initWithSize:(CGSize)size withRows:(int)rows andColumns:(int)columns;
 -(CGRect)frameOfCellAtPosition:(Position)position;

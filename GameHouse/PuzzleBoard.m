@@ -6,16 +6,16 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ASPuzzleBoard.h"
+#import "PuzzleBoard.h"
 
-@interface ASPuzzleBoard () <NSCoding>
+@interface PuzzleBoard () <NSCoding>
 
 @property (strong, nonatomic) NSMutableArray *tiles;
 @property (nonatomic, readwrite) int numberOfTiles;
 
 @end
 
-@implementation ASPuzzleBoard
+@implementation PuzzleBoard
 
 #pragma mark - Properties
 
