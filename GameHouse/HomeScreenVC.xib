@@ -31,9 +31,6 @@
                     <state key="normal" title="Sliding Puzzle" backgroundImage="Wooden Tile">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
-                    <connections>
-                        <action selector="showHighScores:" destination="-1" eventType="touchUpInside" id="cTy-Fs-6Eq"/>
-                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qaB-1c-mKv">
                     <rect key="frame" x="32" y="187" width="256" height="154"/>
