@@ -17,6 +17,7 @@
 @property (nonatomic) int numberOfMovesMade;
 @property (nonatomic, strong) PuzzleBoard *board;
 @property (nonatomic) NSString *imageName;
+@property (nonatomic, strong, readonly) NSDate *datePlayed;
 
 -(instancetype)initWithNumberOfTiles:(int)numTiles
                        andDifficulty:(Difficulty)difficulty

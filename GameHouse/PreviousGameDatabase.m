@@ -33,7 +33,7 @@
 
 -(instancetype)initPrivate
 {
-    self = [super init]; // REVISE THIS CODE IN THE BOOK PLEASE
+    self = [super init]; // REVISE THIS CODE IN THE BOOK PLEASE?
     
     if (self) {
         NSString *path = [self previousGamesPath];
@@ -60,10 +60,25 @@
 }
 
 -(BOOL)save
-{
+{    
     NSString *path = [self previousGamesPath];
     
     return [NSKeyedArchiver archiveRootObject:self.gamesPrivate toFile:path];
+}
+
+-(void)removeGame:(PuzzleGame *)game
+{
+    BOOL canRemove = NO;
+    
+    for (PuzzleGame *nextGame in self.gamesPrivate) {
+        if (nextGame == game) {
+            canRemove = YES;
+        }
+    }
+    
+    if (canRemove) {
+        [self.gamesPrivate removeObjectIdenticalTo:game];
+    }
 }
 
 -(void)addGameAndSave:(PuzzleGame *)game

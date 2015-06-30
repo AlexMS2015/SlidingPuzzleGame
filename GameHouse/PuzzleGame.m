@@ -13,6 +13,8 @@
 
 @property (nonatomic, readwrite) BOOL puzzleIsSolved;
 @property (nonatomic, readwrite) Difficulty difficulty;
+@property (nonatomic, strong, readwrite) NSDate *datePlayed;
+
 @end
 
 @implementation PuzzleGame
@@ -26,6 +28,7 @@
     [aCoder encodeInteger:self.numberOfMovesMade forKey:@"numberOfMovesMade"];
     [aCoder encodeObject:self.imageName forKey:@"imageName"];
     [aCoder encodeObject:self.board forKey:@"board"];
+    [aCoder encodeObject:self.datePlayed forKey:@"datePlayed"];
 }
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -38,6 +41,7 @@
         _numberOfMovesMade = [aDecoder decodeIntForKey:@"numberOfMovesMade"];
         _imageName = [aDecoder decodeObjectForKey:@"imageName"];
         _board = [aDecoder decodeObjectForKey:@"board"];
+        _datePlayed = [aDecoder decodeObjectForKey:@"datePlayed"];
     }
     
     return self;
@@ -72,6 +76,8 @@
 
 -(void)save
 {
+    NSLog(@"saving game with nummoves: %d and image: %@", self.numberOfMovesMade, self.imageName);
+
     [[PreviousGameDatabase sharedDatabase] addGameAndSave:self];
 }
 
@@ -154,6 +160,7 @@
         self.difficulty = difficulty;
         self.imageName = imageName;
         self.numberOfMovesMade = 0;
+        self.datePlayed = [NSDate date];
     }
     
     return self;

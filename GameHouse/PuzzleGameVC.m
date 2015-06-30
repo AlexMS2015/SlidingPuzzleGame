@@ -14,7 +14,7 @@
 #import "PreviousGameDatabase.h"
 #import "Enums.h"
 
-@interface PuzzleGameVC () <UIAlertViewDelegate>
+@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UIView *boardContainerView;
@@ -27,6 +27,7 @@
 // other
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) PuzzleGame *puzzleGame;
+@property (strong, nonatomic, readwrite) PuzzleGame *previousPuzzleGame;
 @property (strong, nonatomic) Grid *puzzleBoard;
 
 @property (nonatomic) Position previouslySelected;
@@ -36,17 +37,17 @@
 
 #pragma mark - Properties
 
+-(void)setPuzzleGame:(PuzzleGame *)puzzleGame
+{
+    _puzzleGame = puzzleGame;
+    [self resetUI];
+}
+
 -(UIImageView *)picShowImageView
 {
     if (!_picShowImageView) {
         _picShowImageView = [[UIImageView alloc] initWithFrame:self.boardContainerView.frame];
-        //_picShowImageView.image = [UIImage imageNamed:@"Wooden Tile"];
-        
-        UIImageView *currentPic = [[UIImageView alloc] initWithFrame:self.boardContainerView.bounds];
-        currentPic.image = [UIImage imageNamed:self.puzzleGame.imageName];
-        //[_picShowImageView addSubview:currentPic];
-        _picShowImageView.image = [UIImage imageNamed:self.puzzleGame.imageName];
-        
+        _picShowImageView.hidden = YES;
         [self.view addSubview:_picShowImageView];
     }
     
@@ -60,52 +61,103 @@
 
 #pragma mark - View Life Cycle
 
-#define NUM_TILES_DEFAULT 16
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
+#define NUM_TILES_DEFAULT 9
 #define DIFFICULTY_DEFAULT EASY
 -(void)viewDidLayoutSubviews
 {
-    // Why is this called multiple times?
-    //NSLog(@"Layout subviews: %@", NSStringFromCGRect(self.boardContainerView.frame));
-    
     [super viewDidLayoutSubviews];
     
     self.navigationController.navigationBar.hidden = YES;
     
-    if (!self.puzzleGame) {
-        [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
-                         andDifficulty:DIFFICULTY_DEFAULT
-                        withImageNamed:[self.availableImageNames firstObject]];
+    if (self.previousPuzzleGame) {
+        self.puzzleGame = self.previousPuzzleGame;
+        self.previousPuzzleGame = nil;
     }
+    
+    if (!self.puzzleGame) {
+         [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
+                          andDifficulty:DIFFICULTY_DEFAULT
+                         withImageNamed:[self.availableImageNames firstObject]];
+    }
+    
+    /*
+    if (!self.puzzleGame) {
+        if (self.previousPuzzleGame) {
+            self.puzzleGame = self.previousPuzzleGame;
+        } else {
+            [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
+                             andDifficulty:DIFFICULTY_DEFAULT
+                            withImageNamed:[self.availableImageNames firstObject]];
+        }
+    }*/
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
+
+#pragma mark - State Restoration
+
+-(void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:self.puzzleGame forKey:@"puzzleGame"];
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+-(void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [self setupFromPreviousGame:[coder decodeObjectForKey:@"puzzleGame"]];
+    [super decodeRestorableStateWithCoder:coder];
+}
+
+#pragma mark - UIViewControllerRestoration
+
+// since this class has a restoration class, that restoration class (this class) will be asked to create a new instance of the view controller
++(UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    return [[self alloc] init];
 }
 
 #pragma mark - Initialiser
 
+-(instancetype)init
+{
+    self = [super init];
+    
+    if (self) {
+        self.restorationIdentifier = NSStringFromClass([self class]);
+        self.restorationClass = [self class];
+    }
+    
+    return self;
+}
+
 -(void)resetUI
 {
     self.numMovesLabel.text = @"0";
+    self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
     
-    self.view.userInteractionEnabled = NO;
-    self.countdownLabel.hidden = NO;
-    self.countdownLabel.text = @"4";
-    
-    [self toggleFinalPicView:YES];
-    [self.picShowImageView removeFromSuperview];
-    self.picShowImageView = nil;
-    
+    // clear any existing tiles
     if ([self.boardContainerView.subviews count]) {
         [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             [obj removeFromSuperview];
         }];
     }
     
-    self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
-}
-
--(void)setupInitialBoard
-{
     // reset the helper object
     int numRowsAndColumns = sqrt(self.puzzleGame.board.numberOfTiles);
-    self.puzzleBoard = [[Grid alloc] initWithSize:self.boardContainerView.bounds.size withRows:numRowsAndColumns andColumns:numRowsAndColumns];
+    self.puzzleBoard = [[Grid alloc] initWithSize:self.boardContainerView.bounds.size
+                                         withRows:numRowsAndColumns
+                                       andColumns:numRowsAndColumns];
     
     UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
     CGSize boardSize = self.boardContainerView.bounds.size;
@@ -142,35 +194,51 @@
             tileValue++;
         }
     }
+    
+    if (self.previousPuzzleGame) {
+        self.countdownLabel.hidden = YES;
+        // move the tiles to their saved positions
+        [self updateUI:NO];
+    } else {
+        // create and begin the game countdown timer
+        self.countdownLabel.hidden = NO;
+        self.countdownLabel.text = @"4";
+        NSTimer *countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                                   target:self
+                                                                 selector:@selector(countdownFired:)
+                                                                 userInfo:nil
+                                                                  repeats:YES];
+        [countdownTimer fire];
+    }
 }
 
 -(void)setupNewGameWithNumTiles:(int)numTiles
                   andDifficulty:(Difficulty)difficulty
                  withImageNamed:(NSString *)imageName;
 {
+    if (self.puzzleGame.numberOfMovesMade > 0) {
+        [self.puzzleGame save];
+    }
+    
+    self.previousPuzzleGame = nil;
+
     // setup the model
     self.puzzleGame = [[PuzzleGame alloc] initWithNumberOfTiles:numTiles
                                                            andDifficulty:difficulty
                                                     andImageNamed:imageName];
     
-    // reset the view
-    [self resetUI];
+    self.picShowImageView.image = [UIImage imageNamed:imageName];
     
-    // setting the imageName will also set up all the tiles with the image by that name
-    [self setupInitialBoard];
-    
-    // create and begin the game countdown timer
-    NSTimer *countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                           target:self
-                                                         selector:@selector(countdownFired:)
-                                                         userInfo:nil
-                                                          repeats:YES];
-    [countdownTimer fire];
+}
+
+-(void)setupFromPreviousGame:(PuzzleGame *)game
+{
+    self.previousPuzzleGame = game;
 }
 
 #pragma mark - Helper / Other
 
--(void)updateUI
+-(void)updateUI:(BOOL)animated
 {
     // the game model has been updated but the UI has not... hence need to find which tiles have moved and to where
     for (TileView *tileToUpdate in self.boardContainerView.subviews) {
@@ -187,7 +255,11 @@
             
             // update and move the tile
             tileToUpdate.positionInABoard = positionToMoveTileTo;
-            [tileToUpdate animateToFrame:frameToMoveRectTo];
+            if (animated) {
+                [tileToUpdate animateToFrame:frameToMoveRectTo];
+            } else {
+                tileToUpdate.frame = frameToMoveRectTo;
+            }
         }
     }
     
@@ -203,7 +275,6 @@
                                                           cancelButtonTitle:@"Ok"
                                                           otherButtonTitles:nil];
         [puzzleSolvedAlert show];
-        [self.puzzleGame save];
     }
 }
 
@@ -228,38 +299,37 @@
     int countdown = [self.countdownLabel.text intValue];
     
     if (countdown > 1) {
+        self.view.userInteractionEnabled = NO;
         self.countdownLabel.text = [NSString stringWithFormat:@"%d", --countdown];
     } else {
         self.countdownLabel.hidden = YES;
         self.view.userInteractionEnabled = YES;
-        [self updateUI];
+        [self updateUI:YES];
         [timer invalidate];
     }
 }
 
 // helper
--(void)toggleFinalPicView:(BOOL)hidden
+-(void)toggleFinalPicView
 {
-    if (hidden) {
-        self.boardContainerView.userInteractionEnabled = YES;
-        self.picShowImageView.hidden = YES;
-        [self.picShowHideToggle setTitle:@"Show Pic" forState:UIControlStateNormal];
-    } else {
+    if (self.picShowImageView.hidden) {
         self.boardContainerView.userInteractionEnabled = NO;
         self.picShowImageView.hidden = NO;
-        [self.picShowHideToggle setTitle:@"Hide Pic" forState:UIControlStateNormal];
+    } else {
+        self.boardContainerView.userInteractionEnabled = YES;
+        self.picShowImageView.hidden = YES;
     }
     
-    [self updateUI];
+    [self updateUI:YES];
+}
+- (IBAction)picShowHideToggleTouchDown:(UIButton *)sender
+{
+    [self toggleFinalPicView];
 }
 
 - (IBAction)picShowHideToggleTouchUpInside:(UIButton *)sender
 {
-    if ([self.picShowHideToggle.currentTitle isEqualToString:@"Show Pic"]) {
-        [self toggleFinalPicView:NO];
-    } else {
-        [self toggleFinalPicView:YES];
-    }
+    [self toggleFinalPicView];
 }
 
  - (IBAction)exitTouchUpInside:(UIButton *)sender
@@ -280,7 +350,7 @@
 
 - (IBAction)newGameTouchUpInside:(UIButton *)sender
 {
-    self.resetGameButton.alpha = 1.0;
+    self.resetGameButton.alpha = 0.1;
     
     UIAlertView *resetGameAlert = [[UIAlertView alloc] initWithTitle:@"New Game"
                                                              message:@"Are you sure you want to begin a new game?"
@@ -298,7 +368,7 @@
             
             // update the model and UI
             [self.puzzleGame selectTileAtPosition:selectedTile.positionInABoard];
-            [self updateUI];
+            [self updateUI:YES];
             [self checkForSolvedPuzzle];
         }
     }

@@ -18,4 +18,6 @@
                   andDifficulty:(Difficulty)difficulty
                  withImageNamed:(NSString *)imageName;
 
+-(void)setupFromPreviousGame:(PuzzleGame *)game;
+
 @end

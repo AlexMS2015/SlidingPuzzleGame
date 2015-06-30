@@ -22,7 +22,7 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeScreenWallpaper" translatesAutoresizingMaskIntoConstraints="NO" id="g27-Ug-gwo">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvv-Hc-tGN">
+                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvv-Hc-tGN">
                     <rect key="frame" x="32" y="95" width="256" height="64"/>
                     <constraints>
                         <constraint firstAttribute="height" secondItem="fvv-Hc-tGN" secondAttribute="width" multiplier="0.25" id="8Ul-kM-duW"/>
@@ -32,7 +32,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qaB-1c-mKv">
+                <button hidden="YES" opaque="NO" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qaB-1c-mKv">
                     <rect key="frame" x="32" y="187" width="256" height="154"/>
                     <constraints>
                         <constraint firstAttribute="height" secondItem="qaB-1c-mKv" secondAttribute="width" multiplier="0.6" id="kXD-tW-yK1"/>
@@ -45,14 +45,14 @@
                         <action selector="beginNewGame:" destination="-1" eventType="touchUpInside" id="so0-kv-1ig"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDk-DV-sai">
+                <button hidden="YES" opaque="NO" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDk-DV-sai">
                     <rect key="frame" x="32" y="349" width="256" height="154"/>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <state key="normal" title="Previous Games" backgroundImage="Black Button">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
-                        <action selector="showHighScores:" destination="-1" eventType="touchUpInside" id="tzA-Fs-q7M"/>
+                        <action selector="showPreviousGames:" destination="-1" eventType="touchUpInside" id="QeB-ZI-UQc"/>
                     </connections>
                 </button>
             </subviews>

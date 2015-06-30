@@ -15,5 +15,6 @@
 
 +(instancetype)sharedDatabase; // singleton
 -(void)addGameAndSave:(PuzzleGame *)game;
+-(void)removeGame:(PuzzleGame *)game;
 
 @end

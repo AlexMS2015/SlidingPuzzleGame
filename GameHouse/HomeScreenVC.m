@@ -11,7 +11,7 @@
 #import "PuzzleGameVC.h"
 #import "PreviousGameDatabase.h"
 
-@interface HomeScreenVC ()
+@interface HomeScreenVC () <UIViewControllerRestoration>
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *theHSButtons;
 @property (nonatomic) BOOL viewsInPlace;
@@ -19,6 +19,17 @@
 @end
 
 @implementation HomeScreenVC
+
+#pragma mark - Properties
+
+-(BOOL)viewsInPlace
+{
+    if (!_viewsInPlace) {
+        _viewsInPlace = NO;
+    }
+    
+    return _viewsInPlace;
+}
 
 #pragma mark - Helper Methods
 
@@ -38,6 +49,8 @@
 
 -(void)animateEntranceForButton:(UIButton *)button
 {
+    button.hidden = NO;
+    
     // Which button are we animating?
     NSInteger buttonIndex = [self.theHSButtons indexOfObject:button];
     
@@ -47,6 +60,7 @@
     // Set the button's initial properties
     NSArray *corners = [self cornersForView:self.view];
     button.center = [corners[buttonIndex] CGPointValue];
+    float originalButtonAlpha = button.alpha;
     button.alpha = 0.0;
     
     // Buttons will fly in from corners to view center and then spring into their original locations
@@ -55,10 +69,9 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          button.center = self.view.center;
-                         button.alpha = 0.75;
+                         button.alpha = originalButtonAlpha;
                      }
                      completion: ^(BOOL finished) {
-                         NSLog(@"springing");
                          [UIView animateWithDuration:1.5
                                                delay:0.0
                               usingSpringWithDamping:0.25
@@ -70,22 +83,59 @@
 
 }
 
-#pragma mark - View Life Cycle
-
--(void)viewDidLoad
+-(void)showOrHideButtons
 {
-    self.viewsInPlace = NO;
-    
     for (UIButton *button in self.theHSButtons) {
-        button.hidden = YES;
+        button.hidden = !self.viewsInPlace;
     }
 }
+
+#pragma mark - State Restoration
+
+-(void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [coder encodeBool:self.viewsInPlace forKey:@"viewsInPlace"];
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+-(void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    self.viewsInPlace = [coder decodeBoolForKey:@"viewsInPlace"];
+    [super decodeRestorableStateWithCoder:coder];
+}
+
+#pragma mark - UIViewControllerRestoration
+
+// since this class has a restoration class, that restoration class (this class) will be asked to create a new instance of the view controller
++(UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    return [[self alloc] init];
+}
+
+#pragma mark - Initialiser
+
+-(instancetype)init
+{
+    self = [super init];
+    
+    if (self) {
+        self.restorationIdentifier = NSStringFromClass([self class]);
+        self.restorationClass = [self class];
+    }
+    
+    return self;
+}
+
+#pragma mark - View Life Cycle
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
     
-    self.navigationController.navigationBarHidden = YES; // other view controller's that have been presented (e.g. high scores) will have changed this to NO. Need to set it back to YES.
+    if (self.viewsInPlace) {
+        [self showOrHideButtons];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -93,14 +143,18 @@
     [super viewDidAppear:animated];
     
     if (!self.viewsInPlace) {
-        
+        self.viewsInPlace = YES;
+
         for (UIButton *button in self.theHSButtons) {
-            button.hidden = NO;
             [self animateEntranceForButton:button];
         }
     }
-    
-    self.viewsInPlace = YES;
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 #pragma mark - Action Methods
@@ -111,10 +165,8 @@
     [self.navigationController pushViewController:game animated:YES];
 }
 
-- (IBAction)showHighScores:(UIButton *)sender
+- (IBAction)showPreviousGames:(UIButton *)sender
 {
-    self.navigationController.navigationBarHidden = NO;
-    
     PreviousGamesByDifficultyTVC *prevGamesByDiff = [[PreviousGamesByDifficultyTVC alloc] init];
     prevGamesByDiff.games = [PreviousGameDatabase sharedDatabase].games;
     [self.navigationController pushViewController:prevGamesByDiff animated:YES];

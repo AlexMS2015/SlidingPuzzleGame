@@ -146,7 +146,6 @@
     NSString *newImageName = self.gameImageName;
 
     if (newNumTiles != initialNumTiles || newDifficulty != initialDifficulty || ![newImageName isEqualToString:initialImageName]) {
-        [self.gameVCForSettings.puzzleGame save];
         [self.gameVCForSettings setupNewGameWithNumTiles:newNumTiles
                                            andDifficulty:newDifficulty
                                           withImageNamed:newImageName];
