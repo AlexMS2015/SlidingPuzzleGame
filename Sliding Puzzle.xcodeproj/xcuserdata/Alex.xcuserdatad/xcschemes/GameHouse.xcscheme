@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FA1014171AD0D2AC006A7100"
-               BuildableName = "GameHouse.app"
-               BlueprintName = "GameHouse"
-               ReferencedContainer = "container:GameHouse.xcodeproj">
+               BuildableName = "Sliding Puzzle.app"
+               BlueprintName = "Sliding Puzzle"
+               ReferencedContainer = "container:Sliding Puzzle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FA1014321AD0D2AD006A7100"
-               BuildableName = "GameHouseTests.xctest"
-               BlueprintName = "GameHouseTests"
-               ReferencedContainer = "container:GameHouse.xcodeproj">
+               BuildableName = "Sliding PuzzleTests.xctest"
+               BlueprintName = "Sliding PuzzleTests"
+               ReferencedContainer = "container:Sliding Puzzle.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FA1014171AD0D2AC006A7100"
-            BuildableName = "GameHouse.app"
-            BlueprintName = "GameHouse"
-            ReferencedContainer = "container:GameHouse.xcodeproj">
+            BuildableName = "Sliding Puzzle.app"
+            BlueprintName = "Sliding Puzzle"
+            ReferencedContainer = "container:Sliding Puzzle.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -58,13 +58,14 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FA1014171AD0D2AC006A7100"
-            BuildableName = "GameHouse.app"
-            BlueprintName = "GameHouse"
-            ReferencedContainer = "container:GameHouse.xcodeproj">
+            BuildableName = "Sliding Puzzle.app"
+            BlueprintName = "Sliding Puzzle"
+            ReferencedContainer = "container:Sliding Puzzle.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -76,13 +77,14 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FA1014171AD0D2AC006A7100"
-            BuildableName = "GameHouse.app"
-            BlueprintName = "GameHouse"
-            ReferencedContainer = "container:GameHouse.xcodeproj">
+            BuildableName = "Sliding Puzzle.app"
+            BlueprintName = "Sliding Puzzle"
+            ReferencedContainer = "container:Sliding Puzzle.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

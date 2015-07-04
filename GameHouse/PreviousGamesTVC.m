@@ -21,14 +21,9 @@
 
 #define CELL_IDENTIFIER @"PreviousGameCell"
 
-#pragma mark - Abstract Method
+#pragma mark - Abstract Methods
 
 -(NSString *)stringToPivotGame:(PuzzleGame *)game
-{
-    return nil;
-}
-
--(NSString *)cellTextWithPivotString:(NSString *)pivotString
 {
     return nil;
 }
@@ -58,7 +53,7 @@
                                                                  forIndexPath:indexPath];
     
     NSString *pivotString = [self.previousGames allKeys][indexPath.row];
-    cell.mainLabel.text = [self cellTextWithPivotString:pivotString];
+    cell.mainLabel.text = pivotString;
     cell.subLabel.text = [NSString stringWithFormat:@"Games: %lu", (unsigned long)[self.previousGames[pivotString] count]];
     cell.rankLabel.hidden = YES;
     cell.image.hidden = YES;

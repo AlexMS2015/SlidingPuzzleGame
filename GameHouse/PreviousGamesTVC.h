@@ -13,11 +13,10 @@
 
 @property (strong, nonatomic) NSArray *games;
 
--(NSArray *)gamesForRow:(int)row;
+-(NSArray *)gamesForRow:(int)row; // returns an array of the games for any particular row
 
 // abstract methods
--(NSString *)stringToPivotGame:(PuzzleGame *)game;
--(NSString *)cellTextWithPivotString:(NSString *)pivotString;
+-(NSString *)stringToPivotGame:(PuzzleGame *)game; // return a string based on the passed in game that will denote how the data is pivoted
 -(NSString *)headerForTable;
 //
 

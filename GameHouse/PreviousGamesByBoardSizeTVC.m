@@ -18,7 +18,7 @@
 
 #pragma mark - UITableViewDelegate
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GamesListTVC *gamesList = [[GamesListTVC alloc] init];
     gamesList.games = [self gamesForRow:(int)indexPath.row];
@@ -30,11 +30,6 @@
 -(NSString *)stringToPivotGame:(PuzzleGame *)game
 {
     return [game.board boardSizeStringFromNumTiles];
-}
-
--(NSString *)cellTextWithPivotString:(NSString *)pivotString
-{
-    return pivotString;
 }
 
 -(NSString *)headerForTable

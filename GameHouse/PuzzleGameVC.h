@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic, readonly) PuzzleGame *puzzleGame;
 @property (strong, nonatomic, readonly) NSArray *availableImageNames;
+@property (nonatomic) BOOL newGameSelectionDisabled; // if you want to load a game but prevent the user from creating a new one (using either the new game button or the settings button) then run. Default is NO.
 
 -(void)setupNewGameWithNumTiles:(int)numTiles
                   andDifficulty:(Difficulty)difficulty

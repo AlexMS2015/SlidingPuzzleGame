@@ -40,6 +40,8 @@
     valueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
     valueLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
     [self addSubview:valueLabel];
+    
+    [self setNeedsDisplay];
 }
 
 -(void)setTileImage:(UIImage *)tileImage
@@ -49,6 +51,8 @@
     tileForeground.layer.cornerRadius = 8.0;
     tileForeground.layer.masksToBounds = YES;
     [self addSubview:tileForeground];
+    
+    [self setNeedsDisplay];
 }
 
 #pragma mark - Initialisers
@@ -71,6 +75,8 @@
         self.tileImage = image;
         self.tileValue = value;
         self.positionInABoard = position;
+        
+        [self setNeedsDisplay];
     }
     
     return self;

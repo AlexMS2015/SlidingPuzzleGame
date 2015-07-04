@@ -76,8 +76,7 @@
 
 -(void)save
 {
-    NSLog(@"saving game with nummoves: %d and image: %@", self.numberOfMovesMade, self.imageName);
-
+    self.datePlayed = [NSDate date];
     [[PreviousGameDatabase sharedDatabase] addGameAndSave:self];
 }
 
@@ -104,7 +103,7 @@
     
     Position positionNotToSelect;
     Position randomAdjacentTilePos;
-    int numMovesToRandomise;
+    int numMovesToRandomise = 0;
     
     if (_difficulty == EASY) {
         numMovesToRandomise = MOVES_TO_SOLVE_EASY;
@@ -160,7 +159,6 @@
         self.difficulty = difficulty;
         self.imageName = imageName;
         self.numberOfMovesMade = 0;
-        self.datePlayed = [NSDate date];
     }
     
     return self;

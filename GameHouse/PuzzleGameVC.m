@@ -27,15 +27,26 @@
 // other
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) PuzzleGame *puzzleGame;
-@property (strong, nonatomic, readwrite) PuzzleGame *previousPuzzleGame;
+@property (strong, nonatomic, readwrite) PuzzleGame *prelimPuzzleGame;
 @property (strong, nonatomic) Grid *puzzleBoard;
+@property (nonatomic) BOOL loadingFromExistingGame;
 
-@property (nonatomic) Position previouslySelected;
 @end
 
 @implementation PuzzleGameVC
 
 #pragma mark - Properties
+
+-(void)setNewGameSelectionDisabled:(BOOL)newGameSelectionDisabled
+{
+    _newGameSelectionDisabled = newGameSelectionDisabled;
+}
+
+-(void)setPrelimPuzzleGame:(PuzzleGame *)prelimPuzzleGame
+{
+    _prelimPuzzleGame = prelimPuzzleGame;
+    [self.view setNeedsLayout];
+}
 
 -(void)setPuzzleGame:(PuzzleGame *)puzzleGame
 {
@@ -67,36 +78,24 @@
     self.navigationController.navigationBarHidden = YES;
 }
 
-#define NUM_TILES_DEFAULT 9
-#define DIFFICULTY_DEFAULT EASY
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
     
     self.navigationController.navigationBar.hidden = YES;
     
-    if (self.previousPuzzleGame) {
-        self.puzzleGame = self.previousPuzzleGame;
-        self.previousPuzzleGame = nil;
-    }
-    
-    if (!self.puzzleGame) {
-         [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
-                          andDifficulty:DIFFICULTY_DEFAULT
-                         withImageNamed:[self.availableImageNames firstObject]];
-    }
-    
-    /*
-    if (!self.puzzleGame) {
-        if (self.previousPuzzleGame) {
-            self.puzzleGame = self.previousPuzzleGame;
-        } else {
-            [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
-                             andDifficulty:DIFFICULTY_DEFAULT
-                            withImageNamed:[self.availableImageNames firstObject]];
+    if (self.prelimPuzzleGame) {
+        
+        if (self.puzzleGame.numberOfMovesMade > 0) {
+            [self.puzzleGame save];
         }
-    }*/
-
+        
+        self.puzzleGame = self.prelimPuzzleGame;
+        self.prelimPuzzleGame = nil;
+        self.picShowImageView.image = [UIImage imageNamed:self.puzzleGame.imageName];
+    }
+    
+    [self.view layoutIfNeeded]; // fixes iOS 7 autolayout issues?
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -129,6 +128,8 @@
 
 #pragma mark - Initialiser
 
+#define NUM_TILES_DEFAULT 9
+#define DIFFICULTY_DEFAULT EASY
 -(instancetype)init
 {
     self = [super init];
@@ -136,6 +137,11 @@
     if (self) {
         self.restorationIdentifier = NSStringFromClass([self class]);
         self.restorationClass = [self class];
+        
+        [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
+                         andDifficulty:DIFFICULTY_DEFAULT
+                        withImageNamed:[self.availableImageNames firstObject]];
+
     }
     
     return self;
@@ -179,6 +185,8 @@
             CGImageRef tileCGImage = CGImageCreateWithImageInRect(boardImage.CGImage, pictureFrame);
             UIImage *tileImage = [UIImage imageWithCGImage:tileCGImage];
             
+            CGImageRelease(tileCGImage);
+            
             // set up the actual board tile with the image and position
             if (tileValue < self.puzzleGame.board.numberOfTiles) {
                 TileView *tile = [[TileView alloc] initWithFrame:tileFrame
@@ -195,7 +203,7 @@
         }
     }
     
-    if (self.previousPuzzleGame) {
+    if (self.loadingFromExistingGame) {
         self.countdownLabel.hidden = YES;
         // move the tiles to their saved positions
         [self updateUI:NO];
@@ -216,24 +224,16 @@
                   andDifficulty:(Difficulty)difficulty
                  withImageNamed:(NSString *)imageName;
 {
-    if (self.puzzleGame.numberOfMovesMade > 0) {
-        [self.puzzleGame save];
-    }
-    
-    self.previousPuzzleGame = nil;
-
-    // setup the model
-    self.puzzleGame = [[PuzzleGame alloc] initWithNumberOfTiles:numTiles
+    self.prelimPuzzleGame = [[PuzzleGame alloc] initWithNumberOfTiles:numTiles
                                                            andDifficulty:difficulty
                                                     andImageNamed:imageName];
-    
-    self.picShowImageView.image = [UIImage imageNamed:imageName];
-    
+    self.loadingFromExistingGame = NO;
 }
 
 -(void)setupFromPreviousGame:(PuzzleGame *)game
 {
-    self.previousPuzzleGame = game;
+    self.prelimPuzzleGame = game;
+    self.loadingFromExistingGame = YES;
 }
 
 #pragma mark - Helper / Other
@@ -282,8 +282,8 @@
 
 -(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    self.resetGameButton.alpha = 0.6;
     if ([alertView.title isEqualToString:@"New Game"]) {
+        self.resetGameButton.alpha = 0.6;
         if (buttonIndex != alertView.cancelButtonIndex) {
             [self setupNewGameWithNumTiles:self.puzzleGame.board.numberOfTiles
                              andDifficulty:self.puzzleGame.difficulty
@@ -319,9 +319,8 @@
         self.boardContainerView.userInteractionEnabled = YES;
         self.picShowImageView.hidden = YES;
     }
-    
-    [self updateUI:YES];
 }
+
 - (IBAction)picShowHideToggleTouchDown:(UIButton *)sender
 {
     [self toggleFinalPicView];
@@ -342,22 +341,26 @@
 
 - (IBAction)settingsTouchUpInside:(UIButton *)sender
 {
-    SettingsVC *settingVC =[[SettingsVC alloc] init];
-    settingVC.gameVCForSettings = self;
-    
-    [self presentViewController:settingVC animated:YES completion:NULL];
+    if (!self.newGameSelectionDisabled) {
+        SettingsVC *settingVC =[[SettingsVC alloc] init];
+        settingVC.gameVCForSettings = self;
+        
+        [self presentViewController:settingVC animated:YES completion:NULL];
+    }
 }
 
 - (IBAction)newGameTouchUpInside:(UIButton *)sender
 {
-    self.resetGameButton.alpha = 0.1;
-    
-    UIAlertView *resetGameAlert = [[UIAlertView alloc] initWithTitle:@"New Game"
-                                                             message:@"Are you sure you want to begin a new game?"
-                                                            delegate:self
-                                                   cancelButtonTitle:@"No"
-                                                   otherButtonTitles:@"Yes", nil];
-    [resetGameAlert show];
+    if (!self.newGameSelectionDisabled) {
+        self.resetGameButton.alpha = 0.1;
+        
+        UIAlertView *resetGameAlert = [[UIAlertView alloc] initWithTitle:@"New Game"
+                                                                 message:@"Are you sure you want to begin a new game?"
+                                                                delegate:self
+                                                       cancelButtonTitle:@"No"
+                                                       otherButtonTitles:@"Yes", nil];
+        [resetGameAlert show];
+    }
 }
 
 -(void)tileTapped:(UITapGestureRecognizer *)tap

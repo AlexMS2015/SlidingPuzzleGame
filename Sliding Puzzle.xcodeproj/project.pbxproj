@@ -56,20 +56,20 @@
 		FA0A78CA1B2EF00C002B3D1C /* PuzzleBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleBoard.h; sourceTree = "<group>"; };
 		FA0A78CB1B2EF00C002B3D1C /* PuzzleBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleBoard.m; sourceTree = "<group>"; };
 		FA0A78CD1B2EF538002B3D1C /* Enums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
-		FA1014181AD0D2AC006A7100 /* GameHouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameHouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA1014181AD0D2AC006A7100 /* Sliding Puzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sliding Puzzle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA10141B1AD0D2AC006A7100 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FA10141D1AD0D2AC006A7100 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FA10141F1AD0D2AC006A7100 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		FA1014231AD0D2AD006A7100 /* GameHouse-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GameHouse-Info.plist"; sourceTree = "<group>"; };
+		FA1014231AD0D2AD006A7100 /* Sliding Puzzle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sliding Puzzle-Info.plist"; sourceTree = "<group>"; };
 		FA1014251AD0D2AD006A7100 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FA1014271AD0D2AD006A7100 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		FA1014291AD0D2AD006A7100 /* GameHouse-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GameHouse-Prefix.pch"; sourceTree = "<group>"; };
+		FA1014291AD0D2AD006A7100 /* Sliding Puzzle-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sliding Puzzle-Prefix.pch"; sourceTree = "<group>"; };
 		FA10142A1AD0D2AD006A7100 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FA10142B1AD0D2AD006A7100 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FA10142D1AD0D2AD006A7100 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		FA1014331AD0D2AD006A7100 /* GameHouseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameHouseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA1014331AD0D2AD006A7100 /* Sliding PuzzleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sliding PuzzleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA1014341AD0D2AD006A7100 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		FA10143C1AD0D2AD006A7100 /* GameHouseTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GameHouseTests-Info.plist"; sourceTree = "<group>"; };
+		FA10143C1AD0D2AD006A7100 /* Sliding PuzzleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sliding PuzzleTests-Info.plist"; sourceTree = "<group>"; };
 		FA10143E1AD0D2AD006A7100 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FA1014401AD0D2AD006A7100 /* GameHouseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameHouseTests.m; sourceTree = "<group>"; };
 		FA10144A1AD0E429006A7100 /* HomeScreenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeScreenVC.h; sourceTree = "<group>"; };
@@ -166,8 +166,8 @@
 		FA1014191AD0D2AC006A7100 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FA1014181AD0D2AC006A7100 /* GameHouse.app */,
-				FA1014331AD0D2AD006A7100 /* GameHouseTests.xctest */,
+				FA1014181AD0D2AC006A7100 /* Sliding Puzzle.app */,
+				FA1014331AD0D2AD006A7100 /* Sliding PuzzleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,10 +201,10 @@
 		FA1014221AD0D2AD006A7100 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				FA1014231AD0D2AD006A7100 /* GameHouse-Info.plist */,
+				FA1014231AD0D2AD006A7100 /* Sliding Puzzle-Info.plist */,
 				FA1014241AD0D2AD006A7100 /* InfoPlist.strings */,
 				FA1014271AD0D2AD006A7100 /* main.m */,
-				FA1014291AD0D2AD006A7100 /* GameHouse-Prefix.pch */,
+				FA1014291AD0D2AD006A7100 /* Sliding Puzzle-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -221,7 +221,7 @@
 		FA10143B1AD0D2AD006A7100 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				FA10143C1AD0D2AD006A7100 /* GameHouseTests-Info.plist */,
+				FA10143C1AD0D2AD006A7100 /* Sliding PuzzleTests-Info.plist */,
 				FA10143D1AD0D2AD006A7100 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -258,9 +258,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FA1014171AD0D2AC006A7100 /* GameHouse */ = {
+		FA1014171AD0D2AC006A7100 /* Sliding Puzzle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA1014441AD0D2AD006A7100 /* Build configuration list for PBXNativeTarget "GameHouse" */;
+			buildConfigurationList = FA1014441AD0D2AD006A7100 /* Build configuration list for PBXNativeTarget "Sliding Puzzle" */;
 			buildPhases = (
 				FA1014141AD0D2AC006A7100 /* Sources */,
 				FA1014151AD0D2AC006A7100 /* Frameworks */,
@@ -270,14 +270,14 @@
 			);
 			dependencies = (
 			);
-			name = GameHouse;
+			name = "Sliding Puzzle";
 			productName = GameHouse;
-			productReference = FA1014181AD0D2AC006A7100 /* GameHouse.app */;
+			productReference = FA1014181AD0D2AC006A7100 /* Sliding Puzzle.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FA1014321AD0D2AD006A7100 /* GameHouseTests */ = {
+		FA1014321AD0D2AD006A7100 /* Sliding PuzzleTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA1014471AD0D2AD006A7100 /* Build configuration list for PBXNativeTarget "GameHouseTests" */;
+			buildConfigurationList = FA1014471AD0D2AD006A7100 /* Build configuration list for PBXNativeTarget "Sliding PuzzleTests" */;
 			buildPhases = (
 				FA10142F1AD0D2AD006A7100 /* Sources */,
 				FA1014301AD0D2AD006A7100 /* Frameworks */,
@@ -288,9 +288,9 @@
 			dependencies = (
 				FA1014391AD0D2AD006A7100 /* PBXTargetDependency */,
 			);
-			name = GameHouseTests;
+			name = "Sliding PuzzleTests";
 			productName = GameHouseTests;
-			productReference = FA1014331AD0D2AD006A7100 /* GameHouseTests.xctest */;
+			productReference = FA1014331AD0D2AD006A7100 /* Sliding PuzzleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -303,12 +303,15 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Alex Smith";
 				TargetAttributes = {
+					FA1014171AD0D2AC006A7100 = {
+						DevelopmentTeam = 37CCTH6C4V;
+					};
 					FA1014321AD0D2AD006A7100 = {
 						TestTargetID = FA1014171AD0D2AC006A7100;
 					};
 				};
 			};
-			buildConfigurationList = FA1014131AD0D2AC006A7100 /* Build configuration list for PBXProject "GameHouse" */;
+			buildConfigurationList = FA1014131AD0D2AC006A7100 /* Build configuration list for PBXProject "Sliding Puzzle" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -320,8 +323,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FA1014171AD0D2AC006A7100 /* GameHouse */,
-				FA1014321AD0D2AD006A7100 /* GameHouseTests */,
+				FA1014171AD0D2AC006A7100 /* Sliding Puzzle */,
+				FA1014321AD0D2AD006A7100 /* Sliding PuzzleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -386,7 +389,7 @@
 /* Begin PBXTargetDependency section */
 		FA1014391AD0D2AD006A7100 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FA1014171AD0D2AC006A7100 /* GameHouse */;
+			target = FA1014171AD0D2AC006A7100 /* Sliding Puzzle */;
 			targetProxy = FA1014381AD0D2AD006A7100 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -486,10 +489,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GameHouse/GameHouse-Prefix.pch";
-				INFOPLIST_FILE = "GameHouse/GameHouse-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "GameHouse/Sliding Puzzle-Prefix.pch";
+				INFOPLIST_FILE = "GameHouse/Sliding Puzzle-Info.plist";
+				PRODUCT_NAME = "Sliding Puzzle";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -499,10 +503,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GameHouse/GameHouse-Prefix.pch";
-				INFOPLIST_FILE = "GameHouse/GameHouse-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "GameHouse/Sliding Puzzle-Prefix.pch";
+				INFOPLIST_FILE = "GameHouse/Sliding Puzzle-Info.plist";
+				PRODUCT_NAME = "Sliding Puzzle";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -522,8 +527,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GameHouseTests/GameHouseTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "GameHouseTests/Sliding PuzzleTests-Info.plist";
+				PRODUCT_NAME = "Sliding PuzzleTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -540,8 +545,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GameHouse/GameHouse-Prefix.pch";
-				INFOPLIST_FILE = "GameHouseTests/GameHouseTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "GameHouseTests/Sliding PuzzleTests-Info.plist";
+				PRODUCT_NAME = "Sliding PuzzleTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -550,7 +555,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FA1014131AD0D2AC006A7100 /* Build configuration list for PBXProject "GameHouse" */ = {
+		FA1014131AD0D2AC006A7100 /* Build configuration list for PBXProject "Sliding Puzzle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA1014421AD0D2AD006A7100 /* Debug */,
@@ -559,7 +564,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FA1014441AD0D2AD006A7100 /* Build configuration list for PBXNativeTarget "GameHouse" */ = {
+		FA1014441AD0D2AD006A7100 /* Build configuration list for PBXNativeTarget "Sliding Puzzle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA1014451AD0D2AD006A7100 /* Debug */,
@@ -568,7 +573,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FA1014471AD0D2AD006A7100 /* Build configuration list for PBXNativeTarget "GameHouseTests" */ = {
+		FA1014471AD0D2AD006A7100 /* Build configuration list for PBXNativeTarget "Sliding PuzzleTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA1014481AD0D2AD006A7100 /* Debug */,

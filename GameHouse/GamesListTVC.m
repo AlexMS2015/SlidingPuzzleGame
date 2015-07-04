@@ -32,7 +32,7 @@
     return [PreviousGameCell cellHeight];
 }
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PuzzleGame *game = self.gamesForTable[indexPath.row];
     
@@ -40,6 +40,7 @@
         [[PreviousGameDatabase sharedDatabase] removeGame:game];
         PuzzleGameVC *gameVC = [[PuzzleGameVC alloc] init];
         [gameVC setupFromPreviousGame:game];
+        gameVC.newGameSelectionDisabled = YES;
         [self.navigationController pushViewController:gameVC animated:YES];
     }
 }
