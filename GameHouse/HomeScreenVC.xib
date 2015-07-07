@@ -9,9 +9,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeScreenVC">
             <connections>
+                <outlet property="screenBackground" destination="g27-Ug-gwo" id="FPa-04-pfQ"/>
+                <outlet property="screenTitle" destination="fvv-Hc-tGN" id="eLZ-yP-8Q7"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outletCollection property="theHSButtons" destination="qaB-1c-mKv" id="eFa-Fj-T6L"/>
                 <outletCollection property="theHSButtons" destination="gDk-DV-sai" id="FlO-Id-xgW"/>
+                <outletCollection property="creditsLabels" destination="oZn-np-WYq" id="GOp-dx-Xxz"/>
+                <outletCollection property="creditsLabels" destination="oZn-np-WYq" id="f99-aa-ELl"/>
+                <outletCollection property="creditsLabels" destination="hqy-gV-xDY" id="J0O-O4-swG"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -19,8 +24,8 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeScreenWallpaper" translatesAutoresizingMaskIntoConstraints="NO" id="g27-Ug-gwo">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ScreenBackground" translatesAutoresizingMaskIntoConstraints="NO" id="g27-Ug-gwo">
+                    <rect key="frame" x="0.0" y="0.0" width="920" height="1168"/>
                 </imageView>
                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvv-Hc-tGN">
                     <rect key="frame" x="32" y="95" width="256" height="64"/>
@@ -55,28 +60,59 @@
                         <action selector="showPreviousGames:" destination="-1" eventType="touchUpInside" id="QeB-ZI-UQc"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpG-48-hdP">
+                    <rect key="frame" x="262" y="530" width="50" height="30"/>
+                    <state key="normal" title="Credits">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="showCredits:" destination="-1" eventType="touchUpInside" id="bTZ-Ov-r9y"/>
+                    </connections>
+                </button>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Alex Smith" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oZn-np-WYq">
+                    <rect key="frame" x="106" y="274" width="108" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Art from GameArtGuppy.com" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqy-gV-xDY">
+                    <rect key="frame" x="48" y="320" width="224" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <constraints>
+                <constraint firstItem="qaB-1c-mKv" firstAttribute="width" secondItem="gDk-DV-sai" secondAttribute="width" id="4ln-Hi-xb7"/>
                 <constraint firstItem="g27-Ug-gwo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4vC-CV-7Fg"/>
+                <constraint firstAttribute="trailing" secondItem="tpG-48-hdP" secondAttribute="trailing" constant="8" id="7d7-Pc-PRb"/>
                 <constraint firstItem="qaB-1c-mKv" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" multiplier="0.6" id="7sT-7a-d77"/>
                 <constraint firstItem="fvv-Hc-tGN" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="0.9" id="9RR-Mc-Wq8"/>
-                <constraint firstAttribute="bottom" secondItem="g27-Ug-gwo" secondAttribute="bottom" id="AeR-zo-NHg"/>
+                <constraint firstAttribute="bottom" secondItem="g27-Ug-gwo" secondAttribute="bottom" constant="-600" id="AeR-zo-NHg"/>
                 <constraint firstItem="gDk-DV-sai" firstAttribute="top" secondItem="qaB-1c-mKv" secondAttribute="bottom" constant="8" id="ApO-qF-Gnc"/>
+                <constraint firstAttribute="centerY" secondItem="oZn-np-WYq" secondAttribute="centerY" id="DvG-3h-nbh"/>
+                <constraint firstAttribute="centerX" secondItem="oZn-np-WYq" secondAttribute="centerX" id="HGk-4c-o9k"/>
+                <constraint firstAttribute="bottom" secondItem="tpG-48-hdP" secondAttribute="bottom" constant="8" id="LXw-fR-RH7"/>
                 <constraint firstItem="gDk-DV-sai" firstAttribute="trailing" secondItem="qaB-1c-mKv" secondAttribute="trailing" id="Wzp-iJ-vck"/>
                 <constraint firstItem="fvv-Hc-tGN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="0.1" id="YWa-dg-a99"/>
-                <constraint firstAttribute="trailing" secondItem="g27-Ug-gwo" secondAttribute="trailing" id="bEl-Y9-E6t"/>
+                <constraint firstAttribute="centerX" secondItem="qaB-1c-mKv" secondAttribute="centerX" id="aIn-Da-gco"/>
+                <constraint firstAttribute="trailing" secondItem="g27-Ug-gwo" secondAttribute="trailing" constant="-600" id="bEl-Y9-E6t"/>
+                <constraint firstItem="hqy-gV-xDY" firstAttribute="centerX" secondItem="oZn-np-WYq" secondAttribute="centerX" id="ccq-dz-FH3"/>
                 <constraint firstItem="fvv-Hc-tGN" firstAttribute="bottom" secondItem="qaB-1c-mKv" secondAttribute="top" multiplier="0.85" id="dvF-1N-gSn"/>
                 <constraint firstItem="gDk-DV-sai" firstAttribute="leading" secondItem="qaB-1c-mKv" secondAttribute="leading" id="e5z-dW-fPf"/>
-                <constraint firstItem="qaB-1c-mKv" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="0.9" id="hwD-lY-O2t"/>
+                <constraint firstAttribute="centerX" secondItem="gDk-DV-sai" secondAttribute="centerX" id="g27-mW-gdz"/>
+                <constraint firstItem="qaB-1c-mKv" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="0.9" placeholder="YES" id="hwD-lY-O2t"/>
+                <constraint firstItem="qaB-1c-mKv" firstAttribute="width" secondItem="fvv-Hc-tGN" secondAttribute="width" id="non-7o-TEy"/>
+                <constraint firstItem="hqy-gV-xDY" firstAttribute="top" secondItem="oZn-np-WYq" secondAttribute="bottom" constant="25" id="qlw-YW-jE4"/>
                 <constraint firstItem="gDk-DV-sai" firstAttribute="height" secondItem="qaB-1c-mKv" secondAttribute="height" id="skq-4b-Yq9"/>
                 <constraint firstItem="g27-Ug-gwo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="vzi-gM-7Ys"/>
-                <constraint firstItem="qaB-1c-mKv" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="0.1" id="xMF-XK-GHq"/>
+                <constraint firstItem="qaB-1c-mKv" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="0.1" placeholder="YES" id="xMF-XK-GHq"/>
             </constraints>
         </view>
     </objects>
     <resources>
         <image name="Black Button" width="400" height="400"/>
-        <image name="HomeScreenWallpaper" width="1024" height="1024"/>
+        <image name="ScreenBackground" width="1024" height="1024"/>
         <image name="Wooden Tile" width="134" height="134"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

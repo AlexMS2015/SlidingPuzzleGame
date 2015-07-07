@@ -13,6 +13,9 @@
 
 @interface HomeScreenVC () <UIViewControllerRestoration>
 
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *creditsLabels;
+@property (weak, nonatomic) IBOutlet UIImageView *screenBackground;
+@property (weak, nonatomic) IBOutlet UIButton *screenTitle;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *theHSButtons;
 @property (nonatomic) BOOL viewsInPlace;
 
@@ -63,31 +66,14 @@
     float originalButtonAlpha = button.alpha;
     button.alpha = 0.0;
     
-    // Buttons will fly in from corners to view center and then spring into their original locations
-    [UIView animateWithDuration:1.0
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         button.center = self.view.center;
-                         button.alpha = originalButtonAlpha;
-                     }
-                     completion: ^(BOOL finished) {
-                         [UIView animateWithDuration:1.5
-                                               delay:0.0
-                              usingSpringWithDamping:0.25
-                               initialSpringVelocity:0
-                                             options:0
-                                          animations:^{ button.center = originalCenter; }
-                                          completion:NULL];}
-     ];
-
-}
-
--(void)showOrHideButtons
-{
-    for (UIButton *button in self.theHSButtons) {
-        button.hidden = !self.viewsInPlace;
-    }
+    [UIView animateWithDuration:1.5
+                          delay:0.25
+         usingSpringWithDamping:0.5
+          initialSpringVelocity:0
+                        options:0
+                     animations:^{  button.center =  originalCenter;
+                                    button.alpha = originalButtonAlpha; }
+                     completion:NULL];
 }
 
 #pragma mark - State Restoration
@@ -128,26 +114,21 @@
 
 #pragma mark - View Life Cycle
 
+-(void)viewDidLoad
+{
+    [super viewDidLoad];
+    for (UIButton *button in self.theHSButtons) {
+        button.hidden = YES;
+    }
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    
-    if (self.viewsInPlace) {
-        [self showOrHideButtons];
-    }
-}
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    if (!self.viewsInPlace) {
-        self.viewsInPlace = YES;
-
-        for (UIButton *button in self.theHSButtons) {
-            [self animateEntranceForButton:button];
-        }
+    for (UIButton *button in self.theHSButtons) {
+        [self animateEntranceForButton:button];
     }
 }
 
@@ -158,6 +139,41 @@
 }
 
 #pragma mark - Action Methods
+
+- (IBAction)showCredits:(UIButton *)sender
+{
+    if ([sender.titleLabel.text isEqualToString:@"Credits"]) {
+        self.screenBackground.image = [UIImage imageNamed:@"Squirrels"];
+        self.screenTitle.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [self.screenTitle setTitle:@"Credits" forState:UIControlStateNormal];
+        [sender setTitle:@"Hide Credits" forState:UIControlStateNormal];
+    } else {
+        self.screenBackground.image = [UIImage imageNamed:@"ScreenBackground"];
+        [self.screenTitle setTitle:@"Sliding Puzzle" forState:UIControlStateNormal];
+        [sender setTitle:@"Credits" forState:UIControlStateNormal];
+    }
+    
+    BOOL hidden;
+    for (UIButton *button in self.theHSButtons) {
+        hidden = button.hidden;
+        button.hidden = !hidden;
+    }
+    
+    UILabel *creditsLabel = (UILabel *)[self.creditsLabels firstObject];
+    hidden = creditsLabel.hidden;
+    
+    [UIView transitionWithView:self.view
+                      duration:0.5
+                       options:UIViewAnimationOptionTransitionFlipFromLeft
+                    animations:^{
+                        for (UILabel *creditsLabel in self.creditsLabels) {
+                            //hidden = creditsLabel.hidden;
+                            creditsLabel.hidden = !hidden;
+                        }
+                    }
+                    completion:nil];
+}
+
 
 - (IBAction)beginNewGame:(UIButton *)sender
 {

@@ -85,17 +85,15 @@
     self.navigationController.navigationBar.hidden = YES;
     
     if (self.prelimPuzzleGame) {
-        
         if (self.puzzleGame.numberOfMovesMade > 0) {
             [self.puzzleGame save];
         }
         
         self.puzzleGame = self.prelimPuzzleGame;
         self.prelimPuzzleGame = nil;
-        self.picShowImageView.image = [UIImage imageNamed:self.puzzleGame.imageName];
     }
     
-    [self.view layoutIfNeeded]; // fixes iOS 7 autolayout issues?
+    [self.view layoutIfNeeded];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -149,6 +147,11 @@
 
 -(void)resetUI
 {
+    //self.boardContainerView.layer.borderColor = [UIColor whiteColor].CGColor;
+    //self.boardContainerView.layer.borderWidth = 0.5;
+    
+    self.picShowImageView.image = [UIImage imageNamed:self.puzzleGame.imageName];
+    
     self.numMovesLabel.text = @"0";
     self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
     

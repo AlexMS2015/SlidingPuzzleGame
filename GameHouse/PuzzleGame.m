@@ -93,7 +93,7 @@
     return @"";
 }
 
-#define MOVES_TO_SOLVE_EASY 3
+#define MOVES_TO_SOLVE_EASY 15
 #define MOVES_TO_SOLVE_MEDIUM 30
 #define MOVES_TO_SOLVE_HARD 60
 
