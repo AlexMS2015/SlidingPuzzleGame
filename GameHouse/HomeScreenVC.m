@@ -17,22 +17,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *screenBackground;
 @property (weak, nonatomic) IBOutlet UIButton *screenTitle;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *theHSButtons;
-@property (nonatomic) BOOL viewsInPlace;
 
 @end
 
 @implementation HomeScreenVC
-
-#pragma mark - Properties
-
--(BOOL)viewsInPlace
-{
-    if (!_viewsInPlace) {
-        _viewsInPlace = NO;
-    }
-    
-    return _viewsInPlace;
-}
 
 #pragma mark - Helper Methods
 
@@ -74,20 +62,6 @@
                      animations:^{  button.center =  originalCenter;
                                     button.alpha = originalButtonAlpha; }
                      completion:NULL];
-}
-
-#pragma mark - State Restoration
-
--(void)encodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    [coder encodeBool:self.viewsInPlace forKey:@"viewsInPlace"];
-    [super encodeRestorableStateWithCoder:coder];
-}
-
--(void)decodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    self.viewsInPlace = [coder decodeBoolForKey:@"viewsInPlace"];
-    [super decodeRestorableStateWithCoder:coder];
 }
 
 #pragma mark - UIViewControllerRestoration
@@ -167,7 +141,6 @@
                        options:UIViewAnimationOptionTransitionFlipFromLeft
                     animations:^{
                         for (UILabel *creditsLabel in self.creditsLabels) {
-                            //hidden = creditsLabel.hidden;
                             creditsLabel.hidden = !hidden;
                         }
                     }

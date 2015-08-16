@@ -10,20 +10,29 @@
 
 @implementation UIImage (Crop)
 
--(UIImage *)imageInRect:(CGRect)frame
+-(NSArray *)divideImageIntoSquares:(int)numSquares
 {
-
-    // the image is too large so resize an appropriate section for the next tile
-    /*CGRect tileFrame = [self.puzzleBoard frameOfCellAtPosition:currentPosition];
-    CGRect pictureFrame = CGRectMake(tileFrame.origin.x  * imageWidthScale,
-                                     tileFrame.origin.y  * imageHeightScale,
-                                     tileFrame.size.width * imageWidthScale,
-                                     tileFrame.size.height * imageHeightScale);
-    CGImageRef tileCGImage = CGImageCreateWithImageInRect(boardImage.CGImage, pictureFrame);
-    UIImage *tileImage = [UIImage imageWithCGImage:tileCGImage];
-
-    CGImageRelease(tileCGImage);*/
-    return nil;
+    NSMutableArray *squareImages = [NSMutableArray array];
+    
+    CGSize sizeOfSquares = CGSizeMake(self.size.width / sqrt(numSquares),
+                                      self.size.height / sqrt(numSquares));
+    
+    for (int i = 0; i < sqrt(numSquares); i++) {
+        for (int j = 0; j < sqrt(numSquares); j++) {
+            CGRect squareFrame = CGRectMake(j * sizeOfSquares.width,
+                                            i * sizeOfSquares.height,
+                                            sizeOfSquares.width,
+                                            sizeOfSquares.height);
+            
+            CGImageRef squareCGImage = CGImageCreateWithImageInRect(self.CGImage, squareFrame);
+            UIImage *squareImage = [UIImage imageWithCGImage:squareCGImage];
+            CGImageRelease(squareCGImage);
+            
+            [squareImages addObject:squareImage];
+        }
+    }
+    
+    return [NSArray arrayWithArray:squareImages];
 }
 
 @end

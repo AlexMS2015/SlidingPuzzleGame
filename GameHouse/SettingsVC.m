@@ -7,68 +7,50 @@
 //
 
 #import "SettingsVC.h"
-@interface SettingsVC () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+#import "BoardView.h"
+#import "ImageCollectionViewVC.h"
+
+@interface SettingsVC () <ImageSelectedDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UISlider *numTilesSlider;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *difficultySegmentedControl;
 @property (weak, nonatomic) IBOutlet UICollectionView *pictureSelectionCollectionView;
-@property (weak, nonatomic) IBOutlet UIImageView *miniGameBoardImageView;
+@property (weak, nonatomic) IBOutlet BoardView *miniGameBoardImageView;
 
 // other
 @property (strong, nonatomic) NSString *gameImageName;
-//@property (strong, nonatomic) Grid *miniGameBoard;
+@property (strong, nonatomic) ImageCollectionViewVC *gameImagesCVC;
 @end
 
 @implementation SettingsVC
 
-#define CELL_IDENTIFIER @"CollectionCell"
+#pragma mark - ImageSelectedDelegate
 
-#pragma mark - UICollectionViewDelegate
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+-(void)imageSelected:(NSString *)imageName
 {
-    self.gameImageName = self.gameVCForSettings.availableImageNames[indexPath.item];
+    self.gameImageName = imageName;
 }
 
-#pragma mark - UICollectionViewDataSource
+#pragma mark - Properties
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+-(void)setPictureSelectionCollectionView:(UICollectionView *)pictureSelectionCollectionView
 {
-    return 1;
+    _pictureSelectionCollectionView = pictureSelectionCollectionView;
+    self.pictureSelectionCollectionView.delegate = self.gameImagesCVC;
+    self.pictureSelectionCollectionView.dataSource = self.gameImagesCVC;
 }
 
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+-(ImageCollectionViewVC *)gameImagesCVC
 {
-    return [self.gameVCForSettings.availableImageNames count];
-}
-
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionViewCell *cell = [self.pictureSelectionCollectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
-    
-    NSString *nameOfImageToDisplay = self.gameVCForSettings.availableImageNames[indexPath.item];
-    UIImage *imageToDisplay = [UIImage imageNamed:nameOfImageToDisplay];
-    
-    if (![cell.contentView.subviews count]) {
-        UIImage *backgroundImage = [UIImage imageNamed:@"Wooden Tile"];
-        cell.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
-        
-        UIImageView *gameImageView = [[UIImageView alloc] initWithFrame:cell.bounds];
-        gameImageView.image = imageToDisplay;
-        [cell.contentView addSubview:gameImageView];
-    } else {
-        UIImageView *currentGameImageDisplayed = (UIImageView *)[cell.contentView.subviews firstObject];
-        currentGameImageDisplayed.image = imageToDisplay;
+    if (!_gameImagesCVC) {
+        _gameImagesCVC = [[ImageCollectionViewVC alloc] init];
+        _gameImagesCVC.imageNames = self.gameVCForSettings.availableImageNames;
+        _gameImagesCVC.selectedImageName = self.gameImageName;
+        _gameImagesCVC.delegate = self;
     }
     
-    if ([nameOfImageToDisplay isEqualToString:self.gameImageName]) {
-        cell.alpha = 1.0;
-    } else {
-        cell.alpha = 0.5;
-    }
-    
-    return cell;
+    return _gameImagesCVC;
 }
 
 #pragma mark - View Life Cycle
@@ -77,13 +59,9 @@
 {
     [super viewDidLoad];
     
-    [self.pictureSelectionCollectionView registerClass:[UICollectionViewCell class]
-                            forCellWithReuseIdentifier:CELL_IDENTIFIER];
-    
     self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.board.numberOfTiles;
     self.difficultySegmentedControl.selectedSegmentIndex = self.gameVCForSettings.puzzleGame.difficulty;
     self.gameImageName = self.gameVCForSettings.puzzleGame.imageName;
-    //[self setupMiniBoardView];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -100,42 +78,13 @@
 
 #pragma mark - Other
 
-/*-(void)setupMiniBoardView
+-(void)setupMiniBoardView
 {
-    if ([self.miniGameBoardImageView.subviews count]) {
-        [self.miniGameBoardImageView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [obj removeFromSuperview];
-            obj = nil;
-        }];
-    }
-    
     int numTiles = self.numTilesSlider.value;
-    self.miniGameBoard = [[Grid alloc] initWithSize:self.miniGameBoardImageView.bounds.size withRows:sqrt(numTiles) andColumns:sqrt(numTiles)];
-    
-    Position currentPosition;
-    int tileCount = 0;
-    for (currentPosition.row = 0; currentPosition.row < sqrt(numTiles); currentPosition.row++) {
-        for (currentPosition.column = 0; currentPosition.column < sqrt(numTiles); currentPosition.column++) {
-            CGRect frameOfTile = [self.miniGameBoard frameOfCellAtPosition:currentPosition];
-            UILabel *tileLabel = [[UILabel alloc] initWithFrame:frameOfTile];
-            //tileLabel.alpha = 0.5;
-            
-            if (tileCount == 0 || tileCount == numTiles - 1) {
-                tileLabel.text = [NSString stringWithFormat:@"%d", tileCount + 1];
-            }
-            
-            tileLabel.font = [UIFont systemFontOfSize:tileLabel.bounds.size.width / 1.5];
-            tileLabel.textColor = [UIColor whiteColor];
-            tileLabel.textAlignment = NSTextAlignmentCenter;
-            tileLabel.layer.borderColor = [UIColor whiteColor].CGColor;
-            tileLabel.layer.borderWidth = 0.5;
-            
-            [self.miniGameBoardImageView addSubview:tileLabel];
-            
-            tileCount++;
-        }
-    }
-}*/
+    [self.miniGameBoardImageView setRows:sqrt(numTiles)
+                              andColumns:sqrt(numTiles)
+                                andImage:[UIImage imageNamed:self.gameImageName]];
+}
 
 #pragma mark - Actions
 
@@ -172,7 +121,7 @@
     }
     
     self.numTilesSlider.value = numTilesAdjusted;
-    //[self setupMiniBoardView];
+    [self setupMiniBoardView];
 }
 
 #pragma mark - Properties
@@ -180,8 +129,9 @@
 -(void)setGameImageName:(NSString *)gameImageName
 {
     _gameImageName = gameImageName;
+    self.gameImagesCVC.selectedImageName = self.gameImageName;
     [self.pictureSelectionCollectionView reloadData];
-    self.miniGameBoardImageView.image = [UIImage imageNamed:self.gameImageName];
+    [self setupMiniBoardView];
 }
 
 @end

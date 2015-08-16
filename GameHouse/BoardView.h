@@ -11,16 +11,14 @@
 
 @protocol BoardViewDelegate <NSObject>
 
--(void)tileTapped:(UITapGestureRecognizer *)tap;
+-(void)tileTappedWithValue:(int)value;
 
 @end
 
 @interface BoardView : UIView
 
-@property (weak, nonatomic) id <BoardViewDelegate> delegate; // WEAK OR STRONG?
+@property (weak, nonatomic) id <BoardViewDelegate> delegate;
 
 -(void)setRows:(int)rows andColumns:(int)columns andImage:(UIImage *)image;
--(CGRect)frameOfCellAtPosition:(Position)position;
 -(void)moveTilesToPositions:(NSMutableDictionary *)newPositions animated:(BOOL)animated;
--(void)clearTiles;
 @end

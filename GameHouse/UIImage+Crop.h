@@ -10,6 +10,6 @@
 
 @interface UIImage (Crop)
 
--(UIImage *)imageInFrame:(CGRect)frame;
+-(NSArray *)divideImageIntoSquares:(int)numSquares;
 
 @end

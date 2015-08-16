@@ -9,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PuzzleGameVC">
             <connections>
-                <outlet property="boardContainerView" destination="Kny-tI-cNC" id="ORp-kh-mwa"/>
+                <outlet property="boardView" destination="Kny-tI-cNC" id="kBM-Zb-PMS"/>
                 <outlet property="countdownLabel" destination="yeq-gY-XNp" id="Pv6-08-7Md"/>
                 <outlet property="difficultyLabel" destination="g8b-uW-XWu" id="dVq-es-rxM"/>
                 <outlet property="numMovesLabel" destination="iMd-rc-9RA" id="2DE-cv-uWJ"/>

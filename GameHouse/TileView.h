@@ -11,14 +11,15 @@
 
 @interface TileView : UIView
 
-@property (nonatomic) Position positionInABoard;
 @property (nonatomic, readonly) int tileValue;
 
 // designated initialiser (other initialisers like initWithFrame: won't do anything)
 -(instancetype)initWithFrame:(CGRect)frame
             andImage:(UIImage *)image
-            andValue:(int)value
-  andPositionInBoard:(Position)position;
+                    andValue:(int)value;
+
+-(instancetype)initWithFrame:(CGRect)frame
+                    andImage:(UIImage *)image;
 
 -(void)animateToFrame:(CGRect)frame;
 

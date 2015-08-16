@@ -17,14 +17,6 @@
 
 @implementation TileView
 
-#pragma mark - Properties
-
--(void)setPositionInABoard:(Position)positionInABoard
-{
-    _positionInABoard.row = positionInABoard.row;
-    _positionInABoard.column = positionInABoard.column;
-}
-
 #define FONT_SIZE self.bounds.size.width / 6.0
 #define LABEL_X_AND_Y self.bounds.size.width / 15.0
 #define LABEL_W_AND_H self.bounds.size.width / 5.0
@@ -32,20 +24,22 @@
 {
     _tileValue = tileValue;
     
-    CGRect labelFrame = CGRectMake(LABEL_X_AND_Y, LABEL_X_AND_Y, LABEL_W_AND_H, LABEL_W_AND_H);
-    
-    UILabel *valueLabel = [[UILabel alloc] initWithFrame:labelFrame];
-    valueLabel.textAlignment = NSTextAlignmentLeft;
-    valueLabel.textColor = [UIColor blackColor];
-    valueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
-    valueLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
-    [self addSubview:valueLabel];
-    
-    [self setNeedsDisplay];
+    if (tileValue != 0) {
+        CGRect labelFrame = CGRectMake(LABEL_X_AND_Y, LABEL_X_AND_Y, LABEL_W_AND_H, LABEL_W_AND_H);
+        
+        UILabel *valueLabel = [[UILabel alloc] initWithFrame:labelFrame];
+        valueLabel.textAlignment = NSTextAlignmentLeft;
+        valueLabel.textColor = [UIColor blackColor];
+        valueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
+        valueLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+        [self addSubview:valueLabel];
+        
+        [self setNeedsDisplay];
+    }
 }
 
 -(void)setTileImage:(UIImage *)tileImage
-{    
+{
     UIImageView *tileForeground = [[UIImageView alloc] initWithFrame:self.bounds];
     tileForeground.image = tileImage;
     tileForeground.layer.cornerRadius = 8.0;
@@ -57,10 +51,14 @@
 
 #pragma mark - Initialisers
 
+-(instancetype)initWithFrame:(CGRect)frame andImage:(UIImage *)image
+{
+    return [self initWithFrame:frame andImage:image andValue:0];
+}
+
 -(instancetype)initWithFrame:(CGRect)frame
             andImage:(UIImage *)image
             andValue:(int)value
-  andPositionInBoard:(Position)position
 {
     self = [super initWithFrame:frame];
     
@@ -74,7 +72,6 @@
         
         self.tileImage = image;
         self.tileValue = value;
-        self.positionInABoard = position;
         
         [self setNeedsDisplay];
     }

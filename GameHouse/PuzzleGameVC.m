@@ -17,7 +17,7 @@
 @interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, BoardViewDelegate>
 
 // outlets
-@property (weak, nonatomic) IBOutlet BoardView *boardContainerView;
+@property (weak, nonatomic) IBOutlet BoardView *boardView;
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
 @property (weak, nonatomic) IBOutlet UILabel *difficultyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numMovesLabel;
@@ -27,7 +27,6 @@
 // other
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) PuzzleGame *puzzleGame;
-@property (strong, nonatomic, readwrite) PuzzleGame *prelimPuzzleGame;
 @property (nonatomic) BOOL loadingFromExistingGame;
 
 @end
@@ -36,28 +35,21 @@
 
 #pragma mark - Properties
 
--(void)setBoardContainerView:(BoardView *)boardContainerView
-{
-    _boardContainerView = boardContainerView;
-    _boardContainerView.delegate = self;
-}
-
--(void)setPrelimPuzzleGame:(PuzzleGame *)prelimPuzzleGame
-{
-    _prelimPuzzleGame = prelimPuzzleGame;
-    [self.view setNeedsLayout];
-}
-
 -(void)setPuzzleGame:(PuzzleGame *)puzzleGame
 {
     _puzzleGame = puzzleGame;
+    [self.view setNeedsLayout];
+    [self.boardView setRows:sqrt(self.puzzleGame.board.numberOfTiles)
+                 andColumns:sqrt(self.puzzleGame.board.numberOfTiles)
+                   andImage:[UIImage imageNamed:self.puzzleGame.imageName]];
+    
     [self resetUI];
 }
 
 -(UIImageView *)picShowImageView
 {
     if (!_picShowImageView) {
-        _picShowImageView = [[UIImageView alloc] initWithFrame:self.boardContainerView.frame];
+        _picShowImageView = [[UIImageView alloc] initWithFrame:self.boardView.frame];
         _picShowImageView.hidden = YES;
         [self.view addSubview:_picShowImageView];
     }
@@ -72,23 +64,28 @@
 
 #pragma mark - View Life Cycle
 
+-(void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.boardView.delegate = self; // WHY DOESN'T THIS WORK IN THE SETTER?
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
 }
 
+#define NUM_TILES_DEFAULT 9
+#define DIFFICULTY_DEFAULT EASY
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
-    if (self.prelimPuzzleGame) {
-        if (self.puzzleGame.numberOfMovesMade > 0) {
-            [self.puzzleGame save];
-        }
-        
-        self.puzzleGame = self.prelimPuzzleGame;
-        self.prelimPuzzleGame = nil;
+
+    if (!self.puzzleGame) {
+        [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
+                         andDifficulty:DIFFICULTY_DEFAULT
+                        withImageNamed:[self.availableImageNames firstObject]];
     }
     
     [self.view layoutIfNeeded];
@@ -124,20 +121,11 @@
 
 #pragma mark - Initialiser
 
-#define NUM_TILES_DEFAULT 9
-#define DIFFICULTY_DEFAULT EASY
 -(instancetype)init
 {
-    self = [super init];
-    
-    if (self) {
+    if (self = [super init]) {
         self.restorationIdentifier = NSStringFromClass([self class]);
         self.restorationClass = [self class];
-        
-        [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
-                         andDifficulty:DIFFICULTY_DEFAULT
-                        withImageNamed:[self.availableImageNames firstObject]];
-
     }
     
     return self;
@@ -149,11 +137,6 @@
     
     self.numMovesLabel.text = @"0";
     self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
-    
-    UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
-    [self.boardContainerView setRows:sqrt(self.puzzleGame.board.numberOfTiles)
-                          andColumns:sqrt(self.puzzleGame.board.numberOfTiles)
-                            andImage:boardImage];
     
     if (self.loadingFromExistingGame) {
         self.countdownLabel.hidden = YES;
@@ -176,16 +159,16 @@
                   andDifficulty:(Difficulty)difficulty
                  withImageNamed:(NSString *)imageName;
 {
+    self.loadingFromExistingGame = NO;
     self.puzzleGame = [[PuzzleGame alloc] initWithNumberOfTiles:numTiles
                                                         andDifficulty:difficulty
                                                         andImageNamed:imageName];
-    self.loadingFromExistingGame = NO;
 }
 
 -(void)setupFromPreviousGame:(PuzzleGame *)game
 {
-    self.puzzleGame = game;
     self.loadingFromExistingGame = YES;
+    self.puzzleGame = game;
 }
 
 #pragma mark - Helper / Other
@@ -204,11 +187,12 @@
     }
     
     // tell the board view to move the tiles to their new positions
-    [self.boardContainerView moveTilesToPositions:tilePositions animated:animated];
+    [self.boardView moveTilesToPositions:tilePositions animated:animated];
     
     self.numMovesLabel.text = [NSString stringWithFormat:@"%d", self.puzzleGame.numberOfMovesMade];
 }
 
+#warning - THIS SHOULD BE DONE THROUGH KVO - LEARN THE API FOR IT CMON!!!!!
 -(void)checkForSolvedPuzzle
 {
     if (self.puzzleGame.puzzleIsSolved) {
@@ -256,10 +240,10 @@
 -(void)toggleFinalPicView
 {
     if (self.picShowImageView.hidden) {
-        self.boardContainerView.userInteractionEnabled = NO;
+        self.boardView.userInteractionEnabled = NO;
         self.picShowImageView.hidden = NO;
     } else {
-        self.boardContainerView.userInteractionEnabled = YES;
+        self.boardView.userInteractionEnabled = YES;
         self.picShowImageView.hidden = YES;
     }
 }
@@ -306,18 +290,12 @@
     }
 }
 
--(void)tileTapped:(UITapGestureRecognizer *)tap
+-(void)tileTappedWithValue:(int)value
 {
-    if (!self.puzzleGame.puzzleIsSolved) {
-        if ([tap.view isMemberOfClass:[TileView class]]) {
-            TileView *selectedTile = (TileView *)tap.view;
-            
-            // update the model and UI
-            [self.puzzleGame selectTileAtPosition:selectedTile.positionInABoard];
-            [self updateUI:YES];
-            [self checkForSolvedPuzzle];
-        }
-    }
+    Position selectedTilePos = [self.puzzleGame.board positionOfTileWithValue:value];
+    [self.puzzleGame selectTileAtPosition:selectedTilePos];
+    [self updateUI:YES];
+    [self checkForSolvedPuzzle];
 }
 
 @end
