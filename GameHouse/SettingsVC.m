@@ -59,7 +59,6 @@
         UIImageView *gameImageView = [[UIImageView alloc] initWithFrame:cell.bounds];
         gameImageView.image = imageToDisplay;
         [cell.contentView addSubview:gameImageView];
-        [cell.contentView addSubview:gameImageView];
     } else {
         UIImageView *currentGameImageDisplayed = (UIImageView *)[cell.contentView.subviews firstObject];
         currentGameImageDisplayed.image = imageToDisplay;
