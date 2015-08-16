@@ -26,7 +26,6 @@
 		FA10144E1AD0E429006A7100 /* HomeScreenVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA10144C1AD0E429006A7100 /* HomeScreenVC.xib */; };
 		FA3255ED1B803BA90045A827 /* UIImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3255EC1B803BA90045A827 /* UIImage+Crop.m */; };
 		FA3255F01B803D790045A827 /* BoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3255EF1B803D790045A827 /* BoardView.m */; };
-		FA966C351B1158C5004C28C0 /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C341B1158C5004C28C0 /* Grid.m */; };
 		FA966C391B115A70004C28C0 /* PuzzleGameVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C371B115A70004C28C0 /* PuzzleGameVC.m */; };
 		FA966C3A1B115A70004C28C0 /* PuzzleGameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA966C381B115A70004C28C0 /* PuzzleGameVC.xib */; };
 		FA966C481B11B0AB004C28C0 /* TileView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C461B11B0AB004C28C0 /* TileView.m */; };
@@ -81,8 +80,6 @@
 		FA3255EC1B803BA90045A827 /* UIImage+Crop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Crop.m"; sourceTree = "<group>"; };
 		FA3255EE1B803D790045A827 /* BoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardView.h; sourceTree = "<group>"; };
 		FA3255EF1B803D790045A827 /* BoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardView.m; sourceTree = "<group>"; };
-		FA966C331B1158C5004C28C0 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
-		FA966C341B1158C5004C28C0 /* Grid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grid.m; sourceTree = "<group>"; };
 		FA966C361B115A70004C28C0 /* PuzzleGameVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleGameVC.h; sourceTree = "<group>"; };
 		FA966C371B115A70004C28C0 /* PuzzleGameVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleGameVC.m; sourceTree = "<group>"; };
 		FA966C381B115A70004C28C0 /* PuzzleGameVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PuzzleGameVC.xib; sourceTree = "<group>"; };
@@ -147,9 +144,9 @@
 			children = (
 				FA966C361B115A70004C28C0 /* PuzzleGameVC.h */,
 				FA966C371B115A70004C28C0 /* PuzzleGameVC.m */,
+				FA966C381B115A70004C28C0 /* PuzzleGameVC.xib */,
 				FA3255EB1B803BA90045A827 /* UIImage+Crop.h */,
 				FA3255EC1B803BA90045A827 /* UIImage+Crop.m */,
-				FA966C381B115A70004C28C0 /* PuzzleGameVC.xib */,
 				FA966C4A1B133705004C28C0 /* SettingsVC.h */,
 				FA966C4B1B133705004C28C0 /* SettingsVC.m */,
 				FA966C4C1B133705004C28C0 /* SettingsVC.xib */,
@@ -157,8 +154,6 @@
 				FA966C461B11B0AB004C28C0 /* TileView.m */,
 				FA3255EE1B803D790045A827 /* BoardView.h */,
 				FA3255EF1B803D790045A827 /* BoardView.m */,
-				FA966C331B1158C5004C28C0 /* Grid.h */,
-				FA966C341B1158C5004C28C0 /* Grid.m */,
 			);
 			name = "Main Game Screen";
 			sourceTree = "<group>";
@@ -371,7 +366,6 @@
 				FA0A78CC1B2EF00C002B3D1C /* PuzzleBoard.m in Sources */,
 				FA10142C1AD0D2AD006A7100 /* AppDelegate.m in Sources */,
 				FA966C391B115A70004C28C0 /* PuzzleGameVC.m in Sources */,
-				FA966C351B1158C5004C28C0 /* Grid.m in Sources */,
 				FA1014281AD0D2AD006A7100 /* main.m in Sources */,
 				FAF8A3C91B2C060900EEDB01 /* GamesListTVC.m in Sources */,
 				FA10144D1AD0E429006A7100 /* HomeScreenVC.m in Sources */,

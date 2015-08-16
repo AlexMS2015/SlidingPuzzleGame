@@ -7,17 +7,17 @@
 //
 
 #import "PuzzleGameVC.h"
-#import "Grid.h"
 #import "PuzzleGame.h"
 #import "TileView.h"
 #import "SettingsVC.h"
 #import "PreviousGameDatabase.h"
+#import "BoardView.h"
 #import "Enums.h"
 
-@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration>
+@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, BoardViewDelegate>
 
 // outlets
-@property (weak, nonatomic) IBOutlet UIView *boardContainerView;
+@property (weak, nonatomic) IBOutlet BoardView *boardContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
 @property (weak, nonatomic) IBOutlet UILabel *difficultyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numMovesLabel;
@@ -28,7 +28,6 @@
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) PuzzleGame *puzzleGame;
 @property (strong, nonatomic, readwrite) PuzzleGame *prelimPuzzleGame;
-@property (strong, nonatomic) Grid *puzzleBoard;
 @property (nonatomic) BOOL loadingFromExistingGame;
 
 @end
@@ -37,9 +36,10 @@
 
 #pragma mark - Properties
 
--(void)setNewGameSelectionDisabled:(BOOL)newGameSelectionDisabled
+-(void)setBoardContainerView:(BoardView *)boardContainerView
 {
-    _newGameSelectionDisabled = newGameSelectionDisabled;
+    _boardContainerView = boardContainerView;
+    _boardContainerView.delegate = self;
 }
 
 -(void)setPrelimPuzzleGame:(PuzzleGame *)prelimPuzzleGame
@@ -81,8 +81,6 @@
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
-    self.navigationController.navigationBar.hidden = YES;
     
     if (self.prelimPuzzleGame) {
         if (self.puzzleGame.numberOfMovesMade > 0) {
@@ -147,64 +145,15 @@
 
 -(void)resetUI
 {
-    //self.boardContainerView.layer.borderColor = [UIColor whiteColor].CGColor;
-    //self.boardContainerView.layer.borderWidth = 0.5;
-    
     self.picShowImageView.image = [UIImage imageNamed:self.puzzleGame.imageName];
     
     self.numMovesLabel.text = @"0";
     self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
     
-    // clear any existing tiles
-    if ([self.boardContainerView.subviews count]) {
-        [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [obj removeFromSuperview];
-        }];
-    }
-    
-    // reset the helper object
-    int numRowsAndColumns = sqrt(self.puzzleGame.board.numberOfTiles);
-    self.puzzleBoard = [[Grid alloc] initWithSize:self.boardContainerView.bounds.size
-                                         withRows:numRowsAndColumns
-                                       andColumns:numRowsAndColumns];
-    
     UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
-    CGSize boardSize = self.boardContainerView.bounds.size;
-    
-    float imageWidthScale = boardImage.size.width / boardSize.width;
-    float imageHeightScale = boardImage.size.height / boardSize.height;
-    
-    Position currentPosition;
-    int tileValue = 1;
-    for (currentPosition.row = 0; currentPosition.row < numRowsAndColumns; currentPosition.row++) {
-        for (currentPosition.column = 0; currentPosition.column < numRowsAndColumns; currentPosition.column++) {
-            
-            // the image is too large so resize an appropriate section for the next tile
-            CGRect tileFrame = [self.puzzleBoard frameOfCellAtPosition:currentPosition];
-            CGRect pictureFrame = CGRectMake(tileFrame.origin.x  * imageWidthScale,
-                                             tileFrame.origin.y  * imageHeightScale,
-                                             tileFrame.size.width * imageWidthScale,
-                                             tileFrame.size.height * imageHeightScale);
-            CGImageRef tileCGImage = CGImageCreateWithImageInRect(boardImage.CGImage, pictureFrame);
-            UIImage *tileImage = [UIImage imageWithCGImage:tileCGImage];
-            
-            CGImageRelease(tileCGImage);
-            
-            // set up the actual board tile with the image and position
-            if (tileValue < self.puzzleGame.board.numberOfTiles) {
-                TileView *tile = [[TileView alloc] initWithFrame:tileFrame
-                                                        andImage:tileImage
-                                                        andValue:tileValue
-                                              andPositionInBoard:currentPosition];
-                
-                UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
-                [tile addGestureRecognizer:tileTap];
-                
-                [self.boardContainerView addSubview:tile];
-            }
-            tileValue++;
-        }
-    }
+    [self.boardContainerView setRows:sqrt(self.puzzleGame.board.numberOfTiles)
+                          andColumns:sqrt(self.puzzleGame.board.numberOfTiles)
+                            andImage:boardImage];
     
     if (self.loadingFromExistingGame) {
         self.countdownLabel.hidden = YES;
@@ -227,15 +176,15 @@
                   andDifficulty:(Difficulty)difficulty
                  withImageNamed:(NSString *)imageName;
 {
-    self.prelimPuzzleGame = [[PuzzleGame alloc] initWithNumberOfTiles:numTiles
-                                                           andDifficulty:difficulty
-                                                    andImageNamed:imageName];
+    self.puzzleGame = [[PuzzleGame alloc] initWithNumberOfTiles:numTiles
+                                                        andDifficulty:difficulty
+                                                        andImageNamed:imageName];
     self.loadingFromExistingGame = NO;
 }
 
 -(void)setupFromPreviousGame:(PuzzleGame *)game
 {
-    self.prelimPuzzleGame = game;
+    self.puzzleGame = game;
     self.loadingFromExistingGame = YES;
 }
 
@@ -243,28 +192,19 @@
 
 -(void)updateUI:(BOOL)animated
 {
-    // the game model has been updated but the UI has not... hence need to find which tiles have moved and to where
-    for (TileView *tileToUpdate in self.boardContainerView.subviews) {
-        int currentTileValue = tileToUpdate.tileValue;
+    // get the current positions of all the tiles
+    NSMutableDictionary *tilePositions = [NSMutableDictionary dictionary];
+    for (int i = 0; i < self.puzzleGame.board.numberOfTiles; i++) {
+        Position tilePos = [self.puzzleGame.board positionOfTileWithValue:i];
         
-        int newTileValue = [self.puzzleGame.board valueOfTileAtPosition:tileToUpdate.positionInABoard];
-        
-        if (currentTileValue != newTileValue) {
-            // find the location of the tile's current displayed value in the model's updated tile board
-            Position positionToMoveTileTo = [self.puzzleGame.board positionOfTileWithValue:currentTileValue];
-            
-            // get the frame in the view at new row / column location
-            CGRect frameToMoveRectTo = [self.puzzleBoard frameOfCellAtPosition:positionToMoveTileTo];
-            
-            // update and move the tile
-            tileToUpdate.positionInABoard = positionToMoveTileTo;
-            if (animated) {
-                [tileToUpdate animateToFrame:frameToMoveRectTo];
-            } else {
-                tileToUpdate.frame = frameToMoveRectTo;
-            }
-        }
+        NSNumber *tileValue = [NSNumber numberWithInt:i];
+        NSNumber *tileRow = [NSNumber numberWithInt:tilePos.row];
+        NSNumber *tileCol = [NSNumber numberWithInt:tilePos.column];
+        tilePositions[tileValue] = @[tileRow, tileCol];
     }
+    
+    // tell the board view to move the tiles to their new positions
+    [self.boardContainerView moveTilesToPositions:tilePositions animated:animated];
     
     self.numMovesLabel.text = [NSString stringWithFormat:@"%d", self.puzzleGame.numberOfMovesMade];
 }

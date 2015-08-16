@@ -7,8 +7,6 @@
 //
 
 #import "SettingsVC.h"
-#import "Grid.h"
-
 @interface SettingsVC () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 // outlets
@@ -19,7 +17,7 @@
 
 // other
 @property (strong, nonatomic) NSString *gameImageName;
-@property (strong, nonatomic) Grid *miniGameBoard;
+//@property (strong, nonatomic) Grid *miniGameBoard;
 @end
 
 @implementation SettingsVC
@@ -85,7 +83,7 @@
     self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.board.numberOfTiles;
     self.difficultySegmentedControl.selectedSegmentIndex = self.gameVCForSettings.puzzleGame.difficulty;
     self.gameImageName = self.gameVCForSettings.puzzleGame.imageName;
-    [self setupMiniBoardView];
+    //[self setupMiniBoardView];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -102,7 +100,7 @@
 
 #pragma mark - Other
 
--(void)setupMiniBoardView
+/*-(void)setupMiniBoardView
 {
     if ([self.miniGameBoardImageView.subviews count]) {
         [self.miniGameBoardImageView.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -137,7 +135,7 @@
             tileCount++;
         }
     }
-}
+}*/
 
 #pragma mark - Actions
 
@@ -174,7 +172,7 @@
     }
     
     self.numTilesSlider.value = numTilesAdjusted;
-    [self setupMiniBoardView];
+    //[self setupMiniBoardView];
 }
 
 #pragma mark - Properties

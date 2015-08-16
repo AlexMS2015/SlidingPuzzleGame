@@ -14,7 +14,7 @@
 {
 
     // the image is too large so resize an appropriate section for the next tile
-    CGRect tileFrame = [self.puzzleBoard frameOfCellAtPosition:currentPosition];
+    /*CGRect tileFrame = [self.puzzleBoard frameOfCellAtPosition:currentPosition];
     CGRect pictureFrame = CGRectMake(tileFrame.origin.x  * imageWidthScale,
                                      tileFrame.origin.y  * imageHeightScale,
                                      tileFrame.size.width * imageWidthScale,
@@ -22,7 +22,8 @@
     CGImageRef tileCGImage = CGImageCreateWithImageInRect(boardImage.CGImage, pictureFrame);
     UIImage *tileImage = [UIImage imageWithCGImage:tileCGImage];
 
-    CGImageRelease(tileCGImage);
+    CGImageRelease(tileCGImage);*/
+    return nil;
 }
 
 @end
