@@ -82,40 +82,37 @@
 
 -(NSString *)difficultyStringFromDifficulty
 {
-    if (self.difficulty == EASY) {
-        return @"EASY";
-    } else if (self.difficulty == MEDIUM) {
-        return @"MEDIUM";
-    } else if (self.difficulty == HARD) {
-        return @"HARD";
-    }
+    NSString *difficultyString = @"";
+    if (self.difficulty == EASY) difficultyString = @"EASY";
+    if (self.difficulty == MEDIUM) difficultyString = @"MEDIUM";
+    if (self.difficulty == HARD) difficultyString = @"HARD";
     
-    return @"";
+    return difficultyString;
 }
 
 #define MOVES_TO_SOLVE_EASY 15
 #define MOVES_TO_SOLVE_MEDIUM 30
 #define MOVES_TO_SOLVE_HARD 60
+-(int)numMovesToRandomiseForDifficulty:(Difficulty)difficulty
+{
+    int numMovesToRandomise = 0;
+    if (_difficulty == EASY) numMovesToRandomise = MOVES_TO_SOLVE_EASY;
+    if (_difficulty == MEDIUM) numMovesToRandomise = MOVES_TO_SOLVE_MEDIUM;
+    if (_difficulty == HARD) numMovesToRandomise = MOVES_TO_SOLVE_HARD;
+    return numMovesToRandomise;
+}
 
 -(void)setDifficulty:(Difficulty)difficulty
 {
     _difficulty = difficulty;
     
+    int numMovesToRandomise = [self numMovesToRandomiseForDifficulty:difficulty];
+    
     Position positionNotToSelect;
     Position randomAdjacentTilePos;
-    int numMovesToRandomise = 0;
-    
-    if (_difficulty == EASY) {
-        numMovesToRandomise = MOVES_TO_SOLVE_EASY;
-    } else if (_difficulty == MEDIUM) {
-        numMovesToRandomise = MOVES_TO_SOLVE_MEDIUM;
-    } else if (_difficulty == HARD) {
-        numMovesToRandomise = MOVES_TO_SOLVE_HARD;
-    }
-    
     for (int move = 0; move < numMovesToRandomise; move++) {
-        randomAdjacentTilePos = [self randomTileAdjacentToBlank];
-        if ([self position:randomAdjacentTilePos isEqualToPosition:positionNotToSelect]) {
+        randomAdjacentTilePos = [self.board positionOfRandomTileAdjacentToBlankTile];
+        if ([PuzzleBoard position:randomAdjacentTilePos isEqualToPosition:positionNotToSelect]) {
             move--;
         } else {
             positionNotToSelect = [self.board positionOfBlankTile];
@@ -154,7 +151,7 @@
     self = [super init];
     
     if (self) {
-        self.board = [[PuzzleBoard alloc] initWithNumTiles:numTiles];
+        self.board = [[SPGBoard alloc] initWithNumTiles:numTiles];
         [self setTilesInInitialPositions];
         self.difficulty = difficulty;
         self.imageName = imageName;
@@ -168,72 +165,33 @@
 {
     if ([self.board valueOfTileAtPosition:position] != 0) {
         
-        // use recursion to make moving multiple tiles possible
+        Position blankTilePos = [self.board positionOfBlankTile];
         Position newPosition = position;
-        if (position.row == self.board.positionOfBlankTile.row) {
-            if (position.column < self.board.positionOfBlankTile.column) {
+        
+        if (position.row == blankTilePos.row) {
+            if (position.column < blankTilePos.column) {
                 newPosition.column++;
-            } else if (position.column > self.board.positionOfBlankTile.column) {
+            } else if (position.column > blankTilePos.column) {
                 newPosition.column--;
             }
-        } else if (position.column == self.board.positionOfBlankTile.column) {
-            if (position.row < self.board.positionOfBlankTile.row) {
+        } else if (position.column == blankTilePos.column) {
+            if (position.row < blankTilePos.row) {
                 newPosition.row++;
-            } else if (position.row > self.board.positionOfBlankTile.row) {
+            } else if (position.row > blankTilePos.row) {
                 newPosition.row--;
             }
+        } else {
+            return;
         }
+        // use recursion to make moving multiple tiles possible
+        [self selectTileAtPosition:newPosition];
         
-        if (position.row != newPosition.row || position.column != newPosition.column) {
-            [self selectTileAtPosition:newPosition];
-        }
-        
-        // is the selected cell adjacent to the blank tile? swap them if so
-        if (abs(self.board.positionOfBlankTile.row - position.row) <= 1 &&
-            abs(self.board.positionOfBlankTile.column - position.column) <= 1 &&
-            (self.board.positionOfBlankTile.row == position.row
-                || self.board.positionOfBlankTile.column == position.column))
-        {
+        if ([self.board blankTileIsAdjacentToTileAtPosition:position]) {
             [self.board swapBlankTileWithTileAtPosition:position];
             self.numberOfMovesMade++;
-            //NSLog(@"%@", [self description]);
         }
+
     }
-}
-
--(BOOL)position:(Position)firstPosition isEqualToPosition:(Position)secondPosition
-{
-    if (firstPosition.row == secondPosition.row &&
-        firstPosition.column == secondPosition.column) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
--(Position)randomTileAdjacentToBlank
-{
-    Position blankTilePosition = [self.board positionOfBlankTile];
-    Position adjacentTilePos = blankTilePosition;
-    
-    int maxCol = sqrt(self.board.numberOfTiles) - 1;
-    int maxRow = sqrt(self.board.numberOfTiles) - 1;
-
-    while ([self position:adjacentTilePos isEqualToPosition:blankTilePosition]) {
-        int randomTile = arc4random() % 4;
-
-        if (randomTile == 0 && blankTilePosition.column > 0) {
-            adjacentTilePos.column--;
-        } else if (randomTile == 1 && blankTilePosition.column < maxCol) {
-            adjacentTilePos.column++;
-        } else if (randomTile == 2 && blankTilePosition.row > 0) {
-            adjacentTilePos.row--;
-        } else if (randomTile == 3 && blankTilePosition.row < maxRow) {
-            adjacentTilePos.row++;
-        }
-    }
-    
-    return adjacentTilePos;
 }
 
 @end

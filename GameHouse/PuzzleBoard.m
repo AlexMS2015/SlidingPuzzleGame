@@ -106,23 +106,18 @@
     return positionOfTile;
 }
 
--(Position)positionOfBlankTile
+-(void)swapTileAtPosition:(Position)position1 withTileAtPosition:(Position)position2
 {
-    return [self positionOfTileWithValue:0];
-}
-
--(void)swapBlankTileWithTileAtPosition:(Position)position
-{
-    int indexOfSelectedTile = [self indexOfTileAtPosition:position];
-    int indexOfBlankTile = [self indexOfTileAtPosition:[self positionOfBlankTile]];
-    NSNumber *selectedTile = self.tiles[indexOfSelectedTile];
-    NSNumber *blankTile = self.tiles[indexOfBlankTile];
+    int firstTileIndex = [self indexOfTileAtPosition:position1];
+    int secondTileIndex = [self indexOfTileAtPosition:position2];
+    NSNumber *firstTile = self.tiles[firstTileIndex];
+    NSNumber *secondTile = self.tiles[secondTileIndex];
     
     // swap the tiles
-    [self.tiles removeObjectAtIndex:indexOfSelectedTile];
-    [self.tiles insertObject:blankTile atIndex:indexOfSelectedTile];
-    [self.tiles removeObjectAtIndex:indexOfBlankTile];
-    [self.tiles insertObject:selectedTile atIndex:indexOfBlankTile];
+    [self.tiles removeObjectAtIndex:firstTileIndex];
+    [self.tiles insertObject:secondTile atIndex:firstTileIndex];
+    [self.tiles removeObjectAtIndex:secondTileIndex];
+    [self.tiles insertObject:firstTile atIndex:secondTileIndex];
 }
 
 -(NSString *)boardSizeStringFromNumTiles
@@ -130,5 +125,62 @@
     int numRowsAndCols = sqrt(self.numberOfTiles);
     return [NSString stringWithFormat:@"%dx%d", numRowsAndCols, numRowsAndCols];
 }
+
++(BOOL)position:(Position)firstPosition isEqualToPosition:(Position)secondPosition
+{
+    if (firstPosition.row == secondPosition.row &&
+        firstPosition.column == secondPosition.column) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+/*-(Position)positionOfBlankTile
+ {
+ return [self positionOfTileWithValue:0];
+}*/
+
+/*-(void)swapBlankTileWithTileAtPosition:(Position)position
+ {
+ [self swapTileAtPosition:position withTileAtPosition:[self positionOfBlankTile]];
+}*/
+
+/*-(Position)positionOfRandomTileAdjacentToBlankTile
+{
+    Position blankTilePosition = [self positionOfBlankTile];
+    Position adjacentTilePos = blankTilePosition;
+    
+    int maxCol = sqrt(self.numberOfTiles) - 1;
+    int maxRow = sqrt(self.numberOfTiles) - 1;
+    
+    while ([PuzzleBoard position:adjacentTilePos isEqualToPosition:blankTilePosition]) {
+        int randomTile = arc4random() % 4;
+        
+        if (randomTile == 0 && blankTilePosition.column > 0) {
+            adjacentTilePos.column--;
+        } else if (randomTile == 1 && blankTilePosition.column < maxCol) {
+            adjacentTilePos.column++;
+        } else if (randomTile == 2 && blankTilePosition.row > 0) {
+            adjacentTilePos.row--;
+        } else if (randomTile == 3 && blankTilePosition.row < maxRow) {
+            adjacentTilePos.row++;
+        }
+    }
+    
+    return adjacentTilePos;
+}*/
+
+/*-(BOOL)blankTileIsAdjacentToTileAtPosition:(Position)position
+{
+    if (abs(self.positionOfBlankTile.row - position.row) <= 1 &&
+        abs(self.positionOfBlankTile.column - position.column) <= 1 &&
+        (self.positionOfBlankTile.row == position.row
+         || self.positionOfBlankTile.column == position.column)) {
+            return YES;
+        } else {
+            return NO;
+        }
+}*/
 
 @end

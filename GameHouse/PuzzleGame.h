@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PuzzleBoard.h"
+#import "SPGBoard.h"
 #import "Enums.h"
 
 @interface PuzzleGame : NSObject
@@ -15,7 +15,7 @@
 @property (nonatomic, readonly) Difficulty difficulty;
 @property (nonatomic, readonly) BOOL puzzleIsSolved;
 @property (nonatomic) int numberOfMovesMade;
-@property (nonatomic, strong) PuzzleBoard *board;
+@property (nonatomic, strong) SPGBoard *board;
 @property (nonatomic) NSString *imageName;
 @property (nonatomic, strong, readonly) NSDate *datePlayed;
 

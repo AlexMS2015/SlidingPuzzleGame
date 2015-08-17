@@ -14,35 +14,44 @@
 
 @property (nonatomic) double cellWidth;
 @property (nonatomic) double cellHeight;
+@property (nonatomic) int numRows;
+@property (nonatomic) int numCols;
 
 @end
 
 @implementation BoardView
 
+-(double)cellHeight
+{
+    return self.bounds.size.height / self.numRows;
+}
+
+-(double)cellWidth
+{
+    return self.bounds.size.width / self.numCols;
+}
+
 -(void)setRows:(int)rows andColumns:(int)columns andImage:(UIImage *)image;
 {
     [self clearTiles];
     
-    self.cellHeight = self.bounds.size.height / rows;
-    self.cellWidth = self.bounds.size.width / columns;
+    self.numRows = rows;
+    self.numCols = columns;
     
     NSArray *tileImages = [image divideImageIntoSquares:rows * columns];
+    
     for (UIImage *tileImage in tileImages) {
-        int tileValue = [tileImages indexOfObjectIdenticalTo:tileImage] + 1;
+        
+        int tileValue = (int)[tileImages indexOfObjectIdenticalTo:tileImage] + 1;
         
         if (tileValue < rows * columns) {
-            Position currentPosition;
-            currentPosition.row = (tileValue - 1) / rows;
-            currentPosition.column = (tileValue - 1) % rows;
-            
-            CGRect tileFrame = [self frameOfCellAtPosition:currentPosition];
+            CGRect tileFrame = [self frameOfTileWithValue:tileValue-1];
             
             TileView *tile = [[TileView alloc] initWithFrame:tileFrame
                                                     andImage:tileImage
-                                                    andValue:tileValue++];
+                                                    andValue:tileValue];
             
-            UITapGestureRecognizer *tileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTappedForDelegate:)];
-            [tile addGestureRecognizer:tileTap];
+            [tile addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTappedForDelegate:)]];
             
             [self addSubview:tile];
         }
@@ -64,6 +73,14 @@
     [self.delegate tileTappedWithValue:selectedTile.tileValue];
 }
 
+-(CGRect)frameOfTileWithValue:(int)tileValue
+{
+    Position currentPosition;
+    currentPosition.row = tileValue / self.numRows;
+    currentPosition.column = tileValue % self.numCols;
+    return [self frameOfCellAtPosition:currentPosition];
+}
+
 -(CGRect)frameOfCellAtPosition:(Position)position
 {
     CGFloat originX = position.column * self.cellWidth;
@@ -72,31 +89,15 @@
     return CGRectMake(originX, originY, self.cellWidth, self.cellHeight);
 }
 
--(void)moveTilesToPositions:(NSMutableDictionary *)newPositions animated:(BOOL)animated
+-(void)moveTileWithValue:(int)tileValue toPosition:(Position)tilePos animated:(BOOL)animated
 {
-    // figure out if any of the tiles have moved based on the newPositions
-    for (TileView *tileToUpdate in self.subviews) {
-        
-        // find the tile's new position in the board
-        __block Position positionToMoveTileTo;
-        [newPositions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            NSNumber *tileValue = (NSNumber *)key;
-            if ([tileValue intValue] == tileToUpdate.tileValue) {
-                NSArray *tilePosition = (NSArray *)obj;
-                positionToMoveTileTo.row = [((NSNumber *)[tilePosition firstObject]) intValue];
-                positionToMoveTileTo.column = [((NSNumber *)[tilePosition lastObject]) intValue];
+    for (TileView *tile in self.subviews) {
+        if (tile.tileValue == tileValue) {
+            if (animated) {
+                [tile animateToFrame:[self frameOfCellAtPosition:tilePos]];
+            } else {
+                tile.frame = [self frameOfCellAtPosition:tilePos];
             }
-        }];
-        
-        // get the frame of the new position in the board
-        CGRect frameToMoveRectTo = [self frameOfCellAtPosition:positionToMoveTileTo];
-        
-        // ONLY DO THE ANIMATION IF THE FRAMES ARE DIFFERENT
-        
-        if (animated) {
-            [tileToUpdate animateToFrame:frameToMoveRectTo];
-        } else {
-            tileToUpdate.frame = frameToMoveRectTo;
         }
     }
 }

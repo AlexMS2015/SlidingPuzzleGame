@@ -20,5 +20,7 @@
 @property (weak, nonatomic) id <BoardViewDelegate> delegate;
 
 -(void)setRows:(int)rows andColumns:(int)columns andImage:(UIImage *)image;
--(void)moveTilesToPositions:(NSMutableDictionary *)newPositions animated:(BOOL)animated;
+//-(void)moveTilesToPositions:(NSMutableDictionary *)newPositions animated:(BOOL)animated;
+
+-(void)moveTileWithValue:(int)tileValue toPosition:(Position)tilePos animated:(BOOL)animated;
 @end

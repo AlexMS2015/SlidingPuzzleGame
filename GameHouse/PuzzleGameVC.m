@@ -176,23 +176,25 @@
 -(void)updateUI:(BOOL)animated
 {
     // get the current positions of all the tiles
-    NSMutableDictionary *tilePositions = [NSMutableDictionary dictionary];
-    for (int i = 0; i < self.puzzleGame.board.numberOfTiles; i++) {
-        Position tilePos = [self.puzzleGame.board positionOfTileWithValue:i];
+    //NSMutableDictionary *tilePositions = [NSMutableDictionary dictionary];
+    for (int tileValue = 0; tileValue < self.puzzleGame.board.numberOfTiles; tileValue++) {
+        Position tilePos = [self.puzzleGame.board positionOfTileWithValue:tileValue];
+        [self.boardView moveTileWithValue:tileValue toPosition:tilePos animated:YES];
         
-        NSNumber *tileValue = [NSNumber numberWithInt:i];
+        /*NSNumber *tileValue = [NSNumber numberWithInt:i];
         NSNumber *tileRow = [NSNumber numberWithInt:tilePos.row];
         NSNumber *tileCol = [NSNumber numberWithInt:tilePos.column];
-        tilePositions[tileValue] = @[tileRow, tileCol];
+        tilePositions[tileValue] = @[tileRow, tileCol];*/
     }
     
     // tell the board view to move the tiles to their new positions
-    [self.boardView moveTilesToPositions:tilePositions animated:animated];
+    //[self.boardView moveTilesToPositions:tilePositions animated:animated];
     
     self.numMovesLabel.text = [NSString stringWithFormat:@"%d", self.puzzleGame.numberOfMovesMade];
 }
 
 #warning - THIS SHOULD BE DONE THROUGH KVO - LEARN THE API FOR IT CMON!!!!!
+// ALSO USE KVO FOR THE NUM MOVES LABEL??
 -(void)checkForSolvedPuzzle
 {
     if (self.puzzleGame.puzzleIsSolved) {

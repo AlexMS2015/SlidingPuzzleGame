@@ -14,10 +14,21 @@
 @property (nonatomic, readonly) int numberOfTiles;
 
 -(instancetype)initWithNumTiles:(int)numTiles; // designated
+
+// tile information retrieval
 -(int)valueOfTileAtPosition:(Position)position;
 -(Position)positionOfTileWithValue:(int)value;
--(Position)positionOfBlankTile;
+//-(Position)positionOfBlankTile;
+//-(BOOL)blankTileIsAdjacentToTileAtPosition:(Position)position;
+//-(Position)positionOfRandomTileAdjacentToBlankTile;
+
+// alter tile positions
 -(void)setTileAtPosition:(Position)position withValue:(int)value;
--(void)swapBlankTileWithTileAtPosition:(Position)position;
+-(void)swapTileAtPosition:(Position)position1 withTileAtPosition:(Position)position2;
+//-(void)swapBlankTileWithTileAtPosition:(Position)position;
+
+
+// other
 -(NSString *)boardSizeStringFromNumTiles;
++(BOOL)position:(Position)firstPosition isEqualToPosition:(Position)secondPosition;
 @end
