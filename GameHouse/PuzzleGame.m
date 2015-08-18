@@ -146,12 +146,12 @@
 
 -(instancetype)initWithNumberOfTiles:(int)numTiles
                        andDifficulty:(Difficulty)difficulty
-                       andImageNamed:(NSString *)imageName;
+                       andImageNamed:(NSString *)imageName
+                         andDelegate:(id<PuzzleGameDelegate>)delegate
 {
-    self = [super init];
-    
-    if (self) {
+    if (self = [super init]) {
         self.board = [[SPGBoard alloc] initWithNumTiles:numTiles];
+        self.delegate = delegate;
         [self setTilesInInitialPositions];
         self.difficulty = difficulty;
         self.imageName = imageName;
@@ -169,17 +169,11 @@
         Position newPosition = position;
         
         if (position.row == blankTilePos.row) {
-            if (position.column < blankTilePos.column) {
-                newPosition.column++;
-            } else if (position.column > blankTilePos.column) {
-                newPosition.column--;
-            }
+            newPosition.column = position.column < blankTilePos.column ?
+                                    newPosition.column + 1 : newPosition.column - 1;
         } else if (position.column == blankTilePos.column) {
-            if (position.row < blankTilePos.row) {
-                newPosition.row++;
-            } else if (position.row > blankTilePos.row) {
-                newPosition.row--;
-            }
+            newPosition.row = position.row < blankTilePos.row ?
+                                newPosition.row + 1 : newPosition.row - 1;
         } else {
             return;
         }
@@ -187,10 +181,10 @@
         [self selectTileAtPosition:newPosition];
         
         if ([self.board blankTileIsAdjacentToTileAtPosition:position]) {
+            [self.delegate tileAtPosition:position withValue:[self.board valueOfTileAtPosition:position] didMoveToPosition:self.board.positionOfBlankTile];
             [self.board swapBlankTileWithTileAtPosition:position];
             self.numberOfMovesMade++;
         }
-
     }
 }
 

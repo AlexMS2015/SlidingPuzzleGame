@@ -14,7 +14,7 @@
 #import "BoardView.h"
 #import "Enums.h"
 
-@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, BoardViewDelegate>
+@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, BoardViewDelegate, PuzzleGameDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet BoardView *boardView;
@@ -38,12 +38,36 @@
 -(void)setPuzzleGame:(PuzzleGame *)puzzleGame
 {
     _puzzleGame = puzzleGame;
+    //_puzzleGame.delegate = self;
+    
+    [self addModelObservers];
+
     [self.view setNeedsLayout];
+    
     [self.boardView setRows:sqrt(self.puzzleGame.board.numberOfTiles)
                  andColumns:sqrt(self.puzzleGame.board.numberOfTiles)
                    andImage:[UIImage imageNamed:self.puzzleGame.imageName]];
     
     [self resetUI];
+}
+
+-(void)addModelObservers
+{
+    [self.puzzleGame addObserver:self forKeyPath:@"numberOfMovesMade" options:NSKeyValueObservingOptionNew context:nil];
+    
+    // ADD AN OBSERVER FOR A SOLVED PUZZLE
+}
+
+-(void)removeModelObservers
+{
+    [self.puzzleGame removeObserver:self forKeyPath:@"numberOfMovesMade"];
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString: @"numberOfMovesMade"]) {
+        self.numMovesLabel.text = [NSString stringWithFormat:@"%@", change[@"new"]];
+    }
 }
 
 -(UIImageView *)picShowImageView
@@ -159,14 +183,21 @@
                   andDifficulty:(Difficulty)difficulty
                  withImageNamed:(NSString *)imageName;
 {
+    if (self.puzzleGame)
+        [self removeModelObservers];
+    
     self.loadingFromExistingGame = NO;
     self.puzzleGame = [[PuzzleGame alloc] initWithNumberOfTiles:numTiles
-                                                        andDifficulty:difficulty
-                                                        andImageNamed:imageName];
+                                                  andDifficulty:difficulty
+                                                  andImageNamed:imageName
+                                                    andDelegate:self];
 }
 
 -(void)setupFromPreviousGame:(PuzzleGame *)game
 {
+    if (self.puzzleGame)
+        [self removeModelObservers];
+    
     self.loadingFromExistingGame = YES;
     self.puzzleGame = game;
 }
@@ -189,8 +220,10 @@
     
     // tell the board view to move the tiles to their new positions
     //[self.boardView moveTilesToPositions:tilePositions animated:animated];
-    
-    self.numMovesLabel.text = [NSString stringWithFormat:@"%d", self.puzzleGame.numberOfMovesMade];
+}
+
+-(void)tileAtPosition:(Position)pos1 withValue:(int)value didMoveToPosition:(Position)pos2{
+    [self.boardView moveTileWithValue:value toPosition:pos2 animated:YES];
 }
 
 #warning - THIS SHOULD BE DONE THROUGH KVO - LEARN THE API FOR IT CMON!!!!!
@@ -296,7 +329,7 @@
 {
     Position selectedTilePos = [self.puzzleGame.board positionOfTileWithValue:value];
     [self.puzzleGame selectTileAtPosition:selectedTilePos];
-    [self updateUI:YES];
+    //[self updateUI:YES];
     [self checkForSolvedPuzzle];
 }
 

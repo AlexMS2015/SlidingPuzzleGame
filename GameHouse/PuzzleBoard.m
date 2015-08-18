@@ -21,9 +21,8 @@
 
 -(NSMutableArray *)tiles
 {
-    if (!_tiles) {
+    if (!_tiles)
         _tiles = [NSMutableArray array];
-    }
     
     return _tiles;
 }
@@ -38,9 +37,7 @@
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super init];
-    
-    if (self) {
+    if (self = [super init]) {
         _tiles = [aDecoder decodeObjectForKey:@"tiles"];
         _numberOfTiles = [aDecoder decodeIntForKey:@"numberOfTiles"];
     }
@@ -52,11 +49,8 @@
 
 -(instancetype)initWithNumTiles:(int)numTiles
 {
-    self = [super init];
-    
-    if (self) {
+    if (self = [super init])
         _numberOfTiles = numTiles;
-    }
     
     return self;
 }
@@ -65,9 +59,8 @@
 
 -(void)setTileAtPosition:(Position)position withValue:(int)value
 {
-    int index = [self indexOfTileAtPosition:position];
-    NSNumber *tile = [NSNumber numberWithInt:value];
-    [self.tiles insertObject:tile atIndex:index];
+    [self.tiles insertObject:[NSNumber numberWithInt:value]
+                     atIndex:[self indexOfTileAtPosition:position]];
 }
 
 -(Position)positionOfTileAtIndex:(int)index
@@ -88,8 +81,7 @@
 
 -(int)valueOfTileAtPosition:(Position)position
 {
-    int index = [self indexOfTileAtPosition:position];
-    NSNumber *tile = self.tiles[index];
+    NSNumber *tile = self.tiles[[self indexOfTileAtPosition:position]];
     return [tile intValue];
 }
 
@@ -98,9 +90,8 @@
     __block Position positionOfTile;
     [self.tiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSNumber *tile = (NSNumber *)obj;
-        if ([tile intValue] == value) {
+        if ([tile intValue] == value)
             positionOfTile = [self positionOfTileAtIndex:(int)idx];
-        }
     }];
     
     return positionOfTile;
@@ -108,16 +99,8 @@
 
 -(void)swapTileAtPosition:(Position)position1 withTileAtPosition:(Position)position2
 {
-    int firstTileIndex = [self indexOfTileAtPosition:position1];
-    int secondTileIndex = [self indexOfTileAtPosition:position2];
-    NSNumber *firstTile = self.tiles[firstTileIndex];
-    NSNumber *secondTile = self.tiles[secondTileIndex];
-    
-    // swap the tiles
-    [self.tiles removeObjectAtIndex:firstTileIndex];
-    [self.tiles insertObject:secondTile atIndex:firstTileIndex];
-    [self.tiles removeObjectAtIndex:secondTileIndex];
-    [self.tiles insertObject:firstTile atIndex:secondTileIndex];
+    [self.tiles exchangeObjectAtIndex:[self indexOfTileAtPosition:position1]
+                    withObjectAtIndex:[self indexOfTileAtPosition:position2]];
 }
 
 -(NSString *)boardSizeStringFromNumTiles
@@ -126,14 +109,9 @@
     return [NSString stringWithFormat:@"%dx%d", numRowsAndCols, numRowsAndCols];
 }
 
-+(BOOL)position:(Position)firstPosition isEqualToPosition:(Position)secondPosition
++(BOOL)position:(Position)firstPos isEqualToPosition:(Position)secondPos
 {
-    if (firstPosition.row == secondPosition.row &&
-        firstPosition.column == secondPosition.column) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return (firstPos.row == secondPos.row && firstPos.column == secondPos.column) ? YES : NO;
 }
 
 /*-(Position)positionOfBlankTile

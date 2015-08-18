@@ -30,5 +30,5 @@
 
 // other
 -(NSString *)boardSizeStringFromNumTiles;
-+(BOOL)position:(Position)firstPosition isEqualToPosition:(Position)secondPosition;
++(BOOL)position:(Position)firstPos isEqualToPosition:(Position)secondPos;
 @end

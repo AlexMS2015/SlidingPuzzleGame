@@ -80,10 +80,10 @@
 
 -(void)setupMiniBoardView
 {
-    int numTiles = self.numTilesSlider.value;
+    /*int numTiles = self.numTilesSlider.value;
     [self.miniGameBoardImageView setRows:sqrt(numTiles)
                               andColumns:sqrt(numTiles)
-                                andImage:[UIImage imageNamed:self.gameImageName]];
+                                andImage:[UIImage imageNamed:self.gameImageName]];*/
 }
 
 #pragma mark - Actions

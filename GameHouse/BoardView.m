@@ -102,4 +102,27 @@
     }
 }
 
+-(void)moveTileFromPosition:(Position)pos1 toPosition:(Position)pos2
+{
+    //int tileValue = (self.numRows * self.numCols) * pos1.row + pos1.column;
+    
+    CGRect frameOfTileToMove = [self frameOfCellAtPosition:pos1];
+    CGPoint centerOfFrameOfTileToMove = CGPointMake(frameOfTileToMove.origin.x +
+                                                    frameOfTileToMove.size.width / 2.0,
+                                                    frameOfTileToMove.origin.y +
+                                                    frameOfTileToMove.size.height / 2.0);
+    
+    TileView *tileTapped = (TileView *)[self hitTest:centerOfFrameOfTileToMove withEvent:nil];
+    [tileTapped animateToFrame:[self frameOfCellAtPosition:pos2]];
+    
+    NSLog(@"moving tile to pos: %@", NSStringFromCGRect([self frameOfCellAtPosition:pos2]));
+    
+    /*for (TileView *tile in self.subviews) {
+        if () {
+            NSLog(@")
+            [tile animateToFrame:[self frameOfCellAtPosition:pos2]];
+        }
+    }*/
+}
+
 @end

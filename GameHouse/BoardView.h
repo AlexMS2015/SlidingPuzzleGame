@@ -23,4 +23,6 @@
 //-(void)moveTilesToPositions:(NSMutableDictionary *)newPositions animated:(BOOL)animated;
 
 -(void)moveTileWithValue:(int)tileValue toPosition:(Position)tilePos animated:(BOOL)animated;
+
+-(void)moveTileFromPosition:(Position)pos1 toPosition:(Position)pos2;
 @end
