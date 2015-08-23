@@ -7,50 +7,59 @@
 //
 
 #import "SettingsVC.h"
-#import "BoardView.h"
-#import "ImageCollectionViewVC.h"
+#import "ImageGridVC.h"
+#import "UIImage+Crop.h"
 
-@interface SettingsVC () <ImageSelectedDelegate>
+@interface SettingsVC () <ImageGridVCDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UISlider *numTilesSlider;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *difficultySegmentedControl;
 @property (weak, nonatomic) IBOutlet UICollectionView *pictureSelectionCollectionView;
-@property (weak, nonatomic) IBOutlet BoardView *miniGameBoardImageView;
 
 // other
 @property (strong, nonatomic) NSString *gameImageName;
-@property (strong, nonatomic) ImageCollectionViewVC *gameImagesCVC;
+@property (strong, nonatomic) NSArray *availableGameImages;
+@property (strong, nonatomic) ImageGridVC *gameImagesGrid;
 @end
 
 @implementation SettingsVC
 
-#pragma mark - ImageSelectedDelegate
+#pragma mark - ImageGridVCDelegate
 
--(void)imageSelected:(NSString *)imageName
+-(void)tileTappedAtPosition:(Position)position
 {
-    self.gameImageName = imageName;
+    self.gameImageName = self.gameVCForSettings.availableImageNames[position.column];
 }
 
 #pragma mark - Properties
 
+-(NSArray *)availableGameImages
+{
+    if (!_availableGameImages) {
+        _availableGameImages = [UIImage imagesForLocalImagesNames:self.gameVCForSettings.availableImageNames];
+    }
+    
+    return _availableGameImages;
+}
+
 -(void)setPictureSelectionCollectionView:(UICollectionView *)pictureSelectionCollectionView
 {
     _pictureSelectionCollectionView = pictureSelectionCollectionView;
-    self.pictureSelectionCollectionView.delegate = self.gameImagesCVC;
-    self.pictureSelectionCollectionView.dataSource = self.gameImagesCVC;
+    self.pictureSelectionCollectionView.delegate = self.gameImagesGrid;
+    self.pictureSelectionCollectionView.dataSource = self.gameImagesGrid;
 }
 
--(ImageCollectionViewVC *)gameImagesCVC
+-(ImageGridVC *)gameImagesGrid
 {
-    if (!_gameImagesCVC) {
-        _gameImagesCVC = [[ImageCollectionViewVC alloc] init];
-        _gameImagesCVC.imageNames = self.gameVCForSettings.availableImageNames;
-        _gameImagesCVC.selectedImageName = self.gameImageName;
-        _gameImagesCVC.delegate = self;
+    if (!_gameImagesGrid) {
+        _gameImagesGrid = [[ImageGridVC alloc] initWithImages:self.availableGameImages
+                                                         rows:1
+                                                      andCols:(int)[self.availableGameImages count]];
+        _gameImagesGrid.delegate = self;
     }
     
-    return _gameImagesCVC;
+    return _gameImagesGrid;
 }
 
 #pragma mark - View Life Cycle
@@ -129,9 +138,11 @@
 -(void)setGameImageName:(NSString *)gameImageName
 {
     _gameImageName = gameImageName;
-    self.gameImagesCVC.selectedImageName = self.gameImageName;
+    NSLog(@"selected image with name: %@", gameImageName);
+#warning SHOCKING CODE HERE... SO DEPENDANT
+    //self.gameImagesCVC.selectedImageName = self.gameImageName;
     [self.pictureSelectionCollectionView reloadData];
-    [self setupMiniBoardView];
+    //[self setupMiniBoardView];
 }
 
 @end

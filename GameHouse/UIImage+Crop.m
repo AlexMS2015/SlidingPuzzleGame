@@ -10,7 +10,7 @@
 
 @implementation UIImage (Crop)
 
--(NSArray *)divideImageIntoSquares:(int)numSquares
+-(NSArray *)divideSquareImageIntoSquares:(int)numSquares
 {
     NSMutableArray *squareImages = [NSMutableArray array];
     
@@ -33,6 +33,16 @@
     }
     
     return [NSArray arrayWithArray:squareImages];
+}
+
++(NSArray *)imagesForLocalImagesNames:(NSArray *)imageNames
+{
+    NSMutableArray *images = [NSMutableArray array];
+    for (NSString *imageName in imageNames) {
+        [images addObject:[UIImage imageNamed:imageName]];
+    }
+    
+    return [NSArray arrayWithArray:images];
 }
 
 @end

@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Enums.h"
+#import "Enums+Structs.h"
 
 @interface TileView : UIView
 
-@property (nonatomic, readonly) int tileValue;
+@property (nonatomic) int tileValue;
+@property (nonatomic, strong) UIImage *tileImage;
 
 // designated initialiser (other initialisers like initWithFrame: won't do anything)
 -(instancetype)initWithFrame:(CGRect)frame

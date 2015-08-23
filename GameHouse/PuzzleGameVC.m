@@ -11,69 +11,100 @@
 #import "TileView.h"
 #import "SettingsVC.h"
 #import "PreviousGameDatabase.h"
-#import "BoardView.h"
-#import "Enums.h"
+#import "Enums+Structs.h"
+#import "NSValue+GetPosition.h"
+#import "UIImage+Crop.h"
+#import "ImageGridVC.h"
 
-@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, BoardViewDelegate, PuzzleGameDelegate>
+@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, ImageGridVCDelegate>
 
 // outlets
-@property (weak, nonatomic) IBOutlet BoardView *boardView;
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
 @property (weak, nonatomic) IBOutlet UILabel *difficultyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numMovesLabel;
 @property (weak, nonatomic) IBOutlet UIButton *picShowHideToggle;
 @property (weak, nonatomic) IBOutlet UILabel *countdownLabel;
+@property (strong, nonatomic) IBOutlet UICollectionView *boardCV;
 
 // other
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) PuzzleGame *puzzleGame;
 @property (nonatomic) BOOL loadingFromExistingGame;
-
+@property (strong, nonatomic) ImageGridVC *board;
 @end
 
 @implementation PuzzleGameVC
 
-#pragma mark - Properties
-
--(void)setPuzzleGame:(PuzzleGame *)puzzleGame
-{
-    _puzzleGame = puzzleGame;
-    //_puzzleGame.delegate = self;
-    
-    [self addModelObservers];
-
-    [self.view setNeedsLayout];
-    
-    [self.boardView setRows:sqrt(self.puzzleGame.board.numberOfTiles)
-                 andColumns:sqrt(self.puzzleGame.board.numberOfTiles)
-                   andImage:[UIImage imageNamed:self.puzzleGame.imageName]];
-    
-    [self resetUI];
-}
+#pragma mark - KVO
 
 -(void)addModelObservers
 {
     [self.puzzleGame addObserver:self forKeyPath:@"numberOfMovesMade" options:NSKeyValueObservingOptionNew context:nil];
-    
+    [self.puzzleGame.board addObserver:self forKeyPath:@"positionOfBlankTile" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
     // ADD AN OBSERVER FOR A SOLVED PUZZLE
 }
 
 -(void)removeModelObservers
 {
     [self.puzzleGame removeObserver:self forKeyPath:@"numberOfMovesMade"];
+    [self.puzzleGame.board removeObserver:self forKeyPath:@"positionOfBlankTile"];
+}
+
+-(void)dealloc
+{
+    [self removeModelObservers];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString: @"numberOfMovesMade"]) {
         self.numMovesLabel.text = [NSString stringWithFormat:@"%@", change[@"new"]];
+    } else if ([keyPath isEqualToString:@"positionOfBlankTile"]) {
+        Position oldPos = [NSValue getPositionFromValue:change[@"old"]];
+        Position newPos = [NSValue getPositionFromValue:change[@"new"]];
+        
+        
+#warning - WOULD BE GOOD TO HAVE THIS CODE INSIDE THE IMAGEGRIDVC:
+        NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:oldPos.column inSection:oldPos.row];
+        NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:newPos.column inSection:newPos.row];
+        
+        [self.boardCV performBatchUpdates:^{
+            [self.boardCV moveItemAtIndexPath:oldPosPath toIndexPath:newPosPath];
+            [self.boardCV moveItemAtIndexPath:newPosPath toIndexPath:oldPosPath];
+        } completion:^(BOOL finished) {}];
     }
+}
+
+#pragma mark - ImageGridVCDelegate
+
+-(void)tileTappedAtPosition:(Position)position
+{
+    [self.puzzleGame selectTileAtPosition:position];
+    [self checkForSolvedPuzzle];
+}
+
+#pragma mark - Properties
+
+-(void)setPuzzleGame:(PuzzleGame *)puzzleGame
+{
+    _puzzleGame = puzzleGame;
+    [self addModelObservers];
+    [self resetUI];
+    
+    UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
+    NSArray *tileImages = [boardImage divideSquareImageIntoSquares:self.puzzleGame.board.numberOfTiles];
+    int numRowsAndCols = sqrt(self.puzzleGame.board.numberOfTiles);
+    self.board = [[ImageGridVC alloc] initWithImages:tileImages rows:numRowsAndCols andCols:numRowsAndCols];
+    
+    self.boardCV.delegate = self.board;
+    self.boardCV.dataSource = self.board;
+    self.board.delegate = self;
 }
 
 -(UIImageView *)picShowImageView
 {
     if (!_picShowImageView) {
-        _picShowImageView = [[UIImageView alloc] initWithFrame:self.boardView.frame];
+        _picShowImageView = [[UIImageView alloc] initWithFrame:self.boardCV.frame];
         _picShowImageView.hidden = YES;
         [self.view addSubview:_picShowImageView];
     }
@@ -88,16 +119,18 @@
 
 #pragma mark - View Life Cycle
 
--(void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.boardView.delegate = self; // WHY DOESN'T THIS WORK IN THE SETTER?
-}
-
+//#define NUM_TILES_DEFAULT 9
+//#define DIFFICULTY_DEFAULT EASY
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    
+    /*if (!self.puzzleGame) {
+        [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
+                         andDifficulty:DIFFICULTY_DEFAULT
+                        withImageNamed:[self.availableImageNames firstObject]];
+    }*/
 }
 
 #define NUM_TILES_DEFAULT 9
@@ -111,8 +144,6 @@
                          andDifficulty:DIFFICULTY_DEFAULT
                         withImageNamed:[self.availableImageNames firstObject]];
     }
-    
-    [self.view layoutIfNeeded];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -164,8 +195,6 @@
     
     if (self.loadingFromExistingGame) {
         self.countdownLabel.hidden = YES;
-        // move the tiles to their saved positions
-        [self updateUI:NO];
     } else {
         // create and begin the game countdown timer
         self.countdownLabel.hidden = NO;
@@ -189,8 +218,7 @@
     self.loadingFromExistingGame = NO;
     self.puzzleGame = [[PuzzleGame alloc] initWithNumberOfTiles:numTiles
                                                   andDifficulty:difficulty
-                                                  andImageNamed:imageName
-                                                    andDelegate:self];
+                                                  andImageNamed:imageName];
 }
 
 -(void)setupFromPreviousGame:(PuzzleGame *)game
@@ -204,30 +232,6 @@
 
 #pragma mark - Helper / Other
 
--(void)updateUI:(BOOL)animated
-{
-    // get the current positions of all the tiles
-    //NSMutableDictionary *tilePositions = [NSMutableDictionary dictionary];
-    for (int tileValue = 0; tileValue < self.puzzleGame.board.numberOfTiles; tileValue++) {
-        Position tilePos = [self.puzzleGame.board positionOfTileWithValue:tileValue];
-        [self.boardView moveTileWithValue:tileValue toPosition:tilePos animated:YES];
-        
-        /*NSNumber *tileValue = [NSNumber numberWithInt:i];
-        NSNumber *tileRow = [NSNumber numberWithInt:tilePos.row];
-        NSNumber *tileCol = [NSNumber numberWithInt:tilePos.column];
-        tilePositions[tileValue] = @[tileRow, tileCol];*/
-    }
-    
-    // tell the board view to move the tiles to their new positions
-    //[self.boardView moveTilesToPositions:tilePositions animated:animated];
-}
-
--(void)tileAtPosition:(Position)pos1 withValue:(int)value didMoveToPosition:(Position)pos2{
-    [self.boardView moveTileWithValue:value toPosition:pos2 animated:YES];
-}
-
-#warning - THIS SHOULD BE DONE THROUGH KVO - LEARN THE API FOR IT CMON!!!!!
-// ALSO USE KVO FOR THE NUM MOVES LABEL??
 -(void)checkForSolvedPuzzle
 {
     if (self.puzzleGame.puzzleIsSolved) {
@@ -244,6 +248,9 @@
 
 -(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    
+#warning - Update this app for UIAlertController
+
     if ([alertView.title isEqualToString:@"New Game"]) {
         self.resetGameButton.alpha = 0.6;
         if (buttonIndex != alertView.cancelButtonIndex) {
@@ -266,21 +273,16 @@
     } else {
         self.countdownLabel.hidden = YES;
         self.view.userInteractionEnabled = YES;
-        [self updateUI:YES];
+        //[self.puzzleGame startGame];
         [timer invalidate];
     }
 }
 
 // helper
 -(void)toggleFinalPicView
-{
-    if (self.picShowImageView.hidden) {
-        self.boardView.userInteractionEnabled = NO;
-        self.picShowImageView.hidden = NO;
-    } else {
-        self.boardView.userInteractionEnabled = YES;
-        self.picShowImageView.hidden = YES;
-    }
+{    
+    self.boardCV.userInteractionEnabled = !self.picShowImageView.hidden;
+    self.picShowImageView.hidden = !self.picShowImageView.hidden;
 }
 
 - (IBAction)picShowHideToggleTouchDown:(UIButton *)sender
@@ -295,9 +297,6 @@
 
  - (IBAction)exitTouchUpInside:(UIButton *)sender
 {
-    if (self.puzzleGame.numberOfMovesMade > 0) {
-        [self.puzzleGame save];
-    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -306,7 +305,6 @@
     if (!self.newGameSelectionDisabled) {
         SettingsVC *settingVC =[[SettingsVC alloc] init];
         settingVC.gameVCForSettings = self;
-        
         [self presentViewController:settingVC animated:YES completion:NULL];
     }
 }
@@ -315,7 +313,6 @@
 {
     if (!self.newGameSelectionDisabled) {
         self.resetGameButton.alpha = 0.1;
-        
         UIAlertView *resetGameAlert = [[UIAlertView alloc] initWithTitle:@"New Game"
                                                                  message:@"Are you sure you want to begin a new game?"
                                                                 delegate:self
@@ -323,14 +320,6 @@
                                                        otherButtonTitles:@"Yes", nil];
         [resetGameAlert show];
     }
-}
-
--(void)tileTappedWithValue:(int)value
-{
-    Position selectedTilePos = [self.puzzleGame.board positionOfTileWithValue:value];
-    [self.puzzleGame selectTileAtPosition:selectedTilePos];
-    //[self updateUI:YES];
-    [self checkForSolvedPuzzle];
 }
 
 @end

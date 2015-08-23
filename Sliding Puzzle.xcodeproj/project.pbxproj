@@ -25,7 +25,6 @@
 		FA10144D1AD0E429006A7100 /* HomeScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA10144B1AD0E429006A7100 /* HomeScreenVC.m */; };
 		FA10144E1AD0E429006A7100 /* HomeScreenVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA10144C1AD0E429006A7100 /* HomeScreenVC.xib */; };
 		FA3255ED1B803BA90045A827 /* UIImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3255EC1B803BA90045A827 /* UIImage+Crop.m */; };
-		FA3255F01B803D790045A827 /* BoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3255EF1B803D790045A827 /* BoardView.m */; };
 		FA3255F31B80556E0045A827 /* ImageCollectionViewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3255F21B80556E0045A827 /* ImageCollectionViewVC.m */; };
 		FA3255FF1B82188A0045A827 /* SPGBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3255FE1B82188A0045A827 /* SPGBoard.m */; };
 		FA966C391B115A70004C28C0 /* PuzzleGameVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C371B115A70004C28C0 /* PuzzleGameVC.m */; };
@@ -33,6 +32,8 @@
 		FA966C481B11B0AB004C28C0 /* TileView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C461B11B0AB004C28C0 /* TileView.m */; };
 		FA966C4D1B133705004C28C0 /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C4B1B133705004C28C0 /* SettingsVC.m */; };
 		FA966C4E1B133705004C28C0 /* SettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA966C4C1B133705004C28C0 /* SettingsVC.xib */; };
+		FAA5CD4E1B88186A002E2167 /* ImageGridVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5CD4D1B88186A002E2167 /* ImageGridVC.m */; };
+		FAD1AB4D1B87F927004D39E1 /* NSValue+GetPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD1AB4C1B87F927004D39E1 /* NSValue+GetPosition.m */; };
 		FAF8A3BB1B25667500EEDB01 /* PreviousGameDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3BA1B25667500EEDB01 /* PreviousGameDatabase.m */; };
 		FAF8A3C31B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C21B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m */; };
 		FAF8A3C61B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C51B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m */; };
@@ -58,7 +59,7 @@
 		FA0A78C61B2D8A83002B3D1C /* PuzzleGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleGame.m; sourceTree = "<group>"; };
 		FA0A78CA1B2EF00C002B3D1C /* PuzzleBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleBoard.h; sourceTree = "<group>"; };
 		FA0A78CB1B2EF00C002B3D1C /* PuzzleBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleBoard.m; sourceTree = "<group>"; };
-		FA0A78CD1B2EF538002B3D1C /* Enums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
+		FA0A78CD1B2EF538002B3D1C /* Enums+Structs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Enums+Structs.h"; sourceTree = "<group>"; };
 		FA1014181AD0D2AC006A7100 /* Sliding Puzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sliding Puzzle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA10141B1AD0D2AC006A7100 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FA10141D1AD0D2AC006A7100 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -80,8 +81,6 @@
 		FA10144C1AD0E429006A7100 /* HomeScreenVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeScreenVC.xib; sourceTree = "<group>"; };
 		FA3255EB1B803BA90045A827 /* UIImage+Crop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Crop.h"; sourceTree = "<group>"; };
 		FA3255EC1B803BA90045A827 /* UIImage+Crop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Crop.m"; sourceTree = "<group>"; };
-		FA3255EE1B803D790045A827 /* BoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardView.h; sourceTree = "<group>"; };
-		FA3255EF1B803D790045A827 /* BoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardView.m; sourceTree = "<group>"; };
 		FA3255F11B80556E0045A827 /* ImageCollectionViewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionViewVC.h; sourceTree = "<group>"; };
 		FA3255F21B80556E0045A827 /* ImageCollectionViewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionViewVC.m; sourceTree = "<group>"; };
 		FA3255FD1B82188A0045A827 /* SPGBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPGBoard.h; sourceTree = "<group>"; };
@@ -94,6 +93,10 @@
 		FA966C4A1B133705004C28C0 /* SettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsVC.h; sourceTree = "<group>"; };
 		FA966C4B1B133705004C28C0 /* SettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsVC.m; sourceTree = "<group>"; };
 		FA966C4C1B133705004C28C0 /* SettingsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsVC.xib; sourceTree = "<group>"; };
+		FAA5CD4C1B88186A002E2167 /* ImageGridVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageGridVC.h; sourceTree = "<group>"; };
+		FAA5CD4D1B88186A002E2167 /* ImageGridVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageGridVC.m; sourceTree = "<group>"; };
+		FAD1AB4B1B87F927004D39E1 /* NSValue+GetPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+GetPosition.h"; sourceTree = "<group>"; };
+		FAD1AB4C1B87F927004D39E1 /* NSValue+GetPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+GetPosition.m"; sourceTree = "<group>"; };
 		FAF8A3B91B25667500EEDB01 /* PreviousGameDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGameDatabase.h; sourceTree = "<group>"; };
 		FAF8A3BA1B25667500EEDB01 /* PreviousGameDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousGameDatabase.m; sourceTree = "<group>"; };
 		FAF8A3C11B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGamesByDifficultyTVC.h; sourceTree = "<group>"; };
@@ -134,7 +137,8 @@
 		FA00BF951AD104510051DA66 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				FA0A78CD1B2EF538002B3D1C /* Enums.h */,
+				FAA5CD4B1B8801C9002E2167 /* Categories */,
+				FA0A78CD1B2EF538002B3D1C /* Enums+Structs.h */,
 				FAF8A3B91B25667500EEDB01 /* PreviousGameDatabase.h */,
 				FAF8A3BA1B25667500EEDB01 /* PreviousGameDatabase.m */,
 				FA0A78C51B2D8A83002B3D1C /* PuzzleGame.h */,
@@ -153,15 +157,13 @@
 				FA966C361B115A70004C28C0 /* PuzzleGameVC.h */,
 				FA966C371B115A70004C28C0 /* PuzzleGameVC.m */,
 				FA966C381B115A70004C28C0 /* PuzzleGameVC.xib */,
-				FA3255EB1B803BA90045A827 /* UIImage+Crop.h */,
-				FA3255EC1B803BA90045A827 /* UIImage+Crop.m */,
 				FA966C4A1B133705004C28C0 /* SettingsVC.h */,
 				FA966C4B1B133705004C28C0 /* SettingsVC.m */,
 				FA966C4C1B133705004C28C0 /* SettingsVC.xib */,
 				FA3255F11B80556E0045A827 /* ImageCollectionViewVC.h */,
 				FA3255F21B80556E0045A827 /* ImageCollectionViewVC.m */,
-				FA3255EE1B803D790045A827 /* BoardView.h */,
-				FA3255EF1B803D790045A827 /* BoardView.m */,
+				FAA5CD4C1B88186A002E2167 /* ImageGridVC.h */,
+				FAA5CD4D1B88186A002E2167 /* ImageGridVC.m */,
 				FA966C451B11B0AB004C28C0 /* TileView.h */,
 				FA966C461B11B0AB004C28C0 /* TileView.m */,
 			);
@@ -258,6 +260,17 @@
 				FAF8A3CC1B2C164600EEDB01 /* PreviousGameCell.xib */,
 			);
 			name = "Previous Games Screen";
+			sourceTree = "<group>";
+		};
+		FAA5CD4B1B8801C9002E2167 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				FA3255EB1B803BA90045A827 /* UIImage+Crop.h */,
+				FA3255EC1B803BA90045A827 /* UIImage+Crop.m */,
+				FAD1AB4B1B87F927004D39E1 /* NSValue+GetPosition.h */,
+				FAD1AB4C1B87F927004D39E1 /* NSValue+GetPosition.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		FAF8A3BC1B256F8100EEDB01 /* Home Screen */ = {
@@ -382,8 +395,8 @@
 				FA10144D1AD0E429006A7100 /* HomeScreenVC.m in Sources */,
 				FA966C4D1B133705004C28C0 /* SettingsVC.m in Sources */,
 				FAF8A3C61B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m in Sources */,
+				FAA5CD4E1B88186A002E2167 /* ImageGridVC.m in Sources */,
 				FA3255ED1B803BA90045A827 /* UIImage+Crop.m in Sources */,
-				FA3255F01B803D790045A827 /* BoardView.m in Sources */,
 				FAF8A3CD1B2C164600EEDB01 /* PreviousGameCell.m in Sources */,
 				FA0A78C71B2D8A83002B3D1C /* PuzzleGame.m in Sources */,
 				FA00BF901AD0FE5D0051DA66 /* PreviousGamesTVC.m in Sources */,
@@ -391,6 +404,7 @@
 				FA3255FF1B82188A0045A827 /* SPGBoard.m in Sources */,
 				FA966C481B11B0AB004C28C0 /* TileView.m in Sources */,
 				FAF8A3BB1B25667500EEDB01 /* PreviousGameDatabase.m in Sources */,
+				FAD1AB4D1B87F927004D39E1 /* NSValue+GetPosition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

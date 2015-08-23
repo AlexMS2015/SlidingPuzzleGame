@@ -22,14 +22,36 @@
         }
 }
 
--(Position)positionOfBlankTile
+-(instancetype)initWithNumTiles:(int)numTiles
 {
-    return [self positionOfTileWithValue:0];
+    if (self = [super initWithNumTiles:numTiles]) {
+        int numRowsAndCols = sqrt(numTiles);
+        
+        Position currentPosition;
+        int tileValue = 0;
+        
+        for (currentPosition.row = 0; currentPosition.row < numRowsAndCols; currentPosition.row++) {
+            for (currentPosition.column = 0; currentPosition.column < numRowsAndCols; currentPosition.column++) {
+                if (tileValue < numTiles) {
+                    [self setTileAtPosition:currentPosition withValue:tileValue];
+                    tileValue++;
+                }
+            }
+        }
+        
+        /*currentPosition.row = sqrt(numTiles) - 1;
+        currentPosition.column = sqrt(numTiles) - 1;
+        [self setTileAtPosition:currentPosition withValue:0];*/
+        self.positionOfBlankTile = [self positionOfTileWithValue:0];
+    }
+    
+    return self;
 }
 
 -(void)swapBlankTileWithTileAtPosition:(Position)position
 {
     [self swapTileAtPosition:position withTileAtPosition:[self positionOfBlankTile]];
+    self.positionOfBlankTile = [self positionOfTileWithValue:0];
 }
 
 -(Position)positionOfRandomTileAdjacentToBlankTile

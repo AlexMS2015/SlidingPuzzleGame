@@ -8,17 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "SPGBoard.h"
-#import "Enums.h"
-
-@protocol PuzzleGameDelegate <NSObject>
-
--(void)tileAtPosition:(Position)pos1 withValue:(int)value didMoveToPosition:(Position)pos2;
-
-@end
+#import "Enums+Structs.h"
 
 @interface PuzzleGame : NSObject
-
-@property (weak, nonatomic) id <PuzzleGameDelegate> delegate;
 
 @property (nonatomic, readonly) Difficulty difficulty;
 @property (nonatomic, readonly) BOOL puzzleIsSolved;
@@ -29,10 +21,11 @@
 
 -(instancetype)initWithNumberOfTiles:(int)numTiles
                        andDifficulty:(Difficulty)difficulty
-                       andImageNamed:(NSString *)imageName
-                         andDelegate:(id<PuzzleGameDelegate>)delegate;
+                       andImageNamed:(NSString *)imageName;
 
 -(void)selectTileAtPosition:(Position)position;
 -(NSString *)difficultyStringFromDifficulty;
--(void)save;
+//-(void)save; // SHOULD AUTO SAVE AFTER EVERY BLANK TILE MOVEMENT???
+
+-(void)startGame;
 @end

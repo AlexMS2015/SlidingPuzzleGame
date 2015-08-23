@@ -60,7 +60,7 @@
 }
 
 -(BOOL)save
-{    
+{
     NSString *path = [self previousGamesPath];
     
     return [NSKeyedArchiver archiveRootObject:self.gamesPrivate toFile:path];
@@ -83,7 +83,8 @@
 
 -(void)addGameAndSave:(PuzzleGame *)game
 {
-    [self.gamesPrivate addObject:game];
+    if (![self.gamesPrivate containsObject:game])
+        [self.gamesPrivate addObject:game];
     [self save];
 }
 

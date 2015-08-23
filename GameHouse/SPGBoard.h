@@ -10,9 +10,13 @@
 
 @interface SPGBoard : PuzzleBoard
 
+@property (nonatomic) Position positionOfBlankTile;
+
 -(void)swapBlankTileWithTileAtPosition:(Position)position;
--(Position)positionOfBlankTile;
 -(BOOL)blankTileIsAdjacentToTileAtPosition:(Position)position;
 -(Position)positionOfRandomTileAdjacentToBlankTile;
+
+// over ridden to allow setting up of a sliding tile board with ordered values (0 is at the end)
+-(instancetype)initWithNumTiles:(int)numTiles;
 
 @end

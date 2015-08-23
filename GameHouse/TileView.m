@@ -8,13 +8,6 @@
 
 #import "TileView.h"
 
-@interface TileView ()
-
-@property (nonatomic, readwrite) int tileValue;
-@property (nonatomic, strong) UIImage *tileImage;
-
-@end
-
 @implementation TileView
 
 #define FONT_SIZE self.bounds.size.width / 6.0
@@ -45,7 +38,6 @@
     tileForeground.layer.cornerRadius = 8.0;
     tileForeground.layer.masksToBounds = YES;
     [self addSubview:tileForeground];
-    
     [self setNeedsDisplay];
 }
 

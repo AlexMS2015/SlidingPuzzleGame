@@ -17,7 +17,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.delegate imageSelected:self.imageNames[indexPath.item]];
+    [self.delegate imageSelected:self.imageNames[indexPath.row]];
 }
 
 #pragma mark - UICollectionViewDataSource

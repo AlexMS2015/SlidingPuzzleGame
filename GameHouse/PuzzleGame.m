@@ -106,7 +106,7 @@
 {
     _difficulty = difficulty;
     
-    int numMovesToRandomise = [self numMovesToRandomiseForDifficulty:difficulty];
+    /*int numMovesToRandomise = [self numMovesToRandomiseForDifficulty:difficulty];
     
     Position positionNotToSelect;
     Position randomAdjacentTilePos;
@@ -118,41 +118,33 @@
             positionNotToSelect = [self.board positionOfBlankTile];
             [self selectTileAtPosition:randomAdjacentTilePos];
         }
-    }
+    }*/
 }
 
--(void)setTilesInInitialPositions
+-(void)startGame
 {
-    int numTiles = self.board.numberOfTiles;
-    int numRowsAndCols = sqrt(numTiles);
+    int numMovesToRandomise = [self numMovesToRandomiseForDifficulty:self.difficulty];
     
-    Position currentPosition;
-    int tileValue = 1;
-    
-    for (currentPosition.row = 0; currentPosition.row < numRowsAndCols; currentPosition.row++) {
-        for (currentPosition.column = 0; currentPosition.column < numRowsAndCols; currentPosition.column++) {
-            if (tileValue < numTiles) {
-                [self.board setTileAtPosition:currentPosition withValue:tileValue];
-                tileValue++;
-            }
+    Position positionNotToSelect;
+    Position randomAdjacentTilePos;
+    for (int move = 0; move < numMovesToRandomise; move++) {
+        randomAdjacentTilePos = [self.board positionOfRandomTileAdjacentToBlankTile];
+        if ([PuzzleBoard position:randomAdjacentTilePos isEqualToPosition:positionNotToSelect]) {
+            move--;
+        } else {
+            positionNotToSelect = [self.board positionOfBlankTile];
+            [self selectTileAtPosition:randomAdjacentTilePos];
         }
-    }
-    
-    currentPosition.row = sqrt(numTiles) - 1;
-    currentPosition.column = sqrt(numTiles) - 1;
-    [self.board setTileAtPosition:currentPosition withValue:0];
+     }
+    self.numberOfMovesMade = 0;
 }
-
 
 -(instancetype)initWithNumberOfTiles:(int)numTiles
                        andDifficulty:(Difficulty)difficulty
                        andImageNamed:(NSString *)imageName
-                         andDelegate:(id<PuzzleGameDelegate>)delegate
 {
     if (self = [super init]) {
         self.board = [[SPGBoard alloc] initWithNumTiles:numTiles];
-        self.delegate = delegate;
-        [self setTilesInInitialPositions];
         self.difficulty = difficulty;
         self.imageName = imageName;
         self.numberOfMovesMade = 0;
@@ -163,6 +155,8 @@
 
 -(void)selectTileAtPosition:(Position)position
 {
+    // THIS SHOULD NOT WORK IF PUZZLEISSOLVED IS TRUE
+    
     if ([self.board valueOfTileAtPosition:position] != 0) {
         
         Position blankTilePos = [self.board positionOfBlankTile];
@@ -181,9 +175,9 @@
         [self selectTileAtPosition:newPosition];
         
         if ([self.board blankTileIsAdjacentToTileAtPosition:position]) {
-            [self.delegate tileAtPosition:position withValue:[self.board valueOfTileAtPosition:position] didMoveToPosition:self.board.positionOfBlankTile];
             [self.board swapBlankTileWithTileAtPosition:position];
             self.numberOfMovesMade++;
+            [self save];
         }
     }
 }
