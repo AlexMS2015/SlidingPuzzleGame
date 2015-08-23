@@ -133,7 +133,7 @@
     }*/
 }
 
-#define NUM_TILES_DEFAULT 9
+#define NUM_TILES_DEFAULT 16
 #define DIFFICULTY_DEFAULT EASY
 -(void)viewDidLayoutSubviews
 {

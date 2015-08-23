@@ -25,7 +25,6 @@
 		FA10144D1AD0E429006A7100 /* HomeScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA10144B1AD0E429006A7100 /* HomeScreenVC.m */; };
 		FA10144E1AD0E429006A7100 /* HomeScreenVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA10144C1AD0E429006A7100 /* HomeScreenVC.xib */; };
 		FA3255ED1B803BA90045A827 /* UIImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3255EC1B803BA90045A827 /* UIImage+Crop.m */; };
-		FA3255F31B80556E0045A827 /* ImageCollectionViewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3255F21B80556E0045A827 /* ImageCollectionViewVC.m */; };
 		FA3255FF1B82188A0045A827 /* SPGBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3255FE1B82188A0045A827 /* SPGBoard.m */; };
 		FA966C391B115A70004C28C0 /* PuzzleGameVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C371B115A70004C28C0 /* PuzzleGameVC.m */; };
 		FA966C3A1B115A70004C28C0 /* PuzzleGameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA966C381B115A70004C28C0 /* PuzzleGameVC.xib */; };
@@ -81,8 +80,6 @@
 		FA10144C1AD0E429006A7100 /* HomeScreenVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeScreenVC.xib; sourceTree = "<group>"; };
 		FA3255EB1B803BA90045A827 /* UIImage+Crop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Crop.h"; sourceTree = "<group>"; };
 		FA3255EC1B803BA90045A827 /* UIImage+Crop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Crop.m"; sourceTree = "<group>"; };
-		FA3255F11B80556E0045A827 /* ImageCollectionViewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionViewVC.h; sourceTree = "<group>"; };
-		FA3255F21B80556E0045A827 /* ImageCollectionViewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionViewVC.m; sourceTree = "<group>"; };
 		FA3255FD1B82188A0045A827 /* SPGBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPGBoard.h; sourceTree = "<group>"; };
 		FA3255FE1B82188A0045A827 /* SPGBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPGBoard.m; sourceTree = "<group>"; };
 		FA966C361B115A70004C28C0 /* PuzzleGameVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleGameVC.h; sourceTree = "<group>"; };
@@ -160,8 +157,6 @@
 				FA966C4A1B133705004C28C0 /* SettingsVC.h */,
 				FA966C4B1B133705004C28C0 /* SettingsVC.m */,
 				FA966C4C1B133705004C28C0 /* SettingsVC.xib */,
-				FA3255F11B80556E0045A827 /* ImageCollectionViewVC.h */,
-				FA3255F21B80556E0045A827 /* ImageCollectionViewVC.m */,
 				FAA5CD4C1B88186A002E2167 /* ImageGridVC.h */,
 				FAA5CD4D1B88186A002E2167 /* ImageGridVC.m */,
 				FA966C451B11B0AB004C28C0 /* TileView.h */,
@@ -388,7 +383,6 @@
 			files = (
 				FA0A78CC1B2EF00C002B3D1C /* PuzzleBoard.m in Sources */,
 				FA10142C1AD0D2AD006A7100 /* AppDelegate.m in Sources */,
-				FA3255F31B80556E0045A827 /* ImageCollectionViewVC.m in Sources */,
 				FA966C391B115A70004C28C0 /* PuzzleGameVC.m in Sources */,
 				FA1014281AD0D2AD006A7100 /* main.m in Sources */,
 				FAF8A3C91B2C060900EEDB01 /* GamesListTVC.m in Sources */,
