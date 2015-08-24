@@ -11,19 +11,41 @@
 @interface ObjectGridVC ()
 
 @property (nonatomic) GridSize gridSize;
+@property (strong, nonatomic) NSMutableArray *cellObjects;
+@property (strong, nonatomic) UICollectionView *collectionView;
 @property (nonatomic, copy) void (^cellConfigureBlock)(UICollectionViewCell *, Position, id, int);
 
 @end
 
 @implementation ObjectGridVC
 
+-(void)moveObjectAtPosition:(Position)pos1 toPosition:(Position)pos2
+{
+    //int oldIndex = IndexOfPositionInGridOfSize(pos1, self.gridSize);
+    //int newIndex = IndexOfPositionInGridOfSize(pos2, self.gridSize);
+    
+    [self.cellObjects exchangeObjectAtIndex:IndexOfPositionInGridOfSize(pos1, self.gridSize)
+                          withObjectAtIndex:IndexOfPositionInGridOfSize(pos2, self.gridSize)];
+    
+    NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:pos1.column inSection:pos1.row];
+    NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:pos2.column inSection:pos2.row];
+    [self.collectionView performBatchUpdates:^{
+        [self.collectionView moveItemAtIndexPath:oldPosPath toIndexPath:newPosPath];
+        [self.collectionView moveItemAtIndexPath:newPosPath toIndexPath:oldPosPath];
+    } completion:^(BOOL finished) {
+    }];
+}
+
 #pragma mark - Initialiser
 
--(instancetype)initWithObjects:(NSArray *)cellObjects gridSize:(GridSize)size andCellConfigureBlock:(void (^)(UICollectionViewCell *, Position, id, int))cellConfigureBlock
+-(instancetype)initWithObjects:(NSArray *)cellObjects gridSize:(GridSize)size collectionView:(UICollectionView *)collectionView andCellConfigureBlock:(void (^)(UICollectionViewCell *, Position, id, int))cellConfigureBlock
 {
     if (self = [super init]) {
         self.cellObjects = [cellObjects mutableCopy];
         self.gridSize = size;
+        self.collectionView = collectionView;
+        self.collectionView.delegate = self;
+        self.collectionView.dataSource = self;
         self.cellConfigureBlock = cellConfigureBlock;
     }
     

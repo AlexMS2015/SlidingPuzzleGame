@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "GridPosition.h"
 #import "GridInterface.h"
 
 @interface GridOfValues : NSObject

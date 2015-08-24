@@ -10,11 +10,9 @@
 #import "TileView.h"
 #import "SettingsVC.h"
 #import "PreviousGameDatabase.h"
-#import "Enums.h"
-#import "GridInterface.h"
-#import "NSValue+GetPosition.h"
 #import "UIImage+Crop.h"
 #import "ObjectGridVC.h"
+#import "SlidingPuzzleGame.h"
 
 @interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, ObjectGridVCDelegate>
 
@@ -60,38 +58,28 @@
     if ([keyPath isEqualToString: @"numberOfMovesMade"]) {
         self.numMovesLabel.text = [NSString stringWithFormat:@"%@", change[@"new"]];
     } else if ([keyPath isEqualToString:@"positionOfBlankTile"]) {
-        //Position oldPos = [NSValue getPositionFromValue:change[@"old"]];
-        //Position newPos = [NSValue getPositionFromValue:change[@"new"]];
-        
-        //Position oldPos = [GridPosition getPositionFromValue:change[@"old"]];
-        //Position newPos = [GridPosition getPositionFromValue:change[@"new"]];
-        
         Position oldPos = PositionFromValue(change[@"old"]);
         Position newPos = PositionFromValue(change[@"new"]);
         
+#warning - CHECK FOR STRONG REFERENCE CYCLES HERE
+        
+        [self.boardCVDataSource moveObjectAtPosition:oldPos toPosition:newPos];
+        
 #warning - WOULD BE GOOD TO HAVE THIS CODE INSIDE THE ObjectGridVC:
-        NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:oldPos.column inSection:oldPos.row];
-        NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:newPos.column inSection:newPos.row];
         
-        /*int oldIndex = [GridPosition indexOfPosition:oldPos
-                                        inGridOfSize:self.puzzleGame.board.gridSize];
-        int newIndex = [GridPosition indexOfPosition:newPos
-                                        inGridOfSize:self.puzzleGame.board.gridSize];*/
-        
-        int oldIndex = IndexOfPositionInGridOfSize(oldPos, self.puzzleGame.board.gridSize);
+        /*int oldIndex = IndexOfPositionInGridOfSize(oldPos, self.puzzleGame.board.gridSize);
         int newIndex = IndexOfPositionInGridOfSize(newPos, self.puzzleGame.board.gridSize);
-        
-        /*int oldIndex = sqrt(self.puzzleGame.board.numberOfTiles) * (int)oldPosPath.section + (int)oldPosPath.item;
-        int newIndex = sqrt(self.puzzleGame.board.numberOfTiles) * (int)newPosPath.section + (int)newPosPath.item;*/
         
         [self.boardCVDataSource.cellObjects exchangeObjectAtIndex:oldIndex
                                                 withObjectAtIndex:newIndex];
         
+        NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:oldPos.column inSection:oldPos.row];
+        NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:newPos.column inSection:newPos.row];
         [self.boardCV performBatchUpdates:^{
             [self.boardCV moveItemAtIndexPath:oldPosPath toIndexPath:newPosPath];
             [self.boardCV moveItemAtIndexPath:newPosPath toIndexPath:oldPosPath];
         } completion:^(BOOL finished) {
-        }];
+        }];*/
     }
 }
 
@@ -113,7 +101,7 @@
     UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
     NSArray *tileImages = [boardImage divideSquareImageIntoSquares:self.puzzleGame.board.numCells];
     
-    self.boardCVDataSource = [[ObjectGridVC alloc] initWithObjects:tileImages gridSize:self.puzzleGame.board.gridSize andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+    self.boardCVDataSource = [[ObjectGridVC alloc] initWithObjects:tileImages gridSize:self.puzzleGame.board.gridSize collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
         
         // GET THE TILE VALUE FROM THE BOARD ON THE SELF.PUZZLEGAME
         
@@ -125,11 +113,13 @@
         //NSLog(@"redoing cell");
     }];
     
-    self.boardCV.delegate = self.boardCVDataSource;
-    self.boardCV.dataSource = self.boardCVDataSource;
-    self.boardCVDataSource.delegate = self;
-    
     [self resetUI];
+}
+
+-(void)setBoardCVDataSource:(ObjectGridVC *)boardCVDataSource
+{
+    _boardCVDataSource = boardCVDataSource;
+    self.boardCVDataSource.delegate = self;
 }
 
 -(UIImageView *)picShowImageView
@@ -150,18 +140,10 @@
 
 #pragma mark - View Life Cycle
 
-//#define NUM_TILES_DEFAULT 9
-//#define DIFFICULTY_DEFAULT EASY
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    
-    /*if (!self.puzzleGame) {
-        [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
-                         andDifficulty:DIFFICULTY_DEFAULT
-                        withImageNamed:[self.availableImageNames firstObject]];
-    }*/
 }
 
 

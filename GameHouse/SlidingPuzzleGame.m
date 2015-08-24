@@ -56,7 +56,6 @@
     int completedTileValue = 1;
     
     for (int i = 0; i < numTiles; i++) {
-        //currentPos = [GridPosition positionForIndex:i inGridOfSize:self.board.gridSize];
         currentPos = PositionForIndexInGridOfSize(i, self.board.gridSize);
         int nextTileValue = [self.board valueAtPosition:currentPos];
         
@@ -109,7 +108,6 @@
     
     for (int move = 0; move < numMovesToRandomise; move++) {
         randomAdjacentTilePos = [self.board positionOfRandomTileAdjacentToBlankTile];
-        //if ([GridPosition position:randomAdjacentTilePos isEqualToPosition:positionNotToSelect]) {
         if (PositionsAreEqual(randomAdjacentTilePos, positionNotToSelect)) {
             move--;
         } else {
@@ -155,7 +153,6 @@
         // use recursion to make moving multiple tiles possible
         [self selectTileAtPosition:newPosition];
         
-        //if ([GridPosition position:self.board.positionOfBlankTile isAdjacentToPosition:position]) {
         if (PositionsAreAdjacent(self.board.positionOfBlankTile, position)) {
             [self.board swapBlankTileWithTileAtPosition:position];
             self.numberOfMovesMade++;

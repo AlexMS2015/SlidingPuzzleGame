@@ -10,6 +10,8 @@
 #import "ObjectGridVC.h"
 #import "UIImage+Crop.h"
 #import "TileView.h"
+#import "PuzzleGameVC.h"
+#import "SlidingPuzzleGame.h"
 
 @interface SettingsVC () <ObjectGridVCDelegate>
 
@@ -40,49 +42,55 @@
 -(NSArray *)availableGameImages
 {
     if (!_availableGameImages) {
-        _availableGameImages = [UIImage imagesForLocalImagesNames:self.gameVCForSettings.availableImageNames];
+        _availableGameImages = [UIImage imagesForLocalImagesNames:
+                                        self.gameVCForSettings.availableImageNames];
     }
     
     return _availableGameImages;
 }
 
+-(void)setGameImageName:(NSString *)gameImageName
+{
+    _gameImageName = gameImageName;
+    [self.pictureSelectionCollectionView reloadData];
+}
+
+-(void)setGameImagesGrid:(ObjectGridVC *)gameImagesGrid
+{
+    _gameImagesGrid = gameImagesGrid;
+    _gameImagesGrid.delegate = self;
+}
+
+-(void)setNumTilesSlider:(UISlider *)numTilesSlider
+{
+    _numTilesSlider = numTilesSlider;
+    self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.board.numCells;
+    [self resetMiniBoardView];
+}
+
+-(void)setDifficultySegmentedControl:(UISegmentedControl *)difficultySegmentedControl
+{
+    _difficultySegmentedControl = difficultySegmentedControl;
+    self.difficultySegmentedControl.selectedSegmentIndex = self.gameVCForSettings.puzzleGame.difficulty;
+}
+
 -(void)setPictureSelectionCollectionView:(UICollectionView *)pictureSelectionCollectionView
 {
     _pictureSelectionCollectionView = pictureSelectionCollectionView;
-    self.pictureSelectionCollectionView.delegate = self.gameImagesGrid;
-    self.pictureSelectionCollectionView.dataSource = self.gameImagesGrid;
-}
-
--(ObjectGridVC *)gameImagesGrid
-{
-    if (!_gameImagesGrid) {
-        GridSize size = (GridSize){1, (int)[self.availableGameImages count]};
-        _gameImagesGrid = [[ObjectGridVC alloc] initWithObjects:self.availableGameImages gridSize:size andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
-            
-            cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
-                                                         andImage:(UIImage *)obj];
-            
-            // check whether the image being displayed is the selected one (relies on the fact that the array of image names is in the same order as the array of the images passed into the grid object)
-            NSString *imageName = self.gameVCForSettings.availableImageNames[objIndex];
-            cell.alpha = [imageName isEqualToString:self.gameImageName] ? 1.0 : 0.5;
-        }];
-        _gameImagesGrid.delegate = self;
-    }
-    
-    return _gameImagesGrid;
+    GridSize size = (GridSize){1, (int)[self.availableGameImages count]};
+    self.gameImagesGrid = [[ObjectGridVC alloc] initWithObjects:self.availableGameImages gridSize:size collectionView:self.pictureSelectionCollectionView andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+        
+        cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
+                                                     andImage:(UIImage *)obj];
+        
+        // check whether the image being displayed is the selected one (relies on the fact that the array of image names is in the same order as the array of the images passed into the grid object)
+        NSString *imageName = self.gameVCForSettings.availableImageNames[objIndex];
+        cell.alpha = [imageName isEqualToString:self.gameImageName] ? 1.0 : 0.5;
+    }];
+    self.gameImageName = self.gameVCForSettings.puzzleGame.imageName;
 }
 
 #pragma mark - View Life Cycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.board.numCells;
-    self.difficultySegmentedControl.selectedSegmentIndex = self.gameVCForSettings.puzzleGame.difficulty;
-    self.gameImageName = self.gameVCForSettings.puzzleGame.imageName;
-    [self resetMiniBoardView];
-}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -103,13 +111,11 @@
     int numTiles = self.numTilesSlider.value;
     
     GridSize size = (GridSize){sqrt(numTiles), sqrt(numTiles)};
-    self.miniBoardCVDataSource = [[ObjectGridVC alloc] initWithObjects:nil gridSize:size andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+    self.miniBoardCVDataSource = [[ObjectGridVC alloc] initWithObjects:nil gridSize:size collectionView:self.miniGameBoardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
         cell.backgroundView = [[UIView alloc] init];
         cell.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
         cell.backgroundView.layer.borderWidth = 0.5;
     }];
-    self.miniGameBoardCV.dataSource = self.miniBoardCVDataSource;
-    self.miniGameBoardCV.delegate = self.miniBoardCVDataSource;
 }
 
 #pragma mark - Actions
@@ -142,14 +148,6 @@
     int numTilesAdjusted = (int)(sqrt(sender.value)) * (int)(sqrt(sender.value));
     self.numTilesSlider.value = numTilesAdjusted <= 9 ? 9 : numTilesAdjusted;
     [self resetMiniBoardView];
-}
-
-#pragma mark - Properties
-
--(void)setGameImageName:(NSString *)gameImageName
-{
-    _gameImageName = gameImageName;
-    [self.pictureSelectionCollectionView reloadData];
 }
 
 @end
