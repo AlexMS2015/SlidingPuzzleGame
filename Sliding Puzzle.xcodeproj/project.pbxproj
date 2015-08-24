@@ -31,7 +31,11 @@
 		FA966C481B11B0AB004C28C0 /* TileView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C461B11B0AB004C28C0 /* TileView.m */; };
 		FA966C4D1B133705004C28C0 /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA966C4B1B133705004C28C0 /* SettingsVC.m */; };
 		FA966C4E1B133705004C28C0 /* SettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA966C4C1B133705004C28C0 /* SettingsVC.xib */; };
-		FAA5CD4E1B88186A002E2167 /* ImageGridVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5CD4D1B88186A002E2167 /* ImageGridVC.m */; };
+		FAA5CD4E1B88186A002E2167 /* ObjectGridVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5CD4D1B88186A002E2167 /* ObjectGridVC.m */; };
+		FAA5CD511B89D151002E2167 /* GridPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5CD501B89D151002E2167 /* GridPosition.m */; };
+		FAA5CD541B89E368002E2167 /* GridOfValues.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5CD531B89E368002E2167 /* GridOfValues.m */; };
+		FAA5CD5B1B89FB63002E2167 /* SlidingPuzzleGame.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5CD5A1B89FB63002E2167 /* SlidingPuzzleGame.m */; };
+		FAA5CD5D1B8A00ED002E2167 /* SlidingPuzzleGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5CD5C1B8A00ED002E2167 /* SlidingPuzzleGrid.m */; };
 		FAD1AB4D1B87F927004D39E1 /* NSValue+GetPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD1AB4C1B87F927004D39E1 /* NSValue+GetPosition.m */; };
 		FAF8A3BB1B25667500EEDB01 /* PreviousGameDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3BA1B25667500EEDB01 /* PreviousGameDatabase.m */; };
 		FAF8A3C31B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C21B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m */; };
@@ -90,8 +94,16 @@
 		FA966C4A1B133705004C28C0 /* SettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsVC.h; sourceTree = "<group>"; };
 		FA966C4B1B133705004C28C0 /* SettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsVC.m; sourceTree = "<group>"; };
 		FA966C4C1B133705004C28C0 /* SettingsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsVC.xib; sourceTree = "<group>"; };
-		FAA5CD4C1B88186A002E2167 /* ImageGridVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageGridVC.h; sourceTree = "<group>"; };
-		FAA5CD4D1B88186A002E2167 /* ImageGridVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageGridVC.m; sourceTree = "<group>"; };
+		FAA5CD4C1B88186A002E2167 /* ObjectGridVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectGridVC.h; sourceTree = "<group>"; };
+		FAA5CD4D1B88186A002E2167 /* ObjectGridVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectGridVC.m; sourceTree = "<group>"; };
+		FAA5CD4F1B89D151002E2167 /* GridPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridPosition.h; sourceTree = "<group>"; };
+		FAA5CD501B89D151002E2167 /* GridPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridPosition.m; sourceTree = "<group>"; };
+		FAA5CD521B89E368002E2167 /* GridOfValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridOfValues.h; sourceTree = "<group>"; };
+		FAA5CD531B89E368002E2167 /* GridOfValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridOfValues.m; sourceTree = "<group>"; };
+		FAA5CD561B89ECE2002E2167 /* SlidingPuzzleGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlidingPuzzleGrid.h; sourceTree = "<group>"; };
+		FAA5CD591B89FB63002E2167 /* SlidingPuzzleGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlidingPuzzleGame.h; sourceTree = "<group>"; };
+		FAA5CD5A1B89FB63002E2167 /* SlidingPuzzleGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlidingPuzzleGame.m; sourceTree = "<group>"; };
+		FAA5CD5C1B8A00ED002E2167 /* SlidingPuzzleGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlidingPuzzleGrid.m; sourceTree = "<group>"; };
 		FAD1AB4B1B87F927004D39E1 /* NSValue+GetPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+GetPosition.h"; sourceTree = "<group>"; };
 		FAD1AB4C1B87F927004D39E1 /* NSValue+GetPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+GetPosition.m"; sourceTree = "<group>"; };
 		FAF8A3B91B25667500EEDB01 /* PreviousGameDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGameDatabase.h; sourceTree = "<group>"; };
@@ -134,6 +146,7 @@
 		FA00BF951AD104510051DA66 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FAA5CD551B89E9C7002E2167 /* New Model */,
 				FAA5CD4B1B8801C9002E2167 /* Categories */,
 				FA0A78CD1B2EF538002B3D1C /* Enums+Structs.h */,
 				FAF8A3B91B25667500EEDB01 /* PreviousGameDatabase.h */,
@@ -157,8 +170,8 @@
 				FA966C4A1B133705004C28C0 /* SettingsVC.h */,
 				FA966C4B1B133705004C28C0 /* SettingsVC.m */,
 				FA966C4C1B133705004C28C0 /* SettingsVC.xib */,
-				FAA5CD4C1B88186A002E2167 /* ImageGridVC.h */,
-				FAA5CD4D1B88186A002E2167 /* ImageGridVC.m */,
+				FAA5CD4C1B88186A002E2167 /* ObjectGridVC.h */,
+				FAA5CD4D1B88186A002E2167 /* ObjectGridVC.m */,
 				FA966C451B11B0AB004C28C0 /* TileView.h */,
 				FA966C461B11B0AB004C28C0 /* TileView.m */,
 			);
@@ -266,6 +279,21 @@
 				FAD1AB4C1B87F927004D39E1 /* NSValue+GetPosition.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		FAA5CD551B89E9C7002E2167 /* New Model */ = {
+			isa = PBXGroup;
+			children = (
+				FAA5CD4F1B89D151002E2167 /* GridPosition.h */,
+				FAA5CD501B89D151002E2167 /* GridPosition.m */,
+				FAA5CD521B89E368002E2167 /* GridOfValues.h */,
+				FAA5CD531B89E368002E2167 /* GridOfValues.m */,
+				FAA5CD561B89ECE2002E2167 /* SlidingPuzzleGrid.h */,
+				FAA5CD5C1B8A00ED002E2167 /* SlidingPuzzleGrid.m */,
+				FAA5CD591B89FB63002E2167 /* SlidingPuzzleGame.h */,
+				FAA5CD5A1B89FB63002E2167 /* SlidingPuzzleGame.m */,
+			);
+			name = "New Model";
 			sourceTree = "<group>";
 		};
 		FAF8A3BC1B256F8100EEDB01 /* Home Screen */ = {
@@ -383,15 +411,19 @@
 			files = (
 				FA0A78CC1B2EF00C002B3D1C /* PuzzleBoard.m in Sources */,
 				FA10142C1AD0D2AD006A7100 /* AppDelegate.m in Sources */,
+				FAA5CD541B89E368002E2167 /* GridOfValues.m in Sources */,
 				FA966C391B115A70004C28C0 /* PuzzleGameVC.m in Sources */,
 				FA1014281AD0D2AD006A7100 /* main.m in Sources */,
 				FAF8A3C91B2C060900EEDB01 /* GamesListTVC.m in Sources */,
 				FA10144D1AD0E429006A7100 /* HomeScreenVC.m in Sources */,
 				FA966C4D1B133705004C28C0 /* SettingsVC.m in Sources */,
 				FAF8A3C61B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m in Sources */,
-				FAA5CD4E1B88186A002E2167 /* ImageGridVC.m in Sources */,
+				FAA5CD511B89D151002E2167 /* GridPosition.m in Sources */,
+				FAA5CD5B1B89FB63002E2167 /* SlidingPuzzleGame.m in Sources */,
+				FAA5CD4E1B88186A002E2167 /* ObjectGridVC.m in Sources */,
 				FA3255ED1B803BA90045A827 /* UIImage+Crop.m in Sources */,
 				FAF8A3CD1B2C164600EEDB01 /* PreviousGameCell.m in Sources */,
+				FAA5CD5D1B8A00ED002E2167 /* SlidingPuzzleGrid.m in Sources */,
 				FA0A78C71B2D8A83002B3D1C /* PuzzleGame.m in Sources */,
 				FA00BF901AD0FE5D0051DA66 /* PreviousGamesTVC.m in Sources */,
 				FAF8A3C31B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m in Sources */,

@@ -14,9 +14,9 @@
 #import "Enums+Structs.h"
 #import "NSValue+GetPosition.h"
 #import "UIImage+Crop.h"
-#import "ImageGridVC.h"
+#import "ObjectGridVC.h"
 
-@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, ImageGridVCDelegate>
+@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, ObjectGridVCDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
@@ -30,7 +30,7 @@
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) PuzzleGame *puzzleGame;
 @property (nonatomic) BOOL loadingFromExistingGame;
-@property (strong, nonatomic) ImageGridVC *board;
+@property (strong, nonatomic) ObjectGridVC *boardCVDataSource;
 @end
 
 @implementation PuzzleGameVC
@@ -63,19 +63,23 @@
         Position oldPos = [NSValue getPositionFromValue:change[@"old"]];
         Position newPos = [NSValue getPositionFromValue:change[@"new"]];
         
-        
-#warning - WOULD BE GOOD TO HAVE THIS CODE INSIDE THE IMAGEGRIDVC:
+#warning - WOULD BE GOOD TO HAVE THIS CODE INSIDE THE ObjectGridVC:
         NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:oldPos.column inSection:oldPos.row];
         NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:newPos.column inSection:newPos.row];
+        
+        int oldIndex = sqrt(self.puzzleGame.board.numberOfTiles) * (int)oldPosPath.section + (int)oldPosPath.item;
+        int newIndex = sqrt(self.puzzleGame.board.numberOfTiles) * (int)newPosPath.section + (int)newPosPath.item;
+        [self.boardCVDataSource.cellObjects exchangeObjectAtIndex:oldIndex withObjectAtIndex:newIndex];
         
         [self.boardCV performBatchUpdates:^{
             [self.boardCV moveItemAtIndexPath:oldPosPath toIndexPath:newPosPath];
             [self.boardCV moveItemAtIndexPath:newPosPath toIndexPath:oldPosPath];
-        } completion:^(BOOL finished) {}];
+        } completion:^(BOOL finished) {
+        }];
     }
 }
 
-#pragma mark - ImageGridVCDelegate
+#pragma mark - ObjectGridVCDelegate
 
 -(void)tileTappedAtPosition:(Position)position
 {
@@ -89,16 +93,30 @@
 {
     _puzzleGame = puzzleGame;
     [self addModelObservers];
-    [self resetUI];
     
     UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
     NSArray *tileImages = [boardImage divideSquareImageIntoSquares:self.puzzleGame.board.numberOfTiles];
     int numRowsAndCols = sqrt(self.puzzleGame.board.numberOfTiles);
-    self.board = [[ImageGridVC alloc] initWithImages:tileImages rows:numRowsAndCols andCols:numRowsAndCols];
     
-    self.boardCV.delegate = self.board;
-    self.boardCV.dataSource = self.board;
-    self.board.delegate = self;
+    GridSize size = (GridSize){numRowsAndCols, numRowsAndCols};
+    
+    self.boardCVDataSource = [[ObjectGridVC alloc] initWithObjects:tileImages gridSize:size andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+        
+        // GET THE TILE VALUE FROM THE BOARD ON THE SELF.PUZZLEGAME
+        
+        BOOL shouldShowTileView = objIndex + 1 < self.puzzleGame.board.numberOfTiles;
+        cell.backgroundView = shouldShowTileView ?
+                                    [[TileView alloc] initWithFrame:cell.bounds
+                                                           andImage:(UIImage *)obj
+                                                           andValue:objIndex + 1] : nil;
+        NSLog(@"redoing cell");
+    }];
+    
+    self.boardCV.delegate = self.boardCVDataSource;
+    self.boardCV.dataSource = self.boardCVDataSource;
+    self.boardCVDataSource.delegate = self;
+    
+    [self resetUI];
 }
 
 -(UIImageView *)picShowImageView
@@ -133,7 +151,7 @@
     }*/
 }
 
-#define NUM_TILES_DEFAULT 16
+#define NUM_TILES_DEFAULT 9
 #define DIFFICULTY_DEFAULT EASY
 -(void)viewDidLayoutSubviews
 {
@@ -273,7 +291,7 @@
     } else {
         self.countdownLabel.hidden = YES;
         self.view.userInteractionEnabled = YES;
-        //[self.puzzleGame startGame];
+        [self.puzzleGame startGame];
         [timer invalidate];
     }
 }

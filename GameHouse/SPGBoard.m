@@ -28,7 +28,7 @@
         int numRowsAndCols = sqrt(numTiles);
         
         Position currentPosition;
-        int tileValue = 0;
+        int tileValue = 1;
         
         for (currentPosition.row = 0; currentPosition.row < numRowsAndCols; currentPosition.row++) {
             for (currentPosition.column = 0; currentPosition.column < numRowsAndCols; currentPosition.column++) {
@@ -39,9 +39,9 @@
             }
         }
         
-        /*currentPosition.row = sqrt(numTiles) - 1;
+        currentPosition.row = sqrt(numTiles) - 1;
         currentPosition.column = sqrt(numTiles) - 1;
-        [self setTileAtPosition:currentPosition withValue:0];*/
+        [self setTileAtPosition:currentPosition withValue:0];
         self.positionOfBlankTile = [self positionOfTileWithValue:0];
     }
     
@@ -50,13 +50,13 @@
 
 -(void)swapBlankTileWithTileAtPosition:(Position)position
 {
-    [self swapTileAtPosition:position withTileAtPosition:[self positionOfBlankTile]];
+    [self swapTileAtPosition:position withTileAtPosition:self.positionOfBlankTile];
     self.positionOfBlankTile = [self positionOfTileWithValue:0];
 }
 
 -(Position)positionOfRandomTileAdjacentToBlankTile
 {
-    Position blankTilePosition = [self positionOfBlankTile];
+    Position blankTilePosition = self.positionOfBlankTile;
     Position adjacentTilePos = blankTilePosition;
     
     int maxCol = sqrt(self.numberOfTiles) - 1;

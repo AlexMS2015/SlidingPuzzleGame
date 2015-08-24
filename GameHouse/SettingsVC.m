@@ -7,25 +7,28 @@
 //
 
 #import "SettingsVC.h"
-#import "ImageGridVC.h"
+#import "ObjectGridVC.h"
 #import "UIImage+Crop.h"
+#import "TileView.h"
 
-@interface SettingsVC () <ImageGridVCDelegate>
+@interface SettingsVC () <ObjectGridVCDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UISlider *numTilesSlider;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *difficultySegmentedControl;
 @property (weak, nonatomic) IBOutlet UICollectionView *pictureSelectionCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *miniGameBoardCV;
 
 // other
 @property (strong, nonatomic) NSString *gameImageName;
 @property (strong, nonatomic) NSArray *availableGameImages;
-@property (strong, nonatomic) ImageGridVC *gameImagesGrid;
+@property (strong, nonatomic) ObjectGridVC *gameImagesGrid;
+@property (strong, nonatomic) ObjectGridVC *miniBoardCVDataSource;
 @end
 
 @implementation SettingsVC
 
-#pragma mark - ImageGridVCDelegate
+#pragma mark - ObjectGridVCDelegate
 
 -(void)tileTappedAtPosition:(Position)position
 {
@@ -50,12 +53,19 @@
     self.pictureSelectionCollectionView.dataSource = self.gameImagesGrid;
 }
 
--(ImageGridVC *)gameImagesGrid
+-(ObjectGridVC *)gameImagesGrid
 {
     if (!_gameImagesGrid) {
-        _gameImagesGrid = [[ImageGridVC alloc] initWithImages:self.availableGameImages
-                                                         rows:1
-                                                      andCols:(int)[self.availableGameImages count]];
+        GridSize size = (GridSize){1, (int)[self.availableGameImages count]};
+        _gameImagesGrid = [[ObjectGridVC alloc] initWithObjects:self.availableGameImages gridSize:size andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+            
+            cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
+                                                         andImage:(UIImage *)obj];
+            
+            // check whether the image being displayed is the selected one (relies on the fact that the array of image names is in the same order as the array of the images passed into the grid object)
+            NSString *imageName = self.gameVCForSettings.availableImageNames[objIndex];
+            cell.alpha = [imageName isEqualToString:self.gameImageName] ? 1.0 : 0.5;
+        }];
         _gameImagesGrid.delegate = self;
     }
     
@@ -71,6 +81,7 @@
     self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.board.numberOfTiles;
     self.difficultySegmentedControl.selectedSegmentIndex = self.gameVCForSettings.puzzleGame.difficulty;
     self.gameImageName = self.gameVCForSettings.puzzleGame.imageName;
+    [self resetMiniBoardView];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -87,12 +98,18 @@
 
 #pragma mark - Other
 
--(void)setupMiniBoardView
+-(void)resetMiniBoardView
 {
-    /*int numTiles = self.numTilesSlider.value;
-    [self.miniGameBoardImageView setRows:sqrt(numTiles)
-                              andColumns:sqrt(numTiles)
-                                andImage:[UIImage imageNamed:self.gameImageName]];*/
+    int numTiles = self.numTilesSlider.value;
+    
+    GridSize size = (GridSize){sqrt(numTiles), sqrt(numTiles)};
+    self.miniBoardCVDataSource = [[ObjectGridVC alloc] initWithObjects:nil gridSize:size andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+        cell.backgroundView = [[UIView alloc] init];
+        cell.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
+        cell.backgroundView.layer.borderWidth = 0.5;
+    }];
+    self.miniGameBoardCV.dataSource = self.miniBoardCVDataSource;
+    self.miniGameBoardCV.delegate = self.miniBoardCVDataSource;
 }
 
 #pragma mark - Actions
@@ -124,13 +141,8 @@
 - (IBAction)numTilesChanges:(UISlider *)sender
 {
     int numTilesAdjusted = (int)(sqrt(sender.value)) * (int)(sqrt(sender.value));
-    
-    if (numTilesAdjusted <= 9) {
-        numTilesAdjusted = 9;
-    }
-    
-    self.numTilesSlider.value = numTilesAdjusted;
-    [self setupMiniBoardView];
+    self.numTilesSlider.value = numTilesAdjusted <= 9 ? 9 : numTilesAdjusted;
+    [self resetMiniBoardView];
 }
 
 #pragma mark - Properties
@@ -138,11 +150,7 @@
 -(void)setGameImageName:(NSString *)gameImageName
 {
     _gameImageName = gameImageName;
-    NSLog(@"selected image with name: %@", gameImageName);
-#warning SHOCKING CODE HERE... SO DEPENDANT
-    //self.gameImagesCVC.selectedImageName = self.gameImageName;
     [self.pictureSelectionCollectionView reloadData];
-    //[self setupMiniBoardView];
 }
 
 @end

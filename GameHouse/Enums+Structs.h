@@ -20,6 +20,11 @@ typedef struct {
     int column;
 }Position;
 
+typedef struct {
+    int rows;
+    int columns;
+}GridSize;
+
 /*extern NSString * difficultyStringFromDifficulty(Difficulty difficulty) {
     NSString *difficultyString = @"";
     if (difficulty == EASY) difficultyString = @"EASY";
