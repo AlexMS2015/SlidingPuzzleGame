@@ -53,6 +53,7 @@
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+#warning THIS DOES NOT WORK... IT IS TOO SPECIFIC TO THIS APP
     float cellWidthAndHeight = self.gridSize.columns < self.gridSize.rows ?
                                     collectionView.bounds.size.width / self.gridSize.columns :
                                     collectionView.bounds.size.height / self.gridSize.rows;
@@ -83,9 +84,12 @@
     cell.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
     cell.backgroundView.layer.borderWidth = 0.5;*/
     
-    int objIndex = self.gridSize.columns * (int)indexPath.section + (int)indexPath.item;
+    //int objIndex = self.gridSize.columns * (int)indexPath.section + (int)indexPath.item;
+    
+    Position currentPos = (Position){(int)indexPath.section, (int)indexPath.item};
+    int objIndex = IndexOfPositionInGridOfSize(currentPos, self.gridSize);
     id obj = self.cellObjects[objIndex];
-    self.cellConfigureBlock(cell, (Position){(int)indexPath.section, (int)indexPath.item}, obj, objIndex);
+    self.cellConfigureBlock(cell, currentPos, obj, objIndex);
     
     return cell;
 }

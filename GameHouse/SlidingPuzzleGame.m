@@ -56,7 +56,8 @@
     int completedTileValue = 1;
     
     for (int i = 0; i < numTiles; i++) {
-        currentPos = [GridPosition positionForIndex:i inGridOfSize:self.board.gridSize];
+        //currentPos = [GridPosition positionForIndex:i inGridOfSize:self.board.gridSize];
+        currentPos = PositionForIndexInGridOfSize(i, self.board.gridSize);
         int nextTileValue = [self.board valueAtPosition:currentPos];
         
         if (nextTileValue != completedTileValue && nextTileValue != 0) {
@@ -108,7 +109,8 @@
     
     for (int move = 0; move < numMovesToRandomise; move++) {
         randomAdjacentTilePos = [self.board positionOfRandomTileAdjacentToBlankTile];
-        if ([GridPosition position:randomAdjacentTilePos isEqualToPosition:positionNotToSelect]) {
+        //if ([GridPosition position:randomAdjacentTilePos isEqualToPosition:positionNotToSelect]) {
+        if (PositionsAreEqual(randomAdjacentTilePos, positionNotToSelect)) {
             move--;
         } else {
             positionNotToSelect = [self.board positionOfBlankTile];
@@ -143,17 +145,18 @@
         
         if (position.row == blankTilePos.row) {
             newPosition.column = position.column < blankTilePos.column ?
-            newPosition.column + 1 : newPosition.column - 1;
+                            newPosition.column + 1 : newPosition.column - 1;
         } else if (position.column == blankTilePos.column) {
             newPosition.row = position.row < blankTilePos.row ?
-            newPosition.row + 1 : newPosition.row - 1;
+                            newPosition.row + 1 : newPosition.row - 1;
         } else {
             return;
         }
         // use recursion to make moving multiple tiles possible
         [self selectTileAtPosition:newPosition];
         
-        if ([GridPosition position:self.board.positionOfBlankTile isAdjacentToPosition:position]) {
+        //if ([GridPosition position:self.board.positionOfBlankTile isAdjacentToPosition:position]) {
+        if (PositionsAreAdjacent(self.board.positionOfBlankTile, position)) {
             [self.board swapBlankTileWithTileAtPosition:position];
             self.numberOfMovesMade++;
             [self save];

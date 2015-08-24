@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PuzzleGameVC.h"
-#import "Enums+Structs.h"
+#import "Enums.h"
 
 @interface SettingsVC : UIViewController
 

@@ -78,7 +78,7 @@
 {
     [super viewDidLoad];
     
-    self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.board.numberOfTiles;
+    self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.board.numCells;
     self.difficultySegmentedControl.selectedSegmentIndex = self.gameVCForSettings.puzzleGame.difficulty;
     self.gameImageName = self.gameVCForSettings.puzzleGame.imageName;
     [self resetMiniBoardView];
@@ -121,7 +121,7 @@
 
 - (IBAction)saveSettings:(UIButton *)sender
 {
-    int initialNumTiles = self.gameVCForSettings.puzzleGame.board.numberOfTiles;
+    int initialNumTiles = self.gameVCForSettings.puzzleGame.board.numCells;
     Difficulty initialDifficulty = self.gameVCForSettings.puzzleGame.difficulty;
     NSString *initialImageName = self.gameVCForSettings.puzzleGame.imageName;
     
@@ -130,9 +130,8 @@
     NSString *newImageName = self.gameImageName;
 
     if (newNumTiles != initialNumTiles || newDifficulty != initialDifficulty || ![newImageName isEqualToString:initialImageName]) {
-        [self.gameVCForSettings setupNewGameWithNumTiles:newNumTiles
-                                           andDifficulty:newDifficulty
-                                          withImageNamed:newImageName];
+        GridSize size = (GridSize){sqrt(newNumTiles), sqrt(newNumTiles)};
+        [self.gameVCForSettings setupNewGameWithBoardSize:size andDifficulty:newDifficulty withImageNamed:newImageName];
     }
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Enums+Structs.h"
+#import "Enums.h"
+#import "GridInterface.h"
 
 @protocol ObjectGridVCDelegate <NSObject>
 

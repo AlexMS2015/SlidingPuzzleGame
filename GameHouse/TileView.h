@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Enums+Structs.h"
 
 @interface TileView : UIView
 

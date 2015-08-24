@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Enums+Structs.h"
-#import "GridPosition.h"
+//#import "GridPosition.h"
+#import "GridInterface.h"
 
 @interface GridOfValues : NSObject
 
 @property (nonatomic, readonly) GridSize gridSize;
+@property (nonatomic, readonly) int numCells;
 
 -(instancetype)initWithSize:(GridSize)gridSize;
 

@@ -7,11 +7,11 @@
 //
 
 #import "PuzzleGameVC.h"
-#import "PuzzleGame.h"
 #import "TileView.h"
 #import "SettingsVC.h"
 #import "PreviousGameDatabase.h"
-#import "Enums+Structs.h"
+#import "Enums.h"
+#import "GridInterface.h"
 #import "NSValue+GetPosition.h"
 #import "UIImage+Crop.h"
 #import "ObjectGridVC.h"
@@ -28,7 +28,7 @@
 
 // other
 @property (strong, nonatomic) UIImageView *picShowImageView;
-@property (strong, nonatomic, readwrite) PuzzleGame *puzzleGame;
+@property (strong, nonatomic, readwrite) SlidingPuzzleGame *puzzleGame;
 @property (nonatomic) BOOL loadingFromExistingGame;
 @property (strong, nonatomic) ObjectGridVC *boardCVDataSource;
 @end
@@ -60,16 +60,32 @@
     if ([keyPath isEqualToString: @"numberOfMovesMade"]) {
         self.numMovesLabel.text = [NSString stringWithFormat:@"%@", change[@"new"]];
     } else if ([keyPath isEqualToString:@"positionOfBlankTile"]) {
-        Position oldPos = [NSValue getPositionFromValue:change[@"old"]];
-        Position newPos = [NSValue getPositionFromValue:change[@"new"]];
+        //Position oldPos = [NSValue getPositionFromValue:change[@"old"]];
+        //Position newPos = [NSValue getPositionFromValue:change[@"new"]];
+        
+        //Position oldPos = [GridPosition getPositionFromValue:change[@"old"]];
+        //Position newPos = [GridPosition getPositionFromValue:change[@"new"]];
+        
+        Position oldPos = PositionFromValue(change[@"old"]);
+        Position newPos = PositionFromValue(change[@"new"]);
         
 #warning - WOULD BE GOOD TO HAVE THIS CODE INSIDE THE ObjectGridVC:
         NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:oldPos.column inSection:oldPos.row];
         NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:newPos.column inSection:newPos.row];
         
-        int oldIndex = sqrt(self.puzzleGame.board.numberOfTiles) * (int)oldPosPath.section + (int)oldPosPath.item;
-        int newIndex = sqrt(self.puzzleGame.board.numberOfTiles) * (int)newPosPath.section + (int)newPosPath.item;
-        [self.boardCVDataSource.cellObjects exchangeObjectAtIndex:oldIndex withObjectAtIndex:newIndex];
+        /*int oldIndex = [GridPosition indexOfPosition:oldPos
+                                        inGridOfSize:self.puzzleGame.board.gridSize];
+        int newIndex = [GridPosition indexOfPosition:newPos
+                                        inGridOfSize:self.puzzleGame.board.gridSize];*/
+        
+        int oldIndex = IndexOfPositionInGridOfSize(oldPos, self.puzzleGame.board.gridSize);
+        int newIndex = IndexOfPositionInGridOfSize(newPos, self.puzzleGame.board.gridSize);
+        
+        /*int oldIndex = sqrt(self.puzzleGame.board.numberOfTiles) * (int)oldPosPath.section + (int)oldPosPath.item;
+        int newIndex = sqrt(self.puzzleGame.board.numberOfTiles) * (int)newPosPath.section + (int)newPosPath.item;*/
+        
+        [self.boardCVDataSource.cellObjects exchangeObjectAtIndex:oldIndex
+                                                withObjectAtIndex:newIndex];
         
         [self.boardCV performBatchUpdates:^{
             [self.boardCV moveItemAtIndexPath:oldPosPath toIndexPath:newPosPath];
@@ -89,27 +105,24 @@
 
 #pragma mark - Properties
 
--(void)setPuzzleGame:(PuzzleGame *)puzzleGame
+-(void)setPuzzleGame:(SlidingPuzzleGame *)puzzleGame
 {
     _puzzleGame = puzzleGame;
     [self addModelObservers];
     
     UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
-    NSArray *tileImages = [boardImage divideSquareImageIntoSquares:self.puzzleGame.board.numberOfTiles];
-    int numRowsAndCols = sqrt(self.puzzleGame.board.numberOfTiles);
+    NSArray *tileImages = [boardImage divideSquareImageIntoSquares:self.puzzleGame.board.numCells];
     
-    GridSize size = (GridSize){numRowsAndCols, numRowsAndCols};
-    
-    self.boardCVDataSource = [[ObjectGridVC alloc] initWithObjects:tileImages gridSize:size andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+    self.boardCVDataSource = [[ObjectGridVC alloc] initWithObjects:tileImages gridSize:self.puzzleGame.board.gridSize andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
         
         // GET THE TILE VALUE FROM THE BOARD ON THE SELF.PUZZLEGAME
         
-        BOOL shouldShowTileView = objIndex + 1 < self.puzzleGame.board.numberOfTiles;
+        BOOL shouldShowTileView = objIndex + 1 < self.puzzleGame.board.numCells;
         cell.backgroundView = shouldShowTileView ?
                                     [[TileView alloc] initWithFrame:cell.bounds
                                                            andImage:(UIImage *)obj
                                                            andValue:objIndex + 1] : nil;
-        NSLog(@"redoing cell");
+        //NSLog(@"redoing cell");
     }];
     
     self.boardCV.delegate = self.boardCVDataSource;
@@ -151,16 +164,18 @@
     }*/
 }
 
-#define NUM_TILES_DEFAULT 9
+
+#define ROWS_DEFAULT 3
+#define COLS_DEFAULT 3
 #define DIFFICULTY_DEFAULT EASY
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
 
     if (!self.puzzleGame) {
-        [self setupNewGameWithNumTiles:NUM_TILES_DEFAULT
-                         andDifficulty:DIFFICULTY_DEFAULT
-                        withImageNamed:[self.availableImageNames firstObject]];
+        [self setupNewGameWithBoardSize:(GridSize){ROWS_DEFAULT, COLS_DEFAULT}
+                          andDifficulty:DIFFICULTY_DEFAULT
+                         withImageNamed:[self.availableImageNames firstObject]];
     }
 }
 
@@ -226,20 +241,16 @@
     }
 }
 
--(void)setupNewGameWithNumTiles:(int)numTiles
-                  andDifficulty:(Difficulty)difficulty
-                 withImageNamed:(NSString *)imageName;
+-(void)setupNewGameWithBoardSize:(GridSize)boardSize andDifficulty:(Difficulty)difficulty withImageNamed:(NSString *)imageName
 {
     if (self.puzzleGame)
         [self removeModelObservers];
     
     self.loadingFromExistingGame = NO;
-    self.puzzleGame = [[PuzzleGame alloc] initWithNumberOfTiles:numTiles
-                                                  andDifficulty:difficulty
-                                                  andImageNamed:imageName];
+    self.puzzleGame = [[SlidingPuzzleGame alloc] initWithBoardSize:boardSize andDifficulty:difficulty andImageNamed:imageName];
 }
 
--(void)setupFromPreviousGame:(PuzzleGame *)game
+-(void)setupFromPreviousGame:(SlidingPuzzleGame *)game
 {
     if (self.puzzleGame)
         [self removeModelObservers];
@@ -272,9 +283,9 @@
     if ([alertView.title isEqualToString:@"New Game"]) {
         self.resetGameButton.alpha = 0.6;
         if (buttonIndex != alertView.cancelButtonIndex) {
-            [self setupNewGameWithNumTiles:self.puzzleGame.board.numberOfTiles
-                             andDifficulty:self.puzzleGame.difficulty
-                            withImageNamed:self.puzzleGame.imageName];
+            [self setupNewGameWithBoardSize:self.puzzleGame.board.gridSize
+                              andDifficulty:self.puzzleGame.difficulty
+                             withImageNamed:self.puzzleGame.imageName];
         }
     }
 }

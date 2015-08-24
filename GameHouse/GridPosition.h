@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Enums+Structs.h"
+#import "Enums.h"
+#import "GridInterface.h"
 
 /*typedef struct {
     int row;
@@ -23,5 +24,7 @@
 +(int)indexOfPosition:(Position)position inGridOfSize:(GridSize)gridSize;
 +(BOOL)position:(Position)pos1 isAdjacentToPosition:(Position)pos2;
 +(BOOL)position:(Position)pos1 isEqualToPosition:(Position)pos2;
+
++(void)logPosition:(Position)position;
 
 @end

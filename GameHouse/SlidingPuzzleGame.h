@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SlidingPuzzleGrid.h"
-#import "Enums+Structs.h"
+#import "Enums.h"
 
 @interface SlidingPuzzleGame : NSObject
 

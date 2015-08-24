@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Enums+Structs.h"
+#import "Enums.h"
+#import "GridInterface.h"
 
 @interface NSValue (GetPosition)
 

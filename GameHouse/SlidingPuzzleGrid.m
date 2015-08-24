@@ -14,35 +14,18 @@
 {
     if (self = [super initWithSize:gridSize]) {
         
-        int numTiles = self.gridSize.rows * self.gridSize.columns;
         Position currentPos;
         
-        for (int tileValue = 0; tileValue < numTiles - 1; tileValue++) {
-            currentPos = [GridPosition positionForIndex:tileValue inGridOfSize:self.gridSize];
+        for (int tileValue = 0; tileValue < self.numCells - 1; tileValue++) {
+            //currentPos = [GridPosition positionForIndex:tileValue inGridOfSize:self.gridSize];
+            currentPos = PositionForIndexInGridOfSize(tileValue, self.gridSize);
             [self setValueAtPosition:currentPos toValue:tileValue+1];
         }
         
-        currentPos = [GridPosition positionForIndex:numTiles - 1 inGridOfSize:self.gridSize];
+        //currentPos = [GridPosition positionForIndex:self.numCells - 1 inGridOfSize:self.gridSize];
+        currentPos = PositionForIndexInGridOfSize(self.numCells - 1, self.gridSize);
         [self setValueAtPosition:currentPos toValue:0];
-        
-        /*Position currentPosition;
-        int tileValue = 1;
-        
-        for (currentPosition.row = 0; currentPosition.row < gridSize.rows; currentPosition.row++) {
-            for (currentPosition.column = 0; currentPosition.column < gridSize.columns; currentPosition.column++) {
-                if (tileValue < (gridSize.rows * gridSize.columns)) {
-                    [self setValueAtPosition:[GridPosition gridPositionWithPosition:currentPosition]
-                                     toValue:tileValue];
-                    tileValue++;
-                }
-            }
-        }
-        
-        currentPosition.row = gridSize.rows - 1;
-        currentPosition.column = gridSize.columns - 1;
-        [self setValueAtPosition:[GridPosition gridPositionWithPosition:currentPosition]
-                         toValue:tileValue];
-        self.positionOfBlankTile = [self positionWithValue:0];*/
+        self.positionOfBlankTile = [self positionWithValue:0];
     }
     
     return self;
@@ -62,7 +45,8 @@
     int maxRow = self.gridSize.rows - 1;
     int maxCol = self.gridSize.columns - 1;
     
-    while ([GridPosition position:blankTilePosition isEqualToPosition:adjacentTilePos]) {
+    //while ([GridPosition position:blankTilePosition isEqualToPosition:adjacentTilePos]) {
+    while (PositionsAreEqual(blankTilePosition, adjacentTilePos)) {
         int randomTile = arc4random() % 4;
         
         if (randomTile == 0 && blankTilePosition.column > 0) {

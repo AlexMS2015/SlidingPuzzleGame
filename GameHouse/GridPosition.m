@@ -10,6 +10,11 @@
 
 @implementation GridPosition
 
++(void)logPosition:(Position)position
+{
+    NSLog(@"Position = {%d, %d}", position.row, position.column);
+}
+
 +(Position)getPositionFromValue:(NSValue *)value
 {
     Position pos;

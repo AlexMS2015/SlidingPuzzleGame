@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "SPGBoard.h"
-#import "Enums+Structs.h"
+#import "Enums.h"
+#import "GridInterface.h"
 
 @interface PuzzleGame : NSObject
 

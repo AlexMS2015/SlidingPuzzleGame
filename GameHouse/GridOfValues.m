@@ -19,6 +19,11 @@
 
 #pragma mark - Properties
 
+-(int)numCells
+{
+    return self.gridSize.rows * self.gridSize.columns;
+}
+
 -(NSMutableArray *)values
 {
     if (!_values)
@@ -62,28 +67,36 @@
 
 -(void)setValueAtPosition:(Position)position toValue:(int)value
 {
+    /*[self.values insertObject:[NSNumber numberWithInt:value]
+                     atIndex:[GridPosition indexOfPosition:position inGridOfSize:self.gridSize]];*/
     [self.values insertObject:[NSNumber numberWithInt:value]
-                     atIndex:[GridPosition indexOfPosition:position inGridOfSize:self.gridSize]];
+                      atIndex:IndexOfPositionInGridOfSize(position, self.gridSize)];
 }
 
 -(int)valueAtPosition:(Position)position
 {
-    NSNumber *valueObj = self.values[[GridPosition indexOfPosition:position inGridOfSize:self.gridSize]];
+    /*NSNumber *valueObj = self.values[[GridPosition indexOfPosition:position inGridOfSize:self.gridSize]];*/
+    NSNumber *valueObj = self.values[IndexOfPositionInGridOfSize(position, self.gridSize)];
+
     return [valueObj intValue];
 }
 
 -(Position)positionWithValue:(int)value
 {
     int index = [self.values indexOfObject:[NSNumber numberWithInt:value]];
-    return [GridPosition positionForIndex:index inGridOfSize:self.gridSize];
+    return PositionForIndexInGridOfSize(index, self.gridSize);
+    //return [GridPosition positionForIndex:index inGridOfSize:self.gridSize];
 }
 
 -(void)swapValueAtPosition:(Position)position1 withValueAtPosition:(Position)position2
 {
-    [self.values exchangeObjectAtIndex:[GridPosition indexOfPosition:position1
+    /*[self.values exchangeObjectAtIndex:[GridPosition indexOfPosition:position1
                                                         inGridOfSize:self.gridSize]
                      withObjectAtIndex:[GridPosition indexOfPosition:position2
-                                                        inGridOfSize:self.gridSize]];
+                                                        inGridOfSize:self.gridSize]];*/
+    [self.values exchangeObjectAtIndex:IndexOfPositionInGridOfSize(position1, self.gridSize)
+                     withObjectAtIndex:IndexOfPositionInGridOfSize(position2, self.gridSize)];
+
 }
 
 -(NSString *)boardSizeStringFromNumTiles

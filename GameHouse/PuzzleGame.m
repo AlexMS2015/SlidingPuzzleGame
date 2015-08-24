@@ -127,6 +127,7 @@
     
     Position positionNotToSelect;
     Position randomAdjacentTilePos;
+    
     for (int move = 0; move < numMovesToRandomise; move++) {
         randomAdjacentTilePos = [self.board positionOfRandomTileAdjacentToBlankTile];
         if ([PuzzleBoard position:randomAdjacentTilePos isEqualToPosition:positionNotToSelect]) {
@@ -135,7 +136,7 @@
             positionNotToSelect = [self.board positionOfBlankTile];
             [self selectTileAtPosition:randomAdjacentTilePos];
         }
-     }
+    }
     self.numberOfMovesMade = 0;
 }
 
@@ -164,10 +165,10 @@
         
         if (position.row == blankTilePos.row) {
             newPosition.column = position.column < blankTilePos.column ?
-                                    newPosition.column + 1 : newPosition.column - 1;
+                            newPosition.column + 1 : newPosition.column - 1;
         } else if (position.column == blankTilePos.column) {
             newPosition.row = position.row < blankTilePos.row ?
-                                newPosition.row + 1 : newPosition.row - 1;
+                            newPosition.row + 1 : newPosition.row - 1;
         } else {
             return;
         }
