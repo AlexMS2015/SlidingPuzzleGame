@@ -8,8 +8,6 @@
 
 #import "AppDelegate.h"
 #import "HomeScreenVC.h"
-#import "PuzzleGameVC.h"
-#import "PuzzleGame.h"
 
 @implementation AppDelegate
 
@@ -46,7 +44,6 @@
     
     // The last object in the path array (array of restoration identifiers thus far) will be the restoration identifier for this VC
     vc.restorationIdentifier = [identifierComponents lastObject];
-    
     self.window.rootViewController = vc;
     
     return vc;

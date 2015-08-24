@@ -93,7 +93,6 @@
 		FAA5CD5A1B89FB63002E2167 /* SlidingPuzzleGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlidingPuzzleGame.m; sourceTree = "<group>"; };
 		FAA5CD5C1B8A00ED002E2167 /* SlidingPuzzleGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlidingPuzzleGrid.m; sourceTree = "<group>"; };
 		FAA5CD601B8B3A1F002E2167 /* GridInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridInterface.m; sourceTree = "<group>"; };
-		FAA5CD621B8B3D0D002E2167 /* Enums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
 		FAF8A3B91B25667500EEDB01 /* PreviousGameDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGameDatabase.h; sourceTree = "<group>"; };
 		FAF8A3BA1B25667500EEDB01 /* PreviousGameDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousGameDatabase.m; sourceTree = "<group>"; };
 		FAF8A3C11B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGamesByDifficultyTVC.h; sourceTree = "<group>"; };
@@ -135,7 +134,6 @@
 			isa = PBXGroup;
 			children = (
 				FAA5CD4B1B8801C9002E2167 /* Categories */,
-				FAA5CD621B8B3D0D002E2167 /* Enums.h */,
 				FA0A78CD1B2EF538002B3D1C /* GridInterface.h */,
 				FAA5CD601B8B3A1F002E2167 /* GridInterface.m */,
 				FAF8A3B91B25667500EEDB01 /* PreviousGameDatabase.h */,

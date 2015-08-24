@@ -53,8 +53,6 @@
     return self;
 }
 
-#pragma mark - Initialiser
-
 -(instancetype)initWithSize:(GridSize)gridSize
 {
     if (self = [super init])
@@ -62,8 +60,6 @@
     
     return self;
 }
-
-#pragma mark - Other
 
 -(void)setValueAtPosition:(Position)position toValue:(int)value
 {
@@ -74,7 +70,6 @@
 -(int)valueAtPosition:(Position)position
 {
     NSNumber *valueObj = self.values[IndexOfPositionInGridOfSize(position, self.gridSize)];
-
     return [valueObj intValue];
 }
 
@@ -89,11 +84,6 @@
     [self.values exchangeObjectAtIndex:IndexOfPositionInGridOfSize(position1, self.gridSize)
                      withObjectAtIndex:IndexOfPositionInGridOfSize(position2, self.gridSize)];
 
-}
-
--(NSString *)boardSizeStringFromNumTiles
-{
-    return [NSString stringWithFormat:@"%dx%d", self.gridSize.rows, self.gridSize.columns];
 }
 
 @end

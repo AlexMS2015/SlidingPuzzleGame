@@ -11,7 +11,6 @@
 @interface UIImage (Crop)
 
 -(NSArray *)divideSquareImageIntoSquares:(int)numSquares;
-
 +(NSArray *)imagesForLocalImagesNames:(NSArray *)imageNames;
 
 @end

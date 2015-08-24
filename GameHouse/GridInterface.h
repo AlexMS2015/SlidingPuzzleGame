@@ -24,5 +24,6 @@ Position PositionFromValue(NSValue *value);
 Position PositionForIndexInGridOfSize(int index, GridSize gridSize);
 int IndexOfPositionInGridOfSize(Position position, GridSize gridSize);
 BOOL PositionsAreAdjacent(Position pos1, Position pos2);
+NSString *StringFromGridSize(GridSize gridSize);
 
 #endif

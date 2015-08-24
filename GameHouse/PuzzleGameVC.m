@@ -28,7 +28,7 @@
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) SlidingPuzzleGame *puzzleGame;
 @property (nonatomic) BOOL loadingFromExistingGame;
-@property (strong, nonatomic) ObjectGridVC *boardCVDataSource;
+@property (strong, nonatomic) ObjectGridVC *boardController;
 @end
 
 @implementation PuzzleGameVC
@@ -63,9 +63,7 @@
         
 #warning - CHECK FOR STRONG REFERENCE CYCLES HERE
         
-        [self.boardCVDataSource moveObjectAtPosition:oldPos toPosition:newPos];
-        
-#warning - WOULD BE GOOD TO HAVE THIS CODE INSIDE THE ObjectGridVC:
+        [self.boardController moveObjectAtPosition:oldPos toPosition:newPos];
         
         /*int oldIndex = IndexOfPositionInGridOfSize(oldPos, self.puzzleGame.board.gridSize);
         int newIndex = IndexOfPositionInGridOfSize(newPos, self.puzzleGame.board.gridSize);
@@ -101,7 +99,7 @@
     UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
     NSArray *tileImages = [boardImage divideSquareImageIntoSquares:self.puzzleGame.board.numCells];
     
-    self.boardCVDataSource = [[ObjectGridVC alloc] initWithObjects:tileImages gridSize:self.puzzleGame.board.gridSize collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+    self.boardController = [[ObjectGridVC alloc] initWithObjects:tileImages gridSize:self.puzzleGame.board.gridSize collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
         
         // GET THE TILE VALUE FROM THE BOARD ON THE SELF.PUZZLEGAME
         
@@ -116,10 +114,10 @@
     [self resetUI];
 }
 
--(void)setBoardCVDataSource:(ObjectGridVC *)boardCVDataSource
+-(void)setBoardController:(ObjectGridVC *)boardController
 {
-    _boardCVDataSource = boardCVDataSource;
-    self.boardCVDataSource.delegate = self;
+    _boardController = boardController;
+    self.boardController.delegate = self;
 }
 
 -(UIImageView *)picShowImageView

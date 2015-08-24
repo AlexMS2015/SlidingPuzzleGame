@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Enums.h"
 @class PuzzleGameVC;
 
 @interface SettingsVC : UIViewController

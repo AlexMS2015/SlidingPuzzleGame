@@ -21,9 +21,6 @@
 
 -(void)moveObjectAtPosition:(Position)pos1 toPosition:(Position)pos2
 {
-    //int oldIndex = IndexOfPositionInGridOfSize(pos1, self.gridSize);
-    //int newIndex = IndexOfPositionInGridOfSize(pos2, self.gridSize);
-    
     [self.cellObjects exchangeObjectAtIndex:IndexOfPositionInGridOfSize(pos1, self.gridSize)
                           withObjectAtIndex:IndexOfPositionInGridOfSize(pos2, self.gridSize)];
     
@@ -105,8 +102,6 @@
     /*cell.backgroundView = [[UIView alloc] init];
     cell.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
     cell.backgroundView.layer.borderWidth = 0.5;*/
-    
-    //int objIndex = self.gridSize.columns * (int)indexPath.section + (int)indexPath.item;
     
     Position currentPos = (Position){(int)indexPath.section, (int)indexPath.item};
     int objIndex = IndexOfPositionInGridOfSize(currentPos, self.gridSize);

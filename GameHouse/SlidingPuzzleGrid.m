@@ -17,12 +17,10 @@
         Position currentPos;
         
         for (int tileValue = 0; tileValue < self.numCells - 1; tileValue++) {
-            //currentPos = [GridPosition positionForIndex:tileValue inGridOfSize:self.gridSize];
             currentPos = PositionForIndexInGridOfSize(tileValue, self.gridSize);
-            [self setValueAtPosition:currentPos toValue:tileValue+1];
+            [self setValueAtPosition:currentPos toValue:tileValue + 1];
         }
         
-        //currentPos = [GridPosition positionForIndex:self.numCells - 1 inGridOfSize:self.gridSize];
         currentPos = PositionForIndexInGridOfSize(self.numCells - 1, self.gridSize);
         [self setValueAtPosition:currentPos toValue:0];
         self.positionOfBlankTile = [self positionWithValue:0];
@@ -45,7 +43,6 @@
     int maxRow = self.gridSize.rows - 1;
     int maxCol = self.gridSize.columns - 1;
     
-    //while ([GridPosition position:blankTilePosition isEqualToPosition:adjacentTilePos]) {
     while (PositionsAreEqual(blankTilePosition, adjacentTilePos)) {
         int randomTile = arc4random() % 4;
         

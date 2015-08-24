@@ -24,6 +24,4 @@
 -(void)setValueAtPosition:(Position)position toValue:(int)value;
 -(void)swapValueAtPosition:(Position)position1 withValueAtPosition:(Position)position2;
 
-// other
--(NSString *)boardSizeStringFromNumTiles;
 @end

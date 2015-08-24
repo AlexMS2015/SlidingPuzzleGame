@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GridInterface.h"
-#import "Enums.h"
-@class SlidingPuzzleGame;
+#import "SlidingPuzzleGame.h"
 
 @interface PuzzleGameVC : UIViewController
 

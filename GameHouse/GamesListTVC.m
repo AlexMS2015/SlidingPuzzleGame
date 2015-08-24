@@ -8,7 +8,7 @@
 
 #import "GamesListTVC.h"
 #import "PreviousGameCell.h"
-#import "PuzzleGame.h"
+#import "SlidingPuzzleGame.h"
 #import "PuzzleGameVC.h"
 #import "PreviousGameDatabase.h"
 

@@ -8,10 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "SlidingPuzzleGrid.h"
-#import "Enums.h"
+
+typedef enum {
+    EASY = 0,
+    MEDIUM = 1,
+    HARD = 2,
+}Difficulty;
 
 @interface SlidingPuzzleGame : NSObject
 
+#warning - THESE SHOULD ALL BE READ ONLY?
 @property (nonatomic, readonly) Difficulty difficulty;
 @property (nonatomic, readonly) BOOL puzzleIsSolved;
 @property (nonatomic) int numberOfMovesMade;
