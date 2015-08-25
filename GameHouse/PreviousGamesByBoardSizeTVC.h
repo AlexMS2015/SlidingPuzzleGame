@@ -8,6 +8,6 @@
 
 #import "PreviousGamesTVC.h"
 
-@interface PreviousGamesByBoardSizeTVC : PreviousGamesTVC
+/*@interface PreviousGamesByBoardSizeTVC : PreviousGamesTVC
 
-@end
+@end*/

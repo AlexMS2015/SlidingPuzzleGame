@@ -9,6 +9,15 @@
 #ifndef GameHouse_GridInterface_h
 #define GameHouse_GridInterface_h
 
+/* This interface only supports grids in this format:
+ 
+              column
+            1   2   3
+        1   -   -   -
+ row    2   -   -   -
+        3   -   -   -
+ */
+
 typedef struct {
     int row;
     int column;
@@ -18,6 +27,11 @@ typedef struct {
     int rows;
     int columns;
 }GridSize;
+
+typedef enum {
+    VERTICAL = 0,
+    HORIZONTAL = 1,
+}GridOrientation;
 
 BOOL PositionsAreEqual(Position pos1, Position pos2);
 Position PositionFromValue(NSValue *value);

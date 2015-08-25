@@ -134,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				FAA5CD4B1B8801C9002E2167 /* Categories */,
+				FAF8A3CC1B2C164600EEDB01 /* PreviousGameCell.xib */,
 				FA0A78CD1B2EF538002B3D1C /* GridInterface.h */,
 				FAA5CD601B8B3A1F002E2167 /* GridInterface.m */,
 				FAF8A3B91B25667500EEDB01 /* PreviousGameDatabase.h */,
@@ -252,7 +253,6 @@
 				FAF8A3C81B2C060900EEDB01 /* GamesListTVC.m */,
 				FAF8A3CA1B2C164600EEDB01 /* PreviousGameCell.h */,
 				FAF8A3CB1B2C164600EEDB01 /* PreviousGameCell.m */,
-				FAF8A3CC1B2C164600EEDB01 /* PreviousGameCell.xib */,
 			);
 			name = "Previous Games Screen";
 			sourceTree = "<group>";

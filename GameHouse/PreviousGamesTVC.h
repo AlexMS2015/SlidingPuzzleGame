@@ -6,10 +6,12 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+/*#import <UIKit/UIKit.h>
 @class PuzzleGame;
 
 @interface PreviousGamesTVC : UITableViewController
+
+#warning MAKE IT A STRING TO PIVOT A GENERIC OBJECT
 
 @property (strong, nonatomic) NSArray *games;
 
@@ -20,4 +22,4 @@
 -(NSString *)headerForTable;
 //
 
-@end
+@end*/

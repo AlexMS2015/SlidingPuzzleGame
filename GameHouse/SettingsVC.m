@@ -23,7 +23,7 @@
 
 // other
 @property (strong, nonatomic) NSString *gameImageName;
-@property (strong, nonatomic) NSArray *availableGameImages;
+//@property (strong, nonatomic) NSArray *availableGameImages;
 @property (strong, nonatomic) ObjectGridVC *gameImagesGrid;
 @property (strong, nonatomic) ObjectGridVC *miniBoardCVDataSource;
 @end
@@ -39,14 +39,10 @@
 
 #pragma mark - Properties
 
--(NSArray *)availableGameImages
+-(void)setGameVCForSettings:(PuzzleGameVC *)gameVCForSettings
 {
-    if (!_availableGameImages) {
-        _availableGameImages = [UIImage imagesForLocalImagesNames:
-                                        self.gameVCForSettings.availableImageNames];
-    }
-    
-    return _availableGameImages;
+    _gameVCForSettings = gameVCForSettings;
+    self.gameImageName = self.gameVCForSettings.puzzleGame.imageName;
 }
 
 -(void)setGameImageName:(NSString *)gameImageName
@@ -77,17 +73,18 @@
 -(void)setPictureSelectionCollectionView:(UICollectionView *)pictureSelectionCollectionView
 {
     _pictureSelectionCollectionView = pictureSelectionCollectionView;
-    GridSize size = (GridSize){1, (int)[self.availableGameImages count]};
-    self.gameImagesGrid = [[ObjectGridVC alloc] initWithObjects:self.availableGameImages gridSize:size collectionView:self.pictureSelectionCollectionView andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+    
+    NSArray *gameImageNames = self.gameVCForSettings.availableImageNames;
+    GridSize size = (GridSize){2, 0.5*(int)[gameImageNames count]};
+    self.gameImagesGrid = [[ObjectGridVC alloc] initWithObjects:gameImageNames gridSize:size collectionView:self.pictureSelectionCollectionView andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
         
+        NSString *imageName = (NSString *)obj;
         cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
-                                                     andImage:(UIImage *)obj];
+                                                     andImage:[UIImage imageNamed:imageName]];
         
         // check whether the image being displayed is the selected one (relies on the fact that the array of image names is in the same order as the array of the images passed into the grid object)
-        NSString *imageName = self.gameVCForSettings.availableImageNames[objIndex];
         cell.alpha = [imageName isEqualToString:self.gameImageName] ? 1.0 : 0.5;
     }];
-    self.gameImageName = self.gameVCForSettings.puzzleGame.imageName;
 }
 
 #pragma mark - View Life Cycle
@@ -111,7 +108,7 @@
     int numTiles = self.numTilesSlider.value;
     
     GridSize size = (GridSize){sqrt(numTiles), sqrt(numTiles)};
-    self.miniBoardCVDataSource = [[ObjectGridVC alloc] initWithObjects:nil gridSize:size collectionView:self.miniGameBoardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+    self.miniBoardCVDataSource = [[ObjectGridVC alloc] initWithObjects:nil gridSize:self.gameVCForSettings.puzzleGame.board.gridSize collectionView:self.miniGameBoardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
         cell.backgroundView = [[UIView alloc] init];
         cell.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
         cell.backgroundView.layer.borderWidth = 0.5;

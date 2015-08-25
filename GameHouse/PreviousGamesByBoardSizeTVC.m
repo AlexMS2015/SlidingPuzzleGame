@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "PreviousGamesByBoardSizeTVC.h"
+/*#import "PreviousGamesByBoardSizeTVC.h"
 #import "PuzzleGame.h"
 #import "GamesListTVC.h"
 
@@ -37,4 +37,4 @@
     return @"Board Size";
 }
 
-@end
+@end*/

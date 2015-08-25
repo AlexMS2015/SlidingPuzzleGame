@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "GamesListTVC.h"
+/*#import "GamesListTVC.h"
 #import "PreviousGameCell.h"
 #import "SlidingPuzzleGame.h"
 #import "PuzzleGameVC.h"
@@ -203,4 +203,4 @@
     self.incompleteGames = [self sortedGamesByDateWithGames:incompleteGamesTemp];
 }
 
-@end
+@end*/

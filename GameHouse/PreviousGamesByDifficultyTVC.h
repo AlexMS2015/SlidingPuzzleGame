@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "PreviousGamesTVC.h"
+/*#import "PreviousGamesTVC.h"
 
 @interface PreviousGamesByDifficultyTVC : PreviousGamesTVC
 
-@end
+@end*/

@@ -21,11 +21,13 @@
 
 -(void)moveObjectAtPosition:(Position)pos1 toPosition:(Position)pos2
 {
-    [self.cellObjects exchangeObjectAtIndex:IndexOfPositionInGridOfSize(pos1, self.gridSize)
-                          withObjectAtIndex:IndexOfPositionInGridOfSize(pos2, self.gridSize)];
+    int oldPosIdx = IndexOfPositionInGridOfSize(pos1, self.gridSize);
+    int newPosIdx = IndexOfPositionInGridOfSize(pos2, self.gridSize);
     
-    NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:pos1.column inSection:pos1.row];
-    NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:pos2.column inSection:pos2.row];
+    [self.cellObjects exchangeObjectAtIndex:oldPosIdx withObjectAtIndex:newPosIdx];
+
+    NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:oldPosIdx inSection:0];
+    NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:newPosIdx inSection:0];
     [self.collectionView performBatchUpdates:^{
         [self.collectionView moveItemAtIndexPath:oldPosPath toIndexPath:newPosPath];
         [self.collectionView moveItemAtIndexPath:newPosPath toIndexPath:oldPosPath];
@@ -39,8 +41,8 @@
 {
     if (self = [super init]) {
         self.cellObjects = [cellObjects mutableCopy];
-        self.gridSize = size;
         self.collectionView = collectionView;
+        self.gridSize = size;
         self.collectionView.delegate = self;
         self.collectionView.dataSource = self;
         self.cellConfigureBlock = cellConfigureBlock;
@@ -49,13 +51,23 @@
     return self;
 }
 
+-(void)setCollectionView:(UICollectionView *)collectionView
+{
+    _collectionView = collectionView;
+    if (!self.collectionView.scrollEnabled) {
+        UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    }
+}
+
 #define CELL_IDENTIFIER @"CollectionCell"
 
 #pragma mark - UICollectionViewDelegate
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.delegate tileTappedAtPosition:(Position){(int)indexPath.section, (int)indexPath.item}];
+    int objIndex = (int)indexPath.item;
+    [self.delegate tileTappedAtPosition:PositionForIndexInGridOfSize(objIndex, self.gridSize)];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -72,24 +84,27 @@
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-#warning THIS DOES NOT WORK... IT IS TOO SPECIFIC TO THIS APP
-    float cellWidthAndHeight = self.gridSize.columns < self.gridSize.rows ?
-                                    collectionView.bounds.size.width / self.gridSize.columns :
-                                    collectionView.bounds.size.height / self.gridSize.rows;
+    float cellWidth, cellHeight;
     
-    return CGSizeMake(cellWidthAndHeight, cellWidthAndHeight);
+    if (self.collectionView.scrollEnabled) {
+        UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+        cellWidth = layout.scrollDirection == UICollectionViewScrollDirectionVertical ?
+                            collectionView.bounds.size.width / self.gridSize.columns :
+                            collectionView.bounds.size.height / self.gridSize.rows;
+        cellHeight = cellWidth;
+    } else {
+        cellWidth = collectionView.bounds.size.width / self.gridSize.columns;
+        cellHeight = collectionView.bounds.size.height / self.gridSize.rows;
+    }
+    
+    return CGSizeMake(cellWidth, cellHeight);
 }
 
 #pragma mark - UICollectionViewDataSource
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return self.gridSize.rows;
-}
-
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.gridSize.columns;
+    return self.gridSize.rows * self.gridSize.columns;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -99,12 +114,8 @@
     
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
 
-    /*cell.backgroundView = [[UIView alloc] init];
-    cell.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
-    cell.backgroundView.layer.borderWidth = 0.5;*/
-    
-    Position currentPos = (Position){(int)indexPath.section, (int)indexPath.item};
-    int objIndex = IndexOfPositionInGridOfSize(currentPos, self.gridSize);
+    int objIndex = (int)indexPath.item;
+    Position currentPos = PositionForIndexInGridOfSize(objIndex, self.gridSize);
     id obj = self.cellObjects[objIndex];
     self.cellConfigureBlock(cell, currentPos, obj, objIndex);
     

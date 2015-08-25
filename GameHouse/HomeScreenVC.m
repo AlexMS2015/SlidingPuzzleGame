@@ -156,9 +156,9 @@
 
 - (IBAction)showPreviousGames:(UIButton *)sender
 {
-    PreviousGamesByDifficultyTVC *prevGamesByDiff = [[PreviousGamesByDifficultyTVC alloc] init];
+    /*PreviousGamesByDifficultyTVC *prevGamesByDiff = [[PreviousGamesByDifficultyTVC alloc] init];
     prevGamesByDiff.games = [PreviousGameDatabase sharedDatabase].games;
-    [self.navigationController pushViewController:prevGamesByDiff animated:YES];
+    [self.navigationController pushViewController:prevGamesByDiff animated:YES];*/
 }
 
 @end

@@ -146,7 +146,7 @@
 
 
 #define ROWS_DEFAULT 3
-#define COLS_DEFAULT 3
+#define COLS_DEFAULT 7
 #define DIFFICULTY_DEFAULT EASY
 -(void)viewDidLayoutSubviews
 {
@@ -249,6 +249,7 @@
                                                                    delegate:self
                                                           cancelButtonTitle:@"Ok"
                                                           otherButtonTitles:nil];
+        self.boardCV.userInteractionEnabled = NO;
         [puzzleSolvedAlert show];
     }
 }
