@@ -127,7 +127,7 @@
                         <constraint firstAttribute="bottom" secondItem="h5g-kY-SFv" secondAttribute="bottom" id="yaS-lP-kp6"/>
                     </constraints>
                 </view>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="55b-BJ-gqw">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="55b-BJ-gqw">
                     <rect key="frame" x="150" y="150" width="300" height="300"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>

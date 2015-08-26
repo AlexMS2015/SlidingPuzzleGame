@@ -49,8 +49,10 @@
 
 #pragma mark - Properties
 
--(BOOL)puzzleIsSolved
+/*-(BOOL)puzzleIsSolved
 {
+    // THIS PART SUCKS
+    
     int numTiles = self.board.gridSize.rows * self.board.gridSize.columns;
     Position currentPos;
     int completedTileValue = 1;
@@ -67,7 +69,7 @@
     }
     
     return YES;
-}
+}*/
 
 #pragma mark - Other
 
@@ -118,12 +120,11 @@
     self.numberOfMovesMade = 0;
 }
 
--(instancetype)initWithBoardSize:(GridSize)boardSize
-                   andDifficulty:(Difficulty)difficulty
-                   andImageNamed:(NSString *)imageName
+-(instancetype)initWithBoardSize:(GridSize)boardSize andOrientation:(Orientation)orientation andDifficulty:(Difficulty)difficulty andImageNamed:(NSString *)imageName
 {
     if (self = [super init]) {
-        self.board = [[SlidingPuzzleGrid alloc] initWithSize:boardSize];
+        //self.board = [[SlidingPuzzleGrid alloc] initWithSize:boardSize];
+        self.board = [[SPGrid alloc] initWithSize:boardSize andOrientation:orientation];
         self.difficulty = difficulty;
         self.imageName = imageName;
         self.numberOfMovesMade = 0;
@@ -136,7 +137,7 @@
 {
     // THIS SHOULD NOT WORK IF PUZZLEISSOLVED IS TRUE
     
-    if ([self.board valueAtPosition:position] != 0) {
+    if (!PositionsAreEqual(position, self.board.positionOfBlankTile)) {
         
         Position blankTilePos = [self.board positionOfBlankTile];
         Position newPosition = position;
@@ -157,6 +158,7 @@
             [self.board swapBlankTileWithTileAtPosition:position];
             self.numberOfMovesMade++;
             [self save];
+            NSLog(@"Solved: %d", self.board.puzzleIsSolved);
         }
     }
 }

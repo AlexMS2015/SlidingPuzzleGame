@@ -10,29 +10,46 @@
 
 @implementation UIImage (Crop)
 
--(NSArray *)divideSquareImageIntoSquares:(int)numSquares
+-(NSArray *)divideSquareImageIntoGridOfSize:(GridSize)gridSize andOrientation:(Orientation)orientation
 {
-    NSMutableArray *squareImages = [NSMutableArray array];
+    NSLog(@"%@", StringFromGridSize(gridSize));
+
+    NSMutableArray *images = [NSMutableArray array];
     
-    CGSize sizeOfSquares = CGSizeMake(self.size.width / sqrt(numSquares),
-                                      self.size.height / sqrt(numSquares));
+    CGSize imageSize = CGSizeMake(self.size.width / gridSize.columns,
+                                  self.size.height / gridSize.rows);
+
+    int firstLoop;
+    int secondLoop;
+    if (orientation == VERTICAL) {
+        firstLoop = gridSize.rows;
+        secondLoop = gridSize.columns;
+    } else {
+        firstLoop = gridSize.columns;
+        secondLoop = gridSize.rows;
+    }
     
-    for (int i = 0; i < sqrt(numSquares); i++) {
-        for (int j = 0; j < sqrt(numSquares); j++) {
-            CGRect squareFrame = CGRectMake(j * sizeOfSquares.width,
-                                            i * sizeOfSquares.height,
-                                            sizeOfSquares.width,
-                                            sizeOfSquares.height);
+    for (int i = 0; i < firstLoop; i++) {
+        for (int j = 0; j < secondLoop; j++) {
             
-            CGImageRef squareCGImage = CGImageCreateWithImageInRect(self.CGImage, squareFrame);
-            UIImage *squareImage = [UIImage imageWithCGImage:squareCGImage];
-            CGImageRelease(squareCGImage);
+            CGRect frame;
+            if (orientation == VERTICAL) {
+                frame = CGRectMake(j * imageSize.width, i * imageSize.height,
+                                          imageSize.width, imageSize.height);
+            } else {
+                frame = CGRectMake(i * imageSize.width, j * imageSize.height,
+                                          imageSize.width, imageSize.height);
+            }
             
-            [squareImages addObject:squareImage];
+            CGImageRef currCGImage = CGImageCreateWithImageInRect(self.CGImage, frame);
+            UIImage *image = [UIImage imageWithCGImage:currCGImage];
+            CGImageRelease(currCGImage);
+            NSLog(@"loop");
+            [images addObject:image];
         }
     }
     
-    return [NSArray arrayWithArray:squareImages];
+    return [NSArray arrayWithArray:images];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GridInterface.h"
+#import "GridOfObjects.h"
 
 @protocol ObjectGridVCDelegate <NSObject>
 
@@ -18,7 +19,8 @@
 @interface ObjectGridVC : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) id<ObjectGridVCDelegate> delegate;
-
+@property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic) GridOfObjects *objectGrid;
 
 #warning SHOULD FAIL IF COUNT OF ARRAY DOESN'T EQUAL TO NUMBER OF CELLS IN GRID
 
@@ -27,7 +29,5 @@
                       gridSize:(GridSize)size
                 collectionView:(UICollectionView *)collectionView
          andCellConfigureBlock:(void (^)(UICollectionViewCell *cell, Position position, id obj, int objIndex))cellConfigureBlock;
-
--(void)moveObjectAtPosition:(Position)pos1 toPosition:(Position)pos2;
 
 @end

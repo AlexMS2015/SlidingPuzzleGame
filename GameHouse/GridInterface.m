@@ -1,7 +1,23 @@
 
 #import "GridInterface.h"
 
-Position PositionFromValue(NSValue *value)
+Position PositionOfIndexInGrid(int index, GridSize gridSize, Orientation gridOrientation)
+{
+    return gridOrientation == VERTICAL ?
+                (Position){index / gridSize.columns, index % gridSize.columns} :
+                (Position){index % gridSize.rows, index / gridSize.rows};
+}
+
+int IndexOfPositionInGrid(Position position, GridSize gridSize, Orientation gridOrientation)
+{
+    return gridOrientation == VERTICAL ?
+                gridSize.columns * position.row + position.column :
+                gridSize.rows * position.column + position.row;
+}
+
+#pragma
+
+/*Position PositionFromValue(NSValue *value)
 {
     Position pos;
     if ([value isKindOfClass:[NSValue class]]) {
@@ -9,9 +25,9 @@ Position PositionFromValue(NSValue *value)
     }
     
     return pos;
-}
+}*/
 
-int IndexOfPositionInGridOfSize(Position position, GridSize gridSize)
+/*int IndexOfPositionInGridOfSize(Position position, GridSize gridSize)
 {
     return gridSize.columns * position.row + position.column;
 }
@@ -19,7 +35,7 @@ int IndexOfPositionInGridOfSize(Position position, GridSize gridSize)
 Position PositionForIndexInGridOfSize(int index, GridSize gridSize)
 {
     return (Position){index / gridSize.columns, index % gridSize.columns};
-}
+}*/
 
 BOOL PositionsAreAdjacent(Position pos1, Position pos2)
 {
@@ -35,7 +51,7 @@ BOOL PositionsAreEqual(Position pos1, Position pos2)
     return pos1.row == pos2.row && pos1.column == pos2.column;
 }
 
-NSString *stringFromGridSize(GridSize gridSize)
+NSString *StringFromGridSize(GridSize gridSize)
 {
     return [NSString stringWithFormat:@"%dx%d", gridSize.rows, gridSize.columns];
 }
