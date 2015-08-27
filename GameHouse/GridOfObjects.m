@@ -11,8 +11,8 @@
 @interface GridOfObjects ()
 
 @property (strong, nonatomic) NSMutableArray *objectsPrivate;
-@property (nonatomic, readwrite) GridSize gridSize;
-@property (nonatomic, readwrite) Orientation orientation;
+//@property (nonatomic, readwrite) GridSize gridSize;
+//@property (nonatomic, readwrite) Orientation orientation;
 
 @end
 
@@ -59,11 +59,9 @@
     return self;
 }
 
--(instancetype)initWithSize:(GridSize)gridSize andOrientation:(Orientation)orientation andObjects:(NSArray *)objects{
-    if (self = [super init]) {
-        _gridSize = gridSize;
+-(instancetype)initWithSize:(GridSize)size andOrientation:(Orientation)orientation andObjects:(NSArray *)objects{
+    if (self = [super initWithGridSize:size andOrientation:orientation]) {
         _objectsPrivate = [objects mutableCopy];
-        _orientation = orientation;
     }
     
     return self;
@@ -71,27 +69,26 @@
 
 -(void)setPosition:(Position)position toObject:(id)object
 {
-    int indexOfPosition = IndexOfPositionInGrid(position, self.gridSize, self.orientation);
+    int indexOfPosition = [self indexOfPosition:position];
     self.objectsPrivate[indexOfPosition] = object;
 }
 
 -(id)objectAtPosition:(Position)position
 {
-    int indexOfPosition = IndexOfPositionInGrid(position, self.gridSize, self.orientation);
+    int indexOfPosition = [self indexOfPosition:position];
     return self.objectsPrivate[indexOfPosition];
 }
 
 -(Position)positionOfObject:(id)object
 {
     int indexOfOject = (int)[self.objectsPrivate indexOfObject:object];
-    return PositionOfIndexInGrid(indexOfOject, self.gridSize, self.orientation);
+    return [self positionOfIndex:indexOfOject];
 }
 
 -(void)swapObjectAtPosition:(Position)position1 withObjectAtPosition:(Position)position2
 {
-    int indexOfPos1 = IndexOfPositionInGrid(position1, self.gridSize, self.orientation);
-    int indexOfPos2 = IndexOfPositionInGrid(position2, self.gridSize, self.orientation);
-    [self.objectsPrivate exchangeObjectAtIndex:indexOfPos1 withObjectAtIndex:indexOfPos2];
+    [self.objectsPrivate exchangeObjectAtIndex:[self indexOfPosition:position1]
+                             withObjectAtIndex:[self indexOfPosition:position2]];
 }
 
 @end

@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SlidingPuzzleGrid.h"
-#import "SPGrid.h"
+//#import "SPGrid.h"
+#import "PositionStruct.h"
+#import "GridOfObjects.h"
 
 typedef enum {
     EASY = 0,
@@ -22,9 +23,12 @@ typedef enum {
 @property (nonatomic, readonly) Difficulty difficulty;
 @property (nonatomic, readonly) BOOL puzzleIsSolved;
 @property (nonatomic) int numberOfMovesMade;
-@property (nonatomic, strong) SPGrid *board;
+@property (nonatomic, strong) GridOfObjects *board;
+
 @property (nonatomic) NSString *imageName;
 @property (nonatomic, strong, readonly) NSDate *datePlayed;
+@property (nonatomic) Position positionOfBlankTile;
+
 
 -(instancetype)initWithBoardSize:(GridSize)boardSize
                   andOrientation:(Orientation)orientation

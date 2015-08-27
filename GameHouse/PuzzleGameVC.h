@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GridInterface.h"
 #import "SlidingPuzzleGame.h"
 
 @interface PuzzleGameVC : UIViewController

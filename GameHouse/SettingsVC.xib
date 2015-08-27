@@ -11,7 +11,8 @@
             <connections>
                 <outlet property="difficultySegmentedControl" destination="GU7-la-6aZ" id="Dxq-Yw-Uow"/>
                 <outlet property="miniGameBoardCV" destination="BTC-qT-max" id="IWe-C4-hpa"/>
-                <outlet property="numTilesSlider" destination="bMb-eV-8U3" id="sFD-Ry-HHB"/>
+                <outlet property="numColsSlider" destination="0l3-hw-L8j" id="gCF-p6-Nui"/>
+                <outlet property="numRowsSlider" destination="bMb-eV-8U3" id="qI2-L2-lQd"/>
                 <outlet property="pictureSelectionCollectionView" destination="3bF-Ug-L7d" id="cGq-hS-lLc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -60,7 +61,7 @@
                             </segments>
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </segmentedControl>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="9" minValue="0.0" maxValue="25" translatesAutoresizingMaskIntoConstraints="NO" id="bMb-eV-8U3">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="3" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="bMb-eV-8U3">
                             <rect key="frame" x="27" y="26" width="483" height="31"/>
                             <connections>
                                 <action selector="numTilesChanges:" destination="-1" eventType="valueChanged" id="TVS-bO-XTn"/>
@@ -108,18 +109,27 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="3" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="0l3-hw-L8j">
+                            <rect key="frame" x="27" y="64" width="483" height="31"/>
+                            <connections>
+                                <action selector="numTilesChanges:" destination="-1" eventType="valueChanged" id="d91-p3-Hdx"/>
+                            </connections>
+                        </slider>
                     </subviews>
                     <constraints>
                         <constraint firstItem="bMb-eV-8U3" firstAttribute="centerY" secondItem="BTC-qT-max" secondAttribute="centerY" id="2qF-e9-raF"/>
                         <constraint firstItem="GU7-la-6aZ" firstAttribute="top" secondItem="Wqi-bI-EKT" secondAttribute="bottom" constant="8" id="3MJ-Qa-6A8"/>
                         <constraint firstItem="3bF-Ug-L7d" firstAttribute="top" secondItem="JJu-dH-Tvc" secondAttribute="bottom" constant="8" id="Euy-Yx-OlV"/>
                         <constraint firstItem="bMb-eV-8U3" firstAttribute="leading" secondItem="GU7-la-6aZ" secondAttribute="leading" id="G8w-GN-fue"/>
+                        <constraint firstItem="0l3-hw-L8j" firstAttribute="height" secondItem="bMb-eV-8U3" secondAttribute="height" id="OnM-FW-ke2"/>
                         <constraint firstItem="bMb-eV-8U3" firstAttribute="top" secondItem="iCd-aP-2PR" secondAttribute="bottom" constant="8" id="QWE-U7-04t"/>
                         <constraint firstItem="iCd-aP-2PR" firstAttribute="top" secondItem="zKd-k4-rGq" secondAttribute="top" multiplier="1.01" id="VJG-Vc-GBi"/>
+                        <constraint firstItem="0l3-hw-L8j" firstAttribute="top" secondItem="bMb-eV-8U3" secondAttribute="bottom" constant="8" id="Wj2-2L-U3d"/>
                         <constraint firstItem="Wqi-bI-EKT" firstAttribute="leading" secondItem="JJu-dH-Tvc" secondAttribute="leading" id="b4Y-A1-pPb"/>
                         <constraint firstAttribute="height" secondItem="zKd-k4-rGq" secondAttribute="width" id="iDu-2Q-698"/>
                         <constraint firstItem="BTC-qT-max" firstAttribute="leading" secondItem="bMb-eV-8U3" secondAttribute="trailing" constant="8" id="knm-X1-ib7"/>
                         <constraint firstItem="Wqi-bI-EKT" firstAttribute="leading" secondItem="iCd-aP-2PR" secondAttribute="leading" id="kqB-f0-7hi"/>
+                        <constraint firstItem="0l3-hw-L8j" firstAttribute="centerX" secondItem="bMb-eV-8U3" secondAttribute="centerX" id="mdO-Gz-Wfi"/>
                         <constraint firstItem="GU7-la-6aZ" firstAttribute="trailing" secondItem="zKd-k4-rGq" secondAttribute="trailing" id="mkf-7p-ohq"/>
                         <constraint firstItem="GU7-la-6aZ" firstAttribute="leading" secondItem="zKd-k4-rGq" secondAttribute="trailing" multiplier="0.05" id="nQf-SG-1G4"/>
                         <constraint firstAttribute="centerY" secondItem="GU7-la-6aZ" secondAttribute="centerY" id="nuo-Y9-G3O"/>
@@ -127,6 +137,7 @@
                         <constraint firstItem="3bF-Ug-L7d" firstAttribute="bottom" secondItem="zKd-k4-rGq" secondAttribute="bottom" multiplier="0.99" id="uPe-gE-ezL"/>
                         <constraint firstItem="iCd-aP-2PR" firstAttribute="leading" secondItem="zKd-k4-rGq" secondAttribute="leading" constant="8" id="v4m-Qp-cCM"/>
                         <constraint firstItem="GU7-la-6aZ" firstAttribute="trailing" secondItem="3bF-Ug-L7d" secondAttribute="trailing" id="wNP-9E-6ad"/>
+                        <constraint firstItem="0l3-hw-L8j" firstAttribute="width" secondItem="bMb-eV-8U3" secondAttribute="width" id="xgn-h7-DMs"/>
                         <constraint firstAttribute="trailing" secondItem="BTC-qT-max" secondAttribute="trailing" constant="8" id="yO9-wh-geU"/>
                     </constraints>
                 </view>

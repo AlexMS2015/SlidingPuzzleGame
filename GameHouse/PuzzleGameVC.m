@@ -56,23 +56,19 @@
     if ([keyPath isEqualToString: @"numberOfMovesMade"]) {
         self.numMovesLabel.text = [NSString stringWithFormat:@"%@", change[@"new"]];
         
-        // check for a completed game
-        if (self.puzzleGame.board.puzzleIsSolved) {
-            UIAlertView *puzzleSolvedAlert = [[UIAlertView alloc] initWithTitle:@"Puzzle Solved"
-                                                                        message:@"Congratulations, you solved the puzzle!"
-                                                                       delegate:self
-                                                              cancelButtonTitle:@"Ok"
-                                                              otherButtonTitles:nil];
-            self.boardCV.userInteractionEnabled = NO;
-            [puzzleSolvedAlert show];
-        }
-        
         // update the view for changes in the model
-        Position currentBlankTilePos = self.puzzleGame.board.positionOfBlankTile;
+        Position currentBlankTilePos = self.puzzleGame.positionOfBlankTile;
         if (!PositionsAreEqual(self.positionOfBlankTile, currentBlankTilePos)) {
             [self.boardController moveObjectAtPosition:self.positionOfBlankTile
                                             toPosition:currentBlankTilePos];
             self.positionOfBlankTile = currentBlankTilePos;
+        }
+        
+        // check for a completed game
+        if (self.puzzleGame.puzzleIsSolved) {
+            self.boardCV.userInteractionEnabled = NO;
+            UIAlertView *puzzleSolvedAlert = [[UIAlertView alloc] initWithTitle:@"Puzzle Solved" message:@"Congratulations, you solved the puzzle!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [puzzleSolvedAlert show];
         }
     }
 }
@@ -89,14 +85,14 @@
 -(void)setPuzzleGame:(SlidingPuzzleGame *)puzzleGame
 {
     _puzzleGame = puzzleGame;
-    self.positionOfBlankTile = self.puzzleGame.board.positionOfBlankTile;
+    self.positionOfBlankTile = self.puzzleGame.positionOfBlankTile;
     [self addModelObservers];
     
     UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
 
-    NSArray *tileImages = [boardImage divideSquareImageIntoGridOfSize:self.puzzleGame.board.gridSize andOrientation:self.puzzleGame.board.orientation];
+    NSArray *tileImages = [boardImage divideSquareImageIntoGridOfSize:self.puzzleGame.board.size andOrientation:self.puzzleGame.board.orientation];
     
-    self.boardController = [[NoScrollObjectGridVC alloc] initWithObjects:tileImages gridSize:self.puzzleGame.board.gridSize collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+    self.boardController = [[NoScrollObjectGridVC alloc] initWithObjects:tileImages gridSize:self.puzzleGame.board.size collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
         
         // GET THE TILE VALUE FROM THE BOARD ON THE SELF.PUZZLEGAME
         
@@ -140,7 +136,6 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
 }
-
 
 #define ROWS_DEFAULT 3
 #define COLS_DEFAULT 3
@@ -256,7 +251,7 @@
     if ([alertView.title isEqualToString:@"New Game"]) {
         self.resetGameButton.alpha = 0.6;
         if (buttonIndex != alertView.cancelButtonIndex) {
-            [self setupNewGameWithBoardSize:self.puzzleGame.board.gridSize
+            [self setupNewGameWithBoardSize:self.puzzleGame.board.size
                               andDifficulty:self.puzzleGame.difficulty
                              withImageNamed:self.puzzleGame.imageName];
         }

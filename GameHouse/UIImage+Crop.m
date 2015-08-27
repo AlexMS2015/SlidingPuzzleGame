@@ -10,17 +10,19 @@
 
 @implementation UIImage (Crop)
 
+-(NSArray *)divideSquareImageIntoGrid:(Grid *)grid
+{
+    return nil;
+}
+
 -(NSArray *)divideSquareImageIntoGridOfSize:(GridSize)gridSize andOrientation:(Orientation)orientation
 {
-    NSLog(@"%@", StringFromGridSize(gridSize));
-
     NSMutableArray *images = [NSMutableArray array];
     
     CGSize imageSize = CGSizeMake(self.size.width / gridSize.columns,
                                   self.size.height / gridSize.rows);
 
-    int firstLoop;
-    int secondLoop;
+    int firstLoop, secondLoop;
     if (orientation == VERTICAL) {
         firstLoop = gridSize.rows;
         secondLoop = gridSize.columns;
@@ -44,7 +46,7 @@
             CGImageRef currCGImage = CGImageCreateWithImageInRect(self.CGImage, frame);
             UIImage *image = [UIImage imageWithCGImage:currCGImage];
             CGImageRelease(currCGImage);
-            NSLog(@"loop");
+
             [images addObject:image];
         }
     }

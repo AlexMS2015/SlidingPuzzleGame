@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "GridOfObjects.h"
-#import "GridInterface.h"
 
 @interface SPGrid : GridOfObjects
 

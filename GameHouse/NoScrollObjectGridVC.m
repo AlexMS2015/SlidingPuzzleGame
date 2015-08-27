@@ -7,7 +7,6 @@
 //
 
 #import "NoScrollObjectGridVC.h"
-#import "GridInterface.h"
 
 @implementation NoScrollObjectGridVC
 
@@ -21,12 +20,10 @@
 {
     [self.objectGrid swapObjectAtPosition:pos1 withObjectAtPosition:pos2];
     
-    int oldPosIdx =
-            IndexOfPositionInGrid(pos1, self.objectGrid.gridSize, self.objectGrid.orientation);
-    int newPosIdx =
-            IndexOfPositionInGrid(pos2, self.objectGrid.gridSize, self.objectGrid.orientation);
-    NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:oldPosIdx inSection:0];
-    NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:newPosIdx inSection:0];
+    NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:[self.objectGrid indexOfPosition:pos1]
+                                                  inSection:0];
+    NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:[self.objectGrid indexOfPosition:pos2]
+                                                  inSection:0];
     [self.collectionView performBatchUpdates:^{
         [self.collectionView moveItemAtIndexPath:oldPosPath toIndexPath:newPosPath];
         [self.collectionView moveItemAtIndexPath:newPosPath toIndexPath:oldPosPath];

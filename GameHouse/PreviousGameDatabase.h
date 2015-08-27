@@ -11,6 +11,8 @@
 
 @interface PreviousGameDatabase : NSObject
 
+// THIS CLASS SHOULD BE A 'PREVIOUS ENCODED OBJECT' CLASS
+
 @property (strong, nonatomic) NSArray *games;
 
 +(instancetype)sharedDatabase; // singleton

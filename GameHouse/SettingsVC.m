@@ -17,14 +17,14 @@
 @interface SettingsVC () <ObjectGridVCDelegate>
 
 // outlets
-@property (weak, nonatomic) IBOutlet UISlider *numTilesSlider;
+@property (weak, nonatomic) IBOutlet UISlider *numRowsSlider;
+@property (weak, nonatomic) IBOutlet UISlider *numColsSlider;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *difficultySegmentedControl;
 @property (weak, nonatomic) IBOutlet UICollectionView *pictureSelectionCollectionView;
 @property (weak, nonatomic) IBOutlet UICollectionView *miniGameBoardCV;
 
 // other
 @property (strong, nonatomic) NSString *gameImageName;
-//@property (strong, nonatomic) NSArray *availableGameImages;
 @property (strong, nonatomic) ObjectGridVC *gameImagesController;
 @property (strong, nonatomic) NoScrollObjectGridVC *miniBoardController;
 @end
@@ -58,11 +58,16 @@
     _gameImagesController.delegate = self;
 }
 
--(void)setNumTilesSlider:(UISlider *)numTilesSlider
+-(void)setNumRowsSlider:(UISlider *)numRowsSlider
 {
-    _numTilesSlider = numTilesSlider;
-    self.numTilesSlider.value = self.gameVCForSettings.puzzleGame.board.gridSize.rows * self.gameVCForSettings.puzzleGame.board.gridSize.rows;
-    [self resetMiniBoardView];
+    _numRowsSlider = numRowsSlider;
+    self.numColsSlider.value = self.gameVCForSettings.puzzleGame.board.size.rows;
+}
+
+-(void)setNumColsSlider:(UISlider *)numColsSlider
+{
+    _numColsSlider = numColsSlider;
+    self.numColsSlider.value = self.gameVCForSettings.puzzleGame.board.size.columns;
 }
 
 -(void)setDifficultySegmentedControl:(UISegmentedControl *)difficultySegmentedControl
@@ -94,6 +99,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    [self resetMiniBoardView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -106,9 +112,7 @@
 
 -(void)resetMiniBoardView
 {
-    int numTiles = self.numTilesSlider.value;
-    
-    GridSize size = (GridSize){sqrt(numTiles), sqrt(numTiles)};
+    GridSize size = (GridSize){self.numRowsSlider.value, self.numColsSlider.value};
     self.miniBoardController = [[NoScrollObjectGridVC alloc] initWithObjects:nil gridSize:size collectionView:self.miniGameBoardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
         cell.backgroundView = [[UIView alloc] init];
         cell.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -125,16 +129,18 @@
 
 - (IBAction)saveSettings:(UIButton *)sender
 {
-    int initialNumTiles = self.gameVCForSettings.puzzleGame.board.gridSize.rows * self.gameVCForSettings.puzzleGame.board.gridSize.columns;
+    int initialNumTiles = self.gameVCForSettings.puzzleGame.board.size.rows * self.gameVCForSettings.puzzleGame.board.size.columns;
     Difficulty initialDifficulty = self.gameVCForSettings.puzzleGame.difficulty;
     NSString *initialImageName = self.gameVCForSettings.puzzleGame.imageName;
     
-    int newNumTiles = (int)self.numTilesSlider.value;
+    //int newNumTiles = (int)self.numTilesSlider.value;
+    int newNumRows = (int)self.numRowsSlider.value;
+    int newNumCols = (int)self.numColsSlider.value;
     int newDifficulty = (int)self.difficultySegmentedControl.selectedSegmentIndex;
     NSString *newImageName = self.gameImageName;
 
     if (newNumTiles != initialNumTiles || newDifficulty != initialDifficulty || ![newImageName isEqualToString:initialImageName]) {
-        GridSize size = (GridSize){sqrt(newNumTiles), sqrt(newNumTiles)};
+        GridSize size = (GridSize){newNumRows, newNumCols};
         [self.gameVCForSettings setupNewGameWithBoardSize:size andDifficulty:newDifficulty withImageNamed:newImageName];
     }
     

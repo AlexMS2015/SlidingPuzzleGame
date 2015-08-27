@@ -7,20 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GridInterface.h"
+#import "Grid.h"
 
-@interface GridOfObjects : NSObject
+@interface GridOfObjects : Grid
 
-@property (nonatomic, readonly) GridSize gridSize;
-@property (nonatomic, readonly) Orientation orientation;
 @property (nonatomic, strong) NSArray *objects;
 
--(instancetype)initWithSize:(GridSize)gridSize
+-(instancetype)initWithSize:(GridSize)size
              andOrientation:(Orientation)orientation
                  andObjects:(NSArray *)objects;
-
--(NSArray *)gridObjects;
--(void)setGridObjects:(NSArray *)objects;
 
 -(id)objectAtPosition:(Position)position;
 -(Position)positionOfObject:(id)object;

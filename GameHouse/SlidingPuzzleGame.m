@@ -14,6 +14,7 @@
 @property (nonatomic, readwrite) BOOL puzzleIsSolved;
 @property (nonatomic, readwrite) Difficulty difficulty;
 @property (nonatomic, strong, readwrite) NSDate *datePlayed;
+@property (nonatomic, strong) NSMutableArray *solvedTiles;
 
 @end
 
@@ -46,30 +47,6 @@
     
     return self;
 }
-
-#pragma mark - Properties
-
-/*-(BOOL)puzzleIsSolved
-{
-    // THIS PART SUCKS
-    
-    int numTiles = self.board.gridSize.rows * self.board.gridSize.columns;
-    Position currentPos;
-    int completedTileValue = 1;
-    
-    for (int i = 0; i < numTiles; i++) {
-        currentPos = PositionForIndexInGridOfSize(i, self.board.gridSize);
-        int nextTileValue = [self.board valueAtPosition:currentPos];
-        
-        if (nextTileValue != completedTileValue && nextTileValue != 0) {
-            return NO;
-        }
-        
-        completedTileValue++;
-    }
-    
-    return YES;
-}*/
 
 #pragma mark - Other
 
@@ -109,11 +86,11 @@
     Position randomAdjacentTilePos;
     
     for (int move = 0; move < numMovesToRandomise; move++) {
-        randomAdjacentTilePos = [self.board positionOfRandomTileAdjacentToBlankTile];
+        randomAdjacentTilePos = [self.board randomPositionAdjacentToPosition:self.positionOfBlankTile];
         if (PositionsAreEqual(randomAdjacentTilePos, positionNotToSelect)) {
             move--;
         } else {
-            positionNotToSelect = [self.board positionOfBlankTile];
+            positionNotToSelect = self.positionOfBlankTile;
             [self selectTileAtPosition:randomAdjacentTilePos];
         }
     }
@@ -123,8 +100,8 @@
 -(instancetype)initWithBoardSize:(GridSize)boardSize andOrientation:(Orientation)orientation andDifficulty:(Difficulty)difficulty andImageNamed:(NSString *)imageName
 {
     if (self = [super init]) {
-        //self.board = [[SlidingPuzzleGrid alloc] initWithSize:boardSize];
-        self.board = [[SPGrid alloc] initWithSize:boardSize andOrientation:orientation];
+        self.board = [[GridOfObjects alloc] initWithSize:boardSize andOrientation:orientation andObjects:nil];
+        self.board.objects = self.solvedTiles;
         self.difficulty = difficulty;
         self.imageName = imageName;
         self.numberOfMovesMade = 0;
@@ -135,11 +112,9 @@
 
 -(void)selectTileAtPosition:(Position)position
 {
-    // THIS SHOULD NOT WORK IF PUZZLEISSOLVED IS TRUE
-    
-    if (!PositionsAreEqual(position, self.board.positionOfBlankTile)) {
+    if (!PositionsAreEqual(position, self.positionOfBlankTile)) {
         
-        Position blankTilePos = [self.board positionOfBlankTile];
+        Position blankTilePos = self.positionOfBlankTile;
         Position newPosition = position;
         
         if (position.row == blankTilePos.row) {
@@ -154,13 +129,37 @@
         // use recursion to make moving multiple tiles possible
         [self selectTileAtPosition:newPosition];
         
-        if (PositionsAreAdjacent(self.board.positionOfBlankTile, position)) {
-            [self.board swapBlankTileWithTileAtPosition:position];
+        if (PositionsAreAdjacent(self.positionOfBlankTile, position)) {
+            [self.board swapObjectAtPosition:self.positionOfBlankTile withObjectAtPosition:position];
             self.numberOfMovesMade++;
             [self save];
-            NSLog(@"Solved: %d", self.board.puzzleIsSolved);
         }
     }
+}
+
+#pragma mark - Properties
+
+-(Position)positionOfBlankTile
+{
+    return [self.board positionOfObject:[NSNumber numberWithInt:0]];
+}
+
+-(BOOL)puzzleIsSolved
+{
+    return [self.board.objects isEqualToArray:self.solvedTiles];
+}
+
+-(NSMutableArray *)solvedTiles
+{
+    if (!_solvedTiles) {
+        _solvedTiles = [NSMutableArray array];
+        for (int tileValue = 1; tileValue < self.board.size.rows * self.board.size.columns; tileValue++) {
+            [_solvedTiles addObject:[NSNumber numberWithInt:tileValue]];
+        }
+        [_solvedTiles addObject:[NSNumber numberWithInt:0]];
+    }
+    
+    return _solvedTiles;
 }
 
 @end

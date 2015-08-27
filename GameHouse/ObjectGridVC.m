@@ -46,8 +46,9 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     int objIndex = (int)indexPath.item;
-    [self.delegate tileTappedAtPosition:
-            PositionOfIndexInGrid(objIndex, self.objectGrid.gridSize, self.objectGrid.orientation)];
+    
+    // GIVE THE DELEGATE THE OBJECT THAT WAS ACTUALLY TAPPED
+    [self.delegate tileTappedAtPosition:[self.objectGrid positionOfIndex:objIndex]];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -69,12 +70,12 @@
     if (self.collectionView.scrollEnabled) {
         UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
         cellWidth = layout.scrollDirection == UICollectionViewScrollDirectionVertical ?
-                            collectionView.bounds.size.width / self.objectGrid.gridSize.columns :
-                            collectionView.bounds.size.height / self.objectGrid.gridSize.rows;
+                            collectionView.bounds.size.width / self.objectGrid.size.columns :
+                            collectionView.bounds.size.height / self.objectGrid.size.rows;
         cellHeight = cellWidth;
     } else {
-        cellWidth = collectionView.bounds.size.width / self.objectGrid.gridSize.columns;
-        cellHeight = collectionView.bounds.size.height / self.objectGrid.gridSize.rows;
+        cellWidth = collectionView.bounds.size.width / self.objectGrid.size.columns;
+        cellHeight = collectionView.bounds.size.height / self.objectGrid.size.rows;
     }
     
     return CGSizeMake(cellWidth, cellHeight);
@@ -95,8 +96,7 @@
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
 
     int objIndex = (int)indexPath.item;
-    Position currentPos =
-            PositionOfIndexInGrid(objIndex, self.objectGrid.gridSize, self.objectGrid.orientation);
+    Position currentPos = [self.objectGrid positionOfIndex:objIndex];
     id obj = [self.objectGrid objectAtPosition:currentPos];
     self.cellConfigureBlock(cell, currentPos, obj, objIndex);
     

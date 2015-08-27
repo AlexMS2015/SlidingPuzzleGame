@@ -21,6 +21,4 @@
 -(instancetype)initWithFrame:(CGRect)frame
                     andImage:(UIImage *)image;
 
--(void)animateToFrame:(CGRect)frame;
-
 @end
