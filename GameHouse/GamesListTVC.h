@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-/*@interface GamesListTVC : UITableViewController
+@interface GamesListTVC : UITableViewController
 
 @property (strong, nonatomic) NSArray *games;
 
-@end*/
+@end

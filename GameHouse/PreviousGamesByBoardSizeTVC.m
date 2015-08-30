@@ -6,13 +6,9 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-/*#import "PreviousGamesByBoardSizeTVC.h"
-#import "PuzzleGame.h"
+#import "PreviousGamesByBoardSizeTVC.h"
+#import "SlidingPuzzleGame.h"
 #import "GamesListTVC.h"
-
-@interface PreviousGamesByBoardSizeTVC ()
-
-@end
 
 @implementation PreviousGamesByBoardSizeTVC
 
@@ -27,9 +23,9 @@
 
 #pragma mark - Concrete Implementation of Abstract Methods
 
--(NSString *)stringToPivotGame:(PuzzleGame *)game
+-(NSString *)stringToPivotGame:(SlidingPuzzleGame *)game
 {
-    return [game.board boardSizeStringFromNumTiles];
+    return [game.board gridSizeString];
 }
 
 -(NSString *)headerForTable
@@ -37,4 +33,4 @@
     return @"Board Size";
 }
 
-@end*/
+@end

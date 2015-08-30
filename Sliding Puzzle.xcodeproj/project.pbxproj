@@ -34,7 +34,10 @@
 		FAA5CD611B8B3A1F002E2167 /* PositionStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5CD601B8B3A1F002E2167 /* PositionStruct.m */; };
 		FAAB34911B8C99E90006C936 /* NoScrollObjectGridVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB34901B8C99E90006C936 /* NoScrollObjectGridVC.m */; };
 		FAAB34941B8DC1A90006C936 /* GridOfObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB34931B8DC1A90006C936 /* GridOfObjects.m */; };
-		FAF8A3BB1B25667500EEDB01 /* PreviousGameDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3BA1B25667500EEDB01 /* PreviousGameDatabase.m */; };
+		FACDC2A51B932CF500D32730 /* SlidingPuzzleTile.m in Sources */ = {isa = PBXBuildFile; fileRef = FACDC2A41B932CF500D32730 /* SlidingPuzzleTile.m */; };
+		FAD836161B92886F00DD4E45 /* CodableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD836151B92886F00DD4E45 /* CodableObject.m */; };
+		FAD836191B92A65100DD4E45 /* RestorableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD836181B92A65100DD4E45 /* RestorableObject.m */; };
+		FAF8A3BB1B25667500EEDB01 /* ObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3BA1B25667500EEDB01 /* ObjectDatabase.m */; };
 		FAF8A3C31B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C21B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m */; };
 		FAF8A3C61B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C51B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m */; };
 		FAF8A3C91B2C060900EEDB01 /* GamesListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C81B2C060900EEDB01 /* GamesListTVC.m */; };
@@ -96,8 +99,14 @@
 		FAAB34901B8C99E90006C936 /* NoScrollObjectGridVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoScrollObjectGridVC.m; sourceTree = "<group>"; };
 		FAAB34921B8DC1A90006C936 /* GridOfObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridOfObjects.h; sourceTree = "<group>"; };
 		FAAB34931B8DC1A90006C936 /* GridOfObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridOfObjects.m; sourceTree = "<group>"; };
-		FAF8A3B91B25667500EEDB01 /* PreviousGameDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGameDatabase.h; sourceTree = "<group>"; };
-		FAF8A3BA1B25667500EEDB01 /* PreviousGameDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousGameDatabase.m; sourceTree = "<group>"; };
+		FACDC2A31B932CF500D32730 /* SlidingPuzzleTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlidingPuzzleTile.h; sourceTree = "<group>"; };
+		FACDC2A41B932CF500D32730 /* SlidingPuzzleTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlidingPuzzleTile.m; sourceTree = "<group>"; };
+		FAD836141B92886F00DD4E45 /* CodableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodableObject.h; sourceTree = "<group>"; };
+		FAD836151B92886F00DD4E45 /* CodableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodableObject.m; sourceTree = "<group>"; };
+		FAD836171B92A65100DD4E45 /* RestorableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestorableObject.h; sourceTree = "<group>"; };
+		FAD836181B92A65100DD4E45 /* RestorableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestorableObject.m; sourceTree = "<group>"; };
+		FAF8A3B91B25667500EEDB01 /* ObjectDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectDatabase.h; sourceTree = "<group>"; };
+		FAF8A3BA1B25667500EEDB01 /* ObjectDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectDatabase.m; sourceTree = "<group>"; };
 		FAF8A3C11B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGamesByDifficultyTVC.h; sourceTree = "<group>"; };
 		FAF8A3C21B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousGamesByDifficultyTVC.m; sourceTree = "<group>"; };
 		FAF8A3C41B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGamesByBoardSizeTVC.h; sourceTree = "<group>"; };
@@ -136,10 +145,14 @@
 		FA00BF951AD104510051DA66 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				FAF8A3B91B25667500EEDB01 /* PreviousGameDatabase.h */,
-				FAF8A3BA1B25667500EEDB01 /* PreviousGameDatabase.m */,
+				FAF8A3B91B25667500EEDB01 /* ObjectDatabase.h */,
+				FAF8A3BA1B25667500EEDB01 /* ObjectDatabase.m */,
+				FAD836141B92886F00DD4E45 /* CodableObject.h */,
+				FAD836151B92886F00DD4E45 /* CodableObject.m */,
 				FAA5CD591B89FB63002E2167 /* SlidingPuzzleGame.h */,
 				FAA5CD5A1B89FB63002E2167 /* SlidingPuzzleGame.m */,
+				FACDC2A31B932CF500D32730 /* SlidingPuzzleTile.h */,
+				FACDC2A41B932CF500D32730 /* SlidingPuzzleTile.m */,
 				FAA5CD4B1B8801C9002E2167 /* Categories */,
 				FA52E9261B8F1B960055C29A /* Grid */,
 			);
@@ -149,6 +162,8 @@
 		FA0A78C91B2DAEF2002B3D1C /* Main Game Screen */ = {
 			isa = PBXGroup;
 			children = (
+				FAD836171B92A65100DD4E45 /* RestorableObject.h */,
+				FAD836181B92A65100DD4E45 /* RestorableObject.m */,
 				FA966C361B115A70004C28C0 /* PuzzleGameVC.h */,
 				FA966C371B115A70004C28C0 /* PuzzleGameVC.m */,
 				FA966C381B115A70004C28C0 /* PuzzleGameVC.xib */,
@@ -260,12 +275,12 @@
 		FA52E9261B8F1B960055C29A /* Grid */ = {
 			isa = PBXGroup;
 			children = (
-				FA0A78CD1B2EF538002B3D1C /* PositionStruct.h */,
-				FAA5CD601B8B3A1F002E2167 /* PositionStruct.m */,
 				FA52E9231B8F0DBE0055C29A /* Grid.h */,
 				FA52E9241B8F0DBE0055C29A /* Grid.m */,
 				FAAB34921B8DC1A90006C936 /* GridOfObjects.h */,
 				FAAB34931B8DC1A90006C936 /* GridOfObjects.m */,
+				FA0A78CD1B2EF538002B3D1C /* PositionStruct.h */,
+				FAA5CD601B8B3A1F002E2167 /* PositionStruct.m */,
 			);
 			name = Grid;
 			sourceTree = "<group>";
@@ -395,22 +410,25 @@
 				FA10142C1AD0D2AD006A7100 /* AppDelegate.m in Sources */,
 				FA966C391B115A70004C28C0 /* PuzzleGameVC.m in Sources */,
 				FAAB34941B8DC1A90006C936 /* GridOfObjects.m in Sources */,
+				FAD836161B92886F00DD4E45 /* CodableObject.m in Sources */,
 				FA1014281AD0D2AD006A7100 /* main.m in Sources */,
 				FAF8A3C91B2C060900EEDB01 /* GamesListTVC.m in Sources */,
 				FA10144D1AD0E429006A7100 /* HomeScreenVC.m in Sources */,
 				FAAB34911B8C99E90006C936 /* NoScrollObjectGridVC.m in Sources */,
+				FACDC2A51B932CF500D32730 /* SlidingPuzzleTile.m in Sources */,
 				FA966C4D1B133705004C28C0 /* SettingsVC.m in Sources */,
 				FAF8A3C61B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m in Sources */,
 				FAA5CD5B1B89FB63002E2167 /* SlidingPuzzleGame.m in Sources */,
 				FAA5CD4E1B88186A002E2167 /* ObjectGridVC.m in Sources */,
 				FA3255ED1B803BA90045A827 /* UIImage+Crop.m in Sources */,
+				FAD836191B92A65100DD4E45 /* RestorableObject.m in Sources */,
 				FAF8A3CD1B2C164600EEDB01 /* PreviousGameCell.m in Sources */,
 				FA00BF901AD0FE5D0051DA66 /* PreviousGamesTVC.m in Sources */,
 				FA52E9251B8F0DBE0055C29A /* Grid.m in Sources */,
 				FAA5CD611B8B3A1F002E2167 /* PositionStruct.m in Sources */,
 				FAF8A3C31B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m in Sources */,
 				FA966C481B11B0AB004C28C0 /* TileView.m in Sources */,
-				FAF8A3BB1B25667500EEDB01 /* PreviousGameDatabase.m in Sources */,
+				FAF8A3BB1B25667500EEDB01 /* ObjectDatabase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

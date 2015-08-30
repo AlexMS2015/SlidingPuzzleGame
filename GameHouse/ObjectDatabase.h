@@ -7,16 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-@class PuzzleGame;
+#import "CodableObject.h"
 
-@interface PreviousGameDatabase : NSObject
+@interface ObjectDatabase : NSObject
 
 // THIS CLASS SHOULD BE A 'PREVIOUS ENCODED OBJECT' CLASS
 
-@property (strong, nonatomic) NSArray *games;
+@property (strong, nonatomic) NSArray *objects;
 
 +(instancetype)sharedDatabase; // singleton
--(void)addGameAndSave:(PuzzleGame *)game;
--(void)removeGame:(PuzzleGame *)game;
+-(void)addObjectAndSave:(CodableObject*)object;
+//-(void)removeObject:(CodableObject *)object;
 
 @end

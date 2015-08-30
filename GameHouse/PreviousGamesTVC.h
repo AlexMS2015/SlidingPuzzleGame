@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-/*#import <UIKit/UIKit.h>
-@class PuzzleGame;
+#import <UIKit/UIKit.h>
+@class SlidingPuzzleGame;
 
 @interface PreviousGamesTVC : UITableViewController
 
@@ -18,8 +18,8 @@
 -(NSArray *)gamesForRow:(int)row; // returns an array of the games for any particular row
 
 // abstract methods
--(NSString *)stringToPivotGame:(PuzzleGame *)game; // return a string based on the passed in game that will denote how the data is pivoted
+-(NSString *)stringToPivotGame:(SlidingPuzzleGame *)game; // return a string based on the passed in game that will denote how the data is pivoted
 -(NSString *)headerForTable;
 //
 
-@end*/
+@end

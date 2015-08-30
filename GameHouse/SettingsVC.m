@@ -7,7 +7,6 @@
 //
 
 #import "SettingsVC.h"
-#import "ObjectGridVC.h"
 #import "NoScrollObjectGridVC.h"
 #import "UIImage+Crop.h"
 #import "TileView.h"
@@ -61,13 +60,15 @@
 -(void)setNumRowsSlider:(UISlider *)numRowsSlider
 {
     _numRowsSlider = numRowsSlider;
-    self.numColsSlider.value = self.gameVCForSettings.puzzleGame.board.size.rows;
+    self.numRowsSlider.value = self.gameVCForSettings.puzzleGame.board.size.rows;
+    [self resetMiniBoardView];
 }
 
 -(void)setNumColsSlider:(UISlider *)numColsSlider
 {
     _numColsSlider = numColsSlider;
     self.numColsSlider.value = self.gameVCForSettings.puzzleGame.board.size.columns;
+    [self resetMiniBoardView];
 }
 
 -(void)setDifficultySegmentedControl:(UISegmentedControl *)difficultySegmentedControl
@@ -99,7 +100,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    [self resetMiniBoardView];
+    //[self resetMiniBoardView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -129,19 +130,20 @@
 
 - (IBAction)saveSettings:(UIButton *)sender
 {
-    int initialNumTiles = self.gameVCForSettings.puzzleGame.board.size.rows * self.gameVCForSettings.puzzleGame.board.size.columns;
+    int initialNumRows = self.gameVCForSettings.puzzleGame.board.size.rows;
+    int initialNumCols = self.gameVCForSettings.puzzleGame.board.size.columns;
     Difficulty initialDifficulty = self.gameVCForSettings.puzzleGame.difficulty;
     NSString *initialImageName = self.gameVCForSettings.puzzleGame.imageName;
     
-    //int newNumTiles = (int)self.numTilesSlider.value;
     int newNumRows = (int)self.numRowsSlider.value;
     int newNumCols = (int)self.numColsSlider.value;
     int newDifficulty = (int)self.difficultySegmentedControl.selectedSegmentIndex;
     NSString *newImageName = self.gameImageName;
 
-    if (newNumTiles != initialNumTiles || newDifficulty != initialDifficulty || ![newImageName isEqualToString:initialImageName]) {
-        GridSize size = (GridSize){newNumRows, newNumCols};
-        [self.gameVCForSettings setupNewGameWithBoardSize:size andDifficulty:newDifficulty withImageNamed:newImageName];
+    if (newNumRows != initialNumRows || newNumCols != initialNumCols || newDifficulty != initialDifficulty || ![newImageName isEqualToString:initialImageName]) {
+        [self.gameVCForSettings setupNewGameWithBoardSize:(GridSize){newNumRows, newNumCols}
+                                            andDifficulty:newDifficulty
+                                           withImageNamed:newImageName];
     }
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
@@ -149,8 +151,7 @@
 
 - (IBAction)numTilesChanges:(UISlider *)sender
 {
-    int numTilesAdjusted = (int)(sqrt(sender.value)) * (int)(sqrt(sender.value));
-    self.numTilesSlider.value = numTilesAdjusted <= 9 ? 9 : numTilesAdjusted;
+    sender.value = round(sender.value);
     [self resetMiniBoardView];
 }
 

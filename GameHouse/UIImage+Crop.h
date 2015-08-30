@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Grid.h"
+@class Grid;
 
 @interface UIImage (Crop)
 
--(NSArray *)divideSquareImageIntoGridOfSize:(GridSize)gridSize
-                             andOrientation:(Orientation)orientation;
-
 -(NSArray *)divideSquareImageIntoGrid:(Grid *)grid;
+
 @end

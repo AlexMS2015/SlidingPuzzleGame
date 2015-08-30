@@ -5,10 +5,10 @@
 //  Created by Alex Smith on 5/04/2015.
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
-/*
+
 #import "PreviousGamesTVC.h"
-#import "PreviousGameDatabase.h"
-#import "PuzzleGame.h"
+#import "ObjectDatabase.h"
+#import "SlidingPuzzleGame.h"
 #import "PreviousGameCell.h"
 
 @interface PreviousGamesTVC () <UITableViewDataSource, UITableViewDelegate>
@@ -23,7 +23,7 @@
 
 #pragma mark - Abstract Methods
 
--(NSString *)stringToPivotGame:(PuzzleGame *)game
+-(NSString *)stringToPivotGame:(SlidingPuzzleGame *)game
 {
     return nil;
 }
@@ -54,7 +54,7 @@
     
     NSString *pivotString = [self.previousGames allKeys][indexPath.row];
     cell.mainLabel.text = pivotString;
-    cell.subLabel.text = [NSString stringWithFormat:@"Games: %lu", (unsigned long)[self.previousGames[pivotString] count]];
+    cell.subLabel.text = [NSString stringWithFormat:@"%lu games", (unsigned long)[self.previousGames[pivotString] count]];
     cell.rankLabel.hidden = YES;
     cell.image.hidden = YES;
     
@@ -73,7 +73,7 @@
 {
     self.previousGames = [NSMutableDictionary dictionary];
     
-    for (PuzzleGame *game in self.games) {
+    for (SlidingPuzzleGame *game in self.games) {
         NSString *pivotString = [self stringToPivotGame:game];
         
         if (!self.previousGames[pivotString]) {
@@ -110,4 +110,4 @@
     [self transformData];
 }
 
-@end*/
+@end

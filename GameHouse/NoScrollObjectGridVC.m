@@ -18,7 +18,7 @@
 
 -(void)moveObjectAtPosition:(Position)pos1 toPosition:(Position)pos2
 {
-    [self.objectGrid swapObjectAtPosition:pos1 withObjectAtPosition:pos2];
+    //[self.objectGrid swapObjectAtPosition:pos1 withObjectAtPosition:pos2];
     
     NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:[self.objectGrid indexOfPosition:pos1]
                                                   inSection:0];

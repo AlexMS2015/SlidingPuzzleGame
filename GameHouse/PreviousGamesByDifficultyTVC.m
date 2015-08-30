@@ -5,14 +5,10 @@
 //  Created by Alex Smith on 13/06/2015.
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
-/*
+
 #import "PreviousGamesByDifficultyTVC.h"
 #import "PreviousGamesByBoardSizeTVC.h"
-#import "PuzzleGame.h"
-
-@interface PreviousGamesByDifficultyTVC ()
-
-@end
+#import "SlidingPuzzleGame.h"
 
 @implementation PreviousGamesByDifficultyTVC
 
@@ -27,9 +23,9 @@
 
 #pragma mark - Concrete Implementation of Abstract Methods
 
--(NSString *)stringToPivotGame:(PuzzleGame *)game
+-(NSString *)stringToPivotGame:(SlidingPuzzleGame *)game
 {
-    return [game difficultyStringFromDifficulty];
+    return [game difficultyString];
 }
 
 -(NSString *)headerForTable
@@ -37,4 +33,4 @@
     return @"Difficulty";
 }
 
-@end*/
+@end

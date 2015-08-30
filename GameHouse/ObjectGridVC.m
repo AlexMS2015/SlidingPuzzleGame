@@ -85,7 +85,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.objectGrid.objects count];
+    return self.objectGrid.size.rows * self.objectGrid.size.columns;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -99,7 +99,6 @@
     Position currentPos = [self.objectGrid positionOfIndex:objIndex];
     id obj = [self.objectGrid objectAtPosition:currentPos];
     self.cellConfigureBlock(cell, currentPos, obj, objIndex);
-    
     return cell;
 }
 

@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-/*#import "GamesListTVC.h"
+#import "GamesListTVC.h"
 #import "PreviousGameCell.h"
 #import "SlidingPuzzleGame.h"
 #import "PuzzleGameVC.h"
-#import "PreviousGameDatabase.h"
+#import "ObjectDatabase.h"
 
 @interface GamesListTVC () <UITableViewDataSource, UITableViewDelegate>
 
@@ -34,10 +34,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PuzzleGame *game = self.gamesForTable[indexPath.row];
+    SlidingPuzzleGame *game = self.gamesForTable[indexPath.row];
     
-    if (!game.puzzleIsSolved) {
-        [[PreviousGameDatabase sharedDatabase] removeGame:game];
+    if (!game.solved) {
+        //[[ObjectDatabase sharedDatabase] removeObject:game];
         PuzzleGameVC *gameVC = [[PuzzleGameVC alloc] init];
         [gameVC setupFromPreviousGame:game];
         gameVC.newGameSelectionDisabled = YES;
@@ -60,7 +60,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    PuzzleGame *game = self.gamesForTable[indexPath.row];
+    SlidingPuzzleGame *game = self.gamesForTable[indexPath.row];
     
     PreviousGameCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
 
@@ -86,20 +86,19 @@
 
 -(NSArray *)gamesForTable
 {
-    if (self.completedGamesToggle.selectedSegmentIndex == 0) {
-        return [self.incompleteGames copy];
-    } else {
-        return [self.completeGames copy];
-    }
+    return self.completedGamesToggle.selectedSegmentIndex == 0 ?
+                    [self.incompleteGames copy]: [self.completeGames copy];
 }
 
 -(UISegmentedControl *)completedGamesToggle
 {
     if (!_completedGamesToggle) {
         _completedGamesToggle = [[UISegmentedControl alloc]
-                                    initWithItems:@[@"Incomplete", @"Complete"]];
+                                        initWithItems:@[@"Incomplete", @"Complete"]];
         _completedGamesToggle.selectedSegmentIndex = 0;
-        [_completedGamesToggle addTarget:self action:@selector(toggleGameType:) forControlEvents:UIControlEventValueChanged];
+        [_completedGamesToggle addTarget:self
+                                  action:@selector(toggleGameType:)
+                        forControlEvents:UIControlEventValueChanged];
     }
     
     return _completedGamesToggle;
@@ -157,9 +156,9 @@
 
 -(NSArray *)sortedGamesByNumMovesWithGames:(NSArray *)games
 {
-    NSArray *sortedGames = [games sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        PuzzleGame *game1 = (PuzzleGame *)obj1;
-        PuzzleGame *game2 = (PuzzleGame *)obj2;
+    return [games sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        SlidingPuzzleGame *game1 = (SlidingPuzzleGame *)obj1;
+        SlidingPuzzleGame *game2 = (SlidingPuzzleGame *)obj2;
         
         if (game1.numberOfMovesMade > game2.numberOfMovesMade) {
             return NSOrderedDescending;
@@ -168,20 +167,19 @@
         } else {
             return NSOrderedSame;
         }
+        
+        //return game1.numberOfMovesMade > game2.numberOfMovesMade;
+        
     }];
-    return [NSArray arrayWithArray:sortedGames];
 }
 
 -(NSArray *)sortedGamesByDateWithGames:(NSArray *)games
 {
-    NSArray *sortedGames = [games sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        PuzzleGame *game1 = (PuzzleGame *)obj1;
-        PuzzleGame *game2 = (PuzzleGame *)obj2;
-        
+     return [games sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        SlidingPuzzleGame *game1 = (SlidingPuzzleGame *)obj1;
+        SlidingPuzzleGame *game2 = (SlidingPuzzleGame *)obj2;
         return [game2.datePlayed compare:game1.datePlayed];
     }];
-    
-    return [NSArray arrayWithArray:sortedGames];
 }
 
 
@@ -191,16 +189,17 @@
     NSMutableArray *incompleteGamesTemp = [NSMutableArray array];
     
     // split the games up by complete and incomplete
-    for (PuzzleGame *game in self.games) {
-        if (game.puzzleIsSolved) {
+    for (SlidingPuzzleGame *game in self.games) {
+        game.solved ? [completeGamesTemp addObject:game] : [incompleteGamesTemp addObject:game];
+        /*if (game.solved) {
             [completeGamesTemp addObject:game];
         } else {
             [incompleteGamesTemp addObject:game];
-        }
+        }*/
     }
     
     self.completeGames = [self sortedGamesByNumMovesWithGames:completeGamesTemp];
     self.incompleteGames = [self sortedGamesByDateWithGames:incompleteGamesTemp];
 }
 
-@end*/
+@end

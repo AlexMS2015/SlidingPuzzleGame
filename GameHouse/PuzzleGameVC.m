@@ -9,10 +9,11 @@
 #import "PuzzleGameVC.h"
 #import "TileView.h"
 #import "SettingsVC.h"
-#import "PreviousGameDatabase.h"
+#import "ObjectDatabase.h"
 #import "UIImage+Crop.h"
 #import "NoScrollObjectGridVC.h"
 #import "SlidingPuzzleGame.h"
+#import "SlidingPuzzleTile.h"
 
 @interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, ObjectGridVCDelegate>
 
@@ -27,9 +28,10 @@
 // other
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) SlidingPuzzleGame *puzzleGame;
-@property (nonatomic) BOOL loadingFromExistingGame;
+@property (strong, nonatomic) SlidingPuzzleGame *loadedGame;
 @property (strong, nonatomic) NoScrollObjectGridVC *boardController;
 @property (nonatomic) Position positionOfBlankTile;
+//@property (strong, nonatomic) NSArray *tileImages;
 @end
 
 @implementation PuzzleGameVC
@@ -62,10 +64,11 @@
             [self.boardController moveObjectAtPosition:self.positionOfBlankTile
                                             toPosition:currentBlankTilePos];
             self.positionOfBlankTile = currentBlankTilePos;
+            //[self.boardCV reloadData];
         }
         
         // check for a completed game
-        if (self.puzzleGame.puzzleIsSolved) {
+        if (self.puzzleGame.solved) {
             self.boardCV.userInteractionEnabled = NO;
             UIAlertView *puzzleSolvedAlert = [[UIAlertView alloc] initWithTitle:@"Puzzle Solved" message:@"Congratulations, you solved the puzzle!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [puzzleSolvedAlert show];
@@ -82,26 +85,39 @@
 
 #pragma mark - Properties
 
+/*-(NSArray *)tileImages
+{
+    UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
+    NSArray *tileImages = [boardImage divideSquareImageIntoGrid:self.puzzleGame.board];
+    
+    // need to re-arrange the images in the correct order for a loaded game. the tile images begin at index 0 so need to subtract 1.
+    if (self.loadedGame) {
+        NSMutableArray *newTileImages = [NSMutableArray array];
+        for (NSNumber *tile in self.puzzleGame.board.objects) {
+            int tileValue = [tile intValue];
+            [newTileImages addObject:tileImages[tileValue - 1]];
+        }
+        tileImages = [newTileImages copy];
+    }
+    
+    return tileImages;
+}*/
+
 -(void)setPuzzleGame:(SlidingPuzzleGame *)puzzleGame
 {
     _puzzleGame = puzzleGame;
     self.positionOfBlankTile = self.puzzleGame.positionOfBlankTile;
     [self addModelObservers];
     
-    UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
-
-    NSArray *tileImages = [boardImage divideSquareImageIntoGridOfSize:self.puzzleGame.board.size andOrientation:self.puzzleGame.board.orientation];
-    
-    self.boardController = [[NoScrollObjectGridVC alloc] initWithObjects:tileImages gridSize:self.puzzleGame.board.size collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
-        
-        // GET THE TILE VALUE FROM THE BOARD ON THE SELF.PUZZLEGAME
-        
-        BOOL shouldShowTileView = objIndex + 1 < [self.puzzleGame.board.objects count];
-        cell.backgroundView = shouldShowTileView ?
-                                    [[TileView alloc] initWithFrame:cell.bounds
-                                                           andImage:(UIImage *)obj
-                                                           andValue:objIndex + 1] : nil;
-        //NSLog(@"redoing cell");
+    self.boardController = [[NoScrollObjectGridVC alloc] initWithObjects:self.puzzleGame.board.objects gridSize:self.puzzleGame.board.size collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+        if (!PositionsAreEqual(position, self.positionOfBlankTile)) {
+            SlidingPuzzleTile *tile = (SlidingPuzzleTile *)obj;
+            cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
+                                                         andImage:tile.tileImage
+                                                         andValue:tile.tileValue];
+        } else {
+            cell.backgroundView = nil;
+        }
     }];
     
     [self resetUI];
@@ -145,9 +161,13 @@
     [super viewDidLayoutSubviews];
 
     if (!self.puzzleGame) {
-        [self setupNewGameWithBoardSize:(GridSize){ROWS_DEFAULT, COLS_DEFAULT}
-                          andDifficulty:DIFFICULTY_DEFAULT
-                         withImageNamed:[self.availableImageNames firstObject]];
+        if (self.loadedGame) {
+            self.puzzleGame = self.loadedGame;
+        } else {
+            [self setupNewGameWithBoardSize:(GridSize){ROWS_DEFAULT, COLS_DEFAULT}
+                              andDifficulty:DIFFICULTY_DEFAULT
+                             withImageNamed:[self.availableImageNames firstObject]];
+        }
     }
 }
 
@@ -196,10 +216,10 @@
     self.picShowImageView.image = [UIImage imageNamed:self.puzzleGame.imageName];
     
     self.numMovesLabel.text = @"0";
-    self.difficultyLabel.text = [self.puzzleGame difficultyStringFromDifficulty];
+    self.difficultyLabel.text = [self.puzzleGame difficultyString];
     self.boardCV.userInteractionEnabled = YES;
     
-    if (self.loadingFromExistingGame) {
+    if (self.loadedGame) {
         self.countdownLabel.hidden = YES;
     } else {
         // create and begin the game countdown timer
@@ -219,7 +239,7 @@
     if (self.puzzleGame)
         [self removeModelObservers];
     
-    self.loadingFromExistingGame = NO;
+    self.loadedGame = nil;
     
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.boardCV.collectionViewLayout;
     Orientation orientation =
@@ -237,8 +257,10 @@
     if (self.puzzleGame)
         [self removeModelObservers];
     
-    self.loadingFromExistingGame = YES;
-    self.puzzleGame = game;
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.boardCV.collectionViewLayout;
+    layout.scrollDirection = game.board.orientation == VERTICAL ? UICollectionViewScrollDirectionHorizontal : UICollectionViewScrollDirectionHorizontal;
+    
+    self.loadedGame = game;
 }
 
 #pragma mark - UIAlertViewDelegate

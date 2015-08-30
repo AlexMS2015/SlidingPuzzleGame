@@ -9,7 +9,7 @@
 #import "HomeScreenVC.h"
 #import "PreviousGamesByDifficultyTVC.h"
 #import "PuzzleGameVC.h"
-#import "PreviousGameDatabase.h"
+#import "ObjectDatabase.h"
 
 @interface HomeScreenVC () <UIViewControllerRestoration>
 
@@ -156,9 +156,9 @@
 
 - (IBAction)showPreviousGames:(UIButton *)sender
 {
-    /*PreviousGamesByDifficultyTVC *prevGamesByDiff = [[PreviousGamesByDifficultyTVC alloc] init];
-    prevGamesByDiff.games = [PreviousGameDatabase sharedDatabase].games;
-    [self.navigationController pushViewController:prevGamesByDiff animated:YES];*/
+    PreviousGamesByDifficultyTVC *prevGamesByDiff = [[PreviousGamesByDifficultyTVC alloc] init];
+    prevGamesByDiff.games = [ObjectDatabase sharedDatabase].objects;
+    [self.navigationController pushViewController:prevGamesByDiff animated:YES];
 }
 
 @end

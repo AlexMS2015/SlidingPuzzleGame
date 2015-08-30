@@ -17,6 +17,11 @@
 
 @implementation Grid
 
++(instancetype)gridWithSize:(GridSize)size andOrientation:(Orientation)orientation
+{
+    return [[Grid alloc] initWithGridSize:size andOrientation:orientation];
+}
+
 -(instancetype)initWithGridSize:(GridSize)size andOrientation:(Orientation)orientation
 {
     if (self = [super init]) {
@@ -52,7 +57,7 @@
     
     int maxRow = self.size.rows - 1;
     int maxCol = self.size.columns - 1;
-    
+
     while (PositionsAreEqual(position, adjacentPos)) {
         int randomTile = arc4random() % 4;
         
@@ -68,6 +73,35 @@
     }
     
     return adjacentPos;
+}
+
+#pragma mark - Coding/Decoding
+
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [super encodeWithCoder:aCoder];
+    [aCoder encodeInt:self.size.rows forKey:@"rows"];
+    [aCoder encodeInt:self.size.columns forKey:@"columns"];
+    [aCoder encodeInt:self.orientation forKey:@"orientation"];
+
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super initWithCoder:aDecoder]) {
+        int rows = [aDecoder decodeIntForKey:@"rows"];
+        int columns = [aDecoder decodeIntForKey:@"columns"];
+        self.size = (GridSize){rows, columns};
+        
+        self.orientation = [aDecoder decodeIntForKey:@"orientation"];
+    }
+    
+    return self;
+}
+
+-(NSArray *)propertyNames
+{
+    return [NSArray arrayWithObjects:nil];
 }
 
 @end
