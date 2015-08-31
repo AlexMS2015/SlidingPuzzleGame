@@ -20,7 +20,7 @@ typedef enum {
 @property (nonatomic, readonly) Difficulty difficulty;
 @property (nonatomic, readonly) BOOL solved;
 @property (nonatomic) int numberOfMovesMade;
-@property (nonatomic, strong) GridOfObjects *board;
+@property (nonatomic, strong) GridOfObjects *board; // contains 'SlidingPuzzleTile' objects
 
 @property (nonatomic) NSString *imageName;
 @property (nonatomic, strong, readonly) NSDate *datePlayed;

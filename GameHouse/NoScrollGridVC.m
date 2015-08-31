@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "NoScrollObjectGridVC.h"
+#import "NoScrollGridVC.h"
 
-@implementation NoScrollObjectGridVC
+@implementation NoScrollGridVC
 
 -(void)setCollectionView:(UICollectionView *)collectionView
 {
@@ -17,12 +17,10 @@
 }
 
 -(void)moveObjectAtPosition:(Position)pos1 toPosition:(Position)pos2
-{
-    //[self.objectGrid swapObjectAtPosition:pos1 withObjectAtPosition:pos2];
-    
-    NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:[self.objectGrid indexOfPosition:pos1]
+{    
+    NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:[self.grid indexOfPosition:pos1]
                                                   inSection:0];
-    NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:[self.objectGrid indexOfPosition:pos2]
+    NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:[self.grid indexOfPosition:pos2]
                                                   inSection:0];
     [self.collectionView performBatchUpdates:^{
         [self.collectionView moveItemAtIndexPath:oldPosPath toIndexPath:newPosPath];

@@ -11,8 +11,9 @@
 
 @interface SlidingPuzzleTile : CodableObject
 
-@property (nonatomic) int tileValue;
-@property (strong, nonatomic) UIImage *tileImage;
+// RENAME THESE AS VALUE AND IMAGE
+@property (nonatomic) int value;
+@property (strong, nonatomic) UIImage *image;
 
 -(instancetype)initWithValue:(int)value andImage:(UIImage *)image;
 

@@ -6,19 +6,19 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ObjectGridVC.h"
+#import "GridVC.h"
 
-@interface ObjectGridVC ()
+@interface GridVC ()
 
-@property (nonatomic, copy) void (^cellConfigureBlock)(UICollectionViewCell *, Position, id, int);
+@property (nonatomic, copy) void (^cellConfigureBlock)(UICollectionViewCell *, Position, int);
 
 @end
 
-@implementation ObjectGridVC
+@implementation GridVC
 
 #pragma mark - Initialiser
 
--(instancetype)initWithObjects:(NSArray *)cellObjects gridSize:(GridSize)size collectionView:(UICollectionView *)collectionView andCellConfigureBlock:(void (^)(UICollectionViewCell *, Position, id, int))cellConfigureBlock
+-(instancetype)initWithgridSize:(GridSize)size collectionView:(UICollectionView *)collectionView andCellConfigureBlock:(void (^)(UICollectionViewCell *, Position, int))cellConfigureBlock
 {
     if (self = [super init]) {
         self.collectionView = collectionView;
@@ -27,13 +27,10 @@
         self.cellConfigureBlock = cellConfigureBlock;
         
         UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-        Orientation orientation =
-                layout.scrollDirection == UICollectionViewScrollDirectionVertical ?
-                                                VERTICAL : HORIZONTAL;
+        Orientation orientation = layout.scrollDirection == UICollectionViewScrollDirectionVertical ?
+                            VERTICAL : HORIZONTAL;
         
-        self.objectGrid = [[GridOfObjects alloc] initWithSize:size
-                                               andOrientation:orientation
-                                                   andObjects:cellObjects];
+        self.grid = [[Grid alloc] initWithGridSize:size andOrientation:orientation];
     }
     
     return self;
@@ -46,9 +43,7 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     int objIndex = (int)indexPath.item;
-    
-    // GIVE THE DELEGATE THE OBJECT THAT WAS ACTUALLY TAPPED
-    [self.delegate tileTappedAtPosition:[self.objectGrid positionOfIndex:objIndex]];
+    [self.delegate tileTappedAtPosition:[self.grid positionOfIndex:objIndex]];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -70,12 +65,12 @@
     if (self.collectionView.scrollEnabled) {
         UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
         cellWidth = layout.scrollDirection == UICollectionViewScrollDirectionVertical ?
-                            collectionView.bounds.size.width / self.objectGrid.size.columns :
-                            collectionView.bounds.size.height / self.objectGrid.size.rows;
+                            collectionView.bounds.size.width / self.grid.size.columns :
+                            collectionView.bounds.size.height / self.grid.size.rows;
         cellHeight = cellWidth;
     } else {
-        cellWidth = collectionView.bounds.size.width / self.objectGrid.size.columns;
-        cellHeight = collectionView.bounds.size.height / self.objectGrid.size.rows;
+        cellWidth = collectionView.bounds.size.width / self.grid.size.columns;
+        cellHeight = collectionView.bounds.size.height / self.grid.size.rows;
     }
     
     return CGSizeMake(cellWidth, cellHeight);
@@ -85,7 +80,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.objectGrid.size.rows * self.objectGrid.size.columns;
+    return self.grid.size.rows * self.grid.size.columns;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -96,9 +91,8 @@
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
 
     int objIndex = (int)indexPath.item;
-    Position currentPos = [self.objectGrid positionOfIndex:objIndex];
-    id obj = [self.objectGrid objectAtPosition:currentPos];
-    self.cellConfigureBlock(cell, currentPos, obj, objIndex);
+    Position currentPos = [self.grid positionOfIndex:objIndex];
+    self.cellConfigureBlock(cell, currentPos, objIndex);
     return cell;
 }
 

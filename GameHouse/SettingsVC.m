@@ -7,13 +7,13 @@
 //
 
 #import "SettingsVC.h"
-#import "NoScrollObjectGridVC.h"
+#import "NoScrollGridVC.h"
 #import "UIImage+Crop.h"
 #import "TileView.h"
 #import "PuzzleGameVC.h"
 #import "SlidingPuzzleGame.h"
 
-@interface SettingsVC () <ObjectGridVCDelegate>
+@interface SettingsVC () <GridVCDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UISlider *numRowsSlider;
@@ -24,8 +24,8 @@
 
 // other
 @property (strong, nonatomic) NSString *gameImageName;
-@property (strong, nonatomic) ObjectGridVC *gameImagesController;
-@property (strong, nonatomic) NoScrollObjectGridVC *miniBoardController;
+@property (strong, nonatomic) GridVC *gameImagesController;
+@property (strong, nonatomic) NoScrollGridVC *miniBoardController;
 @end
 
 @implementation SettingsVC
@@ -51,7 +51,7 @@
     [self.pictureSelectionCollectionView reloadData];
 }
 
--(void)setGameImagesController:(ObjectGridVC *)gameImagesController
+-(void)setGameImagesController:(GridVC *)gameImagesController
 {
     _gameImagesController = gameImagesController;
     _gameImagesController.delegate = self;
@@ -83,14 +83,15 @@
     
     NSArray *gameImageNames = self.gameVCForSettings.availableImageNames;
     GridSize size = (GridSize){1, (int)[gameImageNames count]};
-    self.gameImagesController = [[ObjectGridVC alloc] initWithObjects:gameImageNames gridSize:size collectionView:self.pictureSelectionCollectionView andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
-        
-        NSString *imageName = (NSString *)obj;
+    
+    self.gameImagesController = [[GridVC alloc] initWithgridSize:size collectionView:self.pictureSelectionCollectionView andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, int index) {
+        NSString *imageName = gameImageNames[index];
         cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
                                                      andImage:[UIImage imageNamed:imageName]];
         
         // check whether the image being displayed is the selected one (relies on the fact that the array of image names is in the same order as the array of the images passed into the grid object)
         cell.alpha = [imageName isEqualToString:self.gameImageName] ? 1.0 : 0.5;
+
     }];
 }
 
@@ -114,7 +115,8 @@
 -(void)resetMiniBoardView
 {
     GridSize size = (GridSize){self.numRowsSlider.value, self.numColsSlider.value};
-    self.miniBoardController = [[NoScrollObjectGridVC alloc] initWithObjects:nil gridSize:size collectionView:self.miniGameBoardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+    
+    self.miniBoardController = [[NoScrollGridVC alloc] initWithgridSize:size collectionView:self.miniGameBoardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, int index) {
         cell.backgroundView = [[UIView alloc] init];
         cell.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
         cell.backgroundView.layer.borderWidth = 0.5;

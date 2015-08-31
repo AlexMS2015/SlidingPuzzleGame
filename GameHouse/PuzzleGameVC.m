@@ -10,12 +10,11 @@
 #import "TileView.h"
 #import "SettingsVC.h"
 #import "ObjectDatabase.h"
-#import "UIImage+Crop.h"
-#import "NoScrollObjectGridVC.h"
+#import "NoScrollGridVC.h"
 #import "SlidingPuzzleGame.h"
 #import "SlidingPuzzleTile.h"
 
-@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, ObjectGridVCDelegate>
+@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, GridVCDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
@@ -29,9 +28,8 @@
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) SlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic) SlidingPuzzleGame *loadedGame;
-@property (strong, nonatomic) NoScrollObjectGridVC *boardController;
+@property (strong, nonatomic) NoScrollGridVC *boardController;
 @property (nonatomic) Position positionOfBlankTile;
-//@property (strong, nonatomic) NSArray *tileImages;
 @end
 
 @implementation PuzzleGameVC
@@ -64,7 +62,6 @@
             [self.boardController moveObjectAtPosition:self.positionOfBlankTile
                                             toPosition:currentBlankTilePos];
             self.positionOfBlankTile = currentBlankTilePos;
-            //[self.boardCV reloadData];
         }
         
         // check for a completed game
@@ -85,36 +82,18 @@
 
 #pragma mark - Properties
 
-/*-(NSArray *)tileImages
-{
-    UIImage *boardImage = [UIImage imageNamed:self.puzzleGame.imageName];
-    NSArray *tileImages = [boardImage divideSquareImageIntoGrid:self.puzzleGame.board];
-    
-    // need to re-arrange the images in the correct order for a loaded game. the tile images begin at index 0 so need to subtract 1.
-    if (self.loadedGame) {
-        NSMutableArray *newTileImages = [NSMutableArray array];
-        for (NSNumber *tile in self.puzzleGame.board.objects) {
-            int tileValue = [tile intValue];
-            [newTileImages addObject:tileImages[tileValue - 1]];
-        }
-        tileImages = [newTileImages copy];
-    }
-    
-    return tileImages;
-}*/
-
 -(void)setPuzzleGame:(SlidingPuzzleGame *)puzzleGame
 {
     _puzzleGame = puzzleGame;
     self.positionOfBlankTile = self.puzzleGame.positionOfBlankTile;
     [self addModelObservers];
     
-    self.boardController = [[NoScrollObjectGridVC alloc] initWithObjects:self.puzzleGame.board.objects gridSize:self.puzzleGame.board.size collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, id obj, int objIndex) {
+    self.boardController = [[NoScrollGridVC alloc] initWithgridSize:self.puzzleGame.board.size collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, int index) {
         if (!PositionsAreEqual(position, self.positionOfBlankTile)) {
-            SlidingPuzzleTile *tile = (SlidingPuzzleTile *)obj;
+            SlidingPuzzleTile *tile = (SlidingPuzzleTile *)[self.puzzleGame.board objectAtPosition:position];
             cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
-                                                         andImage:tile.tileImage
-                                                         andValue:tile.tileValue];
+                                                         andImage:tile.image
+                                                         andValue:tile.value];
         } else {
             cell.backgroundView = nil;
         }
@@ -123,7 +102,7 @@
     [self resetUI];
 }
 
--(void)setBoardController:(NoScrollObjectGridVC *)boardController
+-(void)setBoardController:(NoScrollGridVC *)boardController
 {
     _boardController = boardController;
     self.boardController.delegate = self;

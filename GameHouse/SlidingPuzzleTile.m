@@ -13,8 +13,8 @@
 -(instancetype)initWithValue:(int)value andImage:(UIImage *)image
 {
     if (self = [super init]) {
-        self.tileValue = value;
-        self.tileImage = image;
+        self.value = value;
+        self.image = image;
     }
     
     return self;
@@ -22,7 +22,7 @@
 
 -(NSString *)description
 {
-    return [NSString stringWithFormat:@"%d", self.tileValue];
+    return [NSString stringWithFormat:@"%d", self.value];
 }
 
 #pragma mark - Coding/Decoding
@@ -30,18 +30,19 @@
 -(NSArray *)propertyNames
 {
     return @[@"tileImage"];
+    //return nil;
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder
 {
     [super encodeWithCoder:aCoder];
-    [aCoder encodeInt:self.tileValue forKey:@"tileValue"];
+    [aCoder encodeInt:self.value forKey:@"value"];
 }
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super initWithCoder:aDecoder]) {
-        _tileValue = [aDecoder decodeIntForKey:@"tileValue"];
+        _value = [aDecoder decodeIntForKey:@"value"];
     }
     
     return self;

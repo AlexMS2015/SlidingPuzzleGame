@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ObjectGridVC.h"
+#import "GridVC.h"
 
-@interface NoScrollObjectGridVC : ObjectGridVC
+@interface NoScrollGridVC : GridVC
 
 -(void)moveObjectAtPosition:(Position)pos1 toPosition:(Position)pos2;
 
