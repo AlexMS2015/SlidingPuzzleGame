@@ -74,9 +74,9 @@
 
 -(NSArray *)propertyNames
 {
-    NSMutableArray *superPropNames = [[super propertyNames] mutableCopy];
-    [superPropNames addObject:@"objects"];
-    return [superPropNames copy];
+    NSMutableArray *propNames = [[super propertyNames] mutableCopy];
+    [propNames addObject:@"objects"];
+    return [propNames copy];
 }
 
 @end

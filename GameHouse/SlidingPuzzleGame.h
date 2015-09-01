@@ -36,5 +36,6 @@ typedef enum {
 
 -(void)selectTileAtPosition:(Position)position;
 -(NSString *)difficultyString;
+-(void)restoreImages;
 
 @end

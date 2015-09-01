@@ -37,7 +37,7 @@
     SlidingPuzzleGame *game = self.gamesForTable[indexPath.row];
     
     if (!game.solved) {
-        //[[ObjectDatabase sharedDatabase] removeObject:game];
+        [game restoreImages];
         PuzzleGameVC *gameVC = [[PuzzleGameVC alloc] init];
         [gameVC setupFromPreviousGame:game];
         gameVC.newGameSelectionDisabled = YES;

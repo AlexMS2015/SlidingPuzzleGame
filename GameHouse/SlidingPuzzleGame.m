@@ -25,7 +25,7 @@
 
 -(NSArray *)propertyNames
 {
-    return @[@"imageName", @"board", @"datePlayed", @"solvedTiles"];
+    return @[@"imageName", @"datePlayed", @"board"];
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder
@@ -57,6 +57,15 @@
     if (self.difficulty == HARD) difficultyString = @"HARD";
     
     return difficultyString;
+}
+
+// give the tiles their images back (did not save the images for efficieny purposes)
+-(void)restoreImages
+{
+    NSArray *tileImages = [[UIImage imageNamed:self.imageName] divideSquareImageIntoGrid:self.board];
+    for (SlidingPuzzleTile *tile in self.board.objects) {
+        tile.image = tileImages[[self.board.objects indexOfObject:tile]];
+    }
 }
 
 #define MOVE_FACTOR 3;
@@ -129,8 +138,8 @@
 -(void)setNumberOfMovesMade:(int)numberOfMovesMade
 {
     _numberOfMovesMade = numberOfMovesMade;
-    //self.datePlayed = [NSDate date];
-    //[[ObjectDatabase sharedDatabase] addObjectAndSave:self];
+    self.datePlayed = [NSDate date];
+    [[ObjectDatabase sharedDatabase] addObjectAndSave:self];
 }
 
 -(Position)positionOfBlankTile

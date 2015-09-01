@@ -25,12 +25,18 @@
     return [NSString stringWithFormat:@"%d", self.value];
 }
 
+-(void)setImage:(UIImage *)image
+{
+    _image = image;
+    NSLog(@"setting tile image");
+}
+
 #pragma mark - Coding/Decoding
 
 -(NSArray *)propertyNames
 {
-    return @[@"tileImage"];
-    //return nil;
+    //return @[@"tileImage"];
+    return nil;
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder
