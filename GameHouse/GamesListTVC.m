@@ -37,7 +37,6 @@
     SlidingPuzzleGame *game = self.gamesForTable[indexPath.row];
     
     if (!game.solved) {
-        [game restoreImages];
         PuzzleGameVC *gameVC = [[PuzzleGameVC alloc] init];
         [gameVC setupFromPreviousGame:game];
         gameVC.newGameSelectionDisabled = YES;
@@ -59,12 +58,11 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    SlidingPuzzleGame *game = self.gamesForTable[indexPath.row];
-    
     PreviousGameCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
+    SlidingPuzzleGame *game = self.gamesForTable[indexPath.row];
 
     cell.rankLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.gamesForTable indexOfObject:game] + 1];
+        
     cell.image.image = [UIImage imageNamed:game.imageName];
     cell.mainLabel.text = [NSString stringWithFormat:@"%lu moves", (unsigned long)game.numberOfMovesMade];
     

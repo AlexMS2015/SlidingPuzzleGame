@@ -62,7 +62,7 @@
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </segmentedControl>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="3" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="bMb-eV-8U3">
-                            <rect key="frame" x="27" y="26" width="483" height="27"/>
+                            <rect key="frame" x="91" y="26" width="419" height="27"/>
                             <connections>
                                 <action selector="numTilesChanges:" destination="-1" eventType="valueChanged" id="TVS-bO-XTn"/>
                             </connections>
@@ -81,18 +81,18 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Difficulty" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wqi-bI-EKT">
-                            <rect key="frame" x="8" y="252" width="59.5" height="18"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <rect key="frame" x="8" y="252" width="62" height="18"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Board Size" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iCd-aP-2PR">
-                            <rect key="frame" x="8" y="0.0" width="75" height="18"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <rect key="frame" x="8" y="0.0" width="76.5" height="18"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJu-dH-Tvc">
-                            <rect key="frame" x="8" y="488" width="42.5" height="18"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <rect key="frame" x="8" y="488" width="43.5" height="18"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="BTC-qT-max">
@@ -110,18 +110,32 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="3" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="0l3-hw-L8j">
-                            <rect key="frame" x="27" y="60" width="483" height="27"/>
+                            <rect key="frame" x="91" y="60" width="419" height="27"/>
                             <connections>
                                 <action selector="numTilesChanges:" destination="-1" eventType="valueChanged" id="d91-p3-Hdx"/>
                             </connections>
                         </slider>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rows" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REj-PO-MN2">
+                            <rect key="frame" x="29" y="30" width="34.5" height="17"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Columns" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="663-Go-gne">
+                            <rect key="frame" x="29" y="64" width="54.5" height="17"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <constraints>
                         <constraint firstItem="GU7-la-6aZ" firstAttribute="top" secondItem="Wqi-bI-EKT" secondAttribute="bottom" constant="8" id="3MJ-Qa-6A8"/>
+                        <constraint firstItem="GU7-la-6aZ" firstAttribute="leading" secondItem="REj-PO-MN2" secondAttribute="leading" id="3cW-A5-4gF"/>
                         <constraint firstItem="3bF-Ug-L7d" firstAttribute="top" secondItem="JJu-dH-Tvc" secondAttribute="bottom" constant="8" id="Euy-Yx-OlV"/>
-                        <constraint firstItem="bMb-eV-8U3" firstAttribute="leading" secondItem="GU7-la-6aZ" secondAttribute="leading" id="G8w-GN-fue"/>
+                        <constraint firstItem="663-Go-gne" firstAttribute="centerY" secondItem="0l3-hw-L8j" secondAttribute="centerY" id="H2Y-WY-dAE"/>
                         <constraint firstItem="0l3-hw-L8j" firstAttribute="height" secondItem="bMb-eV-8U3" secondAttribute="height" id="OnM-FW-ke2"/>
                         <constraint firstItem="bMb-eV-8U3" firstAttribute="top" secondItem="iCd-aP-2PR" secondAttribute="bottom" constant="8" id="QWE-U7-04t"/>
+                        <constraint firstItem="0l3-hw-L8j" firstAttribute="leading" secondItem="bMb-eV-8U3" secondAttribute="leading" id="V6d-G0-1LO"/>
                         <constraint firstItem="iCd-aP-2PR" firstAttribute="top" secondItem="zKd-k4-rGq" secondAttribute="top" multiplier="1.01" id="VJG-Vc-GBi"/>
                         <constraint firstItem="0l3-hw-L8j" firstAttribute="top" secondItem="bMb-eV-8U3" secondAttribute="bottom" constant="8" id="Wj2-2L-U3d"/>
                         <constraint firstItem="0l3-hw-L8j" firstAttribute="bottom" secondItem="BTC-qT-max" secondAttribute="bottom" id="YLZ-Yf-JJa"/>
@@ -135,11 +149,14 @@
                         <constraint firstItem="GU7-la-6aZ" firstAttribute="leading" secondItem="zKd-k4-rGq" secondAttribute="trailing" multiplier="0.05" id="nQf-SG-1G4"/>
                         <constraint firstAttribute="centerY" secondItem="GU7-la-6aZ" secondAttribute="centerY" id="nuo-Y9-G3O"/>
                         <constraint firstItem="GU7-la-6aZ" firstAttribute="leading" secondItem="3bF-Ug-L7d" secondAttribute="leading" id="qVm-ii-Are"/>
+                        <constraint firstItem="GU7-la-6aZ" firstAttribute="leading" secondItem="663-Go-gne" secondAttribute="leading" id="taW-Sv-7vi"/>
                         <constraint firstItem="3bF-Ug-L7d" firstAttribute="bottom" secondItem="zKd-k4-rGq" secondAttribute="bottom" multiplier="0.99" id="uPe-gE-ezL"/>
                         <constraint firstItem="iCd-aP-2PR" firstAttribute="leading" secondItem="zKd-k4-rGq" secondAttribute="leading" constant="8" id="v4m-Qp-cCM"/>
                         <constraint firstItem="GU7-la-6aZ" firstAttribute="trailing" secondItem="3bF-Ug-L7d" secondAttribute="trailing" id="wNP-9E-6ad"/>
                         <constraint firstItem="0l3-hw-L8j" firstAttribute="width" secondItem="bMb-eV-8U3" secondAttribute="width" id="xgn-h7-DMs"/>
+                        <constraint firstItem="bMb-eV-8U3" firstAttribute="centerY" secondItem="REj-PO-MN2" secondAttribute="centerY" id="xiB-7W-OT4"/>
                         <constraint firstAttribute="trailing" secondItem="BTC-qT-max" secondAttribute="trailing" constant="8" id="yO9-wh-geU"/>
+                        <constraint firstItem="0l3-hw-L8j" firstAttribute="leading" secondItem="663-Go-gne" secondAttribute="trailing" constant="10" id="zh3-GY-xiQ"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xDZ-o3-se1">

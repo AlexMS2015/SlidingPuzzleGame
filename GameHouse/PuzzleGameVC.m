@@ -194,8 +194,8 @@
 {
     self.picShowImageView.image = [UIImage imageNamed:self.puzzleGame.imageName];
     
-    self.numMovesLabel.text = @"0";
-    self.difficultyLabel.text = [self.puzzleGame difficultyString];
+    self.numMovesLabel.text = [NSString stringWithFormat:@"%d", self.puzzleGame.numberOfMovesMade];
+    self.difficultyLabel.text = self.puzzleGame.difficultyString;
     self.boardCV.userInteractionEnabled = YES;
     
     if (self.loadedGame) {

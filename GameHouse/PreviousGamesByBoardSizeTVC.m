@@ -17,16 +17,18 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GamesListTVC *gamesList = [[GamesListTVC alloc] init];
-    gamesList.games = [self gamesForRow:(int)indexPath.row];
+    NSString *pivotString = [self.pivotedPreviousGames allKeys][indexPath.row];
+    gamesList.games = self.pivotedPreviousGames[pivotString];
     [self.navigationController pushViewController:gamesList animated:YES];
 }
 
 #pragma mark - Concrete Implementation of Abstract Methods
 
--(NSString *)stringToPivotGame:(SlidingPuzzleGame *)game
+-(NSString *)gameStringPropertyToPivot
 {
-    return [game.board gridSizeString];
+    return @"boardSizeString";
 }
+
 
 -(NSString *)headerForTable
 {

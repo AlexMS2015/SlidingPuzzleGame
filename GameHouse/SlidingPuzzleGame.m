@@ -13,35 +13,53 @@
 
 @interface SlidingPuzzleGame () <NSCoding>
 
-@property (nonatomic, readwrite) BOOL puzzleIsSolved;
 @property (nonatomic, readwrite) Difficulty difficulty;
+@property (strong, nonatomic, readwrite) NSString *difficultyString;
+@property (nonatomic, readwrite) BOOL solved;
+@property (nonatomic, readwrite) int numberOfMovesMade;
+@property (nonatomic, strong, readwrite) GridOfObjects *board; // contains 'SlidingPuzzleTile' objects
+@property (nonatomic, readwrite) NSString *imageName;
 @property (nonatomic, strong, readwrite) NSDate *datePlayed;
+@property (nonatomic, readwrite) Position positionOfBlankTile;
+@property (strong, nonatomic, readwrite) NSString *boardSizeString;
 
 @end
 
 @implementation SlidingPuzzleGame
 
+-(NSString *)boardSizeString
+{
+    return [NSString stringWithFormat:@"%dx%d", self.board.size.rows, self.board.size.columns];
+}
+
 #pragma mark - Coding/Decoding
 
 -(NSArray *)propertyNames
 {
-    return @[@"imageName", @"datePlayed", @"board"];
+    return @[@"board", @"imageName", @"datePlayed"];
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder
 {
     [super encodeWithCoder:aCoder];
-    [aCoder encodeBool:self.puzzleIsSolved forKey:@"solved"];
+    [aCoder encodeBool:self.solved forKey:@"solved"];
     [aCoder encodeInt:self.difficulty forKey:@"difficulty"];
-    [aCoder encodeInt:self.numberOfMovesMade forKey:@"numberOfMovedMade"];
+    [aCoder encodeInt:self.numberOfMovesMade forKey:@"numberOfMovesMade"];
 }
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super initWithCoder:aDecoder]) {
-        _puzzleIsSolved = [aDecoder decodeBoolForKey:@"solved"];
+        _solved = [aDecoder decodeBoolForKey:@"solved"];
         _difficulty = [aDecoder decodeIntForKey:@"difficulty"];
         _numberOfMovesMade = [aDecoder decodeIntForKey:@"numberOfMovesMade"];
+        
+        NSArray *tileImages = [[UIImage imageNamed:self.imageName] divideSquareImageIntoGrid:self.board];
+        if ([self.board.objects count] > 0) { // if the board already contains objects, we must be loading from a prior game. give the tiles their images back (not saved for efficiency).
+            for (SlidingPuzzleTile *tile in self.board.objects) {
+                tile.image = tileImages[tile.value - 1];
+            }
+        }
     }
     
     return self;
@@ -57,15 +75,6 @@
     if (self.difficulty == HARD) difficultyString = @"HARD";
     
     return difficultyString;
-}
-
-// give the tiles their images back (did not save the images for efficieny purposes)
--(void)restoreImages
-{
-    NSArray *tileImages = [[UIImage imageNamed:self.imageName] divideSquareImageIntoGrid:self.board];
-    for (SlidingPuzzleTile *tile in self.board.objects) {
-        tile.image = tileImages[[self.board.objects indexOfObject:tile]];
-    }
 }
 
 #define MOVE_FACTOR 3;
@@ -93,6 +102,7 @@
         self.board = [[GridOfObjects alloc] initWithSize:boardSize andOrientation:orientation andObjects:nil];
         self.difficulty = difficulty;
         self.imageName = imageName;
+        self.numberOfMovesMade = 0;
         
         NSArray *tileImages = [[UIImage imageNamed:imageName] divideSquareImageIntoGrid:self.board];
         [tileImages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -100,8 +110,6 @@
                                                                           andImage:(UIImage *)obj];
             [self.board setPosition:[self.board positionOfIndex:(int)idx] toObject:nextTile];
         }];
-
-        self.numberOfMovesMade = 0;
     }
     
     return self;

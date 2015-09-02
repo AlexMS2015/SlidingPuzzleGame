@@ -46,7 +46,6 @@ typedef enum {
 
 -(Position)positionOfIndex:(int)index;
 -(int)indexOfPosition:(Position)position;
--(NSString *)gridSizeString;
 -(Position)randomPositionAdjacentToPosition:(Position)position;
 
 @end

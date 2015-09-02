@@ -21,7 +21,6 @@
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (nonatomic, strong) Grid *grid;
 
-#warning SHOULD FAIL IF COUNT OF ARRAY DOESN'T EQUAL TO NUMBER OF CELLS IN GRID
 
 // ADD THE WHITE BORDER COLOUR ONTO THIS CLASS
 

@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "PreviousGamesTVC.h"
+#import "SPGPivotTVC.h"
 
-@interface PreviousGamesByBoardSizeTVC : PreviousGamesTVC
+@interface PreviousGamesByBoardSizeTVC : SPGPivotTVC
 
 @end

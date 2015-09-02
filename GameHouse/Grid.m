@@ -12,6 +12,7 @@
 
 @property (nonatomic, readwrite) GridSize size;
 @property (nonatomic, readwrite) Orientation orientation;
+@property (strong, nonatomic, readwrite) NSString *gridSizeString;
 
 @end
 
@@ -44,11 +45,6 @@
     return self.orientation == VERTICAL ?
         self.size.columns * position.row + position.column :
         self.size.rows * position.column + position.row;
-}
-
--(NSString *)gridSizeString
-{
-    return [NSString stringWithFormat:@"%dx%d", self.size.rows, self.size.columns];
 }
 
 -(Position)randomPositionAdjacentToPosition:(Position)position

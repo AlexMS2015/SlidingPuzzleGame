@@ -16,15 +16,15 @@ typedef enum {
 
 @interface SlidingPuzzleGame : CodableObject
 
-#warning - THESE SHOULD ALL BE READ ONLY?
 @property (nonatomic, readonly) Difficulty difficulty;
+@property (strong, nonatomic, readonly) NSString *difficultyString;
 @property (nonatomic, readonly) BOOL solved;
-@property (nonatomic) int numberOfMovesMade;
-@property (nonatomic, strong) GridOfObjects *board; // contains 'SlidingPuzzleTile' objects
-
-@property (nonatomic) NSString *imageName;
+@property (nonatomic, readonly) int numberOfMovesMade;
+@property (nonatomic, strong, readonly) GridOfObjects *board; // contains 'SlidingPuzzleTile' objects
+@property (nonatomic, readonly) NSString *imageName;
 @property (nonatomic, strong, readonly) NSDate *datePlayed;
-@property (nonatomic) Position positionOfBlankTile;
+@property (nonatomic, readonly) Position positionOfBlankTile;
+@property (strong, nonatomic, readonly) NSString *boardSizeString;
 
 // this will set the game up in its solved state. must call 'startGame' to begin the game
 -(instancetype)initWithBoardSize:(GridSize)boardSize
@@ -32,10 +32,8 @@ typedef enum {
                    andDifficulty:(Difficulty)difficulty
                    andImageNamed:(NSString *)imageName;
 
--(void)startGame;
+-(void)startGame; // a new game will be set up in the solved position. calling this method will randomise the tiles to begin the game
 
 -(void)selectTileAtPosition:(Position)position;
--(NSString *)difficultyString;
--(void)restoreImages;
 
 @end
