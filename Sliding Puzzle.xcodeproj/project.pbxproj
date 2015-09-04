@@ -37,7 +37,6 @@
 		FACDC2A81B971E9500D32730 /* SPGPivotTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FACDC2A71B971E9500D32730 /* SPGPivotTVC.m */; };
 		FACDC2AE1B9723AC00D32730 /* NSArray+PivotWithPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = FACDC2AD1B9723AC00D32730 /* NSArray+PivotWithPropertyKey.m */; };
 		FAD836161B92886F00DD4E45 /* CodableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD836151B92886F00DD4E45 /* CodableObject.m */; };
-		FAD836191B92A65100DD4E45 /* RestorableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD836181B92A65100DD4E45 /* RestorableObject.m */; };
 		FAF8A3BB1B25667500EEDB01 /* ObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3BA1B25667500EEDB01 /* ObjectDatabase.m */; };
 		FAF8A3C31B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C21B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.m */; };
 		FAF8A3C61B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF8A3C51B2C045900EEDB01 /* PreviousGamesByBoardSizeTVC.m */; };
@@ -106,8 +105,6 @@
 		FACDC2AD1B9723AC00D32730 /* NSArray+PivotWithPropertyKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+PivotWithPropertyKey.m"; sourceTree = "<group>"; };
 		FAD836141B92886F00DD4E45 /* CodableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodableObject.h; sourceTree = "<group>"; };
 		FAD836151B92886F00DD4E45 /* CodableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodableObject.m; sourceTree = "<group>"; };
-		FAD836171B92A65100DD4E45 /* RestorableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestorableObject.h; sourceTree = "<group>"; };
-		FAD836181B92A65100DD4E45 /* RestorableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestorableObject.m; sourceTree = "<group>"; };
 		FAF8A3B91B25667500EEDB01 /* ObjectDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectDatabase.h; sourceTree = "<group>"; };
 		FAF8A3BA1B25667500EEDB01 /* ObjectDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectDatabase.m; sourceTree = "<group>"; };
 		FAF8A3C11B2C020F00EEDB01 /* PreviousGamesByDifficultyTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousGamesByDifficultyTVC.h; sourceTree = "<group>"; };
@@ -165,8 +162,6 @@
 		FA0A78C91B2DAEF2002B3D1C /* Main Game Screen */ = {
 			isa = PBXGroup;
 			children = (
-				FAD836171B92A65100DD4E45 /* RestorableObject.h */,
-				FAD836181B92A65100DD4E45 /* RestorableObject.m */,
 				FA966C361B115A70004C28C0 /* PuzzleGameVC.h */,
 				FA966C371B115A70004C28C0 /* PuzzleGameVC.m */,
 				FA966C381B115A70004C28C0 /* PuzzleGameVC.xib */,
@@ -428,7 +423,6 @@
 				FACDC2A81B971E9500D32730 /* SPGPivotTVC.m in Sources */,
 				FAA5CD4E1B88186A002E2167 /* GridVC.m in Sources */,
 				FA3255ED1B803BA90045A827 /* UIImage+Crop.m in Sources */,
-				FAD836191B92A65100DD4E45 /* RestorableObject.m in Sources */,
 				FAF8A3CD1B2C164600EEDB01 /* PreviousGameCell.m in Sources */,
 				FA52E9251B8F0DBE0055C29A /* Grid.m in Sources */,
 				FAA5CD611B8B3A1F002E2167 /* PositionStruct.m in Sources */,

@@ -39,7 +39,6 @@
     if (!game.solved) {
         PuzzleGameVC *gameVC = [[PuzzleGameVC alloc] init];
         [gameVC setupFromPreviousGame:game];
-        gameVC.newGameSelectionDisabled = YES;
         [self.navigationController pushViewController:gameVC animated:YES];
     }
 }

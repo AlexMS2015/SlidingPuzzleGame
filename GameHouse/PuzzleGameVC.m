@@ -9,7 +9,6 @@
 #import "PuzzleGameVC.h"
 #import "TileView.h"
 #import "SettingsVC.h"
-#import "ObjectDatabase.h"
 #import "NoScrollGridVC.h"
 #import "SlidingPuzzleGame.h"
 #import "SlidingPuzzleTile.h"
@@ -67,8 +66,10 @@
         // check for a completed game
         if (self.puzzleGame.solved) {
             self.boardCV.userInteractionEnabled = NO;
-            UIAlertView *puzzleSolvedAlert = [[UIAlertView alloc] initWithTitle:@"Puzzle Solved" message:@"Congratulations, you solved the puzzle!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-            [puzzleSolvedAlert show];
+            UIAlertController *puzzleSolvedAC = [UIAlertController alertControllerWithTitle:@"Puzzle Solved" message:@"Congratulations, you solved the puzzle!" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okButton = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:NULL];
+            [puzzleSolvedAC addAction:okButton];
+            [self presentViewController:puzzleSolvedAC animated:YES completion:NULL];
         }
     }
 }
@@ -85,11 +86,12 @@
 -(void)setPuzzleGame:(SlidingPuzzleGame *)puzzleGame
 {
     _puzzleGame = puzzleGame;
+    
     self.positionOfBlankTile = self.puzzleGame.positionOfBlankTile;
     [self addModelObservers];
     
     self.boardController = [[NoScrollGridVC alloc] initWithgridSize:self.puzzleGame.board.size collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, int index) {
-        if (!PositionsAreEqual(position, self.positionOfBlankTile)) {
+        if (!PositionsAreEqual(position, self.puzzleGame.positionOfBlankTile)) {
             SlidingPuzzleTile *tile = (SlidingPuzzleTile *)[self.puzzleGame.board objectAtPosition:position];
             cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
                                                          andImage:tile.image
@@ -204,11 +206,7 @@
         // create and begin the game countdown timer
         self.countdownLabel.hidden = NO;
         self.countdownLabel.text = @"4";
-        NSTimer *countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                                   target:self
-                                                                 selector:@selector(countdownFired:)
-                                                                 userInfo:nil
-                                                                  repeats:YES];
+        NSTimer *countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countdownFired:) userInfo:nil repeats:YES];
         [countdownTimer fire];
     }
 }
@@ -246,9 +244,6 @@
 
 -(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    
-#warning - Update this app for UIAlertController
-
     if ([alertView.title isEqualToString:@"New Game"]) {
         self.resetGameButton.alpha = 0.6;
         if (buttonIndex != alertView.cancelButtonIndex) {
@@ -279,7 +274,7 @@
 // helper
 -(void)toggleFinalPicView
 {    
-    self.boardCV.userInteractionEnabled = !self.picShowImageView.hidden;
+    self.boardCV.userInteractionEnabled = !self.boardCV.userInteractionEnabled;
     self.picShowImageView.hidden = !self.picShowImageView.hidden;
 }
 
@@ -300,7 +295,7 @@
 
 - (IBAction)settingsTouchUpInside:(UIButton *)sender
 {
-    if (!self.newGameSelectionDisabled) {
+    if (!self.loadedGame) {
         SettingsVC *settingVC =[[SettingsVC alloc] init];
         settingVC.gameVCForSettings = self;
         [self presentViewController:settingVC animated:YES completion:NULL];
@@ -309,8 +304,23 @@
 
 - (IBAction)newGameTouchUpInside:(UIButton *)sender
 {
-    if (!self.newGameSelectionDisabled) {
+    if (!self.loadedGame) {
         self.resetGameButton.alpha = 0.1;
+        
+        /*UIAlertController *resetGameAC = [UIAlertController alertControllerWithTitle:@"New Game" message:@"Are you sure you want to begin a new game?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            self.resetGameButton.alpha = 0.6;
+        }];
+        UIAlertAction *okButton = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            self.resetGameButton.alpha = 0.6;
+            [self setupNewGameWithBoardSize:self.puzzleGame.board.size
+                              andDifficulty:self.puzzleGame.difficulty
+                             withImageNamed:self.puzzleGame.imageName];
+        }];
+        [resetGameAC addAction:cancelButton];
+        [resetGameAC addAction:okButton];
+        [self presentViewController:resetGameAC animated:YES completion:NULL];*/
+        
         UIAlertView *resetGameAlert = [[UIAlertView alloc] initWithTitle:@"New Game"
                                                                  message:@"Are you sure you want to begin a new game?"
                                                                 delegate:self

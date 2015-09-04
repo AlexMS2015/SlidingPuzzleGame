@@ -76,9 +76,7 @@
 
 -(instancetype)init
 {
-    self = [super init];
-    
-    if (self) {
+    if (self = [super init]) {
         self.restorationIdentifier = NSStringFromClass([self class]);
         self.restorationClass = [self class];
     }
@@ -88,20 +86,13 @@
 
 #pragma mark - View Life Cycle
 
--(void)viewDidLoad
-{
-    [super viewDidLoad];
-    for (UIButton *button in self.theHSButtons) {
-        button.hidden = YES;
-    }
-}
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
 
     for (UIButton *button in self.theHSButtons) {
+        button.hidden = YES;
         [self animateEntranceForButton:button];
     }
 }
@@ -127,22 +118,15 @@
         [sender setTitle:@"Credits" forState:UIControlStateNormal];
     }
     
-    BOOL hidden;
-    for (UIButton *button in self.theHSButtons) {
-        hidden = button.hidden;
-        button.hidden = !hidden;
-    }
-    
-    UILabel *creditsLabel = (UILabel *)[self.creditsLabels firstObject];
-    hidden = creditsLabel.hidden;
+    for (UIButton *button in self.theHSButtons)
+        button.hidden = !button.hidden;
     
     [UIView transitionWithView:self.view
                       duration:0.5
                        options:UIViewAnimationOptionTransitionFlipFromLeft
                     animations:^{
-                        for (UILabel *creditsLabel in self.creditsLabels) {
-                            creditsLabel.hidden = !hidden;
-                        }
+                        for (UILabel *creditsLabel in self.creditsLabels)
+                            creditsLabel.hidden = !creditsLabel.hidden;
                     }
                     completion:nil];
 }

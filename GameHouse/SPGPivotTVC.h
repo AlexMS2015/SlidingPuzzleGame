@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Alex Smith. All rights reserved.
 //
 
-#import "ObjectPivotTVC.h"
+#import <UIKit/UIKit.h>
 
 @interface SPGPivotTVC : UITableViewController
 
