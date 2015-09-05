@@ -9,6 +9,7 @@
 #import "PuzzleGameVC.h"
 #import "TileView.h"
 #import "SettingsVC.h"
+#import "ObjectDatabase.h"
 #import "NoScrollGridVC.h"
 #import "SlidingPuzzleGame.h"
 #import "SlidingPuzzleTile.h"
@@ -211,10 +212,18 @@
     }
 }
 
+-(void)savePuzzleGame
+{
+    if (self.puzzleGame.numberOfMovesMade > 0)
+        [[ObjectDatabase sharedDatabase] addObjectAndSave:self.puzzleGame];
+}
+
 -(void)setupNewGameWithBoardSize:(GridSize)boardSize andDifficulty:(Difficulty)difficulty withImageNamed:(NSString *)imageName
 {
-    if (self.puzzleGame)
+    if (self.puzzleGame) {
+        [self savePuzzleGame];
         [self removeModelObservers];
+    }
     
     self.loadedGame = nil;
     
@@ -231,8 +240,10 @@
 
 -(void)setupFromPreviousGame:(SlidingPuzzleGame *)game
 {
-    if (self.puzzleGame)
+    if (self.puzzleGame) {
+        [self savePuzzleGame];
         [self removeModelObservers];
+    }
     
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.boardCV.collectionViewLayout;
     layout.scrollDirection = game.board.orientation == VERTICAL ? UICollectionViewScrollDirectionHorizontal : UICollectionViewScrollDirectionHorizontal;
@@ -290,6 +301,7 @@
 
  - (IBAction)exitTouchUpInside:(UIButton *)sender
 {
+    [self savePuzzleGame];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

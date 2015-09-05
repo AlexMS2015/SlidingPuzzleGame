@@ -11,6 +11,8 @@
 @interface GridVC ()
 
 @property (nonatomic, copy) void (^cellConfigureBlock)(UICollectionViewCell *, Position, int);
+@property (nonatomic) float cellWidth;
+@property (nonatomic) float cellHeight;
 
 @end
 
@@ -19,6 +21,24 @@
 #define CELL_IDENTIFIER @"CollectionCell"
 
 #pragma mark - Properties
+
+-(float)cellWidth
+{
+    if (_cellWidth == 0) {
+        if (self.collectionView.scrollEnabled) {
+            UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+            self.cellWidth = layout.scrollDirection == UICollectionViewScrollDirectionVertical ?
+            self.collectionView.bounds.size.width / self.grid.size.columns :
+            self.collectionView.bounds.size.height / self.grid.size.rows;
+            self.cellHeight = self.cellWidth;
+        } else {
+            self.cellWidth = self.collectionView.bounds.size.width / self.grid.size.columns;
+            self.cellHeight = self.collectionView.bounds.size.height / self.grid.size.rows;
+        }
+    }
+    
+    return _cellWidth;
+}
 
 -(void)setCollectionView:(UICollectionView *)collectionView
 {
@@ -69,20 +89,7 @@
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    float cellWidth, cellHeight;
-    
-    if (self.collectionView.scrollEnabled) {
-        UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-        cellWidth = layout.scrollDirection == UICollectionViewScrollDirectionVertical ?
-                            collectionView.bounds.size.width / self.grid.size.columns :
-                            collectionView.bounds.size.height / self.grid.size.rows;
-        cellHeight = cellWidth;
-    } else {
-        cellWidth = collectionView.bounds.size.width / self.grid.size.columns;
-        cellHeight = collectionView.bounds.size.height / self.grid.size.rows;
-    }
-    
-    return CGSizeMake(cellWidth, cellHeight);
+    return CGSizeMake(self.cellWidth, self.cellHeight);
 }
 
 #pragma mark - UICollectionViewDataSource

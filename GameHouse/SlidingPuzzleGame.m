@@ -7,7 +7,6 @@
 //
 
 #import "SlidingPuzzleGame.h"
-#import "ObjectDatabase.h"
 #import "UIImage+Crop.h"
 #import "SlidingPuzzleTile.h"
 
@@ -63,7 +62,7 @@
 
 #pragma mark - Other
 
-#define MOVE_FACTOR 3;
+#define MOVE_FACTOR 15;
 -(void)startGame
 {
     int numMovesToRandomise = (self.difficulty + 1) * MOVE_FACTOR;
@@ -128,6 +127,11 @@
 
 #pragma mark - Properties
 
+-(NSDate *)datePlayed
+{
+    return [NSDate date];
+}
+
 -(NSString *)difficultyString
 {
     NSString *difficultyString = @"";
@@ -141,13 +145,6 @@
 -(NSString *)boardSizeString
 {
     return [NSString stringWithFormat:@"%dx%d", self.board.size.rows, self.board.size.columns];
-}
-
--(void)setNumberOfMovesMade:(int)numberOfMovesMade
-{
-    _numberOfMovesMade = numberOfMovesMade;
-    self.datePlayed = [NSDate date];
-    [[ObjectDatabase sharedDatabase] addObjectAndSave:self];
 }
 
 -(Position)positionOfBlankTile
