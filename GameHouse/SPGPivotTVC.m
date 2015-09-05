@@ -15,6 +15,7 @@
 #define CELL_IDENTIFIER @"PreviousGameCell"
 
 #pragma mark - Abstract Methods
+
 -(NSString *)headerForTable { return nil; }
 -(NSString *)gameStringPropertyToPivot { return nil; }
 

@@ -26,7 +26,6 @@
 
 -(void)setPosition:(Position)position toObject:(id)object
 {
-    // THERE NEEDS TO BE A CHECK TO STOP INSERTING AT POSITONS OUTSIDE THE GRID (too large)
     int indexOfPosition = [self indexOfPosition:position];
     self.objectsPrivate[indexOfPosition] = object;
 }

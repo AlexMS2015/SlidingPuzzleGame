@@ -1,5 +1,5 @@
 //
-//  BoardCVC.m
+//  GridVC.m
 //  Sliding Puzzle
 //
 //  Created by Alex Smith on 22/08/2015.
@@ -16,14 +16,24 @@
 
 @implementation GridVC
 
+#define CELL_IDENTIFIER @"CollectionCell"
+
+#pragma mark - Properties
+
+-(void)setCollectionView:(UICollectionView *)collectionView
+{
+    _collectionView = collectionView;
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CELL_IDENTIFIER];
+}
+
 #pragma mark - Initialiser
 
 -(instancetype)initWithgridSize:(GridSize)size collectionView:(UICollectionView *)collectionView andCellConfigureBlock:(void (^)(UICollectionViewCell *, Position, int))cellConfigureBlock
 {
     if (self = [super init]) {
         self.collectionView = collectionView;
-        self.collectionView.delegate = self;
-        self.collectionView.dataSource = self;
         self.cellConfigureBlock = cellConfigureBlock;
         
         UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
@@ -36,14 +46,13 @@
     return self;
 }
 
-#define CELL_IDENTIFIER @"CollectionCell"
-
 #pragma mark - UICollectionViewDelegate
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     int objIndex = (int)indexPath.item;
-    [self.delegate tileTappedAtPosition:[self.grid positionOfIndex:objIndex]];
+    if (self.delegate)
+        [self.delegate tileTappedAtPosition:[self.grid positionOfIndex:objIndex]];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -84,10 +93,7 @@
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{    
-#warning - FIX THIS CODE
-    [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CELL_IDENTIFIER];
-    
+{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
 
     int objIndex = (int)indexPath.item;

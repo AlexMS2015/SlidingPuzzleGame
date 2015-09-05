@@ -13,30 +13,21 @@
 
 -(NSArray *)divideSquareImageIntoGrid:(Grid *)grid
 {
-    GridSize gridSize = grid.size;
-    Orientation orientation = grid.orientation;
     NSMutableArray *images = [NSMutableArray array];
-    CGSize imageSize = CGSizeMake(self.size.width / gridSize.columns,
-                                  self.size.height / gridSize.rows);
+    CGSize cropSize = CGSizeMake(self.size.width / grid.size.columns,
+                                  self.size.height / grid.size.rows);
     
-    for (int i = 0; i < (orientation == VERTICAL ? gridSize.rows : gridSize.columns); i++) {
-        for (int j = 0; j < (orientation == VERTICAL ? gridSize.columns : gridSize.rows); j++) {
-            
-            CGRect frame;
-            if (orientation == VERTICAL) {
-                frame = CGRectMake(j * imageSize.width, i * imageSize.height,
-                                   imageSize.width, imageSize.height);
-            } else {
-                frame = CGRectMake(i * imageSize.width, j * imageSize.height,
-                                   imageSize.width, imageSize.height);
-            }
-            
-            CGImageRef currCGImage = CGImageCreateWithImageInRect(self.CGImage, frame);
-            UIImage *image = [UIImage imageWithCGImage:currCGImage];
-            CGImageRelease(currCGImage);
-            
-            [images addObject:image];
-        }
+    for (int i = 0; i < grid.size.rows * grid.size.columns; i++) {
+        Position position = [grid positionOfIndex:i];
+    
+        CGRect frame = CGRectMake(position.column * cropSize.width, position.row * cropSize.height,
+                               cropSize.width, cropSize.height);
+        CGImageRef currCGImage = CGImageCreateWithImageInRect(self.CGImage, frame);
+        UIImage *image = [UIImage imageWithCGImage:currCGImage];
+        CGImageRelease(currCGImage);
+        
+        [images addObject:image];
+
     }
     
     return [NSArray arrayWithArray:images];

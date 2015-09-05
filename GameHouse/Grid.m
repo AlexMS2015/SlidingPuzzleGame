@@ -18,11 +18,6 @@
 
 @implementation Grid
 
-+(instancetype)gridWithSize:(GridSize)size andOrientation:(Orientation)orientation
-{
-    return [[Grid alloc] initWithGridSize:size andOrientation:orientation];
-}
-
 -(instancetype)initWithGridSize:(GridSize)size andOrientation:(Orientation)orientation
 {
     if (self = [super init]) {
@@ -97,7 +92,7 @@
 
 -(NSArray *)propertyNames
 {
-    return [NSArray arrayWithObjects:nil];
+    return @[];
 }
 
 @end

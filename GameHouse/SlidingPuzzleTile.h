@@ -11,9 +11,8 @@
 
 @interface SlidingPuzzleTile : CodableObject
 
-// RENAME THESE AS VALUE AND IMAGE
 @property (nonatomic) int value;
-@property (strong, nonatomic) UIImage *image;
+@property (strong, nonatomic) UIImage *image; // not saved during archiving... must be re-loaded on an unarchived tile
 
 -(instancetype)initWithValue:(int)value andImage:(UIImage *)image;
 

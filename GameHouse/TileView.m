@@ -26,19 +26,17 @@
         valueLabel.text = [NSString stringWithFormat:@"%d", tileValue];
         valueLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
         [self addSubview:valueLabel];
-        
-        [self setNeedsDisplay];
     }
 }
 
+#define CORNER_RADIUS 8.0
 -(void)setTileImage:(UIImage *)tileImage
 {
     UIImageView *tileForeground = [[UIImageView alloc] initWithFrame:self.bounds];
     tileForeground.image = tileImage;
-    tileForeground.layer.cornerRadius = 8.0;
+    tileForeground.layer.cornerRadius = CORNER_RADIUS;
     tileForeground.layer.masksToBounds = YES;
     [self addSubview:tileForeground];
-    [self setNeedsDisplay];
 }
 
 #pragma mark - Initialisers

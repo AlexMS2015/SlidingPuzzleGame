@@ -1,5 +1,5 @@
 //
-//  PreviousGameDatabase.h
+//  ObjectDatabase.h
 //  GameHouse
 //
 //  Created by Alex Smith on 8/06/2015.
@@ -11,12 +11,8 @@
 
 @interface ObjectDatabase : NSObject
 
-// THIS CLASS SHOULD BE A 'PREVIOUS ENCODED OBJECT' CLASS
-
 @property (strong, nonatomic) NSArray *objects;
 
 +(instancetype)sharedDatabase; // singleton
--(void)addObjectAndSave:(CodableObject*)object;
-//-(void)removeObject:(CodableObject *)object;
-
+-(void)addObjectAndSave:(CodableObject*)object; // if the passed in object already exists in the database, this method will make sure it is not added a second time before saving
 @end

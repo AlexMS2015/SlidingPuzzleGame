@@ -30,7 +30,7 @@
 
 @implementation SettingsVC
 
-#pragma mark - ObjectGridVCDelegate
+#pragma mark - GridVCDelegate
 
 -(void)tileTappedAtPosition:(Position)position
 {
@@ -88,10 +88,7 @@
         NSString *imageName = gameImageNames[index];
         cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
                                                      andImage:[UIImage imageNamed:imageName]];
-        
-        // check whether the image being displayed is the selected one (relies on the fact that the array of image names is in the same order as the array of the images passed into the grid object)
         cell.alpha = [imageName isEqualToString:self.gameImageName] ? 1.0 : 0.5;
-
     }];
 }
 
@@ -101,7 +98,6 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    //[self resetMiniBoardView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -127,7 +123,7 @@
 
 - (IBAction)cancelWithNoChanges:(UIButton *)sender
 {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (IBAction)saveSettings:(UIButton *)sender

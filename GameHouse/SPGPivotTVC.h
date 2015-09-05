@@ -10,9 +10,10 @@
 
 @interface SPGPivotTVC : UITableViewController
 
+@property (strong, nonatomic) NSArray *previousGames; // pass this property in when creating an instance of this object's concrete subclasses
 @property (strong, nonatomic) NSDictionary *pivotedPreviousGames;
-@property (strong, nonatomic) NSArray *previousGames;
 
+// abstract methods
 -(NSString *)headerForTable;
 -(NSString *)gameStringPropertyToPivot;
 

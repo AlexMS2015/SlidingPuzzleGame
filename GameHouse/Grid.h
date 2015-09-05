@@ -41,7 +41,6 @@ typedef enum {
 @property (nonatomic, readonly) GridSize size;
 @property (nonatomic, readonly) Orientation orientation;
 
-+(instancetype)gridWithSize:(GridSize)size andOrientation:(Orientation)orientation;
 -(instancetype)initWithGridSize:(GridSize)size andOrientation:(Orientation)orientation;
 
 -(Position)positionOfIndex:(int)index;

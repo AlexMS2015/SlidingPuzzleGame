@@ -1,5 +1,5 @@
 //
-//  BoardCVC.h
+//  GridVC.h
 //  Sliding Puzzle
 //
 //  Created by Alex Smith on 22/08/2015.
@@ -21,9 +21,7 @@
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (nonatomic, strong) Grid *grid;
 
-
-// ADD THE WHITE BORDER COLOUR ONTO THIS CLASS
-
+// the 'Orientation' of the grid will be determined by the passed in collectionView's scrolling direction.
 -(instancetype)initWithgridSize:(GridSize)size
                  collectionView:(UICollectionView *)collectionView
           andCellConfigureBlock:(void (^)(UICollectionViewCell *cell, Position position, int index))cellConfigureBlock;

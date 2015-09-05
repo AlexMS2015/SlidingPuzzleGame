@@ -27,11 +27,6 @@
 
 @implementation SlidingPuzzleGame
 
--(NSString *)boardSizeString
-{
-    return [NSString stringWithFormat:@"%dx%d", self.board.size.rows, self.board.size.columns];
-}
-
 #pragma mark - Coding/Decoding
 
 -(NSArray *)propertyNames
@@ -54,8 +49,9 @@
         _difficulty = [aDecoder decodeIntForKey:@"difficulty"];
         _numberOfMovesMade = [aDecoder decodeIntForKey:@"numberOfMovesMade"];
         
+        // give the tiles their images back (not saved for efficiency)
         NSArray *tileImages = [[UIImage imageNamed:self.imageName] divideSquareImageIntoGrid:self.board];
-        if ([self.board.objects count] > 0) { // if the board already contains objects, we must be loading from a prior game. give the tiles their images back (not saved for efficiency).
+        if ([self.board.objects count] > 0) {
             for (SlidingPuzzleTile *tile in self.board.objects) {
                 tile.image = tileImages[tile.value - 1];
             }
@@ -67,21 +63,11 @@
 
 #pragma mark - Other
 
--(NSString *)difficultyString
-{
-    NSString *difficultyString = @"";
-    if (self.difficulty == EASY) difficultyString = @"EASY";
-    if (self.difficulty == MEDIUM) difficultyString = @"MEDIUM";
-    if (self.difficulty == HARD) difficultyString = @"HARD";
-    
-    return difficultyString;
-}
-
 #define MOVE_FACTOR 3;
 -(void)startGame
 {
     int numMovesToRandomise = (self.difficulty + 1) * MOVE_FACTOR;
-    Position positionNotToSelect;
+    Position positionNotToSelect; // prevents reversal of the previously selected random move
     Position randomAdjacentTilePos;
     
     for (int move = 0; move < numMovesToRandomise; move++) {
@@ -119,14 +105,13 @@
 {
     if (!PositionsAreEqual(position, self.positionOfBlankTile)) {
         
-        Position blankTilePos = self.positionOfBlankTile;
         Position newPosition = position;
         
-        if (position.row == blankTilePos.row) {
-            newPosition.column = position.column < blankTilePos.column ?
+        if (position.row == self.positionOfBlankTile.row) {
+            newPosition.column = position.column < self.positionOfBlankTile.column ?
                             newPosition.column + 1 : newPosition.column - 1;
-        } else if (position.column == blankTilePos.column) {
-            newPosition.row = position.row < blankTilePos.row ?
+        } else if (position.column == self.positionOfBlankTile.column) {
+            newPosition.row = position.row < self.positionOfBlankTile.row ?
                             newPosition.row + 1 : newPosition.row - 1;
         } else {
             return;
@@ -142,6 +127,21 @@
 }
 
 #pragma mark - Properties
+
+-(NSString *)difficultyString
+{
+    NSString *difficultyString = @"";
+    if (self.difficulty == EASY) difficultyString = @"EASY";
+    if (self.difficulty == MEDIUM) difficultyString = @"MEDIUM";
+    if (self.difficulty == HARD) difficultyString = @"HARD";
+    
+    return difficultyString;
+}
+
+-(NSString *)boardSizeString
+{
+    return [NSString stringWithFormat:@"%dx%d", self.board.size.rows, self.board.size.columns];
+}
 
 -(void)setNumberOfMovesMade:(int)numberOfMovesMade
 {

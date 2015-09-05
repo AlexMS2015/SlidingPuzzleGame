@@ -15,8 +15,8 @@
 @interface GamesListTVC () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) UISegmentedControl *completedGamesToggle;
-@property (strong, nonatomic) NSArray *completeGames;
-@property (strong, nonatomic) NSArray *incompleteGames;
+@property (strong, nonatomic) NSMutableArray *completeGames;
+@property (strong, nonatomic) NSMutableArray *incompleteGames;
 @property (strong, nonatomic) NSArray *gamesForTable;
 
 @end
@@ -84,7 +84,7 @@
 -(NSArray *)gamesForTable
 {
     return self.completedGamesToggle.selectedSegmentIndex == 0 ?
-                    [self.incompleteGames copy]: [self.completeGames copy];
+                    [self.incompleteGames copy] : [self.completeGames copy];
 }
 
 -(UISegmentedControl *)completedGamesToggle
@@ -99,24 +99,6 @@
     }
     
     return _completedGamesToggle;
-}
-
--(NSArray *)completeGames
-{
-    if (!_completeGames) {
-        _completeGames = [NSArray array];
-    }
-    
-    return _completeGames;
-}
-
--(NSArray *)incompleteGames
-{
-    if (!_incompleteGames) {
-        _incompleteGames = [NSArray array];
-    }
-    
-    return _incompleteGames;
 }
 
 #pragma mark - View Life Cycle
@@ -151,52 +133,27 @@
 
 #pragma mark - Other
 
--(NSArray *)sortedGamesByNumMovesWithGames:(NSArray *)games
+-(void)transformData
 {
-    return [games sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+    self.completeGames = [NSMutableArray array];
+    self.incompleteGames = [NSMutableArray array];
+    
+    // split the games up by complete and incomplete
+    for (SlidingPuzzleGame *game in self.games) {
+        game.solved ? [self.completeGames addObject:game] : [self.incompleteGames addObject:game];
+    }
+    
+    [self.completeGames sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         SlidingPuzzleGame *game1 = (SlidingPuzzleGame *)obj1;
         SlidingPuzzleGame *game2 = (SlidingPuzzleGame *)obj2;
-        
-        if (game1.numberOfMovesMade > game2.numberOfMovesMade) {
-            return NSOrderedDescending;
-        } else if (game1.numberOfMovesMade < game2.numberOfMovesMade) {
-            return NSOrderedAscending;
-        } else {
-            return NSOrderedSame;
-        }
-        
-        //return game1.numberOfMovesMade > game2.numberOfMovesMade;
-        
+        return game1.numberOfMovesMade > game2.numberOfMovesMade;
     }];
-}
-
--(NSArray *)sortedGamesByDateWithGames:(NSArray *)games
-{
-     return [games sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+    
+    [self.incompleteGames sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         SlidingPuzzleGame *game1 = (SlidingPuzzleGame *)obj1;
         SlidingPuzzleGame *game2 = (SlidingPuzzleGame *)obj2;
         return [game2.datePlayed compare:game1.datePlayed];
     }];
-}
-
-
--(void)transformData
-{
-    NSMutableArray *completeGamesTemp = [NSMutableArray array];
-    NSMutableArray *incompleteGamesTemp = [NSMutableArray array];
-    
-    // split the games up by complete and incomplete
-    for (SlidingPuzzleGame *game in self.games) {
-        game.solved ? [completeGamesTemp addObject:game] : [incompleteGamesTemp addObject:game];
-        /*if (game.solved) {
-            [completeGamesTemp addObject:game];
-        } else {
-            [incompleteGamesTemp addObject:game];
-        }*/
-    }
-    
-    self.completeGames = [self sortedGamesByNumMovesWithGames:completeGamesTemp];
-    self.incompleteGames = [self sortedGamesByDateWithGames:incompleteGamesTemp];
 }
 
 @end

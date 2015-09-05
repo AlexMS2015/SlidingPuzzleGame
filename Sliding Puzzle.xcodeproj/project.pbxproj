@@ -549,6 +549,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GameHouse/Sliding Puzzle-Prefix.pch";
 				INFOPLIST_FILE = "GameHouse/Sliding Puzzle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				PRODUCT_NAME = "Sliding Puzzle";
 				WRAPPER_EXTENSION = app;
 			};
@@ -563,6 +564,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GameHouse/Sliding Puzzle-Prefix.pch";
 				INFOPLIST_FILE = "GameHouse/Sliding Puzzle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				PRODUCT_NAME = "Sliding Puzzle";
 				WRAPPER_EXTENSION = app;
 			};

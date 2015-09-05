@@ -1,5 +1,5 @@
 //
-//  PreviousGameDatabase.m
+//  ObjectDatabase.m
 //  GameHouse
 //
 //  Created by Alex Smith on 8/06/2015.
@@ -71,20 +71,5 @@
 {
     return [NSKeyedArchiver archiveRootObject:self.objectsPrivate toFile:self.previousFilePath];
 }
-
-/*-(void)removeObject:(CodableObject *)object
-{
-    BOOL canRemove = NO;
-    
-    for (id nextObject in self.objectPrivate) {
-        if (nextObject == object) {
-            canRemove = YES;
-        }
-    }
-    
-    if (canRemove) {
-        [self.objectPrivate removeObjectIdenticalTo:object];
-    }
-}*/
 
 @end

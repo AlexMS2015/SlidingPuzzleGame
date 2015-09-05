@@ -29,6 +29,7 @@
         
         UINavigationController *appNC = [[UINavigationController alloc] initWithRootViewController:homeScreen];
         appNC.restorationIdentifier = NSStringFromClass([appNC class]);
+        //appNC.restorationClass = [appNC class];
         
         self.window.rootViewController = appNC;
     }
