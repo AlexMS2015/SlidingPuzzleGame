@@ -9,21 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "Grid.h"
 
-@protocol GridVCDelegate <NSObject>
-
--(void)tileTappedAtPosition:(Position)position;
-
-@end
-
 @interface GridVC : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
-@property (strong, nonatomic) id<GridVCDelegate> delegate;
 @property (strong, nonatomic) UICollectionView *collectionView;
-@property (nonatomic, strong) Grid *grid;
+@property (strong, nonatomic) Grid *grid;
 
 // the 'Orientation' of the grid will be determined by the passed in collectionView's scrolling direction.
 -(instancetype)initWithgridSize:(GridSize)size
                  collectionView:(UICollectionView *)collectionView
-          andCellConfigureBlock:(void (^)(UICollectionViewCell *cell, Position position, int index))cellConfigureBlock;
+          andCellConfigureBlock:(void (^)(UICollectionViewCell *cell, Position position, int index))cellConfigureBlock
+              andCellTapHandler:(void (^)(UICollectionViewCell *cell, Position position, int index))cellTapHandler;
 
 @end

@@ -14,7 +14,7 @@
 #import "SlidingPuzzleGame.h"
 #import "SlidingPuzzleTile.h"
 
-@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, GridVCDelegate>
+@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
@@ -75,13 +75,6 @@
     }
 }
 
-#pragma mark - ObjectGridVCDelegate
-
--(void)tileTappedAtPosition:(Position)position
-{
-    [self.puzzleGame selectTileAtPosition:position];
-}
-
 #pragma mark - Properties
 
 -(void)setPuzzleGame:(SlidingPuzzleGame *)puzzleGame
@@ -100,15 +93,11 @@
         } else {
             cell.backgroundView = nil;
         }
+    } andCellTapHandler:^(UICollectionViewCell *cell, Position position, int index) {
+        [self.puzzleGame selectTileAtPosition:position];
     }];
     
     [self resetUI];
-}
-
--(void)setBoardController:(NoScrollGridVC *)boardController
-{
-    _boardController = boardController;
-    self.boardController.delegate = self;
 }
 
 -(UIImageView *)picShowImageView

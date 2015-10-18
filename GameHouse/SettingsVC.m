@@ -13,7 +13,7 @@
 #import "PuzzleGameVC.h"
 #import "SlidingPuzzleGame.h"
 
-@interface SettingsVC () <GridVCDelegate>
+@interface SettingsVC ()
 
 // outlets
 @property (weak, nonatomic) IBOutlet UISlider *numRowsSlider;
@@ -30,13 +30,6 @@
 
 @implementation SettingsVC
 
-#pragma mark - GridVCDelegate
-
--(void)tileTappedAtPosition:(Position)position
-{
-    self.gameImageName = self.gameVCForSettings.availableImageNames[position.column];
-}
-
 #pragma mark - Properties
 
 -(void)setGameVCForSettings:(PuzzleGameVC *)gameVCForSettings
@@ -49,12 +42,6 @@
 {
     _gameImageName = gameImageName;
     [self.pictureSelectionCollectionView reloadData];
-}
-
--(void)setGameImagesController:(GridVC *)gameImagesController
-{
-    _gameImagesController = gameImagesController;
-    _gameImagesController.delegate = self;
 }
 
 -(void)setNumRowsSlider:(UISlider *)numRowsSlider
@@ -89,6 +76,8 @@
         cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
                                                      andImage:[UIImage imageNamed:imageName]];
         cell.alpha = [imageName isEqualToString:self.gameImageName] ? 1.0 : 0.5;
+    } andCellTapHandler:^(UICollectionViewCell *cell, Position position, int index) {
+        self.gameImageName = self.gameVCForSettings.availableImageNames[position.column];
     }];
 }
 
@@ -116,7 +105,7 @@
         cell.backgroundView = [[UIView alloc] init];
         cell.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
         cell.backgroundView.layer.borderWidth = 0.5;
-    }];
+    } andCellTapHandler:NULL];
 }
 
 #pragma mark - Actions
