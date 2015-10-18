@@ -14,7 +14,7 @@
 #import "SlidingPuzzleGame.h"
 #import "SlidingPuzzleTile.h"
 
-@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration>
+@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, GridVCDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
@@ -74,6 +74,7 @@
         }
     }
 }
+
 
 #pragma mark - Properties
 

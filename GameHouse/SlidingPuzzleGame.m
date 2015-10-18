@@ -100,6 +100,30 @@
     return self;
 }
 
+/*-(void)swipeAtPosition:(Position)position inDirection:(UISwipeGestureRecognizerDirection)direction
+{
+    Position startPos;
+    switch (direction) {
+        case UISwipeGestureRecognizerDirectionDown:
+            startPos = (Position){0, self.positionOfBlankTile.column};
+            break;
+        case UISwipeGestureRecognizerDirectionUp:
+            startPos = (Position){self.board.size.rows - 1, self.positionOfBlankTile.column};
+            break;
+        case UISwipeGestureRecognizerDirectionLeft:
+            startPos = (Position){self.positionOfBlankTile.row, self.board.size.columns - 1};
+            break;
+        case UISwipeGestureRecognizerDirectionRight:
+            startPos = (Position){self.positionOfBlankTile.row, 0};
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self selectTileAtPosition:startPos];
+}*/
+
 -(void)selectTileAtPosition:(Position)position
 {
     if (!PositionsAreEqual(position, self.positionOfBlankTile)) {

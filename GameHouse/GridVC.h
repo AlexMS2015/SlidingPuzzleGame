@@ -9,8 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "Grid.h"
 
+@protocol GridVCDelegate <NSObject>
+
+// called when the user swipes anywhere in the collection view in a particular direction. implemented as a delegate as this feature is specific to the entire collection view unlike tapping a cell which is specific to that cell
+-(void)swipedInDirection:(UISwipeGestureRecognizerDirection)direction;
+
+@end
+
 @interface GridVC : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
+@property (weak, nonatomic) id<GridVCDelegate> delegate;
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) Grid *grid;
 

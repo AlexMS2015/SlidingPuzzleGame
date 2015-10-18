@@ -62,9 +62,31 @@
         Orientation orientation = layout.scrollDirection == UICollectionViewScrollDirectionVertical ? VERTICAL : HORIZONTAL;
         
         self.grid = [[Grid alloc] initWithGridSize:size andOrientation:orientation];
+        
+        // add a swipe gesture recogniser as a test
+        [self.collectionView addGestureRecognizer:[self swipeGestureWithDirection:UISwipeGestureRecognizerDirectionLeft]];
+        [self.collectionView addGestureRecognizer:[self swipeGestureWithDirection:UISwipeGestureRecognizerDirectionRight]];
+        [self.collectionView addGestureRecognizer:[self swipeGestureWithDirection:UISwipeGestureRecognizerDirectionUp]];
+        [self.collectionView addGestureRecognizer:[self swipeGestureWithDirection:UISwipeGestureRecognizerDirectionDown]];
     }
     
     return self;
+}
+
+-(UISwipeGestureRecognizer *)swipeGestureWithDirection:(UISwipeGestureRecognizerDirection)direction
+{
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    swipe.direction = direction;
+    
+    return swipe;
+}
+
+-(void)handleGesture:(UIGestureRecognizer *)gestureRecognizer;
+{
+    if ([gestureRecognizer isMemberOfClass:[UISwipeGestureRecognizer class]]) {
+        UISwipeGestureRecognizer *swipeGesture = (UISwipeGestureRecognizer *)gestureRecognizer;
+        [self.delegate swipedInDirection:swipeGesture.direction];
+    }
 }
 
 #pragma mark - UICollectionViewDelegate
