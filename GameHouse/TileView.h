@@ -15,7 +15,7 @@
 
 // designated initialiser (other initialisers like initWithFrame: won't do anything)
 -(instancetype)initWithFrame:(CGRect)frame
-            andImage:(UIImage *)image
+                    andImage:(UIImage *)image
                     andValue:(int)value;
 
 -(instancetype)initWithFrame:(CGRect)frame

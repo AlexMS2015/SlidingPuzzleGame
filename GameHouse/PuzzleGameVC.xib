@@ -87,7 +87,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMd-rc-9RA">
-                            <rect key="frame" x="411" y="21" width="9.5" height="19.5"/>
+                            <rect key="frame" x="411" y="21" width="10" height="19.5"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -142,7 +142,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yeq-gY-XNp">
-                    <rect key="frame" x="259" y="210.5" width="82" height="179"/>
+                    <rect key="frame" x="259" y="210" width="82" height="179"/>
                     <fontDescription key="fontDescription" type="system" pointSize="150"/>
                     <nil key="highlightedColor"/>
                 </label>

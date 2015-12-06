@@ -10,7 +10,7 @@
 
 @interface GridOfObjects : Grid
 
-// THERE NEEDS TO BE A CHECK TO STOP INSERTING AT POSITONS OUTSIDE THE GRID (too large)
+#warning - THERE NEEDS TO BE A CHECK TO STOP INSERTING AT POSITONS OUTSIDE THE GRID (too large)
 
 @property (nonatomic, strong) NSArray *objects;
 
