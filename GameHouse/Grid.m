@@ -41,6 +41,14 @@
         self.size.rows * position.column + position.row;
 }
 
+-(Position)randomPosition
+{
+    int randomRow = arc4random() % self.size.rows;
+    int randomCol = arc4random() % self.size.columns;
+    
+    return (Position){randomRow, randomCol};
+}
+
 -(Position)randomPositionAdjacentToPosition:(Position)position
 {
     Position adjacentPos = position;

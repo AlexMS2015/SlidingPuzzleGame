@@ -84,7 +84,7 @@
 -(instancetype)initWithBoardSize:(GridSize)boardSize andOrientation:(Orientation)orientation andDifficulty:(Difficulty)difficulty andImageNamed:(NSString *)imageName
 {
     if (self = [super init]) {
-        self.board = [[GridOfObjects alloc] initWithSize:boardSize andOrientation:orientation andObjects:nil];
+        self.board = [[GridOfObjects alloc] initWithGridSize:boardSize andOrientation:orientation andObjects:nil];
         self.difficulty = difficulty;
         self.imageName = imageName;
         self.numberOfMovesMade = 0;

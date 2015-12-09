@@ -19,6 +19,18 @@
 
 @implementation GridVC
 
+-(NSIndexPath *)indexPathForPosition:(Position)position
+{
+    int index = [self.grid indexOfPosition:position];
+    return [NSIndexPath indexPathForItem:index inSection:0];
+}
+
+-(UICollectionViewCell *)cellAtPosition:(Position)position
+{
+    NSIndexPath *path = [self indexPathForPosition:position];
+    return [self.collectionView cellForItemAtIndexPath:path];
+}
+
 #define CELL_IDENTIFIER @"CollectionCell"
 
 #pragma mark - Properties
@@ -36,6 +48,9 @@
             self.cellWidth = self.collectionView.bounds.size.width / self.grid.size.columns;
             self.cellHeight = self.collectionView.bounds.size.height / self.grid.size.rows;
         }
+        
+        NSLog(@"cell w = %f", _cellWidth);
+        NSLog(@"height h = %f", self.cellHeight);
     }
     
     return _cellWidth;
@@ -96,19 +111,20 @@
     int objIndex = (int)indexPath.item;
     Position currentPos = [self.grid positionOfIndex:objIndex];
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-    self.cellTapHandler(cell, currentPos, objIndex);
+    if (self.cellTapHandler)
+        self.cellTapHandler(cell, currentPos, objIndex);
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 0;
+    return 0.0;
 }
 
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 0;
+    return 0.0;
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

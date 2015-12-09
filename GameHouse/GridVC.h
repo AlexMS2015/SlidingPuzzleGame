@@ -11,6 +11,7 @@
 
 @protocol GridVCDelegate <NSObject>
 
+@optional
 // called when the user swipes anywhere in the collection view in a particular direction. implemented as a delegate as this feature is specific to the entire collection view unlike tapping a cell which is specific to that cell
 -(void)swipedInDirection:(UISwipeGestureRecognizerDirection)direction;
 
@@ -27,5 +28,8 @@
                  collectionView:(UICollectionView *)collectionView
           andCellConfigureBlock:(void (^)(UICollectionViewCell *cell, Position position, int index))cellConfigureBlock
               andCellTapHandler:(void (^)(UICollectionViewCell *cell, Position position, int index))cellTapHandler;
+
+-(NSIndexPath *)indexPathForPosition:(Position)position;
+-(UICollectionViewCell *)cellAtPosition:(Position)position;
 
 @end
