@@ -365,7 +365,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = AS;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Alex Smith";
 				TargetAttributes = {
 					FA1014171AD0D2AC006A7100 = {
@@ -504,6 +504,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -566,6 +567,8 @@
 				GCC_PREFIX_HEADER = "GameHouse/Sliding Puzzle-Prefix.pch";
 				INFOPLIST_FILE = "GameHouse/Sliding Puzzle-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "AMS.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Sliding Puzzle";
 				WRAPPER_EXTENSION = app;
 			};
@@ -581,6 +584,8 @@
 				GCC_PREFIX_HEADER = "GameHouse/Sliding Puzzle-Prefix.pch";
 				INFOPLIST_FILE = "GameHouse/Sliding Puzzle-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "AMS.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Sliding Puzzle";
 				WRAPPER_EXTENSION = app;
 			};
@@ -602,6 +607,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "GameHouseTests/Sliding PuzzleTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "AMS.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Sliding PuzzleTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -620,6 +626,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GameHouse/GameHouse-Prefix.pch";
 				INFOPLIST_FILE = "GameHouseTests/Sliding PuzzleTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "AMS.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Sliding PuzzleTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

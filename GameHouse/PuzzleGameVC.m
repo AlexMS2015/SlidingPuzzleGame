@@ -218,8 +218,7 @@
     self.loadedGame = nil;
     
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.boardCV.collectionViewLayout;
-    Orientation orientation =
-                layout.scrollDirection == UICollectionViewScrollDirectionVertical ?
+    Orientation orientation = layout.scrollDirection == UICollectionViewScrollDirectionVertical ?
                                 VERTICAL : HORIZONTAL;
 
     self.puzzleGame = [[SlidingPuzzleGame alloc] initWithBoardSize:boardSize

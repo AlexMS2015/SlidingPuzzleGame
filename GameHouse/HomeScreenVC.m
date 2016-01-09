@@ -42,7 +42,7 @@
 {
     button.hidden = NO;
     
-    // Which button are we animating?
+    // Which button is being animated?
     NSInteger buttonIndex = [self.theHSButtons indexOfObject:button];
     
     // Store the original center so we can move the button back here later

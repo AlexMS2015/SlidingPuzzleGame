@@ -139,7 +139,11 @@
 - (IBAction)numTilesChanges:(UISlider *)sender
 {
     sender.value = round(sender.value);
-    [self resetMiniBoardView];
+    
+    if (round(self.numRowsSlider.value) != self.miniBoardController.grid.size.rows ||
+        round(self.numColsSlider.value) != self.miniBoardController.grid.size.columns) {
+        [self resetMiniBoardView];
+    }
 }
 
 @end
