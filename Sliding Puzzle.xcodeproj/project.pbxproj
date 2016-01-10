@@ -173,8 +173,8 @@
 		FA10140F1AD0D2AC006A7100 = {
 			isa = PBXGroup;
 			children = (
-				FA1014211AD0D2AD006A7100 /* GameHouse */,
-				FA10143A1AD0D2AD006A7100 /* GameHouseTests */,
+				FA1014211AD0D2AD006A7100 /* SlidingPuzzle */,
+				FA10143A1AD0D2AD006A7100 /* SlidingPuzzleTests */,
 				FA10141A1AD0D2AC006A7100 /* Frameworks */,
 				FA1014191AD0D2AC006A7100 /* Products */,
 			);
@@ -200,7 +200,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		FA1014211AD0D2AD006A7100 /* GameHouse */ = {
+		FA1014211AD0D2AD006A7100 /* SlidingPuzzle */ = {
 			isa = PBXGroup;
 			children = (
 				FA52E9261B8F1B960055C29A /* Grid Framework */,
@@ -214,6 +214,7 @@
 				FA10142D1AD0D2AD006A7100 /* Images.xcassets */,
 				FA1014221AD0D2AD006A7100 /* Supporting Files */,
 			);
+			name = SlidingPuzzle;
 			path = GameHouse;
 			sourceTree = "<group>";
 		};
@@ -228,12 +229,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FA10143A1AD0D2AD006A7100 /* GameHouseTests */ = {
+		FA10143A1AD0D2AD006A7100 /* SlidingPuzzleTests */ = {
 			isa = PBXGroup;
 			children = (
 				FA1014401AD0D2AD006A7100 /* GameHouseTests.m */,
 				FA10143B1AD0D2AD006A7100 /* Supporting Files */,
 			);
+			name = SlidingPuzzleTests;
 			path = GameHouseTests;
 			sourceTree = "<group>";
 		};
