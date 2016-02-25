@@ -6,12 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CodableObject.h"
 
 @interface ObjectDatabase : NSObject
 
 @property (strong, nonatomic) NSArray *objects;
 
 +(instancetype)sharedDatabase; // singleton
--(void)addObjectAndSave:(CodableObject*)object; // if the passed in object already exists in the database, this method will make sure it is not added a second time before saving
+-(void)addObjectAndSave:(id)object; // if the passed in object already exists in the database, this method will make sure it is not added a second time before saving
 @end

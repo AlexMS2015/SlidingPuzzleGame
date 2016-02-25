@@ -8,13 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "GridOfObjects.h"
-#import "CodableObject.h"
 
 typedef enum {
-    EASY = 0, MEDIUM = 1, HARD = 2,
+    EASY = 0, MEDIUM = 1, HARD = 2
 } Difficulty;
 
-@interface SlidingPuzzleGame : CodableObject
+@interface SlidingPuzzleGame : NSObject
 
 @property (nonatomic, readonly) Difficulty difficulty;
 @property (strong, nonatomic, readonly) NSString *difficultyString;
@@ -27,10 +26,10 @@ typedef enum {
 @property (strong, nonatomic, readonly) NSString *boardSizeString;
 
 // this will set the game up in its solved state. must call 'startGame' to begin the game
--(instancetype)initWithBoardSize:(GridSize)boardSize
-                  andOrientation:(Orientation)orientation
-                   andDifficulty:(Difficulty)difficulty
-                   andImageNamed:(NSString *)imageName;
+-(instancetype)initWithRows:(NSInteger)rows
+                 andColumns:(NSInteger)cols
+              andDifficulty:(Difficulty)difficulty
+              andImageNamed:(NSString*)imageName;
 
 -(void)startGame; // a new game will be set up in the solved position. calling this method will randomise the tiles to begin the game
 

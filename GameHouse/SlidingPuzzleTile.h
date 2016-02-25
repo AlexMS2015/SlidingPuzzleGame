@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CodableObject.h"
 
-@interface SlidingPuzzleTile : CodableObject
+@interface SlidingPuzzleTile : NSObject
 
 @property (nonatomic) int value;
 @property (strong, nonatomic) UIImage *image; // not saved during archiving... must be re-loaded on an unarchived tile

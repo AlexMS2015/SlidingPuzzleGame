@@ -53,13 +53,13 @@
         if (!self.objectsPrivate)
             self.objectsPrivate = [[NSMutableArray alloc] init];
     }
-
+    
     return self;
 }
 
 #pragma mark - Saving and Loading
 
--(void)addObjectAndSave:(CodableObject *)object
+-(void)addObjectAndSave:(id)object
 {
     if (![self.objectsPrivate containsObject:object])
         [self.objectsPrivate addObject:object];

@@ -14,9 +14,7 @@
 @property (strong, nonatomic, readonly) SlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic, readonly) NSArray *availableImageNames;
 
--(void)setupNewGameWithBoardSize:(GridSize)boardSize
-                   andDifficulty:(Difficulty)difficulty
-                  withImageNamed:(NSString *)imageName;
+-(void)setupNewGameWithRows:(NSInteger)rows andColumns:(NSInteger)cols andDifficulty:(Difficulty)difficulty withImageNamed:(NSString *)imageName;
 
 -(void)setupFromPreviousGame:(SlidingPuzzleGame *)game;
 

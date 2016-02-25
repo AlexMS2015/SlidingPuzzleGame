@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 typedef struct {
-    int row, column;
+    NSInteger row, column;
 }Position;
 
 BOOL PositionsAreEqual(Position pos1, Position pos2);

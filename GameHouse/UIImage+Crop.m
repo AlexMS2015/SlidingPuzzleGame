@@ -7,27 +7,26 @@
 //
 
 #import "UIImage+Crop.h"
-#import "Grid.h"
 
 @implementation UIImage (Crop)
 
--(NSArray *)divideSquareImageIntoGrid:(Grid *)grid
+-(NSArray *)divideImageIntoGridWithRows:(NSInteger)rows andColumns:(NSInteger)cols
 {
     NSMutableArray *images = [NSMutableArray array];
-    CGSize cropSize = CGSizeMake(self.size.width / grid.size.columns,
-                                  self.size.height / grid.size.rows);
+    CGSize cropSize = CGSizeMake(self.size.width / cols,
+                                  self.size.height / rows);
     
-    for (int i = 0; i < grid.size.rows * grid.size.columns; i++) {
-        Position position = [grid positionOfIndex:i];
-    
-        CGRect frame = CGRectMake(position.column * cropSize.width, position.row * cropSize.height,
-                               cropSize.width, cropSize.height);
-        CGImageRef currCGImage = CGImageCreateWithImageInRect(self.CGImage, frame);
-        UIImage *image = [UIImage imageWithCGImage:currCGImage];
-        CGImageRelease(currCGImage);
-        
-        [images addObject:image];
-
+    for (NSInteger row = 0; row < rows; row++) {
+        for (NSInteger col = 0; col < cols; col++) {
+            
+            CGRect frame = CGRectMake(col * cropSize.width, row * cropSize.height,
+                                      cropSize.width, cropSize.height);
+            CGImageRef currCGImage = CGImageCreateWithImageInRect(self.CGImage, frame);
+            UIImage *image = [UIImage imageWithCGImage:currCGImage];
+            CGImageRelease(currCGImage);
+            
+            [images addObject:image];
+        }
     }
     
     return [NSArray arrayWithArray:images];

@@ -8,6 +8,7 @@
 
 #import "SlidingPuzzleGame.h"
 #import "UIImage+Crop.h"
+#import "GridOfObjects+NSCoding.h"
 #import "SlidingPuzzleTile.h"
 
 @interface SlidingPuzzleGame () <NSCoding>
@@ -28,14 +29,11 @@
 
 #pragma mark - Coding/Decoding
 
--(NSArray *)propertyNames
-{
-    return @[@"board", @"imageName", @"datePlayed"];
-}
-
 -(void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [super encodeWithCoder:aCoder];
+    [aCoder encodeObject:self.board forKey:@"board"];
+    [aCoder encodeObject:self.imageName forKey:@"imageName"];
+    [aCoder encodeObject:@"datePlayed" forKey:@"datePlayed"];
     [aCoder encodeBool:self.solved forKey:@"solved"];
     [aCoder encodeInt:self.difficulty forKey:@"difficulty"];
     [aCoder encodeInt:self.numberOfMovesMade forKey:@"numberOfMovesMade"];
@@ -43,20 +41,24 @@
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    if (self = [super initWithCoder:aDecoder]) {
-        _solved = [aDecoder decodeBoolForKey:@"solved"];
-        _difficulty = [aDecoder decodeIntForKey:@"difficulty"];
-        _numberOfMovesMade = [aDecoder decodeIntForKey:@"numberOfMovesMade"];
+    if (self = [super init]) {
+        self.board = [aDecoder decodeObjectForKey:@"board"];
+        self.imageName = [aDecoder decodeObjectForKey:@"imageName"];
+        self.datePlayed = [aDecoder decodeObjectForKey:@"datePlayed"];
+        
+        self.solved = [aDecoder decodeBoolForKey:@"solved"];
+        self.difficulty = [aDecoder decodeIntForKey:@"difficulty"];
+        self.numberOfMovesMade = [aDecoder decodeIntForKey:@"numberOfMovesMade"];
         
         // give the tiles their images back (not saved for efficiency)
-        NSArray *tileImages = [[UIImage imageNamed:self.imageName] divideSquareImageIntoGrid:self.board];
+        NSArray *tileImages = [[UIImage imageNamed:self.imageName] divideImageIntoGridWithRows:self.board.numRows andColumns:self.board.numCols];
         if ([self.board.objects count] > 0) {
             for (SlidingPuzzleTile *tile in self.board.objects) {
                 tile.image = tileImages[tile.value - 1];
             }
         }
     }
-    
+
     return self;
 }
 
@@ -81,48 +83,26 @@
     self.numberOfMovesMade = 0;
 }
 
--(instancetype)initWithBoardSize:(GridSize)boardSize andOrientation:(Orientation)orientation andDifficulty:(Difficulty)difficulty andImageNamed:(NSString *)imageName
+-(instancetype)initWithRows:(NSInteger)rows andColumns:(NSInteger)cols andDifficulty:(Difficulty)difficulty andImageNamed:(NSString *)imageName
 {
     if (self = [super init]) {
-        self.board = [[GridOfObjects alloc] initWithGridSize:boardSize andOrientation:orientation andObjects:nil];
+        self.board = [[GridOfObjects alloc] initWithRows:rows andColumns:cols];
         self.difficulty = difficulty;
         self.imageName = imageName;
         self.numberOfMovesMade = 0;
         
-        NSArray *tileImages = [[UIImage imageNamed:imageName] divideSquareImageIntoGrid:self.board];
+        NSArray *tileImages = [[UIImage imageNamed:self.imageName] divideImageIntoGridWithRows:self.board.numRows andColumns:self.board.numCols];
         [tileImages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             SlidingPuzzleTile *nextTile = [[SlidingPuzzleTile alloc] initWithValue:(int)idx + 1
                                                                           andImage:(UIImage *)obj];
-            [self.board setPosition:[self.board positionOfIndex:(int)idx] toObject:nextTile];
+            NSInteger row = idx / self.board.numCols;
+            NSInteger col = idx % self.board.numCols;
+            self.board.objects[row][col] = nextTile;
         }];
     }
     
     return self;
 }
-
-/*-(void)swipeAtPosition:(Position)position inDirection:(UISwipeGestureRecognizerDirection)direction
-{
-    Position startPos;
-    switch (direction) {
-        case UISwipeGestureRecognizerDirectionDown:
-            startPos = (Position){0, self.positionOfBlankTile.column};
-            break;
-        case UISwipeGestureRecognizerDirectionUp:
-            startPos = (Position){self.board.size.rows - 1, self.positionOfBlankTile.column};
-            break;
-        case UISwipeGestureRecognizerDirectionLeft:
-            startPos = (Position){self.positionOfBlankTile.row, self.board.size.columns - 1};
-            break;
-        case UISwipeGestureRecognizerDirectionRight:
-            startPos = (Position){self.positionOfBlankTile.row, 0};
-            break;
-            
-        default:
-            break;
-    }
-    
-    [self selectTileAtPosition:startPos];
-}*/
 
 -(void)selectTileAtPosition:(Position)position
 {
@@ -168,28 +148,34 @@
 
 -(NSString *)boardSizeString
 {
-    return [NSString stringWithFormat:@"%dx%d", self.board.size.rows, self.board.size.columns];
+    return [NSString stringWithFormat:@"%ldx%ld", (unsigned long)self.board.numRows, (unsigned long)self.board.numCols];
 }
 
 -(Position)positionOfBlankTile
 {
-    Position blankTilePos;
-    int maxTileValue = self.board.size.rows * self.board.size.columns;
+    __block Position blankTilePos;
+    NSInteger maxTileValue = self.board.numRows * self.board.numCols;
     
-    for (SlidingPuzzleTile *tile in self.board.objects) {
+    [self.board enumerateWithBlock:^(Position position, id obj) {
+        SlidingPuzzleTile *tile = (SlidingPuzzleTile *)obj;
         if (tile.value == maxTileValue)
             blankTilePos = [self.board positionOfObject:tile];
-    }
+    }];
+    
     return blankTilePos;
 }
 
 -(BOOL)solved
 {
-    for (SlidingPuzzleTile *tile in self.board.objects) {
-        if (tile.value != [self.board.objects indexOfObject:tile] + 1)
-            return NO;
-    }
-    return YES;
+    __block BOOL solved = YES;
+    
+    [self.board enumerateWithBlock:^(Position position, id obj) {
+        SlidingPuzzleTile *tile = (SlidingPuzzleTile *)obj;
+        NSInteger objIdx = self.board.numCols * position.row + position.column;
+        if (tile.value != objIdx + 1) solved = NO;
+    }];
+    
+    return solved;
 }
 
 @end

@@ -8,6 +8,10 @@
 
 #import "SlidingPuzzleTile.h"
 
+@interface SlidingPuzzleTile () <NSCoding>
+
+@end
+
 @implementation SlidingPuzzleTile
 
 -(instancetype)initWithValue:(int)value andImage:(UIImage *)image
@@ -27,20 +31,14 @@
 
 #pragma mark - Coding/Decoding
 
--(NSArray *)propertyNames
-{
-    return nil;
-}
-
 -(void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [super encodeWithCoder:aCoder];
     [aCoder encodeInt:self.value forKey:@"value"];
 }
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    if (self = [super initWithCoder:aDecoder]) {
+    if (self = [super init]) {
         _value = [aDecoder decodeIntForKey:@"value"];
     }
     

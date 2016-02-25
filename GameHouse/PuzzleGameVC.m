@@ -10,11 +10,13 @@
 #import "TileView.h"
 #import "SettingsVC.h"
 #import "ObjectDatabase.h"
-#import "NoScrollGridVC.h"
 #import "SlidingPuzzleGame.h"
 #import "SlidingPuzzleTile.h"
+#import "PositionStruct.h"
+#import "CollectionViewDataSource.h"
+#import "UICollectionViewFlowLayout+GridLayout.h"
 
-@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, GridVCDelegate>
+@interface PuzzleGameVC () <UIAlertViewDelegate, UIViewControllerRestoration, UICollectionViewDelegate>
 
 // outlets
 @property (weak, nonatomic) IBOutlet UIButton *resetGameButton;
@@ -28,8 +30,9 @@
 @property (strong, nonatomic) UIImageView *picShowImageView;
 @property (strong, nonatomic, readwrite) SlidingPuzzleGame *puzzleGame;
 @property (strong, nonatomic) SlidingPuzzleGame *loadedGame;
-@property (strong, nonatomic) NoScrollGridVC *boardController;
+@property (strong, nonatomic) CollectionViewDataSource *boardDataSource;
 @property (nonatomic) Position positionOfBlankTile;
+
 @end
 
 @implementation PuzzleGameVC
@@ -59,8 +62,16 @@
         // update the view for changes in the model
         Position currentBlankTilePos = self.puzzleGame.positionOfBlankTile;
         if (!PositionsAreEqual(self.positionOfBlankTile, currentBlankTilePos)) {
-            [self.boardController moveObjectAtPosition:self.positionOfBlankTile
-                                            toPosition:currentBlankTilePos];
+            
+            NSIndexPath *oldPosPath = [NSIndexPath indexPathForItem:self.positionOfBlankTile.column
+                                                          inSection:self.positionOfBlankTile.row];
+            NSIndexPath *newPosPath = [NSIndexPath indexPathForItem:currentBlankTilePos.column
+                                                          inSection:currentBlankTilePos.row];
+            [self.boardCV performBatchUpdates:^{
+                [self.boardCV moveItemAtIndexPath:oldPosPath toIndexPath:newPosPath];
+                [self.boardCV moveItemAtIndexPath:newPosPath toIndexPath:oldPosPath];
+            } completion:NULL];
+            
             self.positionOfBlankTile = currentBlankTilePos;
         }
         
@@ -75,6 +86,12 @@
     }
 }
 
+#pragma mark - UICollectionViewDelegate
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.puzzleGame selectTileAtPosition:(Position){indexPath.section, indexPath.item}];
+}
 
 #pragma mark - Properties
 
@@ -85,18 +102,28 @@
     self.positionOfBlankTile = self.puzzleGame.positionOfBlankTile;
     [self addModelObservers];
     
-    self.boardController = [[NoScrollGridVC alloc] initWithgridSize:self.puzzleGame.board.size collectionView:self.boardCV andCellConfigureBlock:^(UICollectionViewCell *cell, Position position, int index) {
-        if (!PositionsAreEqual(position, self.puzzleGame.positionOfBlankTile)) {
-            SlidingPuzzleTile *tile = (SlidingPuzzleTile *)[self.puzzleGame.board objectAtPosition:position];
+    static NSString * const CVC_IDENTIFIER = @"CollectionViewCell";
+    [self.boardCV registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CVC_IDENTIFIER];
+    
+    self.boardDataSource = [[CollectionViewDataSource alloc] initWithSections:self.puzzleGame.board.numRows itemsPerSection:self.puzzleGame.board.numCols cellIdentifier:CVC_IDENTIFIER cellConfigureBlock:^(NSInteger section, NSInteger item, UICollectionViewCell *cell) {
+        
+        Position currPos = (Position){section, item};
+        
+        if (!PositionsAreEqual(currPos, self.puzzleGame.positionOfBlankTile)) {
+            SlidingPuzzleTile *tile = (SlidingPuzzleTile *)self.puzzleGame.board.objects[section][item];
             cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
                                                          andImage:tile.image
                                                          andValue:tile.value];
         } else {
             cell.backgroundView = nil;
         }
-    } andCellTapHandler:^(UICollectionViewCell *cell, Position position, int index) {
-        [self.puzzleGame selectTileAtPosition:position];
     }];
+    self.boardCV.dataSource = self.boardDataSource;
+ 
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.boardCV.collectionViewLayout;
+    [layout layoutAsGrid];
+    
+    self.boardCV.delegate = self;
     
     [self resetUI];
 }
@@ -136,9 +163,7 @@
         if (self.loadedGame) {
             self.puzzleGame = self.loadedGame;
         } else {
-            [self setupNewGameWithBoardSize:(GridSize){ROWS_DEFAULT, COLS_DEFAULT}
-                              andDifficulty:DIFFICULTY_DEFAULT
-                             withImageNamed:[self.availableImageNames firstObject]];
+            [self setupNewGameWithRows:ROWS_DEFAULT andColumns:COLS_DEFAULT andDifficulty:DIFFICULTY_DEFAULT withImageNamed:[self.availableImageNames firstObject]];
         }
     }
 }
@@ -208,7 +233,7 @@
         [[ObjectDatabase sharedDatabase] addObjectAndSave:self.puzzleGame];
 }
 
--(void)setupNewGameWithBoardSize:(GridSize)boardSize andDifficulty:(Difficulty)difficulty withImageNamed:(NSString *)imageName
+-(void)setupNewGameWithRows:(NSInteger)rows andColumns:(NSInteger)cols andDifficulty:(Difficulty)difficulty withImageNamed:(NSString *)imageName
 {
     if (self.puzzleGame) {
         [self savePuzzleGame];
@@ -217,14 +242,7 @@
     
     self.loadedGame = nil;
     
-    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.boardCV.collectionViewLayout;
-    Orientation orientation = layout.scrollDirection == UICollectionViewScrollDirectionVertical ?
-                                VERTICAL : HORIZONTAL;
-
-    self.puzzleGame = [[SlidingPuzzleGame alloc] initWithBoardSize:boardSize
-                                                    andOrientation:orientation
-                                                     andDifficulty:difficulty
-                                                     andImageNamed:imageName];
+    self.puzzleGame = [[SlidingPuzzleGame alloc] initWithRows:rows andColumns:cols andDifficulty:difficulty andImageNamed:imageName];
 }
 
 -(void)setupFromPreviousGame:(SlidingPuzzleGame *)game
@@ -233,9 +251,6 @@
         [self savePuzzleGame];
         [self removeModelObservers];
     }
-    
-    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.boardCV.collectionViewLayout;
-    layout.scrollDirection = game.board.orientation == VERTICAL ? UICollectionViewScrollDirectionHorizontal : UICollectionViewScrollDirectionHorizontal;
     
     self.loadedGame = game;
 }
@@ -247,9 +262,7 @@
     if ([alertView.title isEqualToString:@"New Game"]) {
         self.resetGameButton.alpha = 0.6;
         if (buttonIndex != alertView.cancelButtonIndex) {
-            [self setupNewGameWithBoardSize:self.puzzleGame.board.size
-                              andDifficulty:self.puzzleGame.difficulty
-                             withImageNamed:self.puzzleGame.imageName];
+            self.puzzleGame = [[SlidingPuzzleGame alloc] initWithRows:self.puzzleGame.board.numRows andColumns:self.puzzleGame.board.numCols andDifficulty:self.puzzleGame.difficulty andImageNamed:self.puzzleGame.imageName];
         }
     }
 }
@@ -307,20 +320,6 @@
 {
     if (!self.loadedGame) {
         self.resetGameButton.alpha = 0.1;
-        
-        /*UIAlertController *resetGameAC = [UIAlertController alertControllerWithTitle:@"New Game" message:@"Are you sure you want to begin a new game?" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            self.resetGameButton.alpha = 0.6;
-        }];
-        UIAlertAction *okButton = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            self.resetGameButton.alpha = 0.6;
-            [self setupNewGameWithBoardSize:self.puzzleGame.board.size
-                              andDifficulty:self.puzzleGame.difficulty
-                             withImageNamed:self.puzzleGame.imageName];
-        }];
-        [resetGameAC addAction:cancelButton];
-        [resetGameAC addAction:okButton];
-        [self presentViewController:resetGameAC animated:YES completion:NULL];*/
         
         UIAlertView *resetGameAlert = [[UIAlertView alloc] initWithTitle:@"New Game"
                                                                  message:@"Are you sure you want to begin a new game?"

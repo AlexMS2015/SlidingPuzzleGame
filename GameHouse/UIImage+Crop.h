@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-@class Grid;
 
 @interface UIImage (Crop)
 
--(NSArray *)divideSquareImageIntoGrid:(Grid *)grid;
+-(NSArray *)divideImageIntoGridWithRows:(NSInteger)rows andColumns:(NSInteger)cols;
 
 @end
