@@ -105,12 +105,12 @@
     static NSString * const CVC_IDENTIFIER = @"CollectionViewCell";
     [self.boardCV registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CVC_IDENTIFIER];
     
-    self.boardDataSource = [[CollectionViewDataSource alloc] initWithSections:self.puzzleGame.board.numRows itemsPerSection:self.puzzleGame.board.numCols cellIdentifier:CVC_IDENTIFIER cellConfigureBlock:^(NSInteger section, NSInteger item, UICollectionViewCell *cell) {
+    self.boardDataSource = [[CollectionViewDataSource alloc] initWithData:self.puzzleGame.board.objects cellIdentifier:CVC_IDENTIFIER cellConfigureBlock:^(NSIndexPath *path, id object, UICollectionViewCell *cell) {
         
-        Position currPos = (Position){section, item};
+        Position currPos = (Position){path.section, path.item};
         
         if (!PositionsAreEqual(currPos, self.puzzleGame.positionOfBlankTile)) {
-            SlidingPuzzleTile *tile = (SlidingPuzzleTile *)self.puzzleGame.board.objects[section][item];
+            SlidingPuzzleTile *tile = (SlidingPuzzleTile *)object;
             cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
                                                          andImage:tile.image
                                                          andValue:tile.value];

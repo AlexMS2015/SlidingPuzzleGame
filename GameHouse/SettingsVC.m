@@ -69,16 +69,16 @@
 {
     _pictureSelectionCollectionView = pictureSelectionCollectionView;
     
-    NSArray *gameImageNames = self.gameVCForSettings.availableImageNames;
+    NSArray *data = @[self.gameVCForSettings.availableImageNames];
     
     static NSString * const CVC_IDENTIFIER = @"CollectionViewCell";
     [self.pictureSelectionCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CVC_IDENTIFIER];
     
-    self.gameImagesDataSource = [[CollectionViewDataSource alloc] initWithSections:1 itemsPerSection:[gameImageNames count] cellIdentifier:CVC_IDENTIFIER cellConfigureBlock:^(NSInteger section, NSInteger item, UICollectionViewCell *cell) {
-            NSString *imageName = gameImageNames[item];
-            cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
-                                                         andImage:[UIImage imageNamed:imageName]];
-            cell.alpha = [imageName isEqualToString:self.gameImageName] ? 1.0 : 0.5;
+    self.gameImagesDataSource = [[CollectionViewDataSource alloc] initWithData:data cellIdentifier:CVC_IDENTIFIER cellConfigureBlock:^(NSIndexPath *path, id object, UICollectionViewCell *cell) {
+        NSString *imageName = (NSString *)object;
+        cell.backgroundView = [[TileView alloc] initWithFrame:cell.bounds
+                                                     andImage:[UIImage imageNamed:imageName]];
+        cell.alpha = [imageName isEqualToString:self.gameImageName] ? 1.0 : 0.5;
     }];
     self.pictureSelectionCollectionView.dataSource = self.gameImagesDataSource;
     
@@ -114,13 +114,22 @@
 -(void)resetMiniBoardView
 {
     if (self.numRowsSlider.value > 0 && self.numColsSlider.value > 0) {
-        static NSString * const CVC_IDENTIFIER2 = @"CollectionViewCell";
-        [self.miniGameBoardCV registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CVC_IDENTIFIER2];
+        static NSString * const CVC_IDENTIFIER_MINIBOARD = @"CollectionViewCell";
+        [self.miniGameBoardCV registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CVC_IDENTIFIER_MINIBOARD];
         
         NSLog(@"%f, %f", self.numRowsSlider.value, self.numColsSlider.value);
         
-        self.miniBoardDataSource = [[CollectionViewDataSource alloc] initWithSections:self.numRowsSlider.value itemsPerSection:self.numColsSlider.value cellIdentifier:CVC_IDENTIFIER2 cellConfigureBlock:^(NSInteger section, NSInteger item, UICollectionViewCell *cell) {
-            
+        NSMutableArray *rows = [NSMutableArray array];
+        
+        for (int row = 0; row < self.numRowsSlider.value; row++) {
+            NSMutableArray *currRow = [NSMutableArray array];
+            for (int col = 0; col < self.numColsSlider.value; col++) {
+                [currRow addObject:[NSNull null]];
+            }
+            [rows addObject:currRow];
+        }
+        
+        self.miniBoardDataSource = [[CollectionViewDataSource alloc] initWithData:rows cellIdentifier:CVC_IDENTIFIER_MINIBOARD cellConfigureBlock:^(NSIndexPath *path, id object, UICollectionViewCell *cell) {
             cell.backgroundView = [[UIView alloc] init];
             cell.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
             cell.backgroundView.layer.borderWidth = 0.5;
