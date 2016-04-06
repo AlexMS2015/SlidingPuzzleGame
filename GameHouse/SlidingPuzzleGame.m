@@ -53,9 +53,10 @@
         // give the tiles their images back (not saved for efficiency)
         NSArray *tileImages = [[UIImage imageNamed:self.imageName] divideImageIntoGridWithRows:self.board.numRows andColumns:self.board.numCols];
         if ([self.board.objects count] > 0) {
-            for (SlidingPuzzleTile *tile in self.board.objects) {
+            [self.board enumerateWithBlock:^(Position position, id obj) {
+                SlidingPuzzleTile *tile = (SlidingPuzzleTile *)obj;
                 tile.image = tileImages[tile.value - 1];
-            }
+            }];
         }
     }
 
